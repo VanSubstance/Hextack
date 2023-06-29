@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Assets.Scripts.Map
+namespace Assets.Scripts.Editor
 {
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class HexTileMesh : MonoBehaviour
