@@ -11,8 +11,12 @@ namespace Assets.Scripts.Map
         private int radius;
         [SerializeField]
         private HexTileController tilePrefab;
+        [SerializeField]
+        private Material materialActive, materialInactive;
+
         private HexTileController[][] map;
         private static float sprt3, hexRadius = 1;
+        public static Material MaterialActive, MaterialInactive;
 
         public int[] ConvertCoordinate(int x, int y)
         {
@@ -31,6 +35,8 @@ namespace Assets.Scripts.Map
         private new void Awake()
         {
             base.Awake();
+            MaterialActive = materialActive;
+            MaterialInactive = materialInactive;
             // 반지름만큼 생성
             sprt3 = Mathf.Sqrt(3f);
             map = new HexTileController[radius * 2 + 1][];
@@ -51,7 +57,7 @@ namespace Assets.Scripts.Map
                     tempC = r < 0 ? -c : c;
                     convertedCoor = ConvertCoordinate(tempC, r);
                     worldCoor = ConvetCoordinateToWorldPosition(tempC, r);
-                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(tempC, r);
+                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(tempC, r, r < 0 || (r == 0 && c < 0));
                     map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = new Vector3(worldCoor[0], 0, worldCoor[1]);
                 }
             }
