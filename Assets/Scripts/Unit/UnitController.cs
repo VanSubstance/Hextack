@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
-using Assets.Scripts.Map;
 
 namespace Assets.Scripts.Unit
 {
     public class UnitController : MonoBehaviour
     {
-        private UnitLiveInfo info;
+        private UnitInfo liveInfo;
+        public int Range
+        {
+            get
+            {
+                return liveInfo.Range;
+            }
+        }
         private bool isEnemy;
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
@@ -42,10 +48,10 @@ namespace Assets.Scripts.Unit
         /// <param name="_info"></param>
         /// <param name="_isEnemy"></param>
         /// <returns></returns>
-        public UnitController Init(UnitLiveInfo _info, bool _isEnemy)
+        public UnitController Init(UnitToken _info, bool _isEnemy)
         {
-            info = _info.Clone();
-            meshFilter.mesh = GlobalDictionary.Mesh.data[_info.title];
+            liveInfo = GlobalDictionary.Scriptable.Unit.data[_info.Title].Clone();
+            meshFilter.mesh = GlobalDictionary.Mesh.data[_info.Title];
             meshCollider.sharedMesh = meshFilter.mesh;
             meshCollider.convex = true;
             isEnemy = _isEnemy;

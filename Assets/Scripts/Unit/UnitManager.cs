@@ -29,9 +29,9 @@ namespace Assets.Scripts.Unit
         /// 유닛들 생성 함수
         /// </summary>
         /// <param name="infos"></param>
-        public void InitUnits(UnitLiveInfo[] infos, bool isEnemy)
+        public void InitUnits(UnitToken[] infos, bool isEnemy)
         {
-            foreach (UnitLiveInfo info in infos)
+            foreach (UnitToken info in infos)
             {
                 InitUnits(info, isEnemy);
             }
@@ -41,9 +41,9 @@ namespace Assets.Scripts.Unit
         /// 유닛 생성 함수
         /// </summary>
         /// <param name="info"></param>
-        public void InitUnits(UnitLiveInfo info, bool isEnemy)
+        public void InitUnits(UnitToken info, bool isEnemy)
         {
-            UnitLiveInfo t = info.Clone();
+            UnitToken t = info.Clone();
             t.z = 1;
             int[] convertedCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);

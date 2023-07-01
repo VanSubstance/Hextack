@@ -12,19 +12,14 @@ namespace Assets.Scripts.Unit
         public float Spd;
         public bool IsAttackable;
         public Direction[] Bounds;
-        [System.Serializable]
-        public enum Direction
-        {
-            C12, C2, C4, C6, C8, C10,
-        }
         public UnitInfo Clone()
         {
             return Instantiate(this);
         }
-        public UnitLiveInfo GetLiveInfo()
+        public UnitToken GetLiveInfo()
         {
-            UnitLiveInfo res = CreateInstance<UnitLiveInfo>();
-            res.title = Code;
+            UnitToken res = CreateInstance<UnitToken>();
+            res.Title = Code;
             return res;
         }
     }

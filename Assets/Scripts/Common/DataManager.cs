@@ -15,6 +15,7 @@ namespace Assets.Scripts.Common
             LoadMaterials();
             LoadTextures();
             LoadMeshs();
+            LoadScriptables();
         }
 
         /// <summary>
@@ -59,6 +60,18 @@ namespace Assets.Scripts.Common
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
             {
                 GlobalDictionary.Texture.Unit.data[unit.name] = unit;
+            }
+        }
+
+        /// <summary>
+        /// ScriptableObject 로드 함수
+        /// </summary>
+        public void LoadScriptables()
+        {
+            // 기물 정보
+            foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{GlobalDictionary.Scriptable.Unit.rootPath}"))
+            {
+                GlobalDictionary.Scriptable.Unit.data[unit.name] = unit;
             }
         }
     }

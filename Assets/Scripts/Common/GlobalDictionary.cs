@@ -7,6 +7,21 @@ using UnityEngine;
 /// </summary>
 public static class GlobalDictionary
 {
+    /// <summary>
+    /// ScriptableObject
+    /// </summary>
+    public static class Scriptable
+    {
+        public static string rootPath = $"Datas";
+        public static class Unit
+        {
+            public static string rootPath = $"{Scriptable.rootPath}/Units";
+            public static Dictionary<string, UnitInfo> data = new Dictionary<string, UnitInfo>();
+        }
+    }
+    /// <summary>
+    /// 레이어
+    /// </summary>
     public static class Layer
     {
         public static int

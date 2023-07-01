@@ -36,6 +36,7 @@ namespace Assets.Scripts.UI.Choice
             HexTileController curDetect;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 50f, GlobalDictionary.Layer.Map))
             {
+                newUnit.gameObject.SetActive(true);
                 curDetect = hit.transform.GetComponent<HexTileController>();
                 if (targetTile != null)
                 {
@@ -48,6 +49,10 @@ namespace Assets.Scripts.UI.Choice
                         {
                             targetTile = curDetect;
                             targetTile.PreviewUnit(newUnit);
+                        } else
+                        {
+                            targetTile = null;
+                            newUnit.gameObject.SetActive(false);
                         }
                     }
                 }
@@ -66,9 +71,10 @@ namespace Assets.Scripts.UI.Choice
             // 이번에 감지 안됨
             if (targetTile != null)
             {
-                // 이전 감지애 있음 = 미리보기 꺼주기
+                // 이전 감지된 애 있음 = 미리보기 꺼주기 + 해당 기물도 꺼주기
                 targetTile.ClearUnit();
                 targetTile = null;
+                newUnit.gameObject.SetActive(false);
             }
         }
 
@@ -86,7 +92,7 @@ namespace Assets.Scripts.UI.Choice
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (newUnit != null)
+            if (newUnit != null && newUnit.gameObject.activeSelf)
             {
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;

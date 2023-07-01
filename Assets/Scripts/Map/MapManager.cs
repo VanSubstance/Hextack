@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Server;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Assets.Scripts.Map
 {
@@ -38,10 +39,9 @@ namespace Assets.Scripts.Map
             Vector3 worldCoor;
             HexCoordinate centre = ScriptableObject.CreateInstance<HexCoordinate>();
             convertedCoor = CommonFunction.ConvertCoordinate(centre);
-            worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(centre);
+            worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(centre);
             GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(centre, HexTileController.TileType.Neutral);
             GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
-
             InitTiles(coors);
         }
 
@@ -64,7 +64,7 @@ namespace Assets.Scripts.Map
             {
                 coor = coors[i];
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
-                worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(coor);
+                worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(coor);
                 if (GlobalStatus.IsSingle && idxsBan.Contains(i))
                 {
                     GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, HexTileController.TileType.Neutral);
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Map
 
                 coor = coor.Reverse();
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
-                worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(coor);
+                worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(coor);
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, HexTileController.TileType.Enemy);
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             }

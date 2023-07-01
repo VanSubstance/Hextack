@@ -14,7 +14,7 @@ namespace Assets.Scripts.Server
         [SerializeField]
         private bool isSingle;
         public HexCoordinate[] tilesInfo;
-        public UnitLiveInfo[][] monstersInfo;
+        public UnitToken[][] monstersInfo;
         private int curRound;
 
         private new void Awake()
@@ -25,10 +25,10 @@ namespace Assets.Scripts.Server
             GlobalStatus.IsSingle = isSingle;
             string basePath = $"Datas/Maps/{mapInfo.radius}/{mapInfo.mapTitle}";
             tilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
-            monstersInfo = new UnitLiveInfo[mapInfo.rounds][];
+            monstersInfo = new UnitToken[mapInfo.rounds][];
             for (int i = 0; i < mapInfo.rounds; i++)
             {
-                monstersInfo[i] = Resources.LoadAll<UnitLiveInfo>($"{basePath}/single/rounds/{i + 1}");
+                monstersInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
             }
             curRound = 1;
         }

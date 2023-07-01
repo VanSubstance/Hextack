@@ -1,10 +1,14 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Unit;
 using UnityEngine;
+using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 namespace Assets.Scripts.Map
 {
+    [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class HexTileController : MonoBehaviour
     {
+        public int x, y;
         private HexCoordinate hexCoordinate;
         public HexCoordinate HexCoor
         {
@@ -45,6 +49,20 @@ namespace Assets.Scripts.Map
             }
         }
 
+        private GameObject inRangeGO;
+
+        public bool InRangeVisual
+        {
+            set
+            {
+                inRangeGO.SetActive(value);
+            }
+            get
+            {
+                return inRangeGO.activeSelf;
+            }
+        }
+
         private MeshRenderer meshRenderer;
 
         private UnitController unitAttached;
@@ -60,6 +78,13 @@ namespace Assets.Scripts.Map
         }
         private bool IsPreview;
 
+        private void Awake()
+        {
+            inRangeGO = transform.GetChild(0).gameObject;
+            InRangeVisual = false;
+            meshRenderer = GetComponent<MeshRenderer>();
+        }
+
         /// <summary>
         /// 초기화 함수
         /// </summary>
@@ -69,7 +94,8 @@ namespace Assets.Scripts.Map
         public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
         {
             HexCoor = _hexCoordinate.Clone();
-            meshRenderer = GetComponent<MeshRenderer>();
+            x = HexCoor.x;
+            y = HexCoor.y;
             TileTypee = _tileType;
             IsPreview = false;
             return this;
@@ -82,6 +108,7 @@ namespace Assets.Scripts.Map
         public void InstallUnit(UnitController unitController)
         {
             IsPreview = false;
+            DeActivateRange();
             unitAttached = unitController.ConfirmInstallation();
             Vector3 resPos = transform.position;
             resPos.y = .5f;
@@ -95,6 +122,7 @@ namespace Assets.Scripts.Map
         public void PreviewUnit(UnitController unitController)
         {
             unitAttached = unitController.PreviewInstallation();
+            ActivateRange();
             IsPreview = true;
             Vector3 resPos = transform.position;
             resPos.y = .5f;
@@ -107,7 +135,24 @@ namespace Assets.Scripts.Map
         public void ClearUnit()
         {
             IsPreview = false;
+            DeActivateRange();
             unitAttached = null;
+        }
+
+        /// <summary>
+        ///  사거리 가시화
+        /// </summary>
+        public void ActivateRange()
+        {
+            RangeViewController.Instance.ActivateInRange(this, unitAttached.Range);
+        }
+
+        /// <summary>
+        /// 사거리 비가시화
+        /// </summary>
+        public void DeActivateRange()
+        {
+            RangeViewController.Instance.DeActivateInRange();
         }
 
         public enum TileType
