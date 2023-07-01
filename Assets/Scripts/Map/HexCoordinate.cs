@@ -18,15 +18,17 @@ namespace Assets.Scripts.Map
             z = _z;
         }
 
-        public HexCoordinate Clone()
+        public virtual HexCoordinate Clone()
         {
             return Instantiate(this);
         }
 
-        public void Reverse()
+        public HexCoordinate Reverse()
         {
-            x = -x;
-            y = -y;
+            HexCoordinate res = CreateInstance<HexCoordinate>();
+            res.x = -x;
+            res.y = -y;
+            return res;
         }
 
         public override string ToString()

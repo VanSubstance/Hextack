@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Unit;
+using UnityEngine;
+using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 namespace Assets.Scripts.Map
 {
+    [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class HexTileController : MonoBehaviour
     {
+        public int x, y;
         private HexCoordinate hexCoordinate;
         public HexCoordinate HexCoor
         {
@@ -16,7 +21,7 @@ namespace Assets.Scripts.Map
                 hexCoordinate = value;
             }
         }
-        private TileType tileType;
+        public TileType tileType;
         public TileType TileTypee
         {
             get
@@ -29,29 +34,125 @@ namespace Assets.Scripts.Map
                 switch (tileType)
                 {
                     case TileType.Background:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
                         break;
                     case TileType.Neutral:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialRed };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
                         break;
                     case TileType.Ally:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialWhite };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["White"] };
                         break;
                     case TileType.Enemy:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Grey"] };
                         break;
                 }
             }
         }
 
+        private GameObject inRangeGO;
+
+        public bool InRangeVisual
+        {
+            set
+            {
+                inRangeGO.SetActive(value);
+            }
+            get
+            {
+                return inRangeGO.activeSelf;
+            }
+        }
+
         private MeshRenderer meshRenderer;
 
+        private UnitController unitAttached;
+        /// <summary>
+        /// 내거가 아님 or 설치된 기물 존재 or 미리보기중 = true
+        /// </summary>
+        public bool IsPossessed
+        {
+            get
+            {
+                return TileTypee != TileType.Ally || unitAttached != null || IsPreview;
+            }
+        }
+        private bool IsPreview;
+
+        private void Awake()
+        {
+            inRangeGO = transform.GetChild(0).gameObject;
+            InRangeVisual = false;
+            meshRenderer = GetComponent<MeshRenderer>();
+        }
+
+        /// <summary>
+        /// 초기화 함수
+        /// </summary>
+        /// <param name="_hexCoordinate"></param>
+        /// <param name="_tileType"></param>
+        /// <returns></returns>
         public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
         {
             HexCoor = _hexCoordinate.Clone();
-            meshRenderer = GetComponent<MeshRenderer>();
+            x = HexCoor.x;
+            y = HexCoor.y;
             TileTypee = _tileType;
+            IsPreview = false;
             return this;
+        }
+
+        /// <summary>
+        /// 타일에 기물 설치 함수
+        /// </summary>
+        /// <param name="unitController"></param>
+        public void InstallUnit(UnitController unitController)
+        {
+            IsPreview = false;
+            DeActivateRange();
+            unitAttached = unitController.ConfirmInstallation();
+            Vector3 resPos = transform.position;
+            resPos.y = .5f;
+            unitAttached.transform.position = resPos;
+        }
+
+        /// <summary>
+        /// 미리보기 함수
+        /// </summary>
+        /// <param name="unitController"></param>
+        public void PreviewUnit(UnitController unitController)
+        {
+            unitAttached = unitController.PreviewInstallation();
+            ActivateRange();
+            IsPreview = true;
+            Vector3 resPos = transform.position;
+            resPos.y = .5f;
+            unitAttached.transform.position = resPos;
+        }
+
+        /// <summary>
+        /// 부착되어있던 유닛 제거 (부착 해제만 함) 함수
+        /// </summary>
+        public void ClearUnit()
+        {
+            IsPreview = false;
+            DeActivateRange();
+            unitAttached = null;
+        }
+
+        /// <summary>
+        ///  사거리 가시화
+        /// </summary>
+        public void ActivateRange()
+        {
+            RangeViewController.Instance.ActivateInRange(this, unitAttached.Range);
+        }
+
+        /// <summary>
+        /// 사거리 비가시화
+        /// </summary>
+        public void DeActivateRange()
+        {
+            RangeViewController.Instance.DeActivateInRange();
         }
 
         public enum TileType
