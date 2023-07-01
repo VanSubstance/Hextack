@@ -72,10 +72,22 @@ namespace Assets.Scripts.Unit
             if (isEnemy)
             {
                 TargetMaterial = "Red";
-            } else
+            }
+            else
             {
                 TargetMaterial = "White";
             }
+            UseGravity = true;
+            return this;
+        }
+
+        /// <summary>
+        /// 미리보기 처리 함수
+        /// </summary>
+        /// <returns></returns>
+        public UnitController PreviewInstallation()
+        {
+            TargetMaterial = "Fade";
             UseGravity = true;
             return this;
         }

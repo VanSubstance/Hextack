@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Map;
+using Assets.Scripts.Unit;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace Assets.Scripts.UI.Choice
         private Image image;
         private UnitInfo info;
         private UnitController newUnit;
+        private HexTileController targetTile;
         private void Awake()
         {
             image = transform.GetChild(0).GetComponent<Image>();
@@ -31,9 +33,42 @@ namespace Assets.Scripts.UI.Choice
         /// <param name="eventData"></param>
         public void OnDrag(PointerEventData eventData)
         {
+            HexTileController curDetect;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 50f, GlobalDictionary.Layer.Map))
             {
-                Debug.Log(hit.transform);
+                curDetect = hit.transform.GetComponent<HexTileController>();
+                if (targetTile != null)
+                {
+                    // 이전에 감지된 애가 있음
+                    if (!targetTile.Equals(curDetect))
+                    {
+                        // 다른 애 = 이전 미리보기 지워야 함
+                        targetTile.ClearUnit();
+                        if (!curDetect.IsPossessed)
+                        {
+                            targetTile = curDetect;
+                            targetTile.PreviewUnit(newUnit);
+                        }
+                    }
+                }
+                else
+                {
+                    // 이전에 감지된 애가 없음 = 이번에 감지된 애 미리보기 가능하면 띄워주기
+                    if (!curDetect.IsPossessed)
+                    {
+                        // 미리보기 on
+                        targetTile = curDetect;
+                        targetTile.PreviewUnit(newUnit);
+                    }
+                }
+                return;
+            }
+            // 이번에 감지 안됨
+            if (targetTile != null)
+            {
+                // 이전 감지애 있음 = 미리보기 꺼주기
+                targetTile.ClearUnit();
+                targetTile = null;
             }
         }
 

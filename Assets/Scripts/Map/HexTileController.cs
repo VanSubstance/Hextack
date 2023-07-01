@@ -17,7 +17,7 @@ namespace Assets.Scripts.Map
                 hexCoordinate = value;
             }
         }
-        private TileType tileType;
+        public TileType tileType;
         public TileType TileTypee
         {
             get
@@ -47,13 +47,31 @@ namespace Assets.Scripts.Map
 
         private MeshRenderer meshRenderer;
 
-        public UnitController UnitAttached;
+        private UnitController unitAttached;
+        /// <summary>
+        /// 내거가 아님 or 설치된 기물 존재 or 미리보기중 = true
+        /// </summary>
+        public bool IsPossessed
+        {
+            get
+            {
+                return TileTypee != TileType.Ally || unitAttached != null || IsPreview;
+            }
+        }
+        private bool IsPreview;
 
+        /// <summary>
+        /// 초기화 함수
+        /// </summary>
+        /// <param name="_hexCoordinate"></param>
+        /// <param name="_tileType"></param>
+        /// <returns></returns>
         public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
         {
             HexCoor = _hexCoordinate.Clone();
             meshRenderer = GetComponent<MeshRenderer>();
             TileTypee = _tileType;
+            IsPreview = false;
             return this;
         }
 
@@ -63,10 +81,33 @@ namespace Assets.Scripts.Map
         /// <param name="unitController"></param>
         public void InstallUnit(UnitController unitController)
         {
-            UnitAttached = unitController.ConfirmInstallation();
+            IsPreview = false;
+            unitAttached = unitController.ConfirmInstallation();
             Vector3 resPos = transform.position;
             resPos.y = .5f;
-            UnitAttached.transform.position = resPos;
+            unitAttached.transform.position = resPos;
+        }
+
+        /// <summary>
+        /// 미리보기 함수
+        /// </summary>
+        /// <param name="unitController"></param>
+        public void PreviewUnit(UnitController unitController)
+        {
+            unitAttached = unitController.PreviewInstallation();
+            IsPreview = true;
+            Vector3 resPos = transform.position;
+            resPos.y = .5f;
+            unitAttached.transform.position = resPos;
+        }
+
+        /// <summary>
+        /// 부착되어있던 유닛 제거 (부착 해제만 함) 함수
+        /// </summary>
+        public void ClearUnit()
+        {
+            IsPreview = false;
+            unitAttached = null;
         }
 
         public enum TileType
