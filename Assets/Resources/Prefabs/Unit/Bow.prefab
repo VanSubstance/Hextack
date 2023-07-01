@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 704854148278811264}
   - component: {fileID: 704854148278811265}
   m_Layer: 7
-  m_Name: Sylinder
+  m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,7 +172,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
