@@ -97,6 +97,7 @@ namespace Assets.Scripts.UI.Choice
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;
+                UIManager.Instance.FinishChoice();
             }
         }
     }

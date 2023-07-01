@@ -29,6 +29,19 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void InitChoices()
         {
+            GlobalStatus.CntInstalled = 0;
+            choiceManager.PickRandom();
+        }
+
+        public void FinishChoice()
+        {
+            if (++GlobalStatus.CntInstalled == 3)
+            {
+                // 선택 종료 -> .5초 후 전투 시작
+                Debug.Log("Finish");
+                choiceManager.gameObject.SetActive(false);
+                return;
+            }
             choiceManager.PickRandom();
         }
     }
