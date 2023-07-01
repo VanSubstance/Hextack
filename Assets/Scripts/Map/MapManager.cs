@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using Assets.Scripts.Server;
 
 namespace Assets.Scripts.Map
 {
@@ -8,52 +10,122 @@ namespace Assets.Scripts.Map
     public class MapManager : SingletonObject<MapManager>
     {
         [SerializeField]
-        private int radius;
-        [SerializeField]
         private HexTileController tilePrefab;
-        private HexTileController[][] map;
-        private static float sprt3, hexRadius = 1;
+        [SerializeField]
+        private Material materialBlack, materialWhite, materialRed, materialBlue;
 
-        public int[] ConvertCoordinate(int x, int y)
+        private int radius, cntTileBan, cntUnitBan, cntUnit;
+        private string mapTitle;
+
+        private HexTileController[][] map;
+        private Transform mapTf;
+
+        private static float sprt3, hexRadius = 1;
+        public static Material MaterialBlack, MaterialWhite, MaterialRed, MaterialBlue;
+
+        /// <summary>
+        ///  맵 중간 기준 육각 타일 좌표 -> Array 기준 배열 좌표로 반환해주는 함수
+        /// </summary>
+        /// <param name="hexCoor"></param>
+        /// <returns></returns>
+        public int[] ConvertCoordinate(HexCoordinate hexCoor)
         {
-            return new int[] { x + radius, y + radius };
+            return new int[] { hexCoor.x + radius, hexCoor.y + radius };
         }
 
-        public float[] ConvetCoordinateToWorldPosition(int x, int y)
+        public static Vector3 ConvetCoordinateToWorldPosition(HexCoordinate hexCoor)
         {
             float xx, yy;
-            xx = x * hexRadius * (3 / 2f);
-            yy = x * hexRadius * sprt3 / 2f;
-            yy += y * hexRadius * sprt3;
-            return new float[] { xx, yy };
+            xx = hexCoor.x * hexRadius * (3 / 2f);
+            yy = hexCoor.x * hexRadius * sprt3 / 2f;
+            yy += hexCoor.y * hexRadius * sprt3;
+            return new Vector3(
+                xx,
+                hexCoor.z / 2f,
+                yy
+                );
         }
 
         private new void Awake()
         {
             base.Awake();
-            // 반지름만큼 생성
+            mapTf = transform.GetChild(0);
+            MaterialBlack = materialBlack;
+            MaterialWhite = materialWhite;
+            MaterialRed = materialRed;
+            MaterialBlue = materialBlue;
             sprt3 = Mathf.Sqrt(3f);
+        }
+
+        /// <summary>
+        /// 신규 맵 생성 함수
+        /// </summary>
+        /// <param name="mapInfo"></param>
+        public void InitMap(MapInfo info)
+        {
+            radius = info.radius;
+            mapTitle = info.mapTitle;
+            cntUnitBan = info.cntTileBan;
+            cntTileBan = info.cntUnitBan;
+            cntUnit = info.cntUnit;
             map = new HexTileController[radius * 2 + 1][];
             for (int i = 0; i <= radius * 2; i++)
             {
                 map[i] = new HexTileController[radius * 2 + 1];
             }
+            InitField();
+        }
 
-            // 해당하는 칸들만 할당
-            int lim, tempC;
+        private void InitField()
+        {
             int[] convertedCoor;
-            float[] worldCoor;
-            for (int r = -radius; r <= radius; r++)
+            Vector3 worldCoor;
+            HexCoordinate centre = new(0, 0, 0);
+            convertedCoor = ConvertCoordinate(centre);
+            worldCoor = ConvetCoordinateToWorldPosition(centre);
+            map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Neutral);
+            map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+
+            string basePath = $"Datas/Maps/{radius}/{mapTitle}";
+            HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
+            InitTiles(temp);
+        }
+
+        private void InitTiles(HexCoordinate[] coors)
+        {
+            HashSet<int> idxsBan = new HashSet<int>();
+            if (ServerManager.Instance.IsSingle)
             {
-                lim = Mathf.Abs(r);
-                for (int c = -radius; c <= radius - lim; c++)
+                while (idxsBan.Count <= cntTileBan)
                 {
-                    tempC = r < 0 ? -c : c;
-                    convertedCoor = ConvertCoordinate(tempC, r);
-                    worldCoor = ConvetCoordinateToWorldPosition(tempC, r);
-                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(tempC, r);
-                    map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = new Vector3(worldCoor[0], 0, worldCoor[1]);
+                    idxsBan.Add(Random.Range(0, coors.Length));
+
                 }
+            }
+
+            int[] convertedCoor;
+            Vector3 worldCoor;
+            HexCoordinate coor;
+            for (int i = 0; i < coors.Length; i++)
+            {
+                coor = coors[i];
+                convertedCoor = ConvertCoordinate(coor);
+                worldCoor = ConvetCoordinateToWorldPosition(coor);
+                if (ServerManager.Instance.IsSingle && idxsBan.Contains(i))
+                {
+                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Neutral);
+                }
+                else
+                {
+                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
+                }
+                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+
+                coor.Reverse();
+                convertedCoor = ConvertCoordinate(coor);
+                worldCoor = ConvetCoordinateToWorldPosition(coor);
+                map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Enemy);
+                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             }
         }
     }
