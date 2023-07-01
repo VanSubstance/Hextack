@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public static class GlobalDictionary
 {
+    public static Vector3 VectorToScreen = new Vector3(0, Mathf.Sqrt(3f), -1);
     /// <summary>
     /// ScriptableObject
     /// </summary>
@@ -25,6 +26,7 @@ public static class GlobalDictionary
     public static class Layer
     {
         public static int
+            UI = 1 << 5,
             Map = 1 << 6,
             Unit = 1 << 7
             ;
@@ -40,6 +42,11 @@ public static class GlobalDictionary
             public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Unit";
             public static UnitController Prefab;
             public static Dictionary<string, UnitController> data = new Dictionary<string, UnitController>();
+        }
+        public static class UI
+        {
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/UI";
+            public static Dictionary<string, Transform> data = new Dictionary<string, Transform>();
         }
     }
 

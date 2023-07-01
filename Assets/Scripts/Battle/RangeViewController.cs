@@ -14,6 +14,7 @@ namespace Assets.Scripts.Battle
         /// <param name="_radius"></param>
         public void ActivateInRange(HexTileController centre, int _radius)
         {
+            if (curInRange != null) return;
             foreach (int[] coor in (curInRange = CommonFunction.SeekCoorsInRange(centre.HexCoor.x, centre.HexCoor.y, centre.HexCoor.z, _radius)))
             {
                 GlobalStatus.Map[coor[0]][coor[1]].InRangeVisual = true;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Battle
             {
                 GlobalStatus.Map[coor[0]][coor[1]].InRangeVisual = false;
             }
+            curInRange = null;
         }
     }
 }

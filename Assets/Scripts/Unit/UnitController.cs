@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Map;
+using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
@@ -31,6 +32,28 @@ namespace Assets.Scripts.Unit
                 meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[value] };
             }
         }
+        private HexTileController tileInstalled;
+
+        /// <summary>
+        /// 파티클 시스템
+        /// </summary>
+        private ParticleSystem particle;
+
+        /// <summary>
+        /// 실제 전투를 관리하는 컨트롤러
+        /// </summary>
+        private UnitBattleController battleController;
+
+        /// <summary>
+        /// 생존 확인
+        /// </summary>
+        public bool IsLive
+        {
+            get
+            {
+                return gameObject.activeSelf;
+            }
+        }
 
         private void Awake()
         {
@@ -40,6 +63,8 @@ namespace Assets.Scripts.Unit
             meshCollider = GetComponent<MeshCollider>();
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
+            particle = transform.GetChild(0).GetComponent<ParticleSystem>();
+            battleController = GetComponent<UnitBattleController>();
         }
 
         /// <summary>
@@ -69,11 +94,17 @@ namespace Assets.Scripts.Unit
         {
             gameObject.SetActive(false);
             UseGravity = false;
+            GlobalStatus.UnitsActive.Remove(this);
             GlobalStatus.UnitPool.Enqueue(this);
             return this;
         }
 
-        public UnitController ConfirmInstallation()
+        /// <summary>
+        /// 타일과 연결 함수
+        /// </summary>
+        /// <param name="_tileInstalled"></param>
+        /// <returns></returns>
+        public UnitController Connect(HexTileController _tileInstalled)
         {
             if (isEnemy)
             {
@@ -84,6 +115,19 @@ namespace Assets.Scripts.Unit
                 TargetMaterial = "White";
             }
             UseGravity = true;
+            tileInstalled = _tileInstalled;
+            return this;
+        }
+
+
+        /// <summary>
+        /// 타일과의 연결을 끊는 함수
+        /// </summary>
+        /// <param name="_tileInstalled"></param>
+        /// <returns></returns>
+        public UnitController Disconnect()
+        {
+            tileInstalled = null;
             return this;
         }
 
@@ -96,6 +140,33 @@ namespace Assets.Scripts.Unit
             TargetMaterial = "Fade";
             UseGravity = true;
             return this;
+        }
+
+        /// <summary>
+        /// 전투 활성화 함수
+        /// </summary>
+        public void InitBattle()
+        {
+            battleController.Init(liveInfo, tileInstalled.HexCoor, isEnemy, () =>
+            {
+                Clear();
+            });
+        }
+
+        private void OnMouseDown()
+        {
+            if (tileInstalled != null)
+            {
+                tileInstalled.OnMouseDown();
+            }
+        }
+
+        private void OnMouseUp()
+        {
+            if (tileInstalled != null)
+            {
+                tileInstalled.OnMouseUp();
+            }
         }
     }
 }

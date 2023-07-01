@@ -48,8 +48,9 @@ namespace Assets.Scripts.Map
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <param name="purpose">0: 기물 전부; 1: 적 기물만; 2: 아군 기물만</param>
         /// <returns></returns>
-        public static List<int[]> SeekCoorsInRange(int x, int y, int z, int range)
+        public static List<int[]> SeekCoorsInRange(int x, int y, int z, int range, int purpose = 0, bool isTargetOnlyOne = false)
         {
             List<int[]> res = new List<int[]>();
             int sx, sy, cx, cy;
@@ -66,13 +67,31 @@ namespace Assets.Scripts.Map
                 cy = sy;
                 if (cx >= 0 && cx < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                 {
-                    res.Add(new int[] { cx, cy });
+                    if (
+                        purpose == 0 ||
+                        (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                        (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                        )
+                        res.Add(new int[] { cx, cy });
+                    if (isTargetOnlyOne)
+                    {
+                        return res;
+                    }
                 }
                 cx = sx;
                 cy = sy + i;
                 if (cy >= 0 && cy < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                 {
-                    res.Add(new int[] { cx, cy });
+                    if (
+                        purpose == 0 ||
+                        (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                        (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                        )
+                        res.Add(new int[] { cx, cy });
+                    if (isTargetOnlyOne)
+                    {
+                        return res;
+                    }
                 }
             }
 
@@ -85,13 +104,31 @@ namespace Assets.Scripts.Map
                     cy = sy - j;
                     if (cy >= 0 && cy < GlobalStatus.Radius * 2 + 1 && cx >= 0 && cx < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                     {
-                        res.Add(new int[] { cx, cy });
+                        if (
+                            purpose == 0 ||
+                            (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                            (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                            )
+                            res.Add(new int[] { cx, cy });
+                        if (isTargetOnlyOne)
+                        {
+                            return res;
+                        }
                     }
                     cx = sx - i;
                     cy = sy + j;
                     if (cy >= 0 && cy < GlobalStatus.Radius * 2 + 1 && cx >= 0 && cx < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                     {
-                        res.Add(new int[] { cx, cy });
+                        if (
+                            purpose == 0 ||
+                            (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                            (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                            )
+                            res.Add(new int[] { cx, cy });
+                        if (isTargetOnlyOne)
+                        {
+                            return res;
+                        }
                     }
                 }
             }
@@ -105,13 +142,31 @@ namespace Assets.Scripts.Map
                     cy = sy + j;
                     if (cy >= 0 && cy < GlobalStatus.Radius * 2 + 1 && cx >= 0 && cx < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                     {
-                        res.Add(new int[] { cx, cy });
+                        if (
+                            purpose == 0 ||
+                            (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                            (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                            )
+                            res.Add(new int[] { cx, cy });
+                        if (isTargetOnlyOne)
+                        {
+                            return res;
+                        }
                     }
                     cx = sx - i;
                     cy = sy - j;
                     if (cy >= 0 && cy < GlobalStatus.Radius * 2 + 1 && cx >= 0 && cx < GlobalStatus.Radius * 2 + 1 && GlobalStatus.Map[cx][cy] != null)
                     {
-                        res.Add(new int[] { cx, cy });
+                        if (
+                            purpose == 0 ||
+                            (purpose == 1 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Enemy)) ||
+                            (purpose == 2 && GlobalStatus.Map[cx][cy].tileType.Equals(TileType.Ally))
+                            )
+                            res.Add(new int[] { cx, cy });
+                        if (isTargetOnlyOne)
+                        {
+                            return res;
+                        }
                     }
                 }
             }

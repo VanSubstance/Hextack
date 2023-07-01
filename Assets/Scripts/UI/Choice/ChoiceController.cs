@@ -36,7 +36,6 @@ namespace Assets.Scripts.UI.Choice
             HexTileController curDetect;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 50f, GlobalDictionary.Layer.Map))
             {
-                newUnit.gameObject.SetActive(true);
                 curDetect = hit.transform.GetComponent<HexTileController>();
                 if (targetTile != null)
                 {
@@ -47,9 +46,11 @@ namespace Assets.Scripts.UI.Choice
                         targetTile.ClearUnit();
                         if (!curDetect.IsPossessed)
                         {
+                            newUnit.gameObject.SetActive(true);
                             targetTile = curDetect;
                             targetTile.PreviewUnit(newUnit);
-                        } else
+                        }
+                        else
                         {
                             targetTile = null;
                             newUnit.gameObject.SetActive(false);
@@ -61,6 +62,7 @@ namespace Assets.Scripts.UI.Choice
                     // 이전에 감지된 애가 없음 = 이번에 감지된 애 미리보기 가능하면 띄워주기
                     if (!curDetect.IsPossessed)
                     {
+                        newUnit.gameObject.SetActive(true);
                         // 미리보기 on
                         targetTile = curDetect;
                         targetTile.PreviewUnit(newUnit);
@@ -86,7 +88,7 @@ namespace Assets.Scripts.UI.Choice
                 {
                     newUnit = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, UnitManager.Instance.transform);
                 }
-                newUnit.Init(info.GetLiveInfo(), false);
+                GlobalStatus.UnitsActive.Add(newUnit.Init(info.GetLiveInfo(), false));
             }
         }
 
@@ -97,6 +99,7 @@ namespace Assets.Scripts.UI.Choice
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;
+                UIManager.Instance.FinishChoice();
             }
         }
     }

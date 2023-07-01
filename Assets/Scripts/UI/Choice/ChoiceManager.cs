@@ -12,6 +12,7 @@ namespace Assets.Scripts.UI.Choice
         [SerializeField]
         private ChoiceController choicePrefab;
         private ChoiceController[] choices;
+
         private void Awake()
         {
             gameObject.SetActive(false);

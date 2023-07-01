@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Unit;
 using Assets.Scripts.Map;
+using Assets.Scripts.UI;
 
 /// <summary>
 /// 현재 인게임에서 사용중인 데이터 관리 클래스
@@ -69,12 +70,21 @@ public static class GlobalStatus
     /// 인게임에 들고 들어간 덱
     /// </summary>
     public static UnitInfo[] Deck;
+    public static int CntInstalled, Round;
     public static HexTileController[][] Map;
     public static UnitController[][] Units;
     /// <summary>
     /// 기물 오브젝트 풀
     /// </summary>
     public static Queue<UnitController> UnitPool;
+    public static List<UnitController> UnitsActive;
+    public static IngameStageType CurrentStage;
+    public static bool IsInStage;
+
+    /// <summary>
+    /// 체력게이지 풀
+    /// </summary>
+    public static Queue<GageController> HpGagePool = new Queue<GageController>();
 
     /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
@@ -84,6 +94,18 @@ public static class GlobalStatus
     {
         if (UnitPool.Count > 0)
             return UnitPool.Dequeue();
+        else
+            return null;
+    }
+
+    /// <summary>
+    /// 체력 게이지가 풀에 존재 -> 꺼내줌
+    /// </summary>
+    /// <returns></returns>
+    public static GageController GetHpGageController()
+    {
+        if (HpGagePool.Count > 0)
+            return HpGagePool.Dequeue();
         else
             return null;
     }
