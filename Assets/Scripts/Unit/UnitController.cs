@@ -32,6 +32,11 @@ namespace Assets.Scripts.Unit
             }
         }
 
+        /// <summary>
+        /// 파티클 시스템
+        /// </summary>
+        private ParticleSystem particle;
+
         private void Awake()
         {
             gameObject.SetActive(false);
@@ -40,6 +45,7 @@ namespace Assets.Scripts.Unit
             meshCollider = GetComponent<MeshCollider>();
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
+            particle = transform.GetChild(0).GetComponent<ParticleSystem>();
         }
 
         /// <summary>
