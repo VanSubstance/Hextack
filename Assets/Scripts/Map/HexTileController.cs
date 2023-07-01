@@ -29,16 +29,16 @@ namespace Assets.Scripts.Map
                 switch (tileType)
                 {
                     case TileType.Background:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"]};
                         break;
                     case TileType.Neutral:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
                         break;
                     case TileType.Ally:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialWhite };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["White"] };
                         break;
                     case TileType.Enemy:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialGrey };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Grey"] };
                         break;
                 }
             }

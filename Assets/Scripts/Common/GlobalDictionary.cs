@@ -17,4 +17,9 @@ public static class GlobalDictionary
             public static Dictionary<string, UnitController> data = new Dictionary<string, UnitController>();
         }
     }
+    public static class Materials
+    {
+        public static string rootPath = $"Materials";
+        public static Dictionary<string, Material> data = new Dictionary<string, Material>();
+    }
 }

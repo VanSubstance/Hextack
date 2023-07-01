@@ -11,22 +11,14 @@ namespace Assets.Scripts.Map
     {
         [SerializeField]
         private HexTileController tilePrefab;
-        [SerializeField]
-        private Material materialBlack, materialGrey, materialWhite, materialRed, materialBlue;
 
         private HexTileController[][] map;
         private Transform mapTf;
-        public static Material MaterialBlack, MaterialGrey, MaterialWhite, MaterialRed, MaterialBlue;
 
         private new void Awake()
         {
             base.Awake();
             mapTf = transform.GetChild(0);
-            MaterialBlack = materialBlack;
-            MaterialGrey = materialGrey;
-            MaterialWhite = materialWhite;
-            MaterialRed = materialGrey;
-            MaterialBlue = materialBlue;
         }
 
         /// <summary>

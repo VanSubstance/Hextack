@@ -17,8 +17,9 @@ namespace Assets.Scripts.Server
         {
             base.Awake();
             LoadUnits();
+            LoadMaterials();
         }
-        
+
         /// <summary>
         /// 유닛 프리펩 로드 함수
         /// </summary>
@@ -27,6 +28,14 @@ namespace Assets.Scripts.Server
             foreach (UnitController unit in Resources.LoadAll<UnitController>($"{GlobalDictionary.Prefab.Unit.rootPath}"))
             {
                 GlobalDictionary.Prefab.Unit.data[unit.name] = unit;
+            }
+        }
+
+        public void LoadMaterials()
+        {
+            foreach (Material unit in Resources.LoadAll<Material>($"{GlobalDictionary.Materials.rootPath}"))
+            {
+                GlobalDictionary.Materials.data[unit.name] = unit;
             }
         }
     }
