@@ -8,16 +8,15 @@ namespace Assets.Scripts.Map
     public class MapManager : SingletonObject<MapManager>
     {
         [SerializeField]
-        private int radius;
-        [SerializeField]
-        private string mapTitle;
-        [SerializeField]
         private HexTileController tilePrefab;
         [SerializeField]
         private Material materialBlack, materialWhite, materialRed, materialBlue;
 
-        private HexTileController[][] map, field;
-        private Transform mapTf, fieldTf;
+        private int radius, cntBuff, cntDebuff, cntUnit;
+        private string mapTitle;
+
+        private HexTileController[][] map;
+        private Transform mapTf;
 
         private static float sprt3, hexRadius = 1;
         public static Material MaterialBlack, MaterialWhite, MaterialRed, MaterialBlue;
@@ -49,46 +48,30 @@ namespace Assets.Scripts.Map
         {
             base.Awake();
             mapTf = transform.GetChild(0);
-            fieldTf = transform.GetChild(1);
             MaterialBlack = materialBlack;
             MaterialWhite = materialWhite;
             MaterialRed = materialRed;
             MaterialBlue = materialBlue;
-            // 반지름만큼 생성
             sprt3 = Mathf.Sqrt(3f);
-            //map = new HexTileController[radius * 2 + 1][];
-            field = new HexTileController[radius * 2 + 1][];
-            for (int i = 0; i <= radius * 2; i++)
-            {
-                //map[i] = new HexTileController[radius * 2 + 1];
-                field[i] = new HexTileController[radius * 2 + 1];
-            }
-
-            //InitMap();
-            InitField();
         }
 
-        private void InitMap()
+        /// <summary>
+        /// 신규 맵 생성 함수
+        /// </summary>
+        /// <param name="mapInfo"></param>
+        public void InitMap(MapInfo info)
         {
-            // 해당하는 칸들만 할당
-            int lim, tempC;
-            int[] convertedCoor;
-            Vector3 worldCoor;
-            for (int r = -radius; r <= radius; r++)
+            radius = info.radius;
+            mapTitle = info.mapTitle;
+            cntBuff = info.cntBuff;
+            cntDebuff = info.cntDebuff;
+            cntUnit = info.cntUnit;
+            map = new HexTileController[radius * 2 + 1][];
+            for (int i = 0; i <= radius * 2; i++)
             {
-                lim = Mathf.Abs(r);
-                for (int c = -radius; c <= radius - lim; c++)
-                {
-                    tempC = r < 0 ? -c : c;
-                    HexCoordinate newCoor = Instantiate<HexCoordinate>(new());
-                    newCoor.x = tempC;
-                    newCoor.y = r;
-                    convertedCoor = ConvertCoordinate(newCoor);
-                    worldCoor = ConvetCoordinateToWorldPosition(newCoor);
-                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(newCoor, HexTileController.TileType.Background);
-                    map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
-                }
+                map[i] = new HexTileController[radius * 2 + 1];
             }
+            InitField();
         }
 
         private void InitField()
@@ -98,8 +81,8 @@ namespace Assets.Scripts.Map
             HexCoordinate centre = new(0, 0, 0);
             convertedCoor = ConvertCoordinate(centre);
             worldCoor = ConvetCoordinateToWorldPosition(centre);
-            field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(centre, HexTileController.TileType.Ally);
-            field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+            map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Ally);
+            map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
             string basePath = $"Datas/Maps/{radius}/{mapTitle}";
             HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}");
@@ -114,14 +97,14 @@ namespace Assets.Scripts.Map
             {
                 convertedCoor = ConvertCoordinate(coor);
                 worldCoor = ConvetCoordinateToWorldPosition(coor);
-                field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(coor, HexTileController.TileType.Ally);
-                field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+                map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
+                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
                 coor.Reverse();
                 convertedCoor = ConvertCoordinate(coor);
                 worldCoor = ConvetCoordinateToWorldPosition(coor);
-                field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(coor, HexTileController.TileType.Enemy);
-                field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+                map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Enemy);
+                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             }
         }
     }
