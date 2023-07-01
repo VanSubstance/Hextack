@@ -11,7 +11,7 @@ namespace Assets.Scripts.Common
         private new void Awake()
         {
             base.Awake();
-            LoadUnits();
+            LoadPrefabs();
             LoadMaterials();
             LoadTextures();
             LoadMeshs();
@@ -19,13 +19,20 @@ namespace Assets.Scripts.Common
         }
 
         /// <summary>
-        /// 유닛 프리펩 로드 함수
+        /// 프리펩 로드 함수
         /// </summary>
-        public void LoadUnits()
+        public void LoadPrefabs()
         {
+            // 유닛
             foreach (UnitController unit in Resources.LoadAll<UnitController>($"{GlobalDictionary.Prefab.Unit.rootPath}"))
             {
                 GlobalDictionary.Prefab.Unit.data[unit.name] = unit;
+            }
+
+            // UI
+            foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
+            {
+                GlobalDictionary.Prefab.UI.data[unit.name] = unit;
             }
         }
 

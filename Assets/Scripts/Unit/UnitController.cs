@@ -39,6 +39,22 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private ParticleSystem particle;
 
+        /// <summary>
+        /// 실제 전투를 관리하는 컨트롤러
+        /// </summary>
+        private UnitBattleController battleController;
+
+        /// <summary>
+        /// 생존 확인
+        /// </summary>
+        public bool IsLive
+        {
+            get
+            {
+                return gameObject.activeSelf;
+            }
+        }
+
         private void Awake()
         {
             gameObject.SetActive(false);
@@ -48,6 +64,7 @@ namespace Assets.Scripts.Unit
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
             particle = transform.GetChild(0).GetComponent<ParticleSystem>();
+            battleController = GetComponent<UnitBattleController>();
         }
 
         /// <summary>
@@ -77,6 +94,7 @@ namespace Assets.Scripts.Unit
         {
             gameObject.SetActive(false);
             UseGravity = false;
+            GlobalStatus.UnitsActive.Remove(this);
             GlobalStatus.UnitPool.Enqueue(this);
             return this;
         }
@@ -122,6 +140,17 @@ namespace Assets.Scripts.Unit
             TargetMaterial = "Fade";
             UseGravity = true;
             return this;
+        }
+
+        /// <summary>
+        /// 전투 활성화 함수
+        /// </summary>
+        public void InitBattle()
+        {
+            battleController.Init(liveInfo, tileInstalled.HexCoor, isEnemy, () =>
+            {
+                Clear();
+            });
         }
 
         private void OnMouseDown()

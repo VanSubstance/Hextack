@@ -18,6 +18,7 @@ namespace Assets.Scripts.Unit
         {
             GlobalDictionary.Prefab.Unit.Prefab = prefab;
             GlobalStatus.UnitPool = new Queue<UnitController>();
+            GlobalStatus.UnitsActive = new List<UnitController>();
             GlobalStatus.Units = new UnitController[GlobalStatus.Radius * 2 + 1][];
             for (int i = 0; i <= GlobalStatus.Radius * 2; i++)
             {
@@ -47,7 +48,7 @@ namespace Assets.Scripts.Unit
             t.z = 1;
             int[] convertedCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);
-            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, transform).Init(t, isEnemy);
+            GlobalStatus.UnitsActive.Add(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, transform).Init(t, isEnemy));
             GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]]);
         }
     }

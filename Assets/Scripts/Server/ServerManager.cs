@@ -3,6 +3,7 @@ using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using System.Collections;
 using Assets.Scripts.UI;
+using System.Linq;
 
 namespace Assets.Scripts.Server
 {
@@ -133,6 +134,10 @@ namespace Assets.Scripts.Server
                         {
                             UIManager.Instance.TextCount = "전투 시작 !";
                             NextStage = IngameStageType.Applying;
+                            StartCoroutine(CoroutineExecuteAfterWait(() =>
+                            {
+                                UIManager.Instance.TextCount = "";
+                            }, 1f));
                         }, 1f));
                     }, 1f));
                 }, 1f));
@@ -164,6 +169,11 @@ namespace Assets.Scripts.Server
         private void InitStageBattle()
         {
             Debug.Log("전투 시작");
+            GlobalStatus.UnitsActive.All((unitCtrl) =>
+            {
+                unitCtrl.InitBattle();
+                return true;
+            });
         }
     }
 }

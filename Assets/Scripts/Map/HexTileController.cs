@@ -177,10 +177,5 @@ namespace Assets.Scripts.Map
                 DeActivateRange();
             }
         }
-
-        public enum TileType
-        {
-            Background, Neutral, Ally, Enemy
-        }
     }
 }
