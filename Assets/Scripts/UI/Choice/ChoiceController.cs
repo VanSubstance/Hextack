@@ -88,7 +88,8 @@ namespace Assets.Scripts.UI.Choice
         {
             if (newUnit != null)
             {
-                newUnit.Clear();
+                targetTile.InstallUnit(newUnit);
+                targetTile = null;
                 newUnit = null;
             }
         }
