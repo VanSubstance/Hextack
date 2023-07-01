@@ -22,5 +22,16 @@ namespace Assets.Scripts.Map
         {
             return Instantiate(this);
         }
+
+        public void Reverse()
+        {
+            x = -x;
+            y = -y;
+        }
+
+        public override string ToString()
+        {
+            return $"[{x}, {y}, {z}]";
+        }
     }
 }

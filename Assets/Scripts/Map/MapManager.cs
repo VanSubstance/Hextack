@@ -56,15 +56,15 @@ namespace Assets.Scripts.Map
             MaterialBlue = materialBlue;
             // 반지름만큼 생성
             sprt3 = Mathf.Sqrt(3f);
-            map = new HexTileController[radius * 2 + 1][];
+            //map = new HexTileController[radius * 2 + 1][];
             field = new HexTileController[radius * 2 + 1][];
             for (int i = 0; i <= radius * 2; i++)
             {
-                map[i] = new HexTileController[radius * 2 + 1];
+                //map[i] = new HexTileController[radius * 2 + 1];
                 field[i] = new HexTileController[radius * 2 + 1];
             }
 
-            InitMap();
+            //InitMap();
             InitField();
         }
 
@@ -93,14 +93,20 @@ namespace Assets.Scripts.Map
 
         private void InitField()
         {
-            string basePath = $"Datas/Maps/{radius}/{mapTitle}/";
-            HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}Ally");
-            InitTiles(temp, HexTileController.TileType.Ally);
-            temp = Resources.LoadAll<HexCoordinate>($"{basePath}Enemy");
-            InitTiles(temp, HexTileController.TileType.Enemy);
+            int[] convertedCoor;
+            Vector3 worldCoor;
+            HexCoordinate centre = new(0, 0, 0);
+            convertedCoor = ConvertCoordinate(centre);
+            worldCoor = ConvetCoordinateToWorldPosition(centre);
+            field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(centre, HexTileController.TileType.Ally);
+            field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+
+            string basePath = $"Datas/Maps/{radius}/{mapTitle}";
+            HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}");
+            InitTiles(temp);
         }
 
-        private void InitTiles(HexCoordinate[] coors, HexTileController.TileType type)
+        private void InitTiles(HexCoordinate[] coors)
         {
             int[] convertedCoor;
             Vector3 worldCoor;
@@ -108,7 +114,13 @@ namespace Assets.Scripts.Map
             {
                 convertedCoor = ConvertCoordinate(coor);
                 worldCoor = ConvetCoordinateToWorldPosition(coor);
-                field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(coor, type);
+                field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(coor, HexTileController.TileType.Ally);
+                field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+
+                coor.Reverse();
+                convertedCoor = ConvertCoordinate(coor);
+                worldCoor = ConvetCoordinateToWorldPosition(coor);
+                field[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, fieldTf).Init(coor, HexTileController.TileType.Enemy);
                 field[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             }
         }
