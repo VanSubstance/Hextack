@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Unit;
 using UnityEngine;
 
-namespace Assets.Scripts.Server
+namespace Assets.Scripts.Common
 {
     /// <summary>
     /// Resources 관리용 매니저
@@ -18,6 +13,7 @@ namespace Assets.Scripts.Server
             base.Awake();
             LoadUnits();
             LoadMaterials();
+            LoadTextures();
         }
 
         /// <summary>
@@ -31,11 +27,26 @@ namespace Assets.Scripts.Server
             }
         }
 
+        /// <summary>
+        /// 메테리얼 로드 함수
+        /// </summary>
         public void LoadMaterials()
         {
             foreach (Material unit in Resources.LoadAll<Material>($"{GlobalDictionary.Materials.rootPath}"))
             {
                 GlobalDictionary.Materials.data[unit.name] = unit;
+            }
+        }
+
+        /// <summary>
+        /// 텍스처 로드 함수
+        /// </summary>
+        public void LoadTextures()
+        {
+            // 기물 이미지
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
+            {
+                GlobalDictionary.Texture.Unit.data[unit.name] = unit;
             }
         }
     }

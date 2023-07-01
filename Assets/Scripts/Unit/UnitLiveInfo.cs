@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets.Scripts.Unit
 {
 
-    [CreateAssetMenu(fileName = "Unit", menuName = "Scriptables/Unit Info", order = int.MaxValue)]
+    [CreateAssetMenu(fileName = "UnitLiveInfo", menuName = "Scriptables/Unit Live Info", order = int.MaxValue)]
     public class UnitLiveInfo : HexCoordinate
     {
         public string title;

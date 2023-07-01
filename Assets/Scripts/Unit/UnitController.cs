@@ -20,7 +20,6 @@ namespace Assets.Scripts.Unit
             isEnemy = _isEnemy;
             if (isEnemy)
             {
-                Debug.Log("갸아악");
                 meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Red"] };
             }
             else
