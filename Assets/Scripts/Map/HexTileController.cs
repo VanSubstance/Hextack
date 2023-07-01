@@ -109,7 +109,7 @@ namespace Assets.Scripts.Map
         {
             IsPreview = false;
             DeActivateRange();
-            unitAttached = unitController.ConfirmInstallation();
+            unitAttached = unitController.Connect(this);
             Vector3 resPos = transform.position;
             resPos.y = .5f;
             unitAttached.transform.position = resPos;
@@ -136,6 +136,7 @@ namespace Assets.Scripts.Map
         {
             IsPreview = false;
             DeActivateRange();
+            unitAttached.Disconnect();
             unitAttached = null;
         }
 
@@ -153,6 +154,28 @@ namespace Assets.Scripts.Map
         public void DeActivateRange()
         {
             RangeViewController.Instance.DeActivateInRange();
+        }
+
+        /// <summary>
+        /// 만약 설치된 기물이 있다 -> 사거리 보여주기
+        /// </summary>
+        public void OnMouseDown()
+        {
+            if (unitAttached != null)
+            {
+                ActivateRange();
+            }
+        }
+
+        /// <summary>
+        /// 사거리 끄기
+        /// </summary>
+        public void OnMouseUp()
+        {
+            if (unitAttached != null)
+            {
+                DeActivateRange();
+            }
         }
 
         public enum TileType

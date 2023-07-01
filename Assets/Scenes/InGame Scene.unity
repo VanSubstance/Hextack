@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceManager: {fileID: 7508099684541242423, guid: 7e83c8d0fe3cbb74bac5239e0fde1c6d,
     type: 3}
+  textCount: {fileID: 1661860900}
 --- !u!1 &206906813
 GameObject:
   m_ObjectHideFlags: 0

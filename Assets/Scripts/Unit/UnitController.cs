@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Map;
+using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Unit
                 meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[value] };
             }
         }
+        private HexTileController tileInstalled;
 
         /// <summary>
         /// 파티클 시스템
@@ -79,7 +81,12 @@ namespace Assets.Scripts.Unit
             return this;
         }
 
-        public UnitController ConfirmInstallation()
+        /// <summary>
+        /// 타일과 연결 함수
+        /// </summary>
+        /// <param name="_tileInstalled"></param>
+        /// <returns></returns>
+        public UnitController Connect(HexTileController _tileInstalled)
         {
             if (isEnemy)
             {
@@ -90,6 +97,19 @@ namespace Assets.Scripts.Unit
                 TargetMaterial = "White";
             }
             UseGravity = true;
+            tileInstalled = _tileInstalled;
+            return this;
+        }
+
+
+        /// <summary>
+        /// 타일과의 연결을 끊는 함수
+        /// </summary>
+        /// <param name="_tileInstalled"></param>
+        /// <returns></returns>
+        public UnitController Disconnect()
+        {
+            tileInstalled = null;
             return this;
         }
 
@@ -102,6 +122,22 @@ namespace Assets.Scripts.Unit
             TargetMaterial = "Fade";
             UseGravity = true;
             return this;
+        }
+
+        private void OnMouseDown()
+        {
+            if (tileInstalled != null)
+            {
+                tileInstalled.OnMouseDown();
+            }
+        }
+
+        private void OnMouseUp()
+        {
+            if (tileInstalled != null)
+            {
+                tileInstalled.OnMouseUp();
+            }
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.UI.Choice;
 using UnityEngine;
-using Assets.Scripts.UI.Choice;
+using TMPro;
+using Assets.Scripts.Server;
 
 namespace Assets.Scripts.UI
 {
@@ -12,11 +9,24 @@ namespace Assets.Scripts.UI
     {
         [SerializeField]
         private ChoiceManager choiceManager;
+        [SerializeField]
+        private TextMeshProUGUI textCount;
+        /// <summary>
+        /// 가운데 텍스트 변경 setter
+        /// </summary>
+        public string TextCount
+        {
+            set
+            {
+                textCount.text = value;
+            }
+        }
         private new void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
+            TextCount = "";
         }
 
         private void Start()
@@ -38,7 +48,7 @@ namespace Assets.Scripts.UI
             if (++GlobalStatus.CntInstalled == 3)
             {
                 // 선택 종료 -> .5초 후 전투 시작
-                Debug.Log("Finish");
+                ServerManager.Instance.FinishStagePlacing();
                 choiceManager.gameObject.SetActive(false);
                 return;
             }

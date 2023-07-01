@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
+using System.Collections;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Server
 {
@@ -51,6 +53,44 @@ namespace Assets.Scripts.Server
         private void InitUnits(int idxRound)
         {
             UnitManager.Instance.InitUnits(monstersInfo[idxRound], true);
+        }
+
+        /// <summary>
+        /// 기물 배치 종료 -> .5f초 대기 후 전투 돌입 하수
+        /// </summary>
+        public void FinishStagePlacing()
+        {
+            StartCoroutine(CoroutineExecuteAfterWait(() =>
+            {
+                UIManager.Instance.TextCount = "3";
+                StartCoroutine(CoroutineExecuteAfterWait(() =>
+                {
+                    UIManager.Instance.TextCount = "2";
+                    StartCoroutine(CoroutineExecuteAfterWait(() =>
+                    {
+                        UIManager.Instance.TextCount = "1";
+                        StartCoroutine(CoroutineExecuteAfterWait(() =>
+                        {
+                            UIManager.Instance.TextCount = "전투 시작 !";
+                            InitStageBattle();
+                        }, 1f));
+                    }, 1f));
+                }, 1f));
+            }, .5f));
+        }
+
+        private IEnumerator CoroutineExecuteAfterWait(System.Action actionAfter, float time)
+        {
+            yield return new WaitForSeconds(time);
+            actionAfter?.Invoke();
+        }
+
+        /// <summary>
+        /// 전투 시작 함수
+        /// </summary>
+        private void InitStageBattle()
+        {
+
         }
     }
 }
