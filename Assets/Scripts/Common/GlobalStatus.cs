@@ -76,6 +76,8 @@ public static class GlobalStatus
     /// 기물 오브젝트 풀
     /// </summary>
     public static Queue<UnitController> UnitPool;
+    public static IngameStageType CurrentStage;
+    public static bool IsInStage;
 
     /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌

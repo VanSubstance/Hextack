@@ -29,17 +29,11 @@ namespace Assets.Scripts.UI
             TextCount = "";
         }
 
-        private void Start()
-        {
-            InitChoices();
-        }
-
         /// <summary>
         /// 현재 덱 5개 중 2개 띄우기 함수
         /// </summary>
         public void InitChoices()
         {
-            GlobalStatus.CntInstalled = 0;
             choiceManager.PickRandom();
         }
 
@@ -48,7 +42,7 @@ namespace Assets.Scripts.UI
             if (++GlobalStatus.CntInstalled == 3)
             {
                 // 선택 종료 -> .5초 후 전투 시작
-                ServerManager.Instance.FinishStagePlacing();
+                ServerManager.Instance.FinishStagePlace();
                 choiceManager.gameObject.SetActive(false);
                 return;
             }
