@@ -23,7 +23,9 @@ namespace Assets.Scripts.Unit
         }
         public UnitLiveInfo GetLiveInfo()
         {
-            return Instantiate<UnitLiveInfo>(new() { title = Code });
+            UnitLiveInfo res = CreateInstance<UnitLiveInfo>();
+            res.title = Code;
+            return res;
         }
     }
 }

@@ -7,7 +7,13 @@ using UnityEngine;
 /// </summary>
 public static class GlobalDictionary
 {
-
+    public static class Layer
+    {
+        public static int
+            Map = 1 << 6,
+            Unit = 1 << 7
+            ;
+    }
     /// <summary>
     /// 프리펩
     /// </summary>

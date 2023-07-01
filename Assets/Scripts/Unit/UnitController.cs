@@ -10,6 +10,21 @@ namespace Assets.Scripts.Unit
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
         private MeshCollider meshCollider;
+        private Rigidbody rigid;
+        private bool UseGravity
+        {
+            set
+            {
+                rigid.useGravity = value;
+            }
+        }
+        public string TargetMaterial
+        {
+            set
+            {
+                meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[value] };
+            }
+        }
 
         private void Awake()
         {
@@ -17,8 +32,16 @@ namespace Assets.Scripts.Unit
             meshRenderer = GetComponent<MeshRenderer>();
             meshFilter = GetComponent<MeshFilter>();
             meshCollider = GetComponent<MeshCollider>();
+            rigid = GetComponent<Rigidbody>();
+            UseGravity = false;
         }
 
+        /// <summary>
+        /// 초기화 함수
+        /// </summary>
+        /// <param name="_info"></param>
+        /// <param name="_isEnemy"></param>
+        /// <returns></returns>
         public UnitController Init(UnitLiveInfo _info, bool _isEnemy)
         {
             info = _info.Clone();
@@ -26,15 +49,34 @@ namespace Assets.Scripts.Unit
             meshCollider.sharedMesh = meshFilter.mesh;
             meshCollider.convex = true;
             isEnemy = _isEnemy;
+            TargetMaterial = "Fade";
+            meshRenderer.materials = new Material[] { };
+            gameObject.SetActive(true);
+            return this;
+        }
+
+        /// <summary>
+        /// 기물 오브젝트 풀에 반납 함수
+        /// </summary>
+        /// <returns></returns>
+        public UnitController Clear()
+        {
+            gameObject.SetActive(false);
+            UseGravity = false;
+            GlobalStatus.UnitPool.Enqueue(this);
+            return this;
+        }
+
+        public UnitController ConfirmInstallation()
+        {
             if (isEnemy)
             {
-                meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Red"] };
-            }
-            else
+                TargetMaterial = "Red";
+            } else
             {
-                meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["White"] };
+                TargetMaterial = "White";
             }
-            gameObject.SetActive(true);
+            UseGravity = true;
             return this;
         }
     }

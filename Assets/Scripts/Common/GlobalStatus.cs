@@ -71,5 +71,20 @@ public static class GlobalStatus
     public static UnitInfo[] Deck;
     public static HexTileController[][] Map;
     public static UnitController[][] Units;
+    /// <summary>
+    /// 기물 오브젝트 풀
+    /// </summary>
     public static Queue<UnitController> UnitPool;
+
+    /// <summary>
+    /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
+    /// </summary>
+    /// <returns></returns>
+    public static UnitController GetUnitController()
+    {
+        if (UnitPool.Count > 0)
+            return UnitPool.Dequeue();
+        else
+            return null;
+    }
 }

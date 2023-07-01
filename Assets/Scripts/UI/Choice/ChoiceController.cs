@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Choice
 {
-    public class ChoiceController : MonoBehaviour, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+    public class ChoiceController : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
         private Image image;
         private UnitInfo info;
@@ -26,26 +26,35 @@ namespace Assets.Scripts.UI.Choice
         }
 
         /// <summary>
-        /// 마우스를 따라가는 기물 생성 함수
+        /// 마우스 위치 기준 현재 예상 설치 지점 추적 함수
         /// </summary>
         /// <param name="eventData"></param>
         public void OnDrag(PointerEventData eventData)
         {
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (newUnit == null)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(eventData.position), out RaycastHit hit, 50f, GlobalDictionary.Layer.Map))
             {
-                newUnit = Instantiate(GlobalDictionary.Prefab.Unit.Prefab).Init(info.GetLiveInfo(), false);
+                Debug.Log(hit.transform);
             }
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (newUnit == null)
+            {
+                if ((newUnit = GlobalStatus.GetUnitController()) == null)
+                {
+                    newUnit = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, UnitManager.Instance.transform);
+                }
+                newUnit.Init(info.GetLiveInfo(), false);
+            }
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
         {
             if (newUnit != null)
             {
-                Destroy(newUnit);
+                newUnit.Clear();
+                newUnit = null;
             }
         }
     }

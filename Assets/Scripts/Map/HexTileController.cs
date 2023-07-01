@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Unit;
+using UnityEngine;
 
 namespace Assets.Scripts.Map
 {
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Map
                 switch (tileType)
                 {
                     case TileType.Background:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"]};
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
                         break;
                     case TileType.Neutral:
                         meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
@@ -46,12 +47,26 @@ namespace Assets.Scripts.Map
 
         private MeshRenderer meshRenderer;
 
+        public UnitController UnitAttached;
+
         public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
         {
             HexCoor = _hexCoordinate.Clone();
             meshRenderer = GetComponent<MeshRenderer>();
             TileTypee = _tileType;
             return this;
+        }
+
+        /// <summary>
+        /// 타일에 기물 설치 함수
+        /// </summary>
+        /// <param name="unitController"></param>
+        public void InstallUnit(UnitController unitController)
+        {
+            UnitAttached = unitController.ConfirmInstallation();
+            Vector3 resPos = transform.position;
+            resPos.y = .5f;
+            UnitAttached.transform.position = resPos;
         }
 
         public enum TileType

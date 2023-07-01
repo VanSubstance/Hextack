@@ -1,10 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Map;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Map;
-using Assets.Scripts.Server;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
@@ -13,20 +8,11 @@ namespace Assets.Scripts.Unit
     {
         [SerializeField]
         private UnitController prefab;
-        private Transform enemyTf, allyTf;
 
         private new void Awake()
         {
             base.Awake();
-            allyTf = transform.GetChild(0);
-            enemyTf = transform.GetChild(1);
         }
-
-        /// <summary>
-        /// 1 : 1
-        /// 2 : 1 + 6
-        /// 3 : 1 + 6 + 12
-        /// </summary>
 
         public void Init()
         {
@@ -60,11 +46,9 @@ namespace Assets.Scripts.Unit
             UnitLiveInfo t = info.Clone();
             t.z = 1;
             int[] convertedCoor;
-            Vector3 worldCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);
-            worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(t);
-            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, isEnemy ? enemyTf : allyTf).Init(t, isEnemy);
-            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, transform).Init(t, isEnemy);
+            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]]);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Assets.Scripts.Map
         {
             int[] convertedCoor;
             Vector3 worldCoor;
-            HexCoordinate centre = new(0, 0, 0);
+            HexCoordinate centre = ScriptableObject.CreateInstance<HexCoordinate>();
             convertedCoor = CommonFunction.ConvertCoordinate(centre);
             worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(centre);
             GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Neutral);
