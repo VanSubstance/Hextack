@@ -200,7 +200,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: -1291366431
+  m_SortingLayerID: 1740788821
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &186234060
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapInfo: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
+  isSingle: 1
 --- !u!1 &581641262
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581641263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1217609382}
   - component: {fileID: 1217609383}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Map Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}

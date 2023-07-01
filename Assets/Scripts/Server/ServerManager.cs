@@ -14,6 +14,15 @@ namespace Assets.Scripts.Server
                 return mapInfo;
             }
         }
+        [SerializeField]
+        private bool isSingle;
+        public bool IsSingle
+        {
+            get
+            {
+                return isSingle;
+            }
+        }
         private new void Awake()
         {
             base.Awake();

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using Assets.Scripts.Server;
 
 namespace Assets.Scripts.Map
 {
@@ -12,7 +14,7 @@ namespace Assets.Scripts.Map
         [SerializeField]
         private Material materialBlack, materialWhite, materialRed, materialBlue;
 
-        private int radius, cntBuff, cntDebuff, cntUnit;
+        private int radius, cntTileBan, cntUnitBan, cntUnit;
         private string mapTitle;
 
         private HexTileController[][] map;
@@ -63,8 +65,8 @@ namespace Assets.Scripts.Map
         {
             radius = info.radius;
             mapTitle = info.mapTitle;
-            cntBuff = info.cntBuff;
-            cntDebuff = info.cntDebuff;
+            cntUnitBan = info.cntTileBan;
+            cntTileBan = info.cntUnitBan;
             cntUnit = info.cntUnit;
             map = new HexTileController[radius * 2 + 1][];
             for (int i = 0; i <= radius * 2; i++)
@@ -81,23 +83,42 @@ namespace Assets.Scripts.Map
             HexCoordinate centre = new(0, 0, 0);
             convertedCoor = ConvertCoordinate(centre);
             worldCoor = ConvetCoordinateToWorldPosition(centre);
-            map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Ally);
+            map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Neutral);
             map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
             string basePath = $"Datas/Maps/{radius}/{mapTitle}";
-            HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}");
+            HexCoordinate[] temp = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
             InitTiles(temp);
         }
 
         private void InitTiles(HexCoordinate[] coors)
         {
+            HashSet<int> idxsBan = new HashSet<int>();
+            if (ServerManager.Instance.IsSingle)
+            {
+                while (idxsBan.Count <= cntTileBan)
+                {
+                    idxsBan.Add(Random.Range(0, coors.Length));
+
+                }
+            }
+
             int[] convertedCoor;
             Vector3 worldCoor;
-            foreach (HexCoordinate coor in coors)
+            HexCoordinate coor;
+            for (int i = 0; i < coors.Length; i++)
             {
+                coor = coors[i];
                 convertedCoor = ConvertCoordinate(coor);
                 worldCoor = ConvetCoordinateToWorldPosition(coor);
-                map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
+                if (ServerManager.Instance.IsSingle && idxsBan.Contains(i))
+                {
+                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Neutral);
+                }
+                else
+                {
+                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
+                }
                 map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
                 coor.Reverse();
