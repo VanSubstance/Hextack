@@ -18,7 +18,7 @@ namespace Assets.Scripts.Map
             z = _z;
         }
 
-        public HexCoordinate Clone()
+        public virtual HexCoordinate Clone()
         {
             return Instantiate(this);
         }

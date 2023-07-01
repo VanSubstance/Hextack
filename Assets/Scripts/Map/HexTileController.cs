@@ -32,13 +32,13 @@ namespace Assets.Scripts.Map
                         meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
                         break;
                     case TileType.Neutral:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialRed };
+                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
                         break;
                     case TileType.Ally:
                         meshRenderer.materials = new Material[] { MapManager.MaterialWhite };
                         break;
                     case TileType.Enemy:
-                        meshRenderer.materials = new Material[] { MapManager.MaterialBlack };
+                        meshRenderer.materials = new Material[] { MapManager.MaterialGrey };
                         break;
                 }
             }
