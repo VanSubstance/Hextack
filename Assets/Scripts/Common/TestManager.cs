@@ -10,11 +10,11 @@ namespace Assets.Scripts.Common
 
         private void Awake()
         {
-            GlobalStatus.deck = new UnitInfo[testDeck.Length];
+            GlobalStatus.Deck = new UnitInfo[testDeck.Length];
             for (int i = 0; i < testDeck.Length; i++)
             {
                 if (testDeck[i] == null) continue;
-                GlobalStatus.deck[i] = Instantiate(testDeck[i]);
+                GlobalStatus.Deck[i] = Instantiate(testDeck[i]);
             }
         }
     }

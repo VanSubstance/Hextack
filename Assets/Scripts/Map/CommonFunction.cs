@@ -28,7 +28,7 @@ namespace Assets.Scripts.Map
         /// <returns></returns>
         public static int[] ConvertCoordinate(HexCoordinate hexCoor)
         {
-            return new int[] { hexCoor.x + ServerManager.Instance.Radius, hexCoor.y + ServerManager.Instance.Radius };
+            return new int[] { hexCoor.x + GlobalStatus.Radius, hexCoor.y + GlobalStatus.Radius };
         }
     }
 }

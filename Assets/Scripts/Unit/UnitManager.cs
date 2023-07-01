@@ -11,8 +11,9 @@ namespace Assets.Scripts.Unit
 {
     public class UnitManager : SingletonObject<UnitManager>
     {
+        [SerializeField]
+        private UnitController prefab;
         private Transform enemyTf, allyTf;
-        private UnitController[][] units;
 
         private new void Awake()
         {
@@ -21,12 +22,20 @@ namespace Assets.Scripts.Unit
             enemyTf = transform.GetChild(1);
         }
 
+        /// <summary>
+        /// 1 : 1
+        /// 2 : 1 + 6
+        /// 3 : 1 + 6 + 12
+        /// </summary>
+
         public void Init()
         {
-            units = new UnitController[ServerManager.Instance.Radius * 2 + 1][];
-            for (int i = 0; i <= ServerManager.Instance.Radius * 2; i++)
+            GlobalDictionary.Prefab.Unit.Prefab = prefab;
+            GlobalStatus.UnitPool = new Queue<UnitController>();
+            GlobalStatus.Units = new UnitController[GlobalStatus.Radius * 2 + 1][];
+            for (int i = 0; i <= GlobalStatus.Radius * 2; i++)
             {
-                units[i] = new UnitController[ServerManager.Instance.Radius * 2 + 1];
+                GlobalStatus.Units[i] = new UnitController[GlobalStatus.Radius * 2 + 1];
             }
         }
 
@@ -54,8 +63,8 @@ namespace Assets.Scripts.Unit
             Vector3 worldCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);
             worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(t);
-            units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.data[info.title], isEnemy ? enemyTf : allyTf).Init(t, isEnemy);
-            units[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, isEnemy ? enemyTf : allyTf).Init(t, isEnemy);
+            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
         }
     }
 }

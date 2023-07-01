@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.Choice
             foreach (ChoiceController choice in choices)
             {
                 UnitInfo cur;
-                while ((cur = GlobalStatus.deck[Random.Range(0, 6)]) == null)
+                while ((cur = GlobalStatus.Deck[Random.Range(0, 6)]) == null)
                 {
                 }
                 choice.Init(cur);

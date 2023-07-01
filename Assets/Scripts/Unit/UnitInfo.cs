@@ -21,5 +21,9 @@ namespace Assets.Scripts.Unit
         {
             return Instantiate(this);
         }
+        public UnitLiveInfo GetLiveInfo()
+        {
+            return Instantiate<UnitLiveInfo>(new() { title = Code });
+        }
     }
 }

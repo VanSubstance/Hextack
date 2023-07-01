@@ -8,15 +8,23 @@ namespace Assets.Scripts.Unit
         private UnitLiveInfo info;
         private bool isEnemy;
         private MeshRenderer meshRenderer;
+        private MeshFilter meshFilter;
+        private MeshCollider meshCollider;
 
         private void Awake()
         {
+            gameObject.SetActive(false);
             meshRenderer = GetComponent<MeshRenderer>();
+            meshFilter = GetComponent<MeshFilter>();
+            meshCollider = GetComponent<MeshCollider>();
         }
 
         public UnitController Init(UnitLiveInfo _info, bool _isEnemy)
         {
             info = _info.Clone();
+            meshFilter.mesh = GlobalDictionary.Mesh.data[_info.title];
+            meshCollider.sharedMesh = meshFilter.mesh;
+            meshCollider.convex = true;
             isEnemy = _isEnemy;
             if (isEnemy)
             {
@@ -26,6 +34,7 @@ namespace Assets.Scripts.Unit
             {
                 meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["White"] };
             }
+            gameObject.SetActive(true);
             return this;
         }
     }

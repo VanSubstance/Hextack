@@ -11,8 +11,6 @@ namespace Assets.Scripts.Map
     {
         [SerializeField]
         private HexTileController tilePrefab;
-
-        private HexTileController[][] map;
         private Transform mapTf;
 
         private new void Awake()
@@ -28,10 +26,10 @@ namespace Assets.Scripts.Map
         /// <param name="coors">배치 가능 타일 좌표들</param>
         public void Init(HexCoordinate[] coors)
         {
-            map = new HexTileController[ServerManager.Instance.Radius * 2 + 1][];
-            for (int i = 0; i <= ServerManager.Instance.Radius * 2; i++)
+            GlobalStatus.Map = new HexTileController[GlobalStatus.Radius * 2 + 1][];
+            for (int i = 0; i <= GlobalStatus.Radius * 2; i++)
             {
-                map[i] = new HexTileController[ServerManager.Instance.Radius * 2 + 1];
+                GlobalStatus.Map[i] = new HexTileController[GlobalStatus.Radius * 2 + 1];
             }
             InitField(coors);
         }
@@ -43,8 +41,8 @@ namespace Assets.Scripts.Map
             HexCoordinate centre = new(0, 0, 0);
             convertedCoor = CommonFunction.ConvertCoordinate(centre);
             worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(centre);
-            map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Neutral);
-            map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(centre, HexTileController.TileType.Neutral);
+            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
             InitTiles(coors);
         }
@@ -52,9 +50,9 @@ namespace Assets.Scripts.Map
         private void InitTiles(HexCoordinate[] coors)
         {
             HashSet<int> idxsBan = new HashSet<int>();
-            if (ServerManager.Instance.IsSingle)
+            if (GlobalStatus.IsSingle)
             {
-                while (idxsBan.Count < ServerManager.Instance.CntTileBan)
+                while (idxsBan.Count < GlobalStatus.CntTileBan)
                 {
                     idxsBan.Add(Random.Range(0, coors.Length));
 
@@ -69,21 +67,21 @@ namespace Assets.Scripts.Map
                 coor = coors[i];
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
                 worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(coor);
-                if (ServerManager.Instance.IsSingle && idxsBan.Contains(i))
+                if (GlobalStatus.IsSingle && idxsBan.Contains(i))
                 {
-                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Neutral);
+                    GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Neutral);
                 }
                 else
                 {
-                    map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
+                    GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Ally);
                 }
-                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
                 coor.Reverse();
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
                 worldCoor = CommonFunction.ConvetCoordinateToWorldPosition(coor);
-                map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Enemy);
-                map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, mapTf).Init(coor, HexTileController.TileType.Enemy);
+                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             }
         }
     }

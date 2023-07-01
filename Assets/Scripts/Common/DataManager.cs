@@ -14,6 +14,7 @@ namespace Assets.Scripts.Common
             LoadUnits();
             LoadMaterials();
             LoadTextures();
+            LoadMeshs();
         }
 
         /// <summary>
@@ -35,6 +36,17 @@ namespace Assets.Scripts.Common
             foreach (Material unit in Resources.LoadAll<Material>($"{GlobalDictionary.Materials.rootPath}"))
             {
                 GlobalDictionary.Materials.data[unit.name] = unit;
+            }
+        }
+
+        /// <summary>
+        /// 메쉬 로드 함수
+        /// </summary>
+        public void LoadMeshs()
+        {
+            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.rootPath}"))
+            {
+                GlobalDictionary.Mesh.data[unit.name] = unit;
             }
         }
 

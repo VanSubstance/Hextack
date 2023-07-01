@@ -11,50 +11,8 @@ namespace Assets.Scripts.Server
     {
         [SerializeField]
         private MapInfo mapInfo;
-        public MapInfo MapInfo
-        {
-            get
-            {
-                return mapInfo;
-            }
-        }
         [SerializeField]
         private bool isSingle;
-        public bool IsSingle
-        {
-            get
-            {
-                return isSingle;
-            }
-        }
-        public int Radius
-        {
-            get
-            {
-                return mapInfo.radius;
-            }
-        }
-        public int CntTileBan
-        {
-            get
-            {
-                return mapInfo.cntTileBan;
-            }
-        }
-        public int CntUnitBan
-        {
-            get
-            {
-                return mapInfo.cntUnitBan;
-            }
-        }
-        public int CntUnit
-        {
-            get
-            {
-                return mapInfo.cntUnit;
-            }
-        }
         public HexCoordinate[] tilesInfo;
         public UnitLiveInfo[][] monstersInfo;
         private int curRound;
@@ -63,6 +21,8 @@ namespace Assets.Scripts.Server
         {
             base.Awake();
             DontDestroyOnLoad(transform);
+            GlobalStatus.MapInfo = mapInfo;
+            GlobalStatus.IsSingle = isSingle;
             string basePath = $"Datas/Maps/{mapInfo.radius}/{mapInfo.mapTitle}";
             tilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
             monstersInfo = new UnitLiveInfo[mapInfo.rounds][];
@@ -79,7 +39,7 @@ namespace Assets.Scripts.Server
             MapManager.Instance.Init(tilesInfo);
             // 유닛 메니저 초기화
             UnitManager.Instance.Init();
-            
+
             // 1라운드 강제 시작
             InitUnits(curRound - 1);
         }

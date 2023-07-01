@@ -16,7 +16,8 @@ public static class GlobalDictionary
         public static string rootPath = $"Prefabs";
         public static class Unit
         {
-            public static string rootPath = $"{Prefab.rootPath}/Unit";
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Unit";
+            public static UnitController Prefab;
             public static Dictionary<string, UnitController> data = new Dictionary<string, UnitController>();
         }
     }
@@ -28,6 +29,15 @@ public static class GlobalDictionary
     {
         public static string rootPath = $"Materials";
         public static Dictionary<string, Material> data = new Dictionary<string, Material>();
+    }
+
+    /// <summary>
+    /// 메쉬
+    /// </summary>
+    public static class Mesh
+    {
+        public static string rootPath = $"Meshs";
+        public static Dictionary<string, UnityEngine.Mesh> data = new Dictionary<string, UnityEngine.Mesh>();
     }
 
     /// <summary>
