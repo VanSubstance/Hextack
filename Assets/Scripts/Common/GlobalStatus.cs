@@ -3,7 +3,6 @@ using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
 using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// 현재 인게임에서 사용중인 데이터 관리 클래스
@@ -72,7 +71,7 @@ public static class GlobalStatus
         /// <summary>
         /// 투사체 속도
         /// </summary>
-        public static float SpdProjectile = 5f;
+        public static float SpdProjectile = 7f;
     }
 
     /// <summary>

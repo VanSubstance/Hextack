@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Map;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
@@ -60,6 +61,46 @@ namespace Assets.Scripts.Unit
                 res = Instantiate(prefab, transform);
             }
             return res;
+        }
+
+        /// <summary>
+        /// 전투가 종료되었는지 확인하는 함수
+        /// </summary>
+        /// <returns>0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부</returns>
+        public int GetCurrentBattleStatus()
+        {
+            int cntAlly = 0, cntEnemy = 0;
+            GlobalStatus.UnitsActive.All((unit) =>
+            {
+                if (unit.gameObject.activeSelf)
+                {
+                    if (unit.IsEnemy)
+                    {
+                        cntEnemy++;
+                    }
+                    else
+                    {
+                        cntAlly++;
+                    }
+                }
+                return true;
+            });
+            if (cntEnemy == 0)
+            {
+                if (cntAlly == 0)
+                {
+                    // 무승부
+                    return 3;
+                }
+                return 1;
+            }
+            if (cntAlly == 0)
+            {
+                return 2;
+            }
+
+            // 양쪽 다 1기 이상의 기물이 남아있음
+            return 0;
         }
     }
 }

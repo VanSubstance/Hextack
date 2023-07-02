@@ -96,6 +96,9 @@ namespace Assets.Scripts.Server
                 () =>
                 {
                     return false;
+                }, () =>
+                {
+
                 },
                 1f
                 ));
@@ -148,13 +151,21 @@ namespace Assets.Scripts.Server
             }, .5f));
         }
 
-        private IEnumerator CoroutineExecuteActionInRepeat(System.Action actionRepeat, System.Func<bool> actionEscape, float time)
+        /// <summary>
+        /// 반복 실행 코루틴
+        /// </summary>
+        /// <param name="actionRepeat"></param>
+        /// <param name="actionCondition">true 반환 시 코루틴 강제 종료</param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        private IEnumerator CoroutineExecuteActionInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
         {
             while (true)
             {
                 yield return new WaitForSeconds(time);
-                if (actionEscape?.Invoke() == true)
+                if (actionCondition?.Invoke() == true)
                 {
+                    actionEscape?.Invoke();
                     yield break;
                 }
                 actionRepeat?.Invoke();
@@ -172,11 +183,21 @@ namespace Assets.Scripts.Server
         /// </summary>
         private void InitStageBattle()
         {
+            // 모든 기물 전투 상채로 돌입
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
                 unitCtrl.InitBattle();
                 return true;
             });
+            // 전투 상태 체크 함수 실행
+            StartCoroutine(CoroutineExecuteActionInRepeat(null, () =>
+            {
+                return UnitManager.Instance.GetCurrentBattleStatus() != 0;
+            }, () =>
+            {
+                // 전투 종료 시 호출되는 함수
+                Debug.Log($"전투 종료!!");
+            }, 1f));
         }
     }
 }

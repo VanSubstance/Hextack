@@ -23,7 +23,7 @@ namespace Assets.Scripts.Battle
             }
         }
         private System.Action actionEnd;
-        private Vector3 endPos;
+        private Vector3 endPos, startPos;
 
         private void Awake()
         {
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Battle
         /// </summary>
         private void FixedUpdate()
         {
-            if ((transform.position - endPos).magnitude < .05f)
+            if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)
             {
                 // 도착으로 본다
                 actionEnd?.Invoke();
@@ -53,9 +53,10 @@ namespace Assets.Scripts.Battle
         /// <param name="startPos">시작 좌표 (절대)</param>
         /// <param name="endPos">종료 좌표 (절대)</param>
         /// <returns></returns>
-        public ProjectileController Init(Color _color, Vector3 startPos, Vector3 _endPos, System.Action _actionEnd)
+        public ProjectileController Init(Color _color, Vector3 _startPos, Vector3 _endPos, System.Action _actionEnd)
         {
             color = _color;
+            startPos = _startPos;
             endPos = _endPos;
             actionEnd = _actionEnd;
             transform.position = startPos;
