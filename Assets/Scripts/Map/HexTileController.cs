@@ -163,7 +163,7 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void OnMouseDown()
         {
-            if (unitAttached != null)
+            if (unitAttached != null && unitAttached.IsLive)
             {
                 ActivateRange();
             }

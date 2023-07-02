@@ -178,6 +178,13 @@ namespace Assets.Scripts.Server
             }
         }
 
+
+        /// <summary>
+        /// 일정 시간 지연 지정된 함수 실행 코루틴
+        /// </summary>
+        /// <param name="actionAfter"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
         private IEnumerator CoroutineExecuteAfterWait(System.Action actionAfter, float time)
         {
             yield return new WaitForSeconds(time);
@@ -196,9 +203,15 @@ namespace Assets.Scripts.Server
                 return true;
             });
             // 전투 상태 체크 함수 실행
-            StartCoroutine(CoroutineExecuteActionInRepeat(null, () =>
+            GlobalStatus.InGame.BattleStatus = 0;
+            UIManager.Instance.CurTimer = 60;
+            StartCoroutine(CoroutineExecuteActionInRepeat(() =>
             {
-                return UnitManager.Instance.GetCurrentBattleStatus() != 0;
+                GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
+                UIManager.Instance.PassSecond();
+            }, () =>
+            {
+                return GlobalStatus.InGame.BattleStatus != 0;
             }, () =>
             {
                 // 전투 종료 시 호출되는 함수

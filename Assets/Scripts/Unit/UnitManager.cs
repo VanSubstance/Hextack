@@ -66,14 +66,19 @@ namespace Assets.Scripts.Unit
         /// <summary>
         /// 전투가 종료되었는지 확인하는 함수
         /// </summary>
-        /// <returns>0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부</returns>
+        /// <returns>0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부;</returns>
         public int GetCurrentBattleStatus()
         {
             int cntAlly = 0, cntEnemy = 0;
+            bool isAllNoTarget = true;
             GlobalStatus.UnitsActive.All((unit) =>
             {
                 if (unit.IsLive)
                 {
+                    if (isAllNoTarget && unit.BattleController.CurTarget != null)
+                    {
+                        isAllNoTarget = false;
+                    }
                     if (unit.IsEnemy)
                     {
                         cntEnemy++;
@@ -90,16 +95,25 @@ namespace Assets.Scripts.Unit
                 if (cntAlly == 0)
                 {
                     // 무승부
+                    Debug.Log("무승부");
                     return 3;
                 }
+                Debug.Log("승리");
                 return 1;
             }
             if (cntAlly == 0)
             {
+                Debug.Log("패배");
                 return 2;
             }
-
+            if (isAllNoTarget)
+            {
+                // 무승부
+                Debug.Log("무승부");
+                return 3;
+            }
             // 양쪽 다 1기 이상의 기물이 남아있음
+            Debug.Log("전투중");
             return 0;
         }
     }

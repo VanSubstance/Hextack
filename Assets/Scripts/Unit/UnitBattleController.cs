@@ -28,7 +28,7 @@ namespace Assets.Scripts.Unit
         /// 근처 적들 좌표 (배열 기준)
         /// </summary>
         private List<int[]> enemiesNear;
-        public UnitController curTarget;
+        public UnitController CurTarget;
 
         /// <summary>
         /// 강제 공격 타겟
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void DecideTarget()
         {
-            curTarget = null;
+            CurTarget = null;
             while (forceTarget.Count > 0)
             {
                 HexCoordinate temp = forceTarget.Peek();
@@ -182,7 +182,7 @@ namespace Assets.Scripts.Unit
         /// <param name="y"></param>
         private void ExecuteAttack(int x, int y)
         {
-            curTarget = GlobalStatus.Units[x][y];
+            CurTarget = GlobalStatus.Units[x][y];
             ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
             {
                 try

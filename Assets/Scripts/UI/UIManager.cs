@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.UI.Choice;
-using UnityEngine;
+﻿using Assets.Scripts.Server;
+using Assets.Scripts.UI.Choice;
 using TMPro;
-using Assets.Scripts.Server;
+using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
@@ -10,7 +10,8 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private ChoiceManager choiceManager;
         [SerializeField]
-        private TextMeshProUGUI textCount;
+        private TextMeshProUGUI textCount, textTimer;
+        private int curTimer;
         /// <summary>
         /// 가운데 텍스트 변경 setter
         /// </summary>
@@ -21,12 +22,44 @@ namespace Assets.Scripts.UI
                 textCount.text = value;
             }
         }
+        /// <summary>
+        /// 가운데 텍스트 변경 setter
+        /// </summary>
+        public string TextTimer
+        {
+            set
+            {
+                textTimer.text = value;
+            }
+        }
+
+        public int CurTimer
+        {
+            get
+            {
+                return curTimer;
+            }
+            set
+            {
+                curTimer = value;
+                textTimer.text = $"{value}";
+            }
+        }
         private new void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
             TextCount = "";
+            TextTimer = "";
+        }
+
+        /// <summary>
+        /// 타이머 1초 진행
+        /// </summary>
+        public void PassSecond()
+        {
+            CurTimer = curTimer - 1;
         }
 
         /// <summary>

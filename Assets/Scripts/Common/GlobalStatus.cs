@@ -72,6 +72,7 @@ public static class GlobalStatus
         /// 투사체 속도
         /// </summary>
         public static float SpdProjectile = 7f;
+        public static int BattleStatus = 0;
     }
 
     /// <summary>
