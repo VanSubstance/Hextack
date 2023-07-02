@@ -134,6 +134,12 @@ namespace Assets.Scripts.Server
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
                     UIManager.Instance.TextCount = "2";
+                    // 사전 효과 선 실행
+                    GlobalStatus.UnitsActive.All((unitCtrl) =>
+                    {
+                        unitCtrl.InitBattle();
+                        return true;
+                    });
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         UIManager.Instance.TextCount = "1";
@@ -183,10 +189,10 @@ namespace Assets.Scripts.Server
         /// </summary>
         private void InitStageBattle()
         {
-            // 모든 기물 전투 상채로 돌입
+            // 모든 기물 전투 상태로 돌입
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
-                unitCtrl.InitBattle();
+                unitCtrl.EnableBattle();
                 return true;
             });
             // 전투 상태 체크 함수 실행

@@ -146,7 +146,7 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 전투 활성화 함수
+        /// 전투 초기화 함수: 사전 효과 선 적용
         /// </summary>
         public void InitBattle()
         {
@@ -154,6 +154,14 @@ namespace Assets.Scripts.Unit
             {
                 Clear();
             });
+        }
+
+        /// <summary>
+        /// 전투 활성화 함수
+        /// </summary>
+        public void EnableBattle()
+        {
+            BattleController.Enable();
         }
 
         private void OnMouseDown()

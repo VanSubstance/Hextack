@@ -73,7 +73,7 @@ namespace Assets.Scripts.Map
                     (purpose == 2 && finder != null && !finder.IsEnemy)
                     )
                 {
-                    if (finder != null && !finder.gameObject.activeSelf)
+                    if (finder != null && !finder.IsLive)
                     {
                         return;
                     }

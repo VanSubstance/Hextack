@@ -72,7 +72,7 @@ namespace Assets.Scripts.Unit
             int cntAlly = 0, cntEnemy = 0;
             GlobalStatus.UnitsActive.All((unit) =>
             {
-                if (unit.gameObject.activeSelf)
+                if (unit.IsLive)
                 {
                     if (unit.IsEnemy)
                     {
