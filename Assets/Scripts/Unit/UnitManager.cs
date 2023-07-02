@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Map;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,6 @@ namespace Assets.Scripts.Unit
     {
         [SerializeField]
         private UnitController prefab;
-
-        private new void Awake()
-        {
-            base.Awake();
-        }
 
         public void Init()
         {
@@ -24,6 +20,8 @@ namespace Assets.Scripts.Unit
             {
                 GlobalStatus.Units[i] = new UnitController[GlobalStatus.Radius * 2 + 1];
             }
+            // 유닛 풀 10개 사전 생성
+            GlobalStatus.UnitPool.Enqueue(Instantiate(prefab, transform));
         }
 
         /// <summary>
@@ -48,8 +46,20 @@ namespace Assets.Scripts.Unit
             t.z = 1;
             int[] convertedCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);
-            GlobalStatus.UnitsActive.Add(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, transform).Init(t, isEnemy));
-            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]]);
+            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GetNewUnit().Init(t, isEnemy));
+        }
+
+        /// <summary>
+        /// 유닛 오브젝트 반환 함수
+        /// </summary>
+        public UnitController GetNewUnit()
+        {
+            UnitController res;
+            if ((res = GlobalStatus.GetUnit()) == null)
+            {
+                res = Instantiate(prefab, transform);
+            }
+            return res;
         }
     }
 }

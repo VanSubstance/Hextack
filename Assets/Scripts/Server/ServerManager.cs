@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Map;
+using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
 using System.Collections;
-using Assets.Scripts.UI;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Server
 {
@@ -44,6 +45,7 @@ namespace Assets.Scripts.Server
         {
             base.Awake();
             DontDestroyOnLoad(transform);
+            Application.targetFrameRate = 1000;
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
             NextStage = IngameStageType.Prepare;
@@ -61,8 +63,10 @@ namespace Assets.Scripts.Server
         {
             // 타일맵 생성
             MapManager.Instance.Init(tilesInfo);
-            // 유닛 메니저 초기화
+            // 유닛 내니저 초기화
             UnitManager.Instance.Init();
+            // 투사체 매니저 초기화
+            ProjectileManager.Instance.Init();
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -168,7 +172,6 @@ namespace Assets.Scripts.Server
         /// </summary>
         private void InitStageBattle()
         {
-            Debug.Log("전투 시작");
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
                 unitCtrl.InitBattle();

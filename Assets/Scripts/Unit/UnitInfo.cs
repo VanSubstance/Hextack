@@ -11,7 +11,6 @@ namespace Assets.Scripts.Unit
         public int Hp, Damage, Range;
         public float Spd;
         public bool IsAttackable;
-        public Direction[] Bounds;
         public UnitInfo Clone()
         {
             return Instantiate(this);

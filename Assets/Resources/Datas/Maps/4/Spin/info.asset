@@ -18,4 +18,4 @@ MonoBehaviour:
   rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
-  cntUnit: 3
+  cntUnit: 2

@@ -39,7 +39,7 @@ namespace Assets.Scripts.UI
 
         public void FinishChoice()
         {
-            if (++GlobalStatus.CntInstalled == 3)
+            if (++GlobalStatus.CntInstalled == GlobalStatus.CntUnit)
             {
                 // 선택 종료 -> .5초 후 전투 시작
                 ServerManager.Instance.FinishStagePlace();

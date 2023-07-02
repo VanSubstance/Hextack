@@ -13,7 +13,7 @@ namespace Assets.Scripts.Unit
                 return liveInfo.Range;
             }
         }
-        private bool isEnemy;
+        public bool IsEnemy;
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
         private MeshCollider meshCollider;
@@ -65,6 +65,7 @@ namespace Assets.Scripts.Unit
             UseGravity = false;
             particle = transform.GetChild(0).GetComponent<ParticleSystem>();
             battleController = GetComponent<UnitBattleController>();
+            gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Assets.Scripts.Unit
             meshFilter.mesh = GlobalDictionary.Mesh.data[_info.Title];
             meshCollider.sharedMesh = meshFilter.mesh;
             meshCollider.convex = true;
-            isEnemy = _isEnemy;
+            IsEnemy = _isEnemy;
             TargetMaterial = "Fade";
             meshRenderer.materials = new Material[] { };
             gameObject.SetActive(true);
@@ -106,7 +107,8 @@ namespace Assets.Scripts.Unit
         /// <returns></returns>
         public UnitController Connect(HexTileController _tileInstalled)
         {
-            if (isEnemy)
+            GlobalStatus.UnitsActive.Add(this);
+            if (IsEnemy)
             {
                 TargetMaterial = "Red";
             }
@@ -127,6 +129,7 @@ namespace Assets.Scripts.Unit
         /// <returns></returns>
         public UnitController Disconnect()
         {
+            GlobalStatus.UnitsActive.Remove(this);
             tileInstalled = null;
             return this;
         }
@@ -147,7 +150,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         public void InitBattle()
         {
-            battleController.Init(liveInfo, tileInstalled.HexCoor, isEnemy, () =>
+            battleController.Init(liveInfo, tileInstalled.HexCoor, IsEnemy, () =>
             {
                 Clear();
             });

@@ -1,12 +1,9 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
@@ -31,6 +28,7 @@ namespace Assets.Scripts.Unit
         /// 근처 적들 좌표 (배열 기준)
         /// </summary>
         private List<int[]> enemiesNear;
+        public UnitController curTarget;
 
         /// <summary>
         /// 강제 공격 타겟
@@ -148,7 +146,10 @@ namespace Assets.Scripts.Unit
             }
             // 사거리 안에 있는 가장 가까운 적 식별
             enemiesNear = CommonFunction.SeekCoorsInRange(coor.x, coor.y, coor.z, info.Range, isEnemy ? 2 : 1, true);
-            ExecuteAttack(enemiesNear[0][0], enemiesNear[0][1]);
+            if (enemiesNear.Count != 0)
+            {
+                ExecuteAttack(enemiesNear[0][0], enemiesNear[0][1]);
+            }
         }
 
         /// <summary>
@@ -158,7 +159,11 @@ namespace Assets.Scripts.Unit
         /// <param name="y"></param>
         private void ExecuteAttack(int x, int y)
         {
-
+            curTarget = GlobalStatus.Units[x][y];
+            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            {
+                Debug.Log("도달");
+            });
         }
 
         /// <summary>
