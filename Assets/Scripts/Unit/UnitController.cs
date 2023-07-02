@@ -42,7 +42,7 @@ namespace Assets.Scripts.Unit
         /// <summary>
         /// 실제 전투를 관리하는 컨트롤러
         /// </summary>
-        private UnitBattleController battleController;
+        public UnitBattleController BattleController;
 
         /// <summary>
         /// 생존 확인
@@ -64,7 +64,7 @@ namespace Assets.Scripts.Unit
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
             particle = transform.GetChild(0).GetComponent<ParticleSystem>();
-            battleController = GetComponent<UnitBattleController>();
+            BattleController = GetComponent<UnitBattleController>();
             gameObject.SetActive(false);
         }
 
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         public void InitBattle()
         {
-            battleController.Init(liveInfo, tileInstalled.HexCoor, IsEnemy, () =>
+            BattleController.Init(liveInfo, tileInstalled.HexCoor, IsEnemy, () =>
             {
                 Clear();
             });

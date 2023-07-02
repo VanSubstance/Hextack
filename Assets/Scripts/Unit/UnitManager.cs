@@ -50,7 +50,7 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 유닛 오브젝트 반환 함수
+        /// 유닛 오브젝트 생성 함수
         /// </summary>
         public UnitController GetNewUnit()
         {

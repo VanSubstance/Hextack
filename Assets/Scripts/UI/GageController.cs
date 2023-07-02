@@ -15,7 +15,7 @@ namespace Assets.Scripts.UI
 
         private Slider gage;
         private float maxValue, curValue;
-        private Action callbackWhenDone;
+        private Action callbackWhenZero;
         /// <summary>
         /// 값 조정
         /// </summary>
@@ -39,17 +39,19 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// 초기화 함수
+        /// HP 게이지용 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenDone = null)
+        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null)
         {
+            fill.color = Color.red;
+            background.color = Color.black;
             int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
             GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(GlobalStatus.Map[cvc[0]][cvc[1]].transform.position) + (Vector3.up * 25);
             maxValue = _maxValue;
             curValue = _maxValue;
-            Value = maxValue / curValue;
-            callbackWhenDone = _callbackWhenDone;
+            Value = curValue / maxValue;
+            callbackWhenZero = _callbackWhenZero;
             gameObject.SetActive(true);
             return this;
         }
@@ -61,10 +63,10 @@ namespace Assets.Scripts.UI
         public void ApplyValue(float amount)
         {
             curValue = Mathf.Min(maxValue, amount + curValue);
-            Value = maxValue / curValue;
+            Value = curValue / maxValue;
             if (Value <= 0)
             {
-                callbackWhenDone?.Invoke();
+                callbackWhenZero?.Invoke();
                 gameObject.SetActive(false);
                 GlobalStatus.HpGagePool.Enqueue(this);
             }

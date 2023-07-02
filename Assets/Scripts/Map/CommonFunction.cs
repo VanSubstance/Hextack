@@ -46,6 +46,7 @@ namespace Assets.Scripts.Map
 
         /// <summary>
         /// Hex 기준 좌표 -> range 이내의 Array 기준 배열 좌표들 변환 함수
+        /// purpose가 0 초과 : Disable 된 객체는 무시
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -72,6 +73,10 @@ namespace Assets.Scripts.Map
                     (purpose == 2 && finder != null && !finder.IsEnemy)
                     )
                 {
+                    if (finder != null && !finder.gameObject.activeSelf)
+                    {
+                        return;
+                    }
                     res.Add(new int[] { cx, cy });
                 }
             }

@@ -129,6 +129,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void DecideTarget()
         {
+            curTarget = null;
             while (forceTarget.Count > 0)
             {
                 HexCoordinate temp = forceTarget.Peek();
@@ -162,7 +163,7 @@ namespace Assets.Scripts.Unit
             curTarget = GlobalStatus.Units[x][y];
             ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
             {
-                Debug.Log("도달");
+                GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage);
             });
         }
 
@@ -172,6 +173,11 @@ namespace Assets.Scripts.Unit
         public void ApplyEffect()
         {
 
+        }
+
+        public void ApplyHp(int amountToApply)
+        {
+            hpGage.ApplyValue(amountToApply);
         }
     }
 }
