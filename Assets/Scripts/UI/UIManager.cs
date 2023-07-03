@@ -2,6 +2,7 @@
 using Assets.Scripts.UI.Choice;
 using TMPro;
 using UnityEngine;
+using Assets.Scripts.UI.Text;
 
 namespace Assets.Scripts.UI
 {
@@ -9,6 +10,10 @@ namespace Assets.Scripts.UI
     {
         [SerializeField]
         private ChoiceManager choiceManager;
+        [SerializeField]
+        private UI.Text.TextController textController;
+        [SerializeField]
+        private Transform textHitParent;
         [SerializeField]
         private TextMeshProUGUI textCenter, textTimer;
         private int curTimer;
@@ -52,6 +57,12 @@ namespace Assets.Scripts.UI
             choiceManager = Instantiate(choiceManager, transform);
             TextCenter = "";
             TextTimer = "";
+
+            // 텍스트 풀 100개 사전 생성
+            for (int i = 0; i < 100; i++)
+            {
+                GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
+            }
         }
 
         /// <summary>
@@ -80,6 +91,19 @@ namespace Assets.Scripts.UI
                 return;
             }
             choiceManager.PickRandom();
+        }
+
+        /// <summary>
+        /// 텍스트 오브젝트 생성 함수
+        /// </summary>
+        public UI.Text.TextController GetNewText()
+        {
+            UI.Text.TextController res;
+            if ((res = GlobalStatus.GetTextController()) == null)
+            {
+                res = Instantiate(textController, transform);
+            }
+            return res;
         }
     }
 }

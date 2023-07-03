@@ -2,6 +2,7 @@
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
+using Assets.Scripts.UI.Text;
 using System.Collections.Generic;
 
 /// <summary>
@@ -107,6 +108,11 @@ public static class GlobalStatus
     public static Queue<ProjectileController> ProjectilePool = new Queue<ProjectileController>();
 
     /// <summary>
+    /// 텍스트 풀
+    /// </summary>
+    public static Queue<TextController> textPoll = new Queue<TextController>();
+
+    /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
     /// </summary>
     /// <returns></returns>
@@ -138,6 +144,18 @@ public static class GlobalStatus
     {
         if (HpGagePool.Count > 0)
             return HpGagePool.Dequeue();
+        else
+            return null;
+    }
+
+    /// <summary>
+    /// 텍스트가 풀에 존재 -> 꺼내줌
+    /// </summary>
+    /// <returns></returns>
+    public static TextController GetTextController()
+    {
+        if (textPoll.Count > 0)
+            return textPoll.Dequeue();
         else
             return null;
     }
