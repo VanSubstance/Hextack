@@ -26,6 +26,7 @@ namespace Assets.Scripts.UI.Window
             image.sprite = GlobalDictionary.Texture.Unit.data[_info.Code];
             textTitle.text = _info.Title;
             textDesc.text = _info.Desc;
+            textDesc.text = $"{_info.Lv}";
             gameObject.SetActive(true);
         }
 

@@ -70,10 +70,8 @@ namespace Assets.Scripts.Unit
                 timeAtk = 1f / info.Spd;
             }
             // 체력 게이지 연결
-            if ((hpGage = GlobalStatus.GetHpGageController()) == null)
-            {
-                hpGage = Instantiate(GlobalDictionary.Prefab.UI.data["Gage"], UIManager.Instance.transform).GetComponent<GageController>();
-            }
+            Debug.Log("체력 게이지 연결");
+            hpGage = UIManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, hexCoor, () =>
             {
                 enabled = false;

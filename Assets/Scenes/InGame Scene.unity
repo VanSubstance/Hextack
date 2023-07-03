@@ -367,6 +367,8 @@ MonoBehaviour:
   textTimer: {fileID: 1260765528}
   infoController: {fileID: -4063776571761123243, guid: 4068253fd45a85b45a270d380e369682,
     type: 3}
+  gageController: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+    type: 3}
 --- !u!1 &206906813
 GameObject:
   m_ObjectHideFlags: 0
