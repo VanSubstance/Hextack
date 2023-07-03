@@ -4,6 +4,7 @@ using Assets.Scripts.UI.Window;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
+using static GlobalDictionary;
 
 namespace Assets.Scripts.UI
 {
@@ -19,6 +20,8 @@ namespace Assets.Scripts.UI
         private TextMeshProUGUI textCenter, textTimer;
         [SerializeField]
         private InfoController infoController;
+        [SerializeField]
+        private GageController gageController;
         private int curTimer;
         /// <summary>
         /// 가운데 텍스트 변경 setter
@@ -76,6 +79,10 @@ namespace Assets.Scripts.UI
             // 텍스트 풀 100개 사전 생성
             for (int i = 0; i < 100; i++)
             {
+                if (1 < 10)
+                {
+                    GlobalStatus.HpGagePool.Enqueue(Instantiate(gageController, transform));
+                }
                 GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
             }
             IsRayCastable = false;
@@ -118,6 +125,19 @@ namespace Assets.Scripts.UI
             if ((res = GlobalStatus.GetTextController()) == null)
             {
                 res = Instantiate(textController, transform);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 게이지 오브젝트 생성 함수
+        /// </summary>
+        public GageController GetNewGage()
+        {
+            GageController res;
+            if ((res = GlobalStatus.GetHpGageController()) == null)
+            {
+                res = Instantiate(gageController, transform);
             }
             return res;
         }

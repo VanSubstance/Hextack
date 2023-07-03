@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Map;
+﻿using Assets.Scripts.Map;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

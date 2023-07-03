@@ -246,18 +246,18 @@ namespace Assets.Scripts.Server
                             UIManager.Instance.TextCenter = "무승부";
                             break;
                     }
-                    GlobalStatus.InGame.Round++;
-                    // 필드 전부 리셋
-                    GlobalStatus.UnitsActive.All((unitCtrl) =>
-                    {
-                        // 리셋
-                        unitCtrl.ReInit();
-                        return true;
-                    });
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
+                        GlobalStatus.InGame.Round++;
+                        // 필드 전부 리셋
+                        GlobalStatus.UnitsActive.All((unitCtrl) =>
+                        {
+                            // 리셋
+                            unitCtrl.ReInit();
+                            return true;
+                        });
                         NextStage = IngameStageType.Prepare;
-                    }, 1.5f));
+                    }, 1f));
                 }, 1.5f));
             }, 0f));
         }

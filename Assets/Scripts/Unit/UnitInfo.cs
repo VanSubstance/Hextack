@@ -22,14 +22,14 @@ namespace Assets.Scripts.Unit
         {
             get
             {
-                return (int)(hp * Mathf.Pow(1.3f, Lv - 1));
+                return (int)(hp * Mathf.Pow(1.6f, Lv - 1));
             }
         }
         public int Damage
         {
             get
             {
-                return (int)(damage * Mathf.Pow(1.3f, Lv - 1));
+                return (int)(damage * Mathf.Pow(1.6f, Lv - 1));
             }
         }
         public int Range

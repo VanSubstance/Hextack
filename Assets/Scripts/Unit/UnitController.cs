@@ -97,9 +97,6 @@ namespace Assets.Scripts.Unit
         public UnitController Init(UnitToken _info, bool _isEnemy)
         {
             liveInfo = ServerData.Unit.data[_info.Code].Clone();
-            //meshFilter.mesh = GlobalDictionary.Mesh.data["HexUnit"];
-            //meshCollider.sharedMesh = meshFilter.mesh;
-            //meshCollider.convex = true;
             IsEnemy = _isEnemy;
             TargetMaterial = "Fade";
             meshRenderer.materials = new Material[] { };
@@ -116,6 +113,7 @@ namespace Assets.Scripts.Unit
             liveInfo = ServerData.Unit.data[liveInfo.Code].Clone();
             liveInfo.Lv = curLv;
             DisableBattle();
+            gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -187,7 +185,7 @@ namespace Assets.Scripts.Unit
         {
             BattleController.Init(liveInfo, tileInstalled.HexCoor, IsEnemy, () =>
             {
-                Clear();
+                gameObject.SetActive(false);
             });
         }
 
