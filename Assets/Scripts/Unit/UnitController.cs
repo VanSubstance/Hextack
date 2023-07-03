@@ -6,6 +6,17 @@ namespace Assets.Scripts.Unit
     public class UnitController : MonoBehaviour
     {
         private UnitInfo liveInfo;
+
+        /// <summary>
+        /// 유닛 코드 반환
+        /// </summary>
+        public string UnitCode
+        {
+            get
+            {
+                return liveInfo.Code;
+            }
+        }
         public int Range
         {
             get
@@ -84,6 +95,16 @@ namespace Assets.Scripts.Unit
             TargetMaterial = "Fade";
             meshRenderer.materials = new Material[] { };
             gameObject.SetActive(true);
+            return this;
+        }
+
+        /// <summary>
+        /// 기물 레벨업
+        /// </summary>
+        /// <returns></returns>
+        public UnitController LevelUp()
+        {
+            Debug.Log("업그레이드");
             return this;
         }
 

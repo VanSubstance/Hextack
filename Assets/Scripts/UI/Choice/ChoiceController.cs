@@ -42,19 +42,38 @@ namespace Assets.Scripts.UI.Choice
                     // 이전에 감지된 애가 있음
                     if (!targetTile.Equals(curDetect))
                     {
-                        // 다른 애 = 이전 미리보기 지워야 함
-                        targetTile.ClearUnit();
+                        // 이전 타일 != 지금 타일 -> 이전 미리보기 지워야 함
+                        targetTile.ClearPreview();
                         if (!curDetect.IsPossessed)
                         {
+                            // 현재 타일에 설치 가능
                             newUnit.gameObject.SetActive(true);
                             targetTile = curDetect;
                             targetTile.PreviewUnit(newUnit);
                         }
                         else
                         {
-                            targetTile = null;
+                            // 현재 타일에 설치 불가
                             newUnit.gameObject.SetActive(false);
+                            if (curDetect.IsInstallable && curDetect.UnitCode != null)
+                            {
+                                // 지금 식별된 애 타일 위에 이미 설치된 기물이 있다
+                                if (curDetect.UnitCode.Equals(newUnit.UnitCode))
+                                {
+                                    // 손에 든 기물 == 설치된 기물 -> 레벨업
+                                    // 레벨업이 될거라는 느낌의 이펙트 줘야 함
+                                    targetTile = curDetect;
+                                    targetTile.PreviewUnit(newUnit);
+                                    return;
+                                }
+                            }
+                            // 식별된 애 위에 기물이 없다 or 손에 든 기물 != 설치된 기물 -> 지우기
+                            targetTile = null;
                         }
+                    }
+                    else
+                    {
+                        // 이전 타일 = 지금 타일
                     }
                 }
                 else
@@ -67,6 +86,21 @@ namespace Assets.Scripts.UI.Choice
                         targetTile = curDetect;
                         targetTile.PreviewUnit(newUnit);
                     }
+                    else
+                    {
+                        newUnit.gameObject.SetActive(false);
+                        if (curDetect.IsInstallable && curDetect.UnitCode != null)
+                        {
+                            // 지금 식별된 애 타일 위에 이미 설치된 기물이 있음
+                            if (curDetect.UnitCode.Equals(newUnit.UnitCode))
+                            {
+                                // 손에 든 기물 == 설치된 기물 -> 레벨업
+                                targetTile = curDetect;
+                                targetTile.PreviewUnit(newUnit);
+                                return;
+                            }
+                        }
+                    }
                 }
                 return;
             }
@@ -74,7 +108,7 @@ namespace Assets.Scripts.UI.Choice
             if (targetTile != null)
             {
                 // 이전 감지된 애 있음 = 미리보기 꺼주기 + 해당 기물도 꺼주기
-                targetTile.ClearUnit();
+                targetTile.ClearPreview();
                 targetTile = null;
                 newUnit.gameObject.SetActive(false);
             }
@@ -90,7 +124,7 @@ namespace Assets.Scripts.UI.Choice
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (newUnit != null && newUnit.gameObject.activeSelf && targetTile != null)
+            if (newUnit != null && targetTile != null)
             {
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
