@@ -14,18 +14,6 @@ public static class GlobalDictionary
     public static Vector3 VectorToScreen = new Vector3(0, Mathf.Sqrt(3f), -1);
 
     /// <summary>
-    /// ScriptableObject
-    /// </summary>
-    public static class Scriptable
-    {
-        public static string rootPath = $"Datas";
-        public static class Unit
-        {
-            public static string rootPath = $"{Scriptable.rootPath}/Units";
-            public static Dictionary<string, UnitInfo> data = new Dictionary<string, UnitInfo>();
-        }
-    }
-    /// <summary>
     /// 레이어
     /// </summary>
     public static class Layer

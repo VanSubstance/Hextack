@@ -14,9 +14,12 @@ namespace Assets.Scripts.Server
     public class ServerManager : SingletonObject<ServerManager>
     {
         [SerializeField]
+        private string[] testDeck;
+        [SerializeField]
         private MapInfo mapInfo;
         [SerializeField]
         private bool isSingle;
+        [HideInInspector]
         public HexCoordinate[] tilesInfo;
         public UnitToken[][] monstersInfo;
         private bool IsStageOver
@@ -78,7 +81,7 @@ namespace Assets.Scripts.Server
                         case IngameStageType.Prepare:
                             // 기물 배치 시작
                             // 적 기물 배치
-                            InitUnits();
+                            InitStagePrepare();
                             break;
                         case IngameStageType.Place:
                             InitStagePlace();
@@ -106,10 +109,23 @@ namespace Assets.Scripts.Server
         }
 
         /// <summary>
-        /// 적 유닛 생성 -> 배치 스테이지로 이동
+        /// 덱 불러오기
+        /// 아군 유닛 생성
+        /// 적 유닛 생성 
+        /// -> 배치 스테이지로 이동
         /// </summary>
-        private void InitUnits()
+        private void InitStagePrepare()
         {
+            if (GlobalStatus.Deck == null)
+            {
+                // 최초 = 덱 초기화
+                GlobalStatus.Deck = new UnitInfo[testDeck.Length];
+                for (int i = 0; i < testDeck.Length; i++)
+                {
+                    if (testDeck[i] == null) continue;
+                    GlobalStatus.Deck[i] = ServerData.Unit.data[testDeck[i]];
+                }
+            }
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
                 UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";
@@ -228,13 +244,11 @@ namespace Assets.Scripts.Server
                             break;
                     }
                     GlobalStatus.InGame.Round++;
-                    // 필드에서 적 전부 제거 후 풀 반납
+                    // 필드 전부 리셋
                     GlobalStatus.UnitsActive.All((unitCtrl) =>
                     {
-                        if (unitCtrl.IsEnemy)
-                        {
-                            unitCtrl.Clear();
-                        }
+                        // 리셋
+                        unitCtrl.ReInit();
                         return true;
                     });
                     StartCoroutine(CoroutineExecuteAfterWait(() =>

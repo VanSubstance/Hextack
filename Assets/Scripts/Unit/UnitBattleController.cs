@@ -66,7 +66,7 @@ namespace Assets.Scripts.Unit
             }
             hpGage.Init(info.Hp, hexCoor, () =>
             {
-                OnDisable();
+                enabled = false;
             });
             // 사전 효과 우선 실행
             ExecuteEffect(true);
@@ -83,18 +83,32 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
+        /// 강제로 종료 = 전투 종료 시 호출
+        /// </summary>
+        public void Disable()
+        {
+            hpGage.Clear();
+            hpGage = null;
+            enabled = false;
+        }
+
+        /// <summary>
         /// 꺼질 때 기존 info 떨구기 + 기물 효과 취소 + 해당 코루틴 종료 함수 + 오브젝트 풀에 반납
         /// </summary>
         private void OnDisable()
         {
-            CancelEffect();
             if (attackCr != null)
             {
                 StopCoroutine(attackCr);
                 attackCr = null;
             }
-            info = null;
-            actionClear?.Invoke();
+            if (hpGage != null)
+            {
+                // 전투 중 사망
+                CancelEffect();
+                info = null;
+                actionClear?.Invoke();
+            }
         }
 
         /// <summary>
@@ -120,7 +134,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         public void ExecuteEffect(bool isTimePrevious)
         {
-            foreach (AbilityType abil in info.abilities)
+            foreach (AbilityType abil in info.Abilities)
             {
                 switch (abil)
                 {

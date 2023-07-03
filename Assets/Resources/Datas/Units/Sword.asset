@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: Sword
   Title: "\uAC80"
-  Hp: 120
-  Damage: 25
-  Range: 1
-  Spd: 0.8
+  Lv: 1
+  hp: 130
+  damage: 17
+  range: 1
+  spd: 0.9
   IsAttackable: 1
-  Bounds: 04000000
+  Abilities: 

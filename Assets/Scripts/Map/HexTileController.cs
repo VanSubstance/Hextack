@@ -65,7 +65,27 @@ namespace Assets.Scripts.Map
 
         private MeshRenderer meshRenderer;
 
-        private UnitController unitAttached;
+        private UnitController unitAttached, unitPreview;
+        /// <summary>
+        /// 현재 부착된 유닛 코드 반환
+        /// </summary>
+        public string UnitCode
+        {
+            get
+            {
+                return unitAttached != null ? unitAttached.UnitCode : null;
+            }
+        }
+        /// <summary>
+        /// 설치 가능한 타일인지 판별
+        /// </summary>
+        public bool IsInstallable
+        {
+            get
+            {
+                return TileTypee == TileType.Ally;
+            }
+        }
         /// <summary>
         /// 내거가 아님 or 설치된 기물 존재 or 미리보기중 = true
         /// </summary>
@@ -73,7 +93,7 @@ namespace Assets.Scripts.Map
         {
             get
             {
-                return TileTypee != TileType.Ally || unitAttached != null || IsPreview;
+                return !IsInstallable || unitAttached != null || IsPreview;
             }
         }
         private bool IsPreview;
@@ -107,14 +127,23 @@ namespace Assets.Scripts.Map
         /// <param name="unitController"></param>
         public void InstallUnit(UnitController unitController)
         {
-            IsPreview = false;
-            DeActivateRange();
-            unitAttached = unitController.Connect(this);
-            int[] convertedCoor = CommonFunction.ConvertCoordinate(HexCoor);
-            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = unitController;
-            Vector3 resPos = transform.position;
-            resPos.y = .5f;
-            unitAttached.transform.position = resPos;
+            ClearPreview();
+            if (unitAttached != null)
+            {
+                // 업그레이드
+                unitController.Clear();
+                unitAttached.LevelUp();
+            }
+            else
+            {
+                // 신규 배치
+                unitAttached = unitController.Connect(this);
+                int[] convertedCoor = CommonFunction.ConvertCoordinate(HexCoor);
+                GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = unitController;
+                Vector3 resPos = transform.position;
+                resPos.y = .5f;
+                unitAttached.transform.position = resPos;
+            }
         }
 
         /// <summary>
@@ -123,12 +152,12 @@ namespace Assets.Scripts.Map
         /// <param name="unitController"></param>
         public void PreviewUnit(UnitController unitController)
         {
-            unitAttached = unitController.PreviewInstallation();
+            unitPreview = unitController.PreviewInstallation();
             ActivateRange();
             IsPreview = true;
             Vector3 resPos = transform.position;
             resPos.y = .5f;
-            unitAttached.transform.position = resPos;
+            unitPreview.transform.position = resPos;
         }
 
         /// <summary>
@@ -138,8 +167,19 @@ namespace Assets.Scripts.Map
         {
             IsPreview = false;
             DeActivateRange();
-            unitAttached.Disconnect();
+            unitAttached?.Disconnect();
             unitAttached = null;
+        }
+
+        /// <summary>
+        /// 미리보기 꺼주기
+        /// </summary>
+        public void ClearPreview()
+        {
+            IsPreview = false;
+            DeActivateRange();
+            unitPreview?.Disconnect();
+            unitPreview = null;
         }
 
         /// <summary>
@@ -147,7 +187,7 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void ActivateRange()
         {
-            RangeViewController.Instance.ActivateInRange(this, unitAttached.Range);
+            RangeViewController.Instance.ActivateInRange(this, unitPreview != null ? unitPreview.Range : unitAttached.Range);
         }
 
         /// <summary>

@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: Provoke
   Title: "\uBC29\uD328"
-  Hp: 200
-  Damage: 0
-  Range: 4
-  Spd: 0
+  Lv: 1
+  hp: 200
+  damage: 0
+  range: 1
+  spd: 0
   IsAttackable: 0
-  abilities: 00000000
+  Abilities: 00000000
