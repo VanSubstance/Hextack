@@ -112,6 +112,11 @@ public static class GlobalStatus
     public static Queue<TextController> textPoll = new Queue<TextController>();
 
     /// <summary>
+    /// 이펙트 풀
+    /// </summary>
+    public static Dictionary<string, Queue<EffectController>> effectPool = new Dictionary<string, Queue<EffectController>>();
+
+    /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
     /// </summary>
     /// <returns></returns>

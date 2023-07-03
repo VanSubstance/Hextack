@@ -116,18 +116,19 @@ namespace Assets.Scripts.UI.Choice
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (newUnit == null)
+            if (newUnit != null)
             {
-                UIManager.Instance.InitUnitInfo(info);
-                newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
+                newUnit.Clear();
             }
+            newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
+            UIManager.Instance.InitUnitInfo(info);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            UIManager.Instance.ClearUnitInfo();
             if (newUnit != null && targetTile != null)
             {
-                UIManager.Instance.ClearUnitInfo();
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;

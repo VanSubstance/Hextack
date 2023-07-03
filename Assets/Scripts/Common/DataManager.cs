@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Unit;
 using UnityEngine;
 
 namespace Assets.Scripts.Common
@@ -33,6 +34,12 @@ namespace Assets.Scripts.Common
             foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
             {
                 GlobalDictionary.Prefab.UI.data[unit.name] = unit;
+            }
+
+            // Effect
+            foreach (EffectController unit in Resources.LoadAll<EffectController>($"{GlobalDictionary.Prefab.Effect.rootPath}"))
+            {
+                GlobalDictionary.Prefab.Effect.data[unit.name] = unit;
             }
         }
 

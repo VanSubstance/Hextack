@@ -70,7 +70,6 @@ namespace Assets.Scripts.Unit
                 timeAtk = 1f / info.Spd;
             }
             // 체력 게이지 연결
-            Debug.Log("체력 게이지 연결");
             hpGage = UIManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, hexCoor, () =>
             {
