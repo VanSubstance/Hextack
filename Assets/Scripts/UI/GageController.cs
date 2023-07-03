@@ -71,5 +71,14 @@ namespace Assets.Scripts.UI
                 GlobalStatus.HpGagePool.Enqueue(this);
             }
         }
+
+        /// <summary>
+        /// 종료 함수 실행 없이 강제로 풀에 반납
+        /// </summary>
+        public void Clear()
+        {
+            gameObject.SetActive(false);
+            GlobalStatus.HpGagePool.Enqueue(this);
+        }
     }
 }

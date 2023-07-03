@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Unit;
 using UnityEngine;
-using Assets.Scripts.Unit;
 
 namespace Assets.Scripts.UI.Choice
 {
@@ -31,7 +27,7 @@ namespace Assets.Scripts.UI.Choice
             foreach (ChoiceController choice in choices)
             {
                 UnitInfo cur;
-                while ((cur = GlobalStatus.Deck[Random.Range(0, 6)]) == null)
+                while ((cur = GlobalStatus.Deck[Random.Range(0, GlobalStatus.Deck.Length)]) == null)
                 {
                 }
                 choice.Init(cur);

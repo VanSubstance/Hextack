@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: Bow
   Title: "\uD65C"
-  Hp: 80
-  Damage: 18
-  Range: 2
-  Spd: 1.1
+  Lv: 1
+  hp: 80
+  damage: 13
+  range: 2
+  spd: 1.1
   IsAttackable: 1
-  Bounds: 
+  Abilities: 
