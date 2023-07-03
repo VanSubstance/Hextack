@@ -23,6 +23,16 @@ namespace Assets.Scripts.Unit
         private Coroutine attackCr;
         private Action actionClear;
         private GageController hpGage;
+        /// <summary>
+        /// 스크린 투영 좌표
+        /// </summary>
+        private Vector2 screenPos
+        {
+            get
+            {
+                return hpGage.AnchorPos;
+            }
+        }
 
         /// <summary>
         /// 근처 적들 좌표 (배열 기준)
@@ -236,7 +246,7 @@ namespace Assets.Scripts.Unit
             if (amountToApply < 0)
             {
                 // 데미지 텍스트 띄워주기
-                UIManager.Instance.GetNewText().Init(hexCoor, $"{Mathf.Abs(amountToApply)}");
+                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}");
             }
             hpGage.ApplyValue(amountToApply);
         }

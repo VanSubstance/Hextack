@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Unit;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Choice
@@ -24,13 +25,26 @@ namespace Assets.Scripts.UI.Choice
         /// </summary>
         public void PickRandom()
         {
+            HashSet<int> idxPicked = new HashSet<int>();
+            int idx;
             foreach (ChoiceController choice in choices)
             {
                 UnitInfo cur;
-                while ((cur = GlobalStatus.Deck[Random.Range(0, GlobalStatus.Deck.Length)]) == null)
+                while (true)
                 {
+                    idx = Random.Range(0, GlobalStatus.Deck.Length);
+                    if (!idxPicked.Contains(idx))
+                    {
+                        idxPicked.Add(idx);
+                        // 신규 인덱스
+                        if ((cur = GlobalStatus.Deck[idx]) != null)
+                        {
+                            // 벤 안됨
+                            choice.Init(cur);
+                            break;
+                        }
+                    }
                 }
-                choice.Init(cur);
             }
             gameObject.SetActive(true);
         }

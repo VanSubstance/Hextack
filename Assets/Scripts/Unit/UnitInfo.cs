@@ -8,6 +8,7 @@ namespace Assets.Scripts.Unit
     {
         public string Code;
         public string Title;
+        public string Desc;
         [HideInInspector]
         public int Lv = 1;
         [SerializeField]

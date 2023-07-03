@@ -185,11 +185,13 @@ namespace Assets.Scripts.Server
         private void InitStageApplying()
         {
             // 사전 효과 실행
+            UIManager.Instance.IsRayCastable = true;
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
                 unitCtrl.InitBattle();
                 return true;
             });
+            UIManager.Instance.IsRayCastable = false;
             // 전투 상태 체크 함수 실행
             GlobalStatus.InGame.BattleStatus = 0;
             UIManager.Instance.CurTimer = 60;
@@ -230,6 +232,7 @@ namespace Assets.Scripts.Server
                 UIManager.Instance.TextCenter = "전투 종료";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
+                    UIManager.Instance.TextTimer = "";
                     switch (GlobalStatus.InGame.BattleStatus)
                     {
                         case 1:

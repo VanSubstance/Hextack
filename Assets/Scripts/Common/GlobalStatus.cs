@@ -2,7 +2,6 @@
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
-using Assets.Scripts.UI.Text;
 using System.Collections.Generic;
 
 /// <summary>

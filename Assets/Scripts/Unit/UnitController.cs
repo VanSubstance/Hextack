@@ -6,6 +6,7 @@ namespace Assets.Scripts.Unit
     public class UnitController : MonoBehaviour
     {
         private UnitInfo liveInfo;
+        public UnitInfo Info { get { return liveInfo; } }
 
         /// <summary>
         /// 유닛 코드 반환
@@ -175,6 +176,7 @@ namespace Assets.Scripts.Unit
         {
             TargetMaterial = "Fade";
             UseGravity = false;
+            rigid.velocity = Vector3.zero;
             return this;
         }
 

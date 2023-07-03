@@ -2,8 +2,9 @@
 using TMPro;
 using UnityEngine;
 using Assets.Scripts.Map;
+using Unity.VisualScripting;
 
-namespace Assets.Scripts.UI.Text
+namespace Assets.Scripts.UI
 {
     public class TextController : MonoBehaviour
     {
@@ -37,11 +38,9 @@ namespace Assets.Scripts.UI.Text
         /// <summary>
         /// 초기화 함수
         /// </summary>
-        /// <param name="_maxValue"></param>
-        public TextController Init(HexCoordinate targetCoor, string targetText, float time = 1f)
+        public TextController Init(Vector2 screenPos, string targetText, float time = 1f)
         {
-            int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
-            GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(GlobalStatus.Map[cvc[0]][cvc[1]].transform.position) + (Vector3.up * 30);
+            GetComponent<RectTransform>().anchoredPosition = screenPos + (Vector2.up * 15);
             Text = targetText;
             StartCoroutine(CrTimer(time));
             return this;
