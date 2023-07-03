@@ -16,6 +16,13 @@ namespace Assets.Scripts.UI
         private Slider gage;
         private float maxValue, curValue;
         private Action callbackWhenZero;
+        public Vector2 AnchorPos
+        {
+            get
+            {
+                return GetComponent<RectTransform>().anchoredPosition;
+            }
+        }
         /// <summary>
         /// 값 조정
         /// </summary>
@@ -47,7 +54,12 @@ namespace Assets.Scripts.UI
             fill.color = Color.red;
             background.color = Color.black;
             int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
-            GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(GlobalStatus.Map[cvc[0]][cvc[1]].transform.position) + (Vector3.up * 25);
+            Vector3 hexPos = GlobalStatus.Map[cvc[0]][cvc[1]].transform.position;
+            if (Physics.Raycast(hexPos, GlobalDictionary.VectorToScreen, out RaycastHit hit, 40, GlobalDictionary.Layer.UI))
+            {
+                GetComponent<RectTransform>().position = hit.point;
+                GetComponent<RectTransform>().anchoredPosition += Vector2.up * 70;
+            }
             maxValue = _maxValue;
             curValue = _maxValue;
             Value = curValue / maxValue;

@@ -107,8 +107,18 @@ namespace Assets.Scripts.Unit
             }
             if (isAllNoTarget)
             {
-                // 무승부
-                return 3;
+                // 교착 상태
+                if (cntAlly == cntEnemy)
+                {
+                    // 무승부
+                    return 3;
+                }
+                if (cntAlly > cntEnemy)
+                {
+                    // 승리
+                    return 1;
+                }
+                return 2;
             }
             // 양쪽 다 1기 이상의 기물이 남아있음
             return 0;

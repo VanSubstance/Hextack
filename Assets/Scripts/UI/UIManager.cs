@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private UI.Text.TextController textController;
         [SerializeField]
-        private Transform textHitParent;
+        private Transform textHitParent, rayCaster;
         [SerializeField]
         private TextMeshProUGUI textCenter, textTimer;
         private int curTimer;
@@ -50,6 +50,17 @@ namespace Assets.Scripts.UI
                 textTimer.text = $"{value}";
             }
         }
+
+        /// <summary>
+        /// UI가 레이캐스팅을 해야하는가 ?
+        /// </summary>
+        public bool IsRayCastable
+        {
+            set
+            {
+                rayCaster.gameObject.SetActive(value);
+            }
+        }
         private new void Awake()
         {
             base.Awake();
@@ -63,6 +74,7 @@ namespace Assets.Scripts.UI
             {
                 GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
             }
+            IsRayCastable = false;
         }
 
         /// <summary>
