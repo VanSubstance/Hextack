@@ -76,9 +76,9 @@ namespace Assets.Scripts.Common
         public void LoadScriptables()
         {
             // 기물 정보
-            foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{GlobalDictionary.Scriptable.Unit.rootPath}"))
+            foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{ServerData.Unit.rootPath}"))
             {
-                GlobalDictionary.Scriptable.Unit.data[unit.name] = unit;
+                ServerData.Unit.data[unit.name] = unit;
             }
         }
     }

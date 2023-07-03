@@ -87,7 +87,7 @@ namespace Assets.Scripts.Unit
         /// <returns></returns>
         public UnitController Init(UnitToken _info, bool _isEnemy)
         {
-            liveInfo = GlobalDictionary.Scriptable.Unit.data[_info.Title].Clone();
+            liveInfo = ServerData.Unit.data[_info.Title].Clone();
             meshFilter.mesh = GlobalDictionary.Mesh.data[_info.Title];
             meshCollider.sharedMesh = meshFilter.mesh;
             meshCollider.convex = true;
