@@ -95,8 +95,8 @@ namespace Assets.Scripts.Unit
         {
             gameObject.SetActive(false);
             UseGravity = false;
-            GlobalStatus.UnitsActive.Remove(this);
             GlobalStatus.UnitPool.Enqueue(this);
+            Disconnect();
             return this;
         }
 

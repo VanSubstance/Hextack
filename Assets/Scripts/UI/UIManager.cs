@@ -10,16 +10,16 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private ChoiceManager choiceManager;
         [SerializeField]
-        private TextMeshProUGUI textCount, textTimer;
+        private TextMeshProUGUI textCenter, textTimer;
         private int curTimer;
         /// <summary>
         /// 가운데 텍스트 변경 setter
         /// </summary>
-        public string TextCount
+        public string TextCenter
         {
             set
             {
-                textCount.text = value;
+                textCenter.text = value;
             }
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace Assets.Scripts.UI
             base.Awake();
             DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
-            TextCount = "";
+            TextCenter = "";
             TextTimer = "";
         }
 
@@ -72,7 +72,7 @@ namespace Assets.Scripts.UI
 
         public void FinishChoice()
         {
-            if (++GlobalStatus.CntInstalled == GlobalStatus.CntUnit)
+            if (++GlobalStatus.InGame.CntInstalled == GlobalStatus.CntUnit)
             {
                 // 선택 종료 -> .5초 후 전투 시작
                 ServerManager.Instance.FinishStagePlace();

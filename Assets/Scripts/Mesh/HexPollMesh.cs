@@ -6,13 +6,14 @@ using UnityEditor;
 namespace Assets.Scripts.Editor
 {
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
-    public class HexTileMesh : MonoBehaviour
+    public class HexPollMesh : MonoBehaviour
     {
         [SerializeField]
         private float h = 1, r = 1;
         Mesh mesh;
         Vector3[] vertices;
         int[] triangles;
+        Vector2[] uvs;
 
         void Awake()
         {
@@ -63,6 +64,14 @@ namespace Assets.Scripts.Editor
                 7, 7 + 3, 7 + 2,
                 7, 7 + 2, 7 + 1,
             };
+
+            //uvs = new Vector2[]
+            //{
+            //    new Vector2(0, 1),
+            //    new Vector2(1, 1),
+            //    new Vector2(1, 0),
+            //    new Vector2(0, 0),
+            //};
         }
 
         void createProceduralMesh()
@@ -70,6 +79,8 @@ namespace Assets.Scripts.Editor
             mesh.Clear();
             mesh.vertices = vertices;
             mesh.triangles = triangles;
+            //mesh.uv = uvs;
+            //mesh.RecalculateBounds();
             mesh.RecalculateNormals();
 
             gameObject.AddComponent<MeshCollider>();

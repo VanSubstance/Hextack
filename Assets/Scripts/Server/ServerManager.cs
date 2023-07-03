@@ -19,7 +19,6 @@ namespace Assets.Scripts.Server
         private bool isSingle;
         public HexCoordinate[] tilesInfo;
         public UnitToken[][] monstersInfo;
-        private int curRound;
         private bool IsStageOver
         {
             set
@@ -56,7 +55,7 @@ namespace Assets.Scripts.Server
             {
                 monstersInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
             }
-            curRound = 1;
+            GlobalStatus.InGame.Round = 1;
         }
 
         private void Start()
@@ -79,17 +78,19 @@ namespace Assets.Scripts.Server
                         case IngameStageType.Prepare:
                             // 기물 배치 시작
                             // 적 기물 배치
-                            InitUnits(curRound - 1);
+                            InitUnits();
                             break;
                         case IngameStageType.Place:
                             InitStagePlace();
                             break;
                         case IngameStageType.Applying:
-                            InitStageBattle();
+                            InitStageApplying();
                             break;
                         case IngameStageType.Battle:
+                            InitStageBattle();
                             break;
                         case IngameStageType.Result:
+                            InitStageResult();
                             break;
                     }
                 },
@@ -105,56 +106,143 @@ namespace Assets.Scripts.Server
         }
 
         /// <summary>
-        /// 적 유닛 생성
+        /// 적 유닛 생성 -> 배치 스테이지로 이동
         /// </summary>
-        /// <param name="idxRound"></param>
-        private void InitUnits(int idxRound)
+        private void InitUnits()
         {
-            UnitManager.Instance.InitUnits(monstersInfo[idxRound], true);
-            NextStage = IngameStageType.Place;
+            StartCoroutine(CoroutineExecuteAfterWait(() =>
+            {
+                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";
+                StartCoroutine(CoroutineExecuteAfterWait(() =>
+                {
+                    UIManager.Instance.TextCenter = "배치";
+                    StartCoroutine(CoroutineExecuteAfterWait(() =>
+                    {
+                        UIManager.Instance.TextCenter = "";
+                        UnitManager.Instance.InitUnits(monstersInfo[GlobalStatus.InGame.Round - 1], true);
+                        NextStage = IngameStageType.Place;
+                    }, 1f));
+                }, 1f));
+            }, .5f));
         }
 
         /// <summary>
-        /// 기물 배치 시작
+        /// 배치 스테이지 시작
         /// </summary>
         public void InitStagePlace()
         {
-            GlobalStatus.CntInstalled = 0;
+            GlobalStatus.InGame.CntInstalled = 0;
             UIManager.Instance.InitChoices();
         }
 
         /// <summary>
-        /// 기물 배치 종료 -> .5f초 대기 후 전투 돌입 하수
+        /// 배치 스테이지 종료 -> .5f초 대기 후 적용 스테이지로 이동
         /// </summary>
         public void FinishStagePlace()
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCount = "3";
+                UIManager.Instance.TextCenter = $"배치 종료";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
-                    UIManager.Instance.TextCount = "2";
-                    // 사전 효과 선 실행
-                    GlobalStatus.UnitsActive.All((unitCtrl) =>
-                    {
-                        unitCtrl.InitBattle();
-                        return true;
-                    });
+                    UIManager.Instance.TextCenter = "전투 준비";
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
-                        UIManager.Instance.TextCount = "1";
+                        UIManager.Instance.TextCenter = "2";
                         StartCoroutine(CoroutineExecuteAfterWait(() =>
                         {
-                            UIManager.Instance.TextCount = "전투 시작 !";
+                            UIManager.Instance.TextCenter = "1";
                             NextStage = IngameStageType.Applying;
                             StartCoroutine(CoroutineExecuteAfterWait(() =>
                             {
-                                UIManager.Instance.TextCount = "";
+                                UIManager.Instance.TextCenter = "";
                             }, 1f));
                         }, 1f));
                     }, 1f));
                 }, 1f));
             }, .5f));
+        }
+
+        /// <summary>
+        /// 적용 스테이지 시작 -> 전투 스테이지로 이동
+        /// </summary>
+        private void InitStageApplying()
+        {
+            // 사전 효과 실행
+            GlobalStatus.UnitsActive.All((unitCtrl) =>
+            {
+                unitCtrl.InitBattle();
+                return true;
+            });
+            // 전투 상태 체크 함수 실행
+            GlobalStatus.InGame.BattleStatus = 0;
+            UIManager.Instance.CurTimer = 60;
+            NextStage = IngameStageType.Battle;
+        }
+
+        /// <summary>
+        /// 전투 스테이지 시작
+        /// </summary>
+        private void InitStageBattle()
+        {
+            // 모든 기물 전투 상태로 돌입
+            GlobalStatus.UnitsActive.All((unitCtrl) =>
+            {
+                unitCtrl.EnableBattle();
+                return true;
+            });
+            StartCoroutine(CoroutineExecuteActionInRepeat(() =>
+            {
+                GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
+                UIManager.Instance.PassSecond();
+            }, () =>
+            {
+                return GlobalStatus.InGame.BattleStatus != 0;
+            }, () =>
+            {
+                NextStage = IngameStageType.Result;
+            }, 1f));
+        }
+
+        /// <summary>
+        /// 결과 스테이지 시작 -> 준비 스테이지로 이동
+        /// </summary>
+        private void InitStageResult()
+        {
+            StartCoroutine(CoroutineExecuteAfterWait(() =>
+            {
+                UIManager.Instance.TextCenter = "전투 종료";
+                StartCoroutine(CoroutineExecuteAfterWait(() =>
+                {
+                    switch (GlobalStatus.InGame.BattleStatus)
+                    {
+                        case 1:
+                            UIManager.Instance.TextCenter = "승리";
+                            break;
+                        case 2:
+                            UIManager.Instance.TextCenter = "패배";
+                            // 체력 깎여야 함
+                            break;
+                        case 3:
+                            UIManager.Instance.TextCenter = "무승부";
+                            break;
+                    }
+                    GlobalStatus.InGame.Round++;
+                    // 필드에서 적 전부 제거 후 풀 반납
+                    GlobalStatus.UnitsActive.All((unitCtrl) =>
+                    {
+                        if (unitCtrl.IsEnemy)
+                        {
+                            unitCtrl.Clear();
+                        }
+                        return true;
+                    });
+                    StartCoroutine(CoroutineExecuteAfterWait(() =>
+                    {
+                        NextStage = IngameStageType.Prepare;
+                    }, 1.5f));
+                }, 1.5f));
+            }, 0f));
         }
 
         /// <summary>
@@ -191,32 +279,5 @@ namespace Assets.Scripts.Server
             actionAfter?.Invoke();
         }
 
-        /// <summary>
-        /// 전투 시작 함수
-        /// </summary>
-        private void InitStageBattle()
-        {
-            // 모든 기물 전투 상태로 돌입
-            GlobalStatus.UnitsActive.All((unitCtrl) =>
-            {
-                unitCtrl.EnableBattle();
-                return true;
-            });
-            // 전투 상태 체크 함수 실행
-            GlobalStatus.InGame.BattleStatus = 0;
-            UIManager.Instance.CurTimer = 60;
-            StartCoroutine(CoroutineExecuteActionInRepeat(() =>
-            {
-                GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
-                UIManager.Instance.PassSecond();
-            }, () =>
-            {
-                return GlobalStatus.InGame.BattleStatus != 0;
-            }, () =>
-            {
-                // 전투 종료 시 호출되는 함수
-                Debug.Log($"전투 종료!!");
-            }, 1f));
-        }
     }
 }

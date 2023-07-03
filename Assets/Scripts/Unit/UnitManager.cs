@@ -95,25 +95,22 @@ namespace Assets.Scripts.Unit
                 if (cntAlly == 0)
                 {
                     // 무승부
-                    Debug.Log("무승부");
                     return 3;
                 }
-                Debug.Log("승리");
+                // 승리
                 return 1;
             }
             if (cntAlly == 0)
             {
-                Debug.Log("패배");
+                // 패배
                 return 2;
             }
             if (isAllNoTarget)
             {
                 // 무승부
-                Debug.Log("무승부");
                 return 3;
             }
             // 양쪽 다 1기 이상의 기물이 남아있음
-            Debug.Log("전투중");
             return 0;
         }
     }

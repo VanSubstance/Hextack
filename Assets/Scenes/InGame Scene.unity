@@ -240,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceManager: {fileID: 7508099684541242423, guid: 7e83c8d0fe3cbb74bac5239e0fde1c6d,
     type: 3}
-  textCount: {fileID: 1661860900}
+  textCenter: {fileID: 1661860900}
   textTimer: {fileID: 1260765528}
 --- !u!1 &206906813
 GameObject:
@@ -806,7 +806,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 2147483647
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -846,7 +846,7 @@ GameObject:
   - component: {fileID: 1661860901}
   - component: {fileID: 1661860900}
   m_Layer: 5
-  m_Name: Fight Info
+  m_Name: Center Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,7 +892,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD328\uBC30\uD558\uC600\uC2B5\uB2C8\uB2E4 ..."
+  m_text: "\u3141\u3134\u3147\u3141\u3134\u3147"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a81e3f85dfc3228439c7e54d50205ad9, type: 2}
   m_sharedMaterial: {fileID: 5604343592820235232, guid: a81e3f85dfc3228439c7e54d50205ad9,
