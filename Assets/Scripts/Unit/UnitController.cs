@@ -40,7 +40,15 @@ namespace Assets.Scripts.Unit
         {
             set
             {
-                meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[value] };
+                switch (value)
+                {
+                    case "Fade":
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[value], GlobalDictionary.Materials.data[value] };
+                        break;
+                    default:
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data[IsEnemy ? "Red" : "Blue"], GlobalDictionary.Materials.data[value] };
+                        break;
+                }
             }
         }
         private HexTileController tileInstalled;
@@ -88,9 +96,9 @@ namespace Assets.Scripts.Unit
         public UnitController Init(UnitToken _info, bool _isEnemy)
         {
             liveInfo = ServerData.Unit.data[_info.Code].Clone();
-            meshFilter.mesh = GlobalDictionary.Mesh.data[_info.Code];
-            meshCollider.sharedMesh = meshFilter.mesh;
-            meshCollider.convex = true;
+            //meshFilter.mesh = GlobalDictionary.Mesh.data["HexUnit"];
+            //meshCollider.sharedMesh = meshFilter.mesh;
+            //meshCollider.convex = true;
             IsEnemy = _isEnemy;
             TargetMaterial = "Fade";
             meshRenderer.materials = new Material[] { };
@@ -140,14 +148,7 @@ namespace Assets.Scripts.Unit
         public UnitController Connect(HexTileController _tileInstalled)
         {
             GlobalStatus.UnitsActive.Add(this);
-            if (IsEnemy)
-            {
-                TargetMaterial = "Red";
-            }
-            else
-            {
-                TargetMaterial = "White";
-            }
+            TargetMaterial = liveInfo.Code;
             UseGravity = true;
             tileInstalled = _tileInstalled;
             return this;
@@ -173,7 +174,7 @@ namespace Assets.Scripts.Unit
         public UnitController PreviewInstallation()
         {
             TargetMaterial = "Fade";
-            UseGravity = true;
+            UseGravity = false;
             return this;
         }
 

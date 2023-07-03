@@ -45,6 +45,10 @@ namespace Assets.Scripts.Common
             {
                 GlobalDictionary.Materials.data[unit.name] = unit;
             }
+            foreach (Material unit in Resources.LoadAll<Material>($"{GlobalDictionary.Materials.Unit.rootPath}"))
+            {
+                GlobalDictionary.Materials.Unit.data[unit.name] = unit;
+            }
         }
 
         /// <summary>

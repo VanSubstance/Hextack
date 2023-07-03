@@ -227,8 +227,17 @@ namespace Assets.Scripts.Unit
             forceTarget.Enqueue(targetCoor);
         }
 
+        /// <summary>
+        /// HP 데미지 적용
+        /// </summary>
+        /// <param name="amountToApply"></param>
         public void ApplyHp(int amountToApply)
         {
+            if (amountToApply < 0)
+            {
+                // 데미지 텍스트 띄워주기
+                UIManager.Instance.GetNewText().Init(hexCoor, $"{Mathf.Abs(amountToApply)}");
+            }
             hpGage.ApplyValue(amountToApply);
         }
     }

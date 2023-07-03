@@ -34,16 +34,16 @@ namespace Assets.Scripts.Map
                 switch (tileType)
                 {
                     case TileType.Background:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleBlack"], GlobalDictionary.Materials.data["MarbleBlack"] };
                         break;
                     case TileType.Neutral:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Black"] };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleBlack"], GlobalDictionary.Materials.data["MarbleBlack"] };
                         break;
                     case TileType.Ally:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["White"] };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleWhite"], GlobalDictionary.Materials.data["MarbleWhite"] };
                         break;
                     case TileType.Enemy:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["Grey"] };
+                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleGray"], GlobalDictionary.Materials.data["MarbleGray"] };
                         break;
                 }
             }
@@ -141,7 +141,7 @@ namespace Assets.Scripts.Map
                 int[] convertedCoor = CommonFunction.ConvertCoordinate(HexCoor);
                 GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = unitController;
                 Vector3 resPos = transform.position;
-                resPos.y = .5f;
+                resPos.y = 1.1f;
                 unitAttached.transform.position = resPos;
             }
         }
@@ -156,7 +156,7 @@ namespace Assets.Scripts.Map
             ActivateRange();
             IsPreview = true;
             Vector3 resPos = transform.position;
-            resPos.y = .5f;
+            resPos.y = 1.1f;
             unitPreview.transform.position = resPos;
         }
 

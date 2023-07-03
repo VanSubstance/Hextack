@@ -55,6 +55,11 @@ public static class GlobalDictionary
     {
         public static string rootPath = $"Materials";
         public static Dictionary<string, Material> data = new Dictionary<string, Material>();
+        public static class Unit
+        {
+            public static string rootPath = $"{Materials.rootPath}Materials";
+            public static Dictionary<string, Material> data = new Dictionary<string, Material>();
+        }
     }
 
     /// <summary>
