@@ -46,6 +46,11 @@ public static class GlobalDictionary
             public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Battle";
             public static ProjectileController Projectile;
         }
+        public static class Effect
+        {
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Effect";
+            public static Dictionary<string, EffectController> data = new Dictionary<string, EffectController>();
+        }
     }
 
     /// <summary>

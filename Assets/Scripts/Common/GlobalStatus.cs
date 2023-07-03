@@ -80,6 +80,10 @@ public static class GlobalStatus
         /// 이번에 설치한 기물 수, 현재 라운드
         /// </summary>
         public static int CntInstalled, Round;
+        /// <summary>
+        /// 기본 크리티컬 확률
+        /// </summary>
+        public static float RateCritical = .1f;
     }
 
     /// <summary>
@@ -110,6 +114,11 @@ public static class GlobalStatus
     /// 텍스트 풀
     /// </summary>
     public static Queue<TextController> textPoll = new Queue<TextController>();
+
+    /// <summary>
+    /// 이펙트 풀
+    /// </summary>
+    public static Dictionary<string, Queue<EffectController>> effectPool = new Dictionary<string, Queue<EffectController>>();
 
     /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌

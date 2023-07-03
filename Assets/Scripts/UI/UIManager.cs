@@ -4,7 +4,6 @@ using Assets.Scripts.UI.Window;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
-using static GlobalDictionary;
 
 namespace Assets.Scripts.UI
 {

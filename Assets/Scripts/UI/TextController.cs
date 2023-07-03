@@ -38,10 +38,11 @@ namespace Assets.Scripts.UI
         /// <summary>
         /// 초기화 함수
         /// </summary>
-        public TextController Init(Vector2 screenPos, string targetText, float time = 1f)
+        public TextController Init(Vector2 screenPos, string targetText, Color textColor, float time = 1f)
         {
             GetComponent<RectTransform>().anchoredPosition = screenPos + (Vector2.up * 15);
             Text = targetText;
+            ugui.color = textColor;
             StartCoroutine(CrTimer(time));
             return this;
         }
@@ -52,6 +53,7 @@ namespace Assets.Scripts.UI
         private void Clear()
         {
             Text = string.Empty;
+            ugui.color = Color.white;
             GlobalStatus.textPoll.Enqueue(this);
         }
 
