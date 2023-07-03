@@ -208,7 +208,7 @@ namespace Assets.Scripts.Unit
             {
                 try
                 {
-                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage);
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
                 }
                 catch (NullReferenceException)
                 {
@@ -238,12 +238,13 @@ namespace Assets.Scripts.Unit
         /// HP 데미지 적용
         /// </summary>
         /// <param name="amountToApply"></param>
-        public void ApplyHp(int amountToApply)
+        public void ApplyHp(int amountToApply, bool isCrit)
         {
+            amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
             if (amountToApply < 0)
             {
                 // 데미지 텍스트 띄워주기
-                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}");
+                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white);
             }
             hpGage.ApplyValue(amountToApply);
         }

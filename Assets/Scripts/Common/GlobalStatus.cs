@@ -80,6 +80,10 @@ public static class GlobalStatus
         /// 이번에 설치한 기물 수, 현재 라운드
         /// </summary>
         public static int CntInstalled, Round;
+        /// <summary>
+        /// 기본 크리티컬 확률
+        /// </summary>
+        public static float RateCritical = .1f;
     }
 
     /// <summary>
