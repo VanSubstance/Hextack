@@ -1,5 +1,7 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Map;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
@@ -8,11 +10,6 @@ namespace Assets.Scripts.Unit
     {
         [SerializeField]
         private UnitController prefab;
-
-        private new void Awake()
-        {
-            base.Awake();
-        }
 
         public void Init()
         {
@@ -24,6 +21,8 @@ namespace Assets.Scripts.Unit
             {
                 GlobalStatus.Units[i] = new UnitController[GlobalStatus.Radius * 2 + 1];
             }
+            // 유닛 풀 10개 사전 생성
+            GlobalStatus.UnitPool.Enqueue(Instantiate(prefab, transform));
         }
 
         /// <summary>
@@ -48,8 +47,71 @@ namespace Assets.Scripts.Unit
             t.z = 1;
             int[] convertedCoor;
             convertedCoor = CommonFunction.ConvertCoordinate(t);
-            GlobalStatus.UnitsActive.Add(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, transform).Init(t, isEnemy));
-            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]]);
+            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GetNewUnit().Init(t, isEnemy));
+        }
+
+        /// <summary>
+        /// 유닛 오브젝트 생성 함수
+        /// </summary>
+        public UnitController GetNewUnit()
+        {
+            UnitController res;
+            if ((res = GlobalStatus.GetUnit()) == null)
+            {
+                res = Instantiate(prefab, transform);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 전투가 종료되었는지 확인하는 함수
+        /// </summary>
+        /// <returns>0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부;</returns>
+        public int GetCurrentBattleStatus()
+        {
+            int cntAlly = 0, cntEnemy = 0;
+            bool isAllNoTarget = true;
+            GlobalStatus.UnitsActive.All((unit) =>
+            {
+                if (unit.IsLive)
+                {
+                    if (isAllNoTarget && unit.BattleController.CurTarget != null)
+                    {
+                        isAllNoTarget = false;
+                    }
+                    if (unit.IsEnemy)
+                    {
+                        cntEnemy++;
+                    }
+                    else
+                    {
+                        cntAlly++;
+                    }
+                }
+                return true;
+            });
+            if (cntEnemy == 0)
+            {
+                if (cntAlly == 0)
+                {
+                    // 무승부
+                    return 3;
+                }
+                // 승리
+                return 1;
+            }
+            if (cntAlly == 0)
+            {
+                // 패배
+                return 2;
+            }
+            if (isAllNoTarget)
+            {
+                // 무승부
+                return 3;
+            }
+            // 양쪽 다 1기 이상의 기물이 남아있음
+            return 0;
         }
     }
 }

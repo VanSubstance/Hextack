@@ -13,7 +13,7 @@ namespace Assets.Scripts.Unit
                 return liveInfo.Range;
             }
         }
-        private bool isEnemy;
+        public bool IsEnemy;
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
         private MeshCollider meshCollider;
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Unit
         /// <summary>
         /// 실제 전투를 관리하는 컨트롤러
         /// </summary>
-        private UnitBattleController battleController;
+        public UnitBattleController BattleController;
 
         /// <summary>
         /// 생존 확인
@@ -64,7 +64,8 @@ namespace Assets.Scripts.Unit
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
             particle = transform.GetChild(0).GetComponent<ParticleSystem>();
-            battleController = GetComponent<UnitBattleController>();
+            BattleController = GetComponent<UnitBattleController>();
+            gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Assets.Scripts.Unit
             meshFilter.mesh = GlobalDictionary.Mesh.data[_info.Title];
             meshCollider.sharedMesh = meshFilter.mesh;
             meshCollider.convex = true;
-            isEnemy = _isEnemy;
+            IsEnemy = _isEnemy;
             TargetMaterial = "Fade";
             meshRenderer.materials = new Material[] { };
             gameObject.SetActive(true);
@@ -94,8 +95,8 @@ namespace Assets.Scripts.Unit
         {
             gameObject.SetActive(false);
             UseGravity = false;
-            GlobalStatus.UnitsActive.Remove(this);
             GlobalStatus.UnitPool.Enqueue(this);
+            Disconnect();
             return this;
         }
 
@@ -106,7 +107,8 @@ namespace Assets.Scripts.Unit
         /// <returns></returns>
         public UnitController Connect(HexTileController _tileInstalled)
         {
-            if (isEnemy)
+            GlobalStatus.UnitsActive.Add(this);
+            if (IsEnemy)
             {
                 TargetMaterial = "Red";
             }
@@ -127,6 +129,7 @@ namespace Assets.Scripts.Unit
         /// <returns></returns>
         public UnitController Disconnect()
         {
+            GlobalStatus.UnitsActive.Remove(this);
             tileInstalled = null;
             return this;
         }
@@ -143,14 +146,22 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 전투 활성화 함수
+        /// 전투 초기화 함수: 사전 효과 선 적용
         /// </summary>
         public void InitBattle()
         {
-            battleController.Init(liveInfo, tileInstalled.HexCoor, isEnemy, () =>
+            BattleController.Init(liveInfo, tileInstalled.HexCoor, IsEnemy, () =>
             {
                 Clear();
             });
+        }
+
+        /// <summary>
+        /// 전투 활성화 함수
+        /// </summary>
+        public void EnableBattle()
+        {
+            BattleController.Enable();
         }
 
         private void OnMouseDown()

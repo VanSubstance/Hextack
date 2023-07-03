@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
-  m_Name: Shield
+  m_Name: Provoke
   m_EditorClassIdentifier: 
-  Code: Shield
+  Code: Provoke
   Title: "\uBC29\uD328"
   Hp: 200
   Damage: 0
+  Range: 4
   Spd: 0
-  Range: 1
   IsAttackable: 0
-  Bounds: 
+  abilities: 00000000

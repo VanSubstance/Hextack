@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Map
   - Unit
-  - 
+  - Projectile
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 1740788821
+    locked: 0
+  - name: Projectile
+    uniqueID: 2546667409
     locked: 0

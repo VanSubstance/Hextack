@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Unit;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,11 @@ using UnityEngine;
 /// </summary>
 public static class GlobalDictionary
 {
+    /// <summary>
+    /// 맵에서 스크린 법선 벡터
+    /// </summary>
     public static Vector3 VectorToScreen = new Vector3(0, Mathf.Sqrt(3f), -1);
+
     /// <summary>
     /// ScriptableObject
     /// </summary>
@@ -47,6 +52,11 @@ public static class GlobalDictionary
         {
             public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/UI";
             public static Dictionary<string, Transform> data = new Dictionary<string, Transform>();
+        }
+        public static class Battle
+        {
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Battle";
+            public static ProjectileController Projectile;
         }
     }
 

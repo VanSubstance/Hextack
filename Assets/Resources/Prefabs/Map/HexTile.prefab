@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad46a9bf8c41b64488d0ee04f66acb29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   tileType: 0
 --- !u!33 &2617431854900070377
 MeshFilter:

@@ -110,6 +110,8 @@ namespace Assets.Scripts.Map
             IsPreview = false;
             DeActivateRange();
             unitAttached = unitController.Connect(this);
+            int[] convertedCoor = CommonFunction.ConvertCoordinate(HexCoor);
+            GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = unitController;
             Vector3 resPos = transform.position;
             resPos.y = .5f;
             unitAttached.transform.position = resPos;
@@ -161,7 +163,7 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void OnMouseDown()
         {
-            if (unitAttached != null)
+            if (unitAttached != null && unitAttached.IsLive)
             {
                 ActivateRange();
             }

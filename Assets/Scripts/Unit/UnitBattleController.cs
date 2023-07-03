@@ -1,12 +1,9 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
@@ -20,7 +17,7 @@ namespace Assets.Scripts.Unit
         /// 실제 전투에 사용하는 데이터
         /// </summary>
         private UnitInfo info;
-        private HexCoordinate coor;
+        private HexCoordinate hexCoor;
         private bool isEnemy;
         private float timeAtk;
         private Coroutine attackCr;
@@ -31,6 +28,7 @@ namespace Assets.Scripts.Unit
         /// 근처 적들 좌표 (배열 기준)
         /// </summary>
         private List<int[]> enemiesNear;
+        public UnitController CurTarget;
 
         /// <summary>
         /// 강제 공격 타겟
@@ -50,7 +48,7 @@ namespace Assets.Scripts.Unit
         public void Init(UnitInfo unitInfo, HexCoordinate _coor, bool _isEnemy, Action _actionClear)
         {
             info = unitInfo.Clone();
-            coor = _coor;
+            hexCoor = _coor;
             isEnemy = _isEnemy;
             actionClear = _actionClear;
             if (info.Spd <= 0)
@@ -66,13 +64,20 @@ namespace Assets.Scripts.Unit
             {
                 hpGage = Instantiate(GlobalDictionary.Prefab.UI.data["Gage"], UIManager.Instance.transform).GetComponent<GageController>();
             }
-            hpGage.Init(info.Hp, coor, () =>
+            hpGage.Init(info.Hp, hexCoor, () =>
             {
                 OnDisable();
             });
-            // 효과 우선 적용
-            ExecuteEffect();
+            // 사전 효과 우선 실행
+            ExecuteEffect(true);
             // 이후 공격 코루틴 실행
+        }
+
+        /// <summary>
+        /// 활성화 함수
+        /// </summary>
+        public void Enable()
+        {
             attackCr = StartCoroutine(CrBatlte());
             enabled = true;
         }
@@ -113,9 +118,23 @@ namespace Assets.Scripts.Unit
         /// <summary>
         /// 기물 효과 실행 함수
         /// </summary>
-        private void ExecuteEffect()
+        public void ExecuteEffect(bool isTimePrevious)
         {
-
+            foreach (AbilityType abil in info.abilities)
+            {
+                switch (abil)
+                {
+                    case AbilityType.Provoke:
+                        // 도발 = 사거리 내 모든 적에게 강제로 타겟 부여
+                        if (!isTimePrevious) break;
+                        enemiesNear = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, isEnemy ? 2 : 1);
+                        foreach (int[] coor in enemiesNear)
+                        {
+                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
+                        }
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -131,13 +150,15 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void DecideTarget()
         {
+            CurTarget = null;
             while (forceTarget.Count > 0)
             {
                 HexCoordinate temp = forceTarget.Peek();
-                if (GlobalStatus.Units[temp.x][temp.y].IsLive)
+                int[] conv = CommonFunction.ConvertCoordinate(temp);
+                if (GlobalStatus.Units[conv[0]][conv[1]].IsLive)
                 {
                     // 도발 상태 = 그냥 바로 공격
-                    ExecuteAttack(temp.x, temp.y);
+                    ExecuteAttack(conv[0], conv[1]);
                     return;
                 }
                 else
@@ -147,8 +168,11 @@ namespace Assets.Scripts.Unit
                 }
             }
             // 사거리 안에 있는 가장 가까운 적 식별
-            enemiesNear = CommonFunction.SeekCoorsInRange(coor.x, coor.y, coor.z, info.Range, isEnemy ? 2 : 1, true);
-            ExecuteAttack(enemiesNear[0][0], enemiesNear[0][1]);
+            enemiesNear = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, isEnemy ? 2 : 1, true);
+            if (enemiesNear.Count != 0)
+            {
+                ExecuteAttack(enemiesNear[0][0], enemiesNear[0][1]);
+            }
         }
 
         /// <summary>
@@ -158,7 +182,18 @@ namespace Assets.Scripts.Unit
         /// <param name="y"></param>
         private void ExecuteAttack(int x, int y)
         {
-
+            CurTarget = GlobalStatus.Units[x][y];
+            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            {
+                try
+                {
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage);
+                }
+                catch (NullReferenceException)
+                {
+                    // 이미 대상이 죽음
+                }
+            });
         }
 
         /// <summary>
@@ -167,6 +202,20 @@ namespace Assets.Scripts.Unit
         public void ApplyEffect()
         {
 
+        }
+
+        /// <summary>
+        /// 도발 적용
+        /// </summary>
+        /// <param name="targetCoor"></param>
+        public void ApplyProvoke(HexCoordinate targetCoor)
+        {
+            forceTarget.Enqueue(targetCoor);
+        }
+
+        public void ApplyHp(int amountToApply)
+        {
+            hpGage.ApplyValue(amountToApply);
         }
     }
 }

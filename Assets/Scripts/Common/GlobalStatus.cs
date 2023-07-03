@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
+using Assets.Scripts.Unit;
+using System.Collections.Generic;
 
 /// <summary>
 /// 현재 인게임에서 사용중인 데이터 관리 클래스
@@ -67,10 +64,28 @@ public static class GlobalStatus
     }
 
     /// <summary>
+    /// 인게임 상수들
+    /// </summary>
+    public static class InGame
+    {
+        /// <summary>
+        /// 투사체 속도
+        /// </summary>
+        public static float SpdProjectile = 7f;
+        /// <summary>
+        /// 0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부
+        /// </summary>
+        public static int BattleStatus = 0;
+        /// <summary>
+        /// 이번에 설치한 기물 수, 현재 라운드
+        /// </summary>
+        public static int CntInstalled, Round;
+    }
+
+    /// <summary>
     /// 인게임에 들고 들어간 덱
     /// </summary>
     public static UnitInfo[] Deck;
-    public static int CntInstalled, Round;
     public static HexTileController[][] Map;
     public static UnitController[][] Units;
     /// <summary>
@@ -87,10 +102,27 @@ public static class GlobalStatus
     public static Queue<GageController> HpGagePool = new Queue<GageController>();
 
     /// <summary>
+    /// 투사체 풀
+    /// </summary>
+    public static Queue<ProjectileController> ProjectilePool = new Queue<ProjectileController>();
+
+    /// <summary>
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
     /// </summary>
     /// <returns></returns>
-    public static UnitController GetUnitController()
+    public static ProjectileController GetProjectile()
+    {
+        if (ProjectilePool.Count > 0)
+            return ProjectilePool.Dequeue();
+        else
+            return null;
+    }
+
+    /// <summary>
+    /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
+    /// </summary>
+    /// <returns></returns>
+    public static UnitController GetUnit()
     {
         if (UnitPool.Count > 0)
             return UnitPool.Dequeue();

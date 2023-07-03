@@ -84,17 +84,13 @@ namespace Assets.Scripts.UI.Choice
         {
             if (newUnit == null)
             {
-                if ((newUnit = GlobalStatus.GetUnitController()) == null)
-                {
-                    newUnit = Instantiate(GlobalDictionary.Prefab.Unit.Prefab, UnitManager.Instance.transform);
-                }
-                GlobalStatus.UnitsActive.Add(newUnit.Init(info.GetLiveInfo(), false));
+                newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
             }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (newUnit != null && newUnit.gameObject.activeSelf)
+            if (newUnit != null && newUnit.gameObject.activeSelf && targetTile != null)
             {
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
