@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
 using UnityEngine;
 using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
@@ -205,6 +206,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null && unitAttached.IsLive)
             {
+                UIManager.Instance.InitUnitInfo(unitAttached.Info);
                 ActivateRange();
             }
         }
@@ -216,6 +218,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null)
             {
+                UIManager.Instance.ClearUnitInfo();
                 DeActivateRange();
             }
         }

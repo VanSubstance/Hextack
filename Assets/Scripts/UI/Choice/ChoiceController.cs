@@ -118,6 +118,7 @@ namespace Assets.Scripts.UI.Choice
         {
             if (newUnit == null)
             {
+                UIManager.Instance.InitUnitInfo(info);
                 newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
             }
         }
@@ -126,6 +127,7 @@ namespace Assets.Scripts.UI.Choice
         {
             if (newUnit != null && targetTile != null)
             {
+                UIManager.Instance.ClearUnitInfo();
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;

@@ -1,8 +1,9 @@
 ﻿using Assets.Scripts.Server;
 using Assets.Scripts.UI.Choice;
+using Assets.Scripts.UI.Window;
+using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
-using Assets.Scripts.UI.Text;
 
 namespace Assets.Scripts.UI
 {
@@ -11,11 +12,13 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private ChoiceManager choiceManager;
         [SerializeField]
-        private UI.Text.TextController textController;
+        private UI.TextController textController;
         [SerializeField]
         private Transform textHitParent, rayCaster;
         [SerializeField]
         private TextMeshProUGUI textCenter, textTimer;
+        [SerializeField]
+        private InfoController infoController;
         private int curTimer;
         /// <summary>
         /// 가운데 텍스트 변경 setter
@@ -66,6 +69,7 @@ namespace Assets.Scripts.UI
             base.Awake();
             DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
+            infoController = Instantiate(infoController, transform);
             TextCenter = "";
             TextTimer = "";
 
@@ -108,14 +112,31 @@ namespace Assets.Scripts.UI
         /// <summary>
         /// 텍스트 오브젝트 생성 함수
         /// </summary>
-        public UI.Text.TextController GetNewText()
+        public UI.TextController GetNewText()
         {
-            UI.Text.TextController res;
+            UI.TextController res;
             if ((res = GlobalStatus.GetTextController()) == null)
             {
                 res = Instantiate(textController, transform);
             }
             return res;
+        }
+
+        /// <summary>
+        /// 유닛 정보 띄우기
+        /// </summary>
+        /// <param name="_info"></param>
+        public void InitUnitInfo(UnitInfo _info)
+        {
+            infoController.Init(_info);
+        }
+
+        /// <summary>
+        /// 유닛 정보 닫기
+        /// </summary>
+        public void ClearUnitInfo()
+        {
+            infoController.Clear();
         }
     }
 }

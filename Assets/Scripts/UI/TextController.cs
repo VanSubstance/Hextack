@@ -4,7 +4,7 @@ using UnityEngine;
 using Assets.Scripts.Map;
 using Unity.VisualScripting;
 
-namespace Assets.Scripts.UI.Text
+namespace Assets.Scripts.UI
 {
     public class TextController : MonoBehaviour
     {
