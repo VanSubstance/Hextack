@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 namespace Assets.Scripts.Unit
 {
@@ -89,10 +90,10 @@ namespace Assets.Scripts.Unit
             rateSpeed = 1;
             // 체력 게이지 연결
             hpGage = UIManager.Instance.GetNewGage();
-            hpGage.Init(info.Hp, hexCoor, () =>
+            hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
             {
                 enabled = false;
-            }, true, _isEnemy ? null : new Color(0, .9f, .6f, 1));
+            }, _isEnemy ? null : new Color(0, .9f, .6f, 1));
             // 사전 효과 우선 실행
             ExecutePreviousEffect();
             // 이후 공격 코루틴 실행
@@ -276,7 +277,19 @@ namespace Assets.Scripts.Unit
             {
                 try
                 {
-                    GlobalStatus.Units[x][y].BattleController.ApplyHp((int)amountToApply, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical + rateCritical);
+                    bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
+                    if (!isEnemy)
+                    {
+                        foreach (UnitInfo _info in ServerData.User.Deck)
+                        {
+                            if (_info.Code.Equals(info.Code))
+                            {
+                                _info.AccuDamage += (int)Mathf.Abs(amountToApply * (isCrit ? 1.5f : 1f));
+                                break;
+                            }
+                        }
+                    }
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp((int)amountToApply, isCrit);
                 }
                 catch (NullReferenceException)
                 {

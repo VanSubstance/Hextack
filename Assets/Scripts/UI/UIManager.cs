@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Server;
 using Assets.Scripts.UI.Choice;
 using Assets.Scripts.UI.Window;
+using Assets.Scripts.UI.Window.Result;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
@@ -22,6 +23,9 @@ namespace Assets.Scripts.UI
         private InfoController infoController;
         [SerializeField]
         private GageController gageController, roundProgressGage;
+        [SerializeField]
+        private ResultController resultController;
+
         private int curTimer;
 
         /// <summary>
@@ -137,10 +141,10 @@ namespace Assets.Scripts.UI
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
             VisualizeDeck(ServerData.User.Deck, true);
             VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
-            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, null, () =>
+            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null, () =>
             {
                 Debug.Log("던전 전부 종료");
-            }, false);
+            });
         }
 
         /// <summary>
@@ -302,7 +306,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void OpenResult()
         {
-
+            resultController.Init();
         }
     }
 }

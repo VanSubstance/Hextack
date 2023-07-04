@@ -77,9 +77,9 @@ public static class GlobalStatus
         /// </summary>
         public static int BattleStatus = 0;
         /// <summary>
-        /// 이번에 설치한 기물 수, 현재 라운드
+        /// 이번에 설치한 기물 수, 현재 라운드, 승리한 라운드 카운트
         /// </summary>
-        public static int CntInstalled, Round;
+        public static int CntInstalled, Round, WinCount;
         /// <summary>
         /// 기본 크리티컬 확률
         /// </summary>

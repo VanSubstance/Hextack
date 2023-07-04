@@ -70,6 +70,8 @@ namespace Assets.Scripts.Server
             {
                 if (testDeck[i] == null) continue;
                 ServerData.User.Deck[i] = ServerData.Unit.data[testDeck[i]];
+                ServerData.User.Deck[i].AccuDamage = 0;
+                ServerData.User.Deck[i].CountSummon = 0;
             }
         }
 
@@ -79,6 +81,7 @@ namespace Assets.Scripts.Server
             LoadDungeonInfo(mapInfo);
 
             GlobalStatus.InGame.Round = 1;
+            GlobalStatus.InGame.WinCount = 0;
 
             // 타일맵 생성
             MapManager.Instance.Init();
@@ -250,6 +253,7 @@ namespace Assets.Scripts.Server
                     {
                         case 1:
                             UIManager.Instance.TextCenter = "승리";
+                            GlobalStatus.InGame.WinCount++;
                             break;
                         case 2:
                             UIManager.Instance.TextCenter = "패배";
@@ -262,20 +266,21 @@ namespace Assets.Scripts.Server
                     }
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
+                        GlobalStatus.UnitsActive.All((unitCtrl) =>
+                        {
+                            // 리셋
+                            unitCtrl.ReInit();
+                            return true;
+                        });
                         GlobalStatus.InGame.Round++;
                         if (GlobalStatus.InGame.Round > ServerData.Dungeon.Info.rounds)
                         {
                             // 던전 종료 = 결과 페이지로
                             NextStage = IngameStageType.Exit;
-                        } else
+                        }
+                        else
                         {
                             // 필드 전부 리셋
-                            GlobalStatus.UnitsActive.All((unitCtrl) =>
-                            {
-                                // 리셋
-                                unitCtrl.ReInit();
-                                return true;
-                            });
                             // 진척도 ++
                             UIManager.Instance.UpdateProgress();
                             NextStage = IngameStageType.Prepare;

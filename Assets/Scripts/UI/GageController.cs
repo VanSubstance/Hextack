@@ -30,6 +30,12 @@ namespace Assets.Scripts.UI
         {
             set
             {
+                if (gage == null)
+                {
+                    gage = GetComponent<Slider>();
+                    fill.color = fillColor;
+                    background.color = backgroudColor;
+                }
                 gage.value = value;
             }
             get
@@ -49,7 +55,7 @@ namespace Assets.Scripts.UI
         /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, bool isStartFromFull = true, Color? fillColor = null)
+        public GageController Init(float _maxValue, float _initValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, Color? fillColor = null)
         {
             if (fillColor != null)
             {
@@ -66,7 +72,7 @@ namespace Assets.Scripts.UI
                 }
             }
             maxValue = _maxValue;
-            curValue = isStartFromFull ? _maxValue : 0;
+            curValue = _initValue;
             Value = curValue / maxValue;
             callbackWhenZero = _callbackWhenZero;
             gameObject.SetActive(true);
