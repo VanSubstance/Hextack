@@ -31,7 +31,7 @@ namespace Assets.Scripts.UI.Window.Result
             gage.Init(maxDamage, info.AccuDamage, null, null, info.AbilityInfos[0].type.Equals(AbilityType.Heal) ? new Color(0, .9f, .6f, 1) : Color.red);
             gage.gameObject.SetActive(true);
             textUsage.text = $"{info.CountSummon}회 사용";
-            textDamage.text = $"{string.Format("{0:N2}", info.AccuDamage)}";
+            textDamage.text = $"{string.Format("{0:N0}", info.AccuDamage)}";
             gameObject.SetActive(true);
         }
     }

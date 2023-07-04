@@ -116,6 +116,7 @@ namespace Assets.Scripts.UI
             DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
             infoController = Instantiate(infoController, transform);
+            resultController = Instantiate(resultController, transform);
             TextCenter = "";
             TextTimer = "";
             TextEnemy = "";
