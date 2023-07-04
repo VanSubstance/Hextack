@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Healer
   m_EditorClassIdentifier: 
   Code: Healer
-  Title: "\uC131\uC9C1\uC790"
-  Desc: 
+  Title: "\uC131\uC9C1\uC790 \uD0C0\uC6CC"
+  Desc: "\uC131\uC9C1\uC790 \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n1 \uAC70\uB9AC \uC774\uB0B4\uC758
+    \uBAA8\uB4E0 \uC544\uAD70\uC744 {timeCool}\uCD08\uB9C8\uB2E4 {amount} \uB9CC\uD07C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4. "
   Lv: 1
   hp: 130
   range: 1

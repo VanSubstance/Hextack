@@ -25,8 +25,7 @@ namespace Assets.Scripts.UI.Window
             if (gameObject.activeSelf) return;
             image.sprite = GlobalDictionary.Texture.Unit.data[_info.Code];
             textTitle.text = _info.Title;
-            textDesc.text = _info.Desc;
-            textDesc.text = $"{_info.Lv}";
+            textDesc.text = GetFilledDescription(_info);
             gameObject.SetActive(true);
         }
 
@@ -36,6 +35,23 @@ namespace Assets.Scripts.UI.Window
         public void Clear()
         {
             gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// 설명 채워서 반환
+        /// </summary>
+        /// <param name="_info"></param>
+        /// <returns></returns>
+        private string GetFilledDescription(UnitInfo _info)
+        {
+            string res = _info.Desc;
+            float temp = _info.AbilityInfos[0].amount;
+            temp *= temp < 1 ? 100 : 1;
+            temp = Mathf.Abs(temp);
+            res = res.Replace("{amount}", $"{temp}");
+            res = res.Replace("{timeCool}", $"{_info.AbilityInfos[0].secondForOnce * _info.RateMultipleByLv}");
+            res = res.Replace("\\n", "\n");
+            return res;
         }
     }
 }

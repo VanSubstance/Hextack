@@ -19,3 +19,7 @@ MonoBehaviour:
   cntTileBan: 2
   cntUnitBan: 1
   cntUnit: 3
+  unitCodeList:
+  - Bow
+  - Sword
+  - Provoke

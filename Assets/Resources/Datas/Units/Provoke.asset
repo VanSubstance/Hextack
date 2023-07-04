@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Provoke
   m_EditorClassIdentifier: 
   Code: Provoke
-  Title: "\uBC29\uD328"
-  Desc: 
+  Title: "\uB3C4\uBC1C \uD0C0\uC6CC"
+  Desc: "\uB3C4\uBC1C \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n1 \uAC70\uB9AC \uC774\uB0B4\uC758
+    \uBAA8\uB4E0 \uC801\uC5D0\uAC8C \uB3C4\uBC1C\uC744 \uAC78\uC5B4 \uD574\uB2F9
+    \uD0C0\uC6CC\uB97C \uC6B0\uC120 \uACF5\uACA9\uD558\uAC8C \uD569\uB2C8\uB2E4. "
   Lv: 1
   hp: 200
   range: 1
