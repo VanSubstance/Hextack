@@ -418,6 +418,9 @@ MonoBehaviour:
   - Sword
   - Bard
   - ScareCrow
+  - Provoke
+  - Poison
+  - Healer
   mapInfo: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   isSingle: 1
   tilesInfo: []

@@ -17,8 +17,11 @@ MonoBehaviour:
   Desc: 
   Lv: 1
   hp: 130
-  damage: 17
   range: 1
-  atkPerSecond: 1
-  IsAttackable: 1
-  Abilities: 
+  AbilityInfos:
+  - isOnce: 0
+    isBound: 0
+    isForAlly: 0
+    type: 3
+    amount: 17
+    secondForOnce: 1.1

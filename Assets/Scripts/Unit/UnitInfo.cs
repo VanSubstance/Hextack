@@ -13,30 +13,13 @@ namespace Assets.Scripts.Unit
         [HideInInspector]
         public int Lv = 1;
         [SerializeField]
-        private int hp, damage, range;
-        /// <summary>
-        /// 1초 당 공격 횟수
-        /// </summary>
-        [SerializeField]
-        private float atkPerSecond;
-        /// <summary>
-        /// 적용할 가/감 계수 (합연산)
-        /// </summary>
-        [SerializeField]
-        private float rateToAdd;
+        private int hp, range;
 
         public int Hp
         {
             get
             {
-                return (int)(hp * Mathf.Pow(1.6f, Lv - 1));
-            }
-        }
-        public int Damage
-        {
-            get
-            {
-                return (int)(damage * Mathf.Pow(1.6f, Lv - 1));
+                return (int)(hp * RateMultipleByLv);
             }
         }
         public int Range
@@ -46,22 +29,21 @@ namespace Assets.Scripts.Unit
                 return range;
             }
         }
-        public float AtkPerSecond
+
+        /// <summary>
+        /// 레벨에 따른 가중치 (레벨 당 1.6배)
+        /// </summary>
+        public float RateMultipleByLv
         {
             get
             {
-                return atkPerSecond;
+                return Mathf.Pow(1.6f, Lv - 1);
             }
         }
-        public float RateToAdd
-        {
-            get
-            {
-                return rateToAdd;
-            }
-        }
-        public bool IsAttackable;
-        public List<AbilityType> Abilities;
+        /// <summary>
+        /// 기물의 능력들 리스트
+        /// </summary>
+        public List<AbilityInfo> AbilityInfos;
         public UnitInfo Clone()
         {
             return Instantiate(this);

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Assets.Scripts.Unit
 {
@@ -22,15 +23,16 @@ namespace Assets.Scripts.Unit
         /// <summary>
         /// 공격 1회에 걸리는 시간, 공격속도 가중치 (기준 1, 분모), 치명타율 가중치 (기준 0, 합)
         /// </summary>
-        private float timeAtk, rateSpeed, rateCritical;
-        private Coroutine attackCr;
+        public float rateSpeed, rateCritical;
+        private List<Coroutine> activeCrList;
+        private List<bool> hasTargetList;
         private Action actionClear;
         private GageController hpGage;
-
         /// <summary>
-        /// 대상이 아군인지 적인지
+        /// 기물 파괴 시 실행되어야 할 함수
         /// </summary>
-        private bool IsTargetAlly;
+        private System.Action actionWhenDead;
+
         /// <summary>
         /// 스크린 투영 좌표
         /// </summary>
@@ -43,21 +45,23 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 찾고자 하는 대상
+        /// 근처 적들 좌표 (배열 기준)
         /// </summary>
-        private int SeekTarget
+        //private List<int[]> targets;
+        public bool HasTarget
         {
             get
             {
-                return isEnemy ? (IsTargetAlly ? 1 : 2) : (IsTargetAlly ? 2 : 1);
+                foreach (bool hasT in hasTargetList)
+                {
+                    if (hasT)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
-
-        /// <summary>
-        /// 근처 적들 좌표 (배열 기준)
-        /// </summary>
-        private List<int[]> targets;
-        public bool HasTarget;
 
         /// <summary>
         /// 강제 공격 타겟
@@ -79,17 +83,8 @@ namespace Assets.Scripts.Unit
             info = unitInfo.Clone();
             hexCoor = _coor;
             isEnemy = _isEnemy;
-            IsTargetAlly = info.Abilities.Contains(AbilityType.TargetAlly);
-            HasTarget = false;
+            actionWhenDead = () => { };
             actionClear = _actionClear;
-            if (info.AtkPerSecond <= 0)
-            {
-                timeAtk = -1;
-            }
-            else
-            {
-                timeAtk = 1f / info.AtkPerSecond;
-            }
             rateCritical = 0;
             rateSpeed = 1;
             // 체력 게이지 연결
@@ -99,8 +94,17 @@ namespace Assets.Scripts.Unit
                 enabled = false;
             });
             // 사전 효과 우선 실행
-            ExecuteEffect(true);
+            ExecutePreviousEffect();
             // 이후 공격 코루틴 실행
+        }
+
+        /// <summary>
+        /// 찾고자 하는 대상
+        /// </summary>
+        /// <param name="isTargetAlly">현재 이 기물 기준 아군을 찾는 것인가 ?</param>
+        private int SeekTarget(bool isTargetAlly)
+        {
+            return isEnemy ? (isTargetAlly ? 1 : 2) : (isTargetAlly ? 2 : 1);
         }
 
         /// <summary>
@@ -108,7 +112,55 @@ namespace Assets.Scripts.Unit
         /// </summary>
         public void Enable()
         {
-            attackCr = StartCoroutine(CrBatlte());
+            activeCrList = new List<Coroutine>();
+            hasTargetList = new List<bool>();
+            int idx = 0;
+            // 지속 효과 실행
+            foreach (AbilityInfo ability in info.AbilityInfos)
+            {
+                if (!ability.isOnce)
+                {
+                    switch (ability.type)
+                    {
+                        case AbilityType.Damage:
+                        case AbilityType.Heal:
+                            hasTargetList.Add(false);
+                            activeCrList.Add(StartCoroutine(CrTickEffect((_idx) =>
+                            {
+                                hasTargetList[_idx] = false;
+                                List<int[]> temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
+                                if (ability.type.Equals(AbilityType.Damage))
+                                {
+                                    while (forceTarget.Count > 0)
+                                    {
+                                        HexCoordinate tempCoor = forceTarget.Peek();
+                                        int[] conv = CommonFunction.ConvertCoordinate(tempCoor);
+                                        if (GlobalStatus.Units[conv[0]][conv[1]].IsLive)
+                                        {
+                                            // 도발 상태 = 그냥 바로 공격
+                                            hasTargetList[_idx] = true;
+                                            ExecuteHp(conv[0], conv[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            // 대상이 죽었다 = Dequeue 후 다음 타겟 확인
+                                            forceTarget.Dequeue();
+                                        }
+                                    }
+                                }
+
+                                hasTargetList[_idx] = ability.type.Equals(AbilityType.Damage) && temp.Count > 0;
+                                foreach (int[] target in temp)
+                                {
+                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                }
+                            }, idx, ability.secondForOnce)));
+                            idx++;
+                            break;
+                    }
+                }
+            }
             enabled = true;
         }
 
@@ -127,10 +179,14 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void OnDisable()
         {
-            if (attackCr != null)
+            if (activeCrList != null)
             {
-                StopCoroutine(attackCr);
-                attackCr = null;
+                activeCrList.All((cr) =>
+                {
+                    StopCoroutine(cr);
+                    return true;
+                });
+                activeCrList = null;
             }
             if (hpGage != null)
             {
@@ -142,57 +198,61 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 공격 속도마다 공격 함수를 실행하는 코루틴 함수
+        /// 쿨타임마다 효과를 실행하는 코루틴
         /// </summary>
         /// <returns></returns>
-        private IEnumerator CrBatlte()
+        private IEnumerator CrTickEffect(System.Action<int> actionToExecute, int idx, float time)
         {
-            if (timeAtk <= 0)
-            {
-                // 공격 기능이 없다 = 코루틴 자체를 종료
-                yield break;
-            }
             while (true)
             {
-                DecideTarget();
-                yield return new WaitForSeconds(timeAtk / rateSpeed);
+                actionToExecute?.Invoke(idx);
+                yield return new WaitForSeconds(time / rateSpeed);
             }
         }
 
         /// <summary>
-        /// 최초 기물 효과 실행 함수
+        /// 전투 시작 전 적용되어야 할 기물 효과 실행 함수
         /// </summary>
-        public void ExecuteEffect(bool isTimePrevious)
+        public void ExecutePreviousEffect()
         {
-            targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget);
-            foreach (AbilityType abil in info.Abilities)
+            List<int[]> temp;
+            foreach (AbilityInfo ability in info.AbilityInfos)
             {
-                switch (abil)
+                if (ability.isOnce)
                 {
-                    case AbilityType.Provoke:
-                        // 도발 = 사거리 내 모든 적에게 강제로 타겟 부여
-                        if (!isTimePrevious) break;
-                        foreach (int[] coor in targets)
-                        {
-                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
-                        }
-                        break;
-                    case AbilityType.AttackSpeed:
-                        // 공격속도 버프/너프
-                        if (!isTimePrevious) break;
-                        foreach (int[] coor in targets)
-                        {
-                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(info.RateToAdd);
-                        }
-                        break;
-                    case AbilityType.RateCritical:
-                        // 치명타율 버프/너프
-                        if (!isTimePrevious) break;
-                        foreach (int[] coor in targets)
-                        {
-                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(info.RateToAdd);
-                        }
-                        break;
+                    temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
+                    switch (ability.type)
+                    {
+                        case AbilityType.Provoke:
+                            // 도발 = 적에게 강제로 타겟 부여
+                            foreach (int[] coor in temp)
+                            {
+                                GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
+                            }
+                            break;
+                        case AbilityType.AttackSpeed:
+                            // 공격속도 버프/너프
+                            foreach (int[] coor in temp)
+                            {
+                                GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(ability.amount * info.RateMultipleByLv);
+                                actionWhenDead += () =>
+                                {
+                                    GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(-ability.amount * info.RateMultipleByLv);
+                                };
+                            }
+                            break;
+                        case AbilityType.RateCritical:
+                            // 치명타율 버프/너프
+                            foreach (int[] coor in temp)
+                            {
+                                GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(ability.amount * info.RateMultipleByLv);
+                                actionWhenDead += () =>
+                                {
+                                    GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(-ability.amount * info.RateMultipleByLv);
+                                };
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -202,59 +262,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void CancelEffect()
         {
-            foreach (AbilityType abil in info.Abilities)
-            {
-                switch (abil)
-                {
-                    case AbilityType.Provoke:
-                        // 도발 = 자동으로 해제됨
-                        break;
-                    case AbilityType.AttackSpeed:
-                        // 공격속도 버프/너프 해제
-                        foreach (int[] coor in targets)
-                        {
-                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(-info.RateToAdd);
-                        }
-                        break;
-                    case AbilityType.RateCritical:
-                        // 치명타율 버프/너프 해제
-                        foreach (int[] coor in targets)
-                        {
-                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(-info.RateToAdd);
-                        }
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 타겟 설정 함수
-        /// </summary>
-        private void DecideTarget()
-        {
-            HasTarget = false;
-            while (forceTarget.Count > 0)
-            {
-                HexCoordinate temp = forceTarget.Peek();
-                int[] conv = CommonFunction.ConvertCoordinate(temp);
-                if (GlobalStatus.Units[conv[0]][conv[1]].IsLive)
-                {
-                    // 도발 상태 = 그냥 바로 공격
-                    ExecuteAttack(conv[0], conv[1]);
-                    return;
-                }
-                else
-                {
-                    // 대상이 죽었다 = Dequeue 후 다음 타겟 확인
-                    forceTarget.Dequeue();
-                }
-            }
-            // 사거리 안에 있는 가장 가까운 적 식별
-            targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget, !info.Abilities.Contains(AbilityType.Bounds));
-            foreach (int[] target in targets)
-            {
-                ExecuteAttack(target[0], target[1]);
-            }
+            actionWhenDead?.Invoke();
         }
 
         /// <summary>
@@ -262,14 +270,13 @@ namespace Assets.Scripts.Unit
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        private void ExecuteAttack(int x, int y)
+        private void ExecuteHp(int x, int y, float amountToApply)
         {
-            HasTarget = true;
             ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
             {
                 try
                 {
-                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical + rateCritical);
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp((int)amountToApply, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical + rateCritical);
                 }
                 catch (NullReferenceException)
                 {
@@ -306,7 +313,7 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// HP 데미지 적용
+        /// HP 가감치 적용
         /// </summary>
         /// <param name="amountToApply"></param>
         public void ApplyHp(int amountToApply, bool isCrit)

@@ -9,16 +9,6 @@
         Provoke,
 
         /// <summary>
-        /// 사거리 내 전부 적용
-        /// </summary>
-        Bounds,
-
-        /// <summary>
-        /// 아군이 대상
-        /// </summary>
-        TargetAlly,
-
-        /// <summary>
         /// 공격 속도
         /// </summary>
         AttackSpeed,
@@ -27,5 +17,15 @@
         /// 치명타율
         /// </summary>
         RateCritical,
+
+        /// <summary>
+        /// 데미지
+        /// </summary>
+        Damage,
+
+        /// <summary>
+        /// 힐
+        /// </summary>
+        Heal,
     }
 }
