@@ -340,6 +340,9 @@ namespace Assets.Scripts.Unit
             {
                 // 힐 텍스트 띄워주기
                 UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
+
+                // 힐 이펙트 띄워주기
+                EffectManager.Instance.ExecutNewEffect("Heal", transform.position, Color.white);
             }
             hpGage.ApplyValue(amountToApply);
         }
