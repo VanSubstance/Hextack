@@ -20,6 +20,7 @@ MonoBehaviour:
   Lv: 1
   hp: 80
   range: 2
+  tier: 1
   AbilityInfos:
   - isOnce: 0
     isBound: 0

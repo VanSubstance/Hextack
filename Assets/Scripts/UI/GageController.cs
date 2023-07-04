@@ -49,8 +49,12 @@ namespace Assets.Scripts.UI
         /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, bool isStartFromFull = true)
+        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, bool isStartFromFull = true, Color? fillColor = null)
         {
+            if (fillColor != null)
+            {
+                fill.color = (Color)fillColor;
+            }
             if (targetCoor != null)
             {
                 int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);

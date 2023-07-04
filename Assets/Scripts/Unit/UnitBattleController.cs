@@ -92,7 +92,7 @@ namespace Assets.Scripts.Unit
             hpGage.Init(info.Hp, hexCoor, () =>
             {
                 enabled = false;
-            });
+            }, true, _isEnemy ? null : new Color(0, .9f, .6f, 1));
             // 사전 효과 우선 실행
             ExecutePreviousEffect();
             // 이후 공격 코루틴 실행

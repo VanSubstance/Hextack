@@ -24,6 +24,7 @@ namespace Assets.Scripts.Battle
         }
         private System.Action actionEnd;
         private Vector3 endPos, startPos;
+        private float distort = .01f;
 
         private void Awake()
         {
@@ -43,6 +44,11 @@ namespace Assets.Scripts.Battle
                 // 도착으로 본다
                 actionEnd?.Invoke();
                 Clear();
+            }
+            int idxT = trail.positionCount - 1;
+            if (idxT >= 0)
+            {
+                trail.SetPosition(idxT, trail.GetPosition(idxT) + new Vector3(Random.Range(-distort, distort), Random.Range(-distort, distort), Random.Range(-distort, distort)));
             }
         }
 

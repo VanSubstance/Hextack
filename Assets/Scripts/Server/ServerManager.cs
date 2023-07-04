@@ -114,6 +114,9 @@ namespace Assets.Scripts.Server
                         case IngameStageType.Result:
                             InitStageResult();
                             break;
+                        case IngameStageType.Exit:
+                            ExitDungeon();
+                            break;
                     }
                 },
                 () =>
@@ -260,19 +263,45 @@ namespace Assets.Scripts.Server
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         GlobalStatus.InGame.Round++;
-                        // 필드 전부 리셋
-                        GlobalStatus.UnitsActive.All((unitCtrl) =>
+                        if (GlobalStatus.InGame.Round > ServerData.Dungeon.Info.rounds)
                         {
-                            // 리셋
-                            unitCtrl.ReInit();
-                            return true;
-                        });
-                        // 진척도 ++
-                        UIManager.Instance.UpdateProgress();
-                        NextStage = IngameStageType.Prepare;
+                            // 던전 종료 = 결과 페이지로
+                            NextStage = IngameStageType.Exit;
+                        } else
+                        {
+                            // 필드 전부 리셋
+                            GlobalStatus.UnitsActive.All((unitCtrl) =>
+                            {
+                                // 리셋
+                                unitCtrl.ReInit();
+                                return true;
+                            });
+                            // 진척도 ++
+                            UIManager.Instance.UpdateProgress();
+                            NextStage = IngameStageType.Prepare;
+                        }
                     }, 1f));
                 }, 1.5f));
             }, 0f));
+        }
+
+        /// <summary>
+        /// 던전 종료 = 결과 보여주기
+        /// </summary>
+        private void ExitDungeon()
+        {
+            StartCoroutine(CoroutineExecuteAfterWait(() =>
+            {
+                UIManager.Instance.TextCenter = "던전 종료";
+                StartCoroutine(CoroutineExecuteAfterWait(() =>
+                {
+                    // 결과 윈도우 보여주기
+                    // 보여줄 결과 = 주사위 별 누적 딜량
+                    // 승리한 라운드 수
+                    // 메인 메뉴로 돌아가기
+                    UIManager.Instance.OpenResult();
+                }, 1f));
+            }, 1f));
         }
 
         /// <summary>

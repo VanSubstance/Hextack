@@ -296,5 +296,13 @@ namespace Assets.Scripts.UI
         {
             roundProgressGage.ApplyValue(+1);
         }
+
+        /// <summary>
+        /// 결과창 열기
+        /// </summary>
+        public void OpenResult()
+        {
+
+        }
     }
 }
