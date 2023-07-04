@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI
     public class TextController : MonoBehaviour
     {
         private TextMeshProUGUI ugui;
+        private Rigidbody rigid;
 
         public string Text
         {
@@ -33,6 +34,7 @@ namespace Assets.Scripts.UI
         {
             ugui = GetComponent<TextMeshProUGUI>();
             Text = string.Empty;
+            rigid = GetComponent<Rigidbody>();
         }
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace Assets.Scripts.UI
             GetComponent<RectTransform>().anchoredPosition = screenPos + (Vector2.up * 15);
             Text = targetText;
             ugui.color = textColor;
+            rigid.AddForce(Vector3.up * 20);
             StartCoroutine(CrTimer(time));
             return this;
         }
@@ -54,6 +57,7 @@ namespace Assets.Scripts.UI
         {
             Text = string.Empty;
             ugui.color = Color.white;
+            rigid.velocity = Vector3.zero;
             GlobalStatus.textPoll.Enqueue(this);
         }
 
