@@ -129,6 +129,7 @@ namespace Assets.Scripts.Server
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
                 UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";
+                UIManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
                     UIManager.Instance.TextCenter = "배치";
@@ -241,6 +242,7 @@ namespace Assets.Scripts.Server
                         case 2:
                             UIManager.Instance.TextCenter = "패배";
                             // 체력 깎여야 함
+                            UIManager.Instance.DeductHP(true);
                             break;
                         case 3:
                             UIManager.Instance.TextCenter = "무승부";

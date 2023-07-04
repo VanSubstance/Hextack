@@ -439,8 +439,11 @@ MonoBehaviour:
     type: 3}
   textHitParent: {fileID: 24203392}
   rayCaster: {fileID: 147640031}
+  allyHpTf: {fileID: 1010770802}
+  enemyHpTf: {fileID: 1879091877}
   textCenter: {fileID: 1661860900}
   textTimer: {fileID: 1260765528}
+  textEnemy: {fileID: 761288820}
   infoController: {fileID: -4063776571761123243, guid: 4068253fd45a85b45a270d380e369682,
     type: 3}
   gageController: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
@@ -1422,7 +1425,7 @@ GameObject:
   - component: {fileID: 761288821}
   - component: {fileID: 761288820}
   m_Layer: 5
-  m_Name: Round Info
+  m_Name: Enemy Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1496,8 +1499,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

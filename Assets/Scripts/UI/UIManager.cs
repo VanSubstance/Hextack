@@ -14,9 +14,9 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private UI.TextController textController;
         [SerializeField]
-        private Transform textHitParent, rayCaster;
+        private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf;
         [SerializeField]
-        private TextMeshProUGUI textCenter, textTimer;
+        private TextMeshProUGUI textCenter, textTimer, textEnemy;
         [SerializeField]
         private InfoController infoController;
         [SerializeField]
@@ -39,7 +39,22 @@ namespace Assets.Scripts.UI
         {
             set
             {
+                if (value.Equals(""))
+                {
+                    textTimer.text = "60";
+                    return;
+                }
                 textTimer.text = value;
+            }
+        }
+        /// <summary>
+        /// 헤더 적 체력 대체 텍스트 변경 setter
+        /// </summary>
+        public string TextEnemy
+        {
+            set
+            {
+                textEnemy.text = value;
             }
         }
 
@@ -74,6 +89,7 @@ namespace Assets.Scripts.UI
             infoController = Instantiate(infoController, transform);
             TextCenter = "";
             TextTimer = "";
+            TextEnemy = "";
 
             // 텍스트 풀 100개 사전 생성
             for (int i = 0; i < 100; i++)
@@ -148,6 +164,32 @@ namespace Assets.Scripts.UI
         public void InitUnitInfo(UnitInfo _info)
         {
             infoController.Init(_info);
+        }
+
+        /// <summary>
+        /// 체력 차감
+        /// </summary>
+        public void DeductHP(bool isAlly, int cnt = 1)
+        {
+            Transform temp;
+            if (isAlly)
+            {
+                while (0 < cnt--)
+                {
+                    temp = allyHpTf.GetChild(0);
+                    temp.gameObject.SetActive(false);
+                    temp.SetAsLastSibling();
+                }
+            }
+            else
+            {
+                while (0 < cnt--)
+                {
+                    temp = enemyHpTf.GetChild(0);
+                    temp.gameObject.SetActive(false);
+                    temp.SetAsLastSibling();
+                }
+            }
         }
 
         /// <summary>
