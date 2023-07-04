@@ -42,7 +42,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public TextController Init(Vector2 screenPos, string targetText, Color textColor, float time = 1f, float sizeMultiplier = 1)
         {
-            GetComponent<RectTransform>().anchoredPosition = screenPos + (Vector2.up * 15);
+            GetComponent<RectTransform>().anchoredPosition = screenPos;
             Text = targetText;
             ugui.color = textColor;
             ugui.fontSize = originFontsize * sizeMultiplier;

@@ -94,6 +94,7 @@ namespace Assets.Scripts.Unit
                 if (_isEnemy)
                 {
                     GlobalStatus.InGame.AccuGold += info.Gold;
+                    GlobalStatus.InGame.AccuArtifact += (UnityEngine.Random.Range(0f, 1f) < .1f ? 1 : 0);
                 }
                 enabled = false;
             }, _isEnemy ? null : new Color(0, .9f, .6f, 1));

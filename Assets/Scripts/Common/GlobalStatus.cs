@@ -88,6 +88,10 @@ public static class GlobalStatus
         /// 획득한 누적 골드량
         /// </summary>
         public static int AccuGold = 0;
+        /// <summary>
+        /// 획득한 누적 다이어량
+        /// </summary>
+        public static int AccuArtifact = 0;
     }
 
     public static HexTileController[][] Map;
