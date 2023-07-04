@@ -48,8 +48,8 @@ namespace Assets.Scripts.UI.Window
             float temp = _info.AbilityInfos[0].amount;
             temp *= temp < 1 ? 100 : 1;
             temp = Mathf.Abs(temp);
-            res = res.Replace("{amount}", $"{temp}");
-            res = res.Replace("{timeCool}", $"{_info.AbilityInfos[0].secondForOnce * _info.RateMultipleByLv}");
+            res = res.Replace("{amount}", $"{(int)(temp * _info.RateMultipleByLv)}");
+            res = res.Replace("{timeCool}", $"{_info.AbilityInfos[0].secondForOnce}");
             res = res.Replace("\\n", "\n");
             return res;
         }

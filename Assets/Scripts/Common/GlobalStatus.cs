@@ -77,13 +77,21 @@ public static class GlobalStatus
         /// </summary>
         public static int BattleStatus = 0;
         /// <summary>
-        /// 이번에 설치한 기물 수, 현재 라운드
+        /// 이번에 설치한 기물 수, 현재 라운드, 승리한 라운드 카운트
         /// </summary>
-        public static int CntInstalled, Round;
+        public static int CntInstalled, Round, WinCount;
         /// <summary>
         /// 기본 크리티컬 확률
         /// </summary>
         public static float RateCritical = .1f;
+        /// <summary>
+        /// 획득한 누적 골드량
+        /// </summary>
+        public static int AccuGold = 0;
+        /// <summary>
+        /// 획득한 누적 다이어량
+        /// </summary>
+        public static int AccuArtifact = 0;
     }
 
     public static HexTileController[][] Map;

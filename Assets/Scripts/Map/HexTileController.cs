@@ -128,6 +128,17 @@ namespace Assets.Scripts.Map
         /// <param name="unitController"></param>
         public void InstallUnit(Unit.UnitController unitController)
         {
+            if (!unitController.IsEnemy)
+            {
+                foreach (UnitInfo _info in ServerData.User.Deck)
+                {
+                    if (_info.Code.Equals(unitController.Info.Code))
+                    {
+                        _info.CountSummon++;
+                        break;
+                    }
+                }
+            }
             ClearPreview();
             EffectManager.Instance.ExecutNewEffect("Cloud", transform.position, Color.white);
             if (unitAttached != null)

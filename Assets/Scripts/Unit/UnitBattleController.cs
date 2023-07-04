@@ -4,8 +4,8 @@ using Assets.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
@@ -89,10 +89,15 @@ namespace Assets.Scripts.Unit
             rateSpeed = 1;
             // 체력 게이지 연결
             hpGage = UIManager.Instance.GetNewGage();
-            hpGage.Init(info.Hp, hexCoor, () =>
+            hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
             {
+                if (_isEnemy)
+                {
+                    GlobalStatus.InGame.AccuGold += info.Gold;
+                    GlobalStatus.InGame.AccuArtifact += (UnityEngine.Random.Range(0f, 1f) < .1f ? 1 : 0);
+                }
                 enabled = false;
-            });
+            }, _isEnemy ? null : new Color(0, .9f, .6f, 1));
             // 사전 효과 우선 실행
             ExecutePreviousEffect();
             // 이후 공격 코루틴 실행
@@ -276,7 +281,19 @@ namespace Assets.Scripts.Unit
             {
                 try
                 {
-                    GlobalStatus.Units[x][y].BattleController.ApplyHp((int)amountToApply, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical + rateCritical);
+                    bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
+                    if (!isEnemy)
+                    {
+                        foreach (UnitInfo _info in ServerData.User.Deck)
+                        {
+                            if (_info.Code.Equals(info.Code))
+                            {
+                                _info.AccuDamage += (int)Mathf.Abs(amountToApply * (isCrit ? 1.5f : 1f));
+                                break;
+                            }
+                        }
+                    }
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp((int)amountToApply, isCrit);
                 }
                 catch (NullReferenceException)
                 {
@@ -340,6 +357,9 @@ namespace Assets.Scripts.Unit
             {
                 // 힐 텍스트 띄워주기
                 UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
+
+                // 힐 이펙트 띄워주기
+                EffectManager.Instance.ExecutNewEffect("Heal", transform.position, Color.white);
             }
             hpGage.ApplyValue(amountToApply);
         }

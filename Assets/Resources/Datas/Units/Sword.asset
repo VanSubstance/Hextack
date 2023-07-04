@@ -20,6 +20,10 @@ MonoBehaviour:
   Lv: 1
   hp: 130
   range: 1
+  tier: 1
+  Gold: 3
+  AccuDamage: 0
+  CountSummon: 0
   AbilityInfos:
   - isOnce: 0
     isBound: 0

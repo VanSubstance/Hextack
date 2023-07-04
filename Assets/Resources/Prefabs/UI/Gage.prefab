@@ -92,7 +92,7 @@ MonoBehaviour:
   fill: {fileID: 7889471819858672274}
   background: {fileID: 7889471819587206001}
   fillColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroudColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+  backgroudColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &7889471818984896736
 MonoBehaviour:
   m_ObjectHideFlags: 0

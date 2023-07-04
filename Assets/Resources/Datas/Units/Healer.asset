@@ -20,10 +20,14 @@ MonoBehaviour:
   Lv: 1
   hp: 130
   range: 1
+  tier: 1
+  Gold: 3
+  AccuDamage: 336
+  CountSummon: 1
   AbilityInfos:
   - isOnce: 0
     isBound: 1
     isForAlly: 1
     type: 4
     amount: 14
-    secondForOnce: 1.5
+    secondForOnce: 2

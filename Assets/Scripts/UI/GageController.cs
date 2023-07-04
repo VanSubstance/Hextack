@@ -30,6 +30,12 @@ namespace Assets.Scripts.UI
         {
             set
             {
+                if (gage == null)
+                {
+                    gage = GetComponent<Slider>();
+                    fill.color = fillColor;
+                    background.color = backgroudColor;
+                }
                 gage.value = value;
             }
             get
@@ -49,8 +55,12 @@ namespace Assets.Scripts.UI
         /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, bool isStartFromFull = true)
+        public GageController Init(float _maxValue, float _initValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, Color? fillColor = null)
         {
+            if (fillColor != null)
+            {
+                fill.color = (Color)fillColor;
+            }
             if (targetCoor != null)
             {
                 int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
@@ -62,7 +72,7 @@ namespace Assets.Scripts.UI
                 }
             }
             maxValue = _maxValue;
-            curValue = isStartFromFull ? _maxValue : 0;
+            curValue = _initValue;
             Value = curValue / maxValue;
             callbackWhenZero = _callbackWhenZero;
             gameObject.SetActive(true);
@@ -74,7 +84,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="isFixValue">연산 적용이 아닌 통째로 적용일 경우</param>
-        public void ApplyValue(float amount, bool isFixValue = false)
+        public void ApplyValue(float amount)
         {
             curValue = Mathf.Min(maxValue, amount + curValue);
             Value = curValue / maxValue;

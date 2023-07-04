@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "UnitInfo", menuName = "Scriptables/Unit/Info", order = int.MaxValue)]
-    public class UnitInfo : ScriptableObject
+    public class UnitInfo : ScriptableObject, IComparable
     {
         public string Code;
         public string Title;
@@ -14,6 +15,26 @@ namespace Assets.Scripts.Unit
         public int Lv = 1;
         [SerializeField]
         private int hp, range;
+        [SerializeField]
+        [Range(1, 4)]
+        private int tier;
+
+        /// <summary>
+        /// 획득량
+        /// </summary>
+        public int Gold;
+
+        /// <summary>
+        /// 이번 던전 누적 데미지
+        /// </summary>
+        [HideInInspector]
+        public int AccuDamage;
+
+        /// <summary>
+        /// 이번 던전에서 사용한 횟수
+        /// </summary>
+        [HideInInspector]
+        public int CountSummon;
 
         public int Hp
         {
@@ -27,6 +48,17 @@ namespace Assets.Scripts.Unit
             get
             {
                 return range;
+            }
+        }
+
+        /// <summary>
+        /// 기물 티어
+        /// </summary>
+        public int Tier
+        {
+            get
+            {
+                return tier;
             }
         }
 
@@ -53,6 +85,12 @@ namespace Assets.Scripts.Unit
             UnitToken res = CreateInstance<UnitToken>();
             res.Code = Code;
             return res;
+        }
+
+        public int CompareTo(object obj)
+        {
+            UnitInfo comp = obj as UnitInfo;
+            return comp.AccuDamage.CompareTo(this.AccuDamage);
         }
     }
 }
