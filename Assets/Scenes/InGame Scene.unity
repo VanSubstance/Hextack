@@ -441,6 +441,8 @@ MonoBehaviour:
   rayCaster: {fileID: 147640031}
   allyHpTf: {fileID: 1010770802}
   enemyHpTf: {fileID: 1879091877}
+  allyDeckTf: {fileID: 1911004326}
+  enemyDeckTf: {fileID: 2046300143}
   textCenter: {fileID: 1661860900}
   textTimer: {fileID: 1260765528}
   textEnemy: {fileID: 761288820}

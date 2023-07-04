@@ -49,7 +49,6 @@ namespace Assets.Scripts.Server
             GlobalStatus.IsSingle = isSingle;
             NextStage = IngameStageType.Prepare;
             GlobalStatus.InGame.Round = 1;
-            LoadDungeonInfo(mapInfo);
         }
 
         /// <summary>
@@ -66,10 +65,20 @@ namespace Assets.Scripts.Server
             {
                 ServerData.Dungeon.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
             }
+            // 덱 정보 받아오기
+            ServerData.User.Deck = new UnitInfo[testDeck.Length];
+            for (int i = 0; i < testDeck.Length; i++)
+            {
+                if (testDeck[i] == null) continue;
+                ServerData.User.Deck[i] = ServerData.Unit.data[testDeck[i]];
+            }
         }
 
         private void Start()
         {
+            // 서버 데이터 받아오기
+            LoadDungeonInfo(mapInfo);
+
             // 타일맵 생성
             MapManager.Instance.Init(ServerData.Dungeon.TilesInfo);
             // 유닛 매니저 초기화
@@ -80,6 +89,7 @@ namespace Assets.Scripts.Server
             // 헤더 기본 정보 초기화
             UIManager.Instance.NickAlly = ServerData.User.nickName;
             UIManager.Instance.NickEnemy = ServerData.Dungeon.Info.mapTitle;
+            UIManager.Instance.VisualizeDeck(ServerData.User.Deck, true);
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -127,16 +137,6 @@ namespace Assets.Scripts.Server
         /// </summary>
         private void InitStagePrepare()
         {
-            if (GlobalStatus.Deck == null)
-            {
-                // 최초 = 덱 초기화
-                GlobalStatus.Deck = new UnitInfo[testDeck.Length];
-                for (int i = 0; i < testDeck.Length; i++)
-                {
-                    if (testDeck[i] == null) continue;
-                    GlobalStatus.Deck[i] = ServerData.Unit.data[testDeck[i]];
-                }
-            }
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
                 UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";

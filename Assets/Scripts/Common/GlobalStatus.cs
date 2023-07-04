@@ -86,10 +86,6 @@ public static class GlobalStatus
         public static float RateCritical = .1f;
     }
 
-    /// <summary>
-    /// 인게임에 들고 들어간 덱
-    /// </summary>
-    public static UnitInfo[] Deck;
     public static HexTileController[][] Map;
     public static UnitController[][] Units;
     /// <summary>

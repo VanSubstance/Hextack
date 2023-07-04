@@ -23,6 +23,11 @@ public static class ServerData
         /// 닉네임
         /// </summary>
         public static string nickName = "서버수신닉네임";
+
+        /// <summary>
+        /// 인게임에 들고 들어간 덱
+        /// </summary>
+        public static UnitInfo[] Deck;
     }
 
     /// <summary>
@@ -43,5 +48,10 @@ public static class ServerData
         /// 타일 정보
         /// </summary>
         public static HexCoordinate[] TilesInfo;
+
+        /// <summary>
+        /// 던전 덱
+        /// </summary>
+        public static UnitInfo[] Deck;
     }
 }

@@ -4,6 +4,7 @@ using Assets.Scripts.UI.Window;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
@@ -14,7 +15,7 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private UI.TextController textController;
         [SerializeField]
-        private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf;
+        private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf, allyDeckTf, enemyDeckTf;
         [SerializeField]
         private TextMeshProUGUI textCenter, textTimer, textEnemy, nickNameAlly, nickNameEnemy;
         [SerializeField]
@@ -222,6 +223,31 @@ namespace Assets.Scripts.UI
         public void ClearUnitInfo()
         {
             infoController.Clear();
+        }
+
+        /// <summary>
+        /// 덱 헤더에 연결
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="isAlly"></param>
+        public void VisualizeDeck(UnitInfo[] deck, bool isAlly)
+        {
+            if (isAlly)
+            {
+                for (int idx = 0; idx < deck.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    allyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                }
+            }
+            else
+            {
+                for (int idx = 0; idx < deck.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    enemyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                }
+            }
         }
     }
 }
