@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Server;
+using Assets.Scripts.Unit;
 using System;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,22 @@ namespace Assets.Scripts.UI.Window.Result
                 statControllers[idx++].Init(info, maxDamage);
             }
             gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// 그냥 수령하고 메인메뉴로 나가기
+        /// </summary>
+        public void ExitNormal()
+        {
+            ServerManager.Instance.ExitNormal();
+        }
+
+        /// <summary>
+        /// 광고 보고 두배 수령하고 메인메뉴로 나가기
+        /// </summary>
+        public void ExitDouble()
+        {
+            ServerManager.Instance.ExitDouble();
         }
     }
 }

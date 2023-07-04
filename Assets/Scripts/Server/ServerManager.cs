@@ -311,6 +311,22 @@ namespace Assets.Scripts.Server
         }
 
         /// <summary>
+        /// 광고 보고 두배 수령하고 메인메뉴로 나가기
+        /// </summary>
+        public void ExitDouble()
+        {
+            Debug.Log($"두배 수령 -> 메인 메뉴로 나가기");
+        }
+
+        /// <summary>
+        /// 그냥 수령하고 메인메뉴로 나가기
+        /// </summary>
+        public void ExitNormal()
+        {
+            Debug.Log($"그냥 수령 -> 메인 메뉴로 나가기");
+        }
+
+        /// <summary>
         /// 반복 실행 코루틴
         /// </summary>
         /// <param name="actionRepeat"></param>
