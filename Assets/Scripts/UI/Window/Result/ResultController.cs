@@ -8,7 +8,7 @@ namespace Assets.Scripts.UI.Window.Result
     public class ResultController : MonoBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI textCountWin;
+        private TextMeshProUGUI textCountWin, textGold;
         [SerializeField]
         private UnitStatisticController[] statControllers;
 
@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI.Window.Result
         public void Init()
         {
             textCountWin.text = $"{GlobalStatus.InGame.WinCount} / {ServerData.Dungeon.Info.rounds}";
+            textGold.text = $"{GlobalStatus.InGame.AccuGold} G";
             Array.Sort(ServerData.User.Deck);
             int idx = 0, maxDamage = ServerData.User.Deck[0].AccuDamage;
             foreach (UnitInfo info in ServerData.User.Deck)

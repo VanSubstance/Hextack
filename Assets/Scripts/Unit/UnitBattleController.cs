@@ -4,9 +4,8 @@ using Assets.Scripts.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
+using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
@@ -92,6 +91,10 @@ namespace Assets.Scripts.Unit
             hpGage = UIManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
             {
+                if (_isEnemy)
+                {
+                    GlobalStatus.InGame.AccuGold += info.Gold;
+                }
                 enabled = false;
             }, _isEnemy ? null : new Color(0, .9f, .6f, 1));
             // 사전 효과 우선 실행

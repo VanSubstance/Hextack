@@ -84,6 +84,10 @@ public static class GlobalStatus
         /// 기본 크리티컬 확률
         /// </summary>
         public static float RateCritical = .1f;
+        /// <summary>
+        /// 획득한 누적 골드량
+        /// </summary>
+        public static int AccuGold = 0;
     }
 
     public static HexTileController[][] Map;

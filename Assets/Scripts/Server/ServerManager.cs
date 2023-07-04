@@ -82,6 +82,7 @@ namespace Assets.Scripts.Server
 
             GlobalStatus.InGame.Round = 1;
             GlobalStatus.InGame.WinCount = 0;
+            GlobalStatus.InGame.AccuGold = 0;
 
             // 타일맵 생성
             MapManager.Instance.Init();

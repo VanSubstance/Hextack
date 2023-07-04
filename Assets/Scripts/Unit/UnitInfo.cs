@@ -20,6 +20,11 @@ namespace Assets.Scripts.Unit
         private int tier;
 
         /// <summary>
+        /// 획득량
+        /// </summary>
+        public int Gold;
+
+        /// <summary>
         /// 이번 던전 누적 데미지
         /// </summary>
         [HideInInspector]
