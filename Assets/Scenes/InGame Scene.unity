@@ -449,6 +449,7 @@ MonoBehaviour:
     type: 3}
   gageController: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
     type: 3}
+  roundProgressGage: {fileID: 825076011}
 --- !u!1 &204351350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1345,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2092980341}
     m_Modifications:
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: fillColor.b
+      value: 0.70690846
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: fillColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: fillColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: backgroudColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: backgroudColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+        type: 3}
+      propertyPath: backgroudColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7889471818984896742, guid: 0d7462283a8a72b418f0468efadb3f62,
         type: 3}
       propertyPath: m_Name
@@ -1896,6 +1927,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779304536}
   m_CullTransparentMesh: 1
+--- !u!114 &825076011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
+    type: 3}
+  m_PrefabInstance: {fileID: 675468036}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ad0c61dbdba884a8e6d1c9992fb491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &854423432
 GameObject:
   m_ObjectHideFlags: 0
@@ -2177,7 +2220,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

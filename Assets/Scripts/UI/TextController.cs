@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
-using Assets.Scripts.Map;
-using Unity.VisualScripting;
 
 namespace Assets.Scripts.UI
 {
@@ -10,6 +8,7 @@ namespace Assets.Scripts.UI
     {
         private TextMeshProUGUI ugui;
         private Rigidbody rigid;
+        private float originFontsize;
 
         public string Text
         {
@@ -33,6 +32,7 @@ namespace Assets.Scripts.UI
         private void Awake()
         {
             ugui = GetComponent<TextMeshProUGUI>();
+            originFontsize = ugui.fontSize;
             Text = string.Empty;
             rigid = GetComponent<Rigidbody>();
         }
@@ -40,11 +40,12 @@ namespace Assets.Scripts.UI
         /// <summary>
         /// 초기화 함수
         /// </summary>
-        public TextController Init(Vector2 screenPos, string targetText, Color textColor, float time = 1f)
+        public TextController Init(Vector2 screenPos, string targetText, Color textColor, float time = 1f, float sizeMultiplier = 1)
         {
             GetComponent<RectTransform>().anchoredPosition = screenPos + (Vector2.up * 15);
             Text = targetText;
             ugui.color = textColor;
+            ugui.fontSize = originFontsize * sizeMultiplier;
             rigid.AddForce(Vector3.up * 20);
             StartCoroutine(CrTimer(time));
             return this;
@@ -57,6 +58,7 @@ namespace Assets.Scripts.UI
         {
             Text = string.Empty;
             ugui.color = Color.white;
+            ugui.fontSize = originFontsize;
             rigid.velocity = Vector3.zero;
             GlobalStatus.textPoll.Enqueue(this);
         }

@@ -42,26 +42,26 @@ namespace Assets.Scripts.UI
             gage = GetComponent<Slider>();
             fill.color = fillColor;
             background.color = backgroudColor;
-            gameObject.SetActive(false);
         }
 
         /// <summary>
-        /// HP 게이지용 초기화 함수
+        /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null)
+        public GageController Init(float _maxValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, bool isStartFromFull = true)
         {
-            fill.color = Color.red;
-            background.color = Color.black;
-            int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
-            Vector3 hexPos = GlobalStatus.Map[cvc[0]][cvc[1]].transform.position;
-            if (Physics.Raycast(hexPos, GlobalDictionary.VectorToScreen, out RaycastHit hit, 40, GlobalDictionary.Layer.UI))
+            if (targetCoor != null)
             {
-                GetComponent<RectTransform>().position = hit.point;
-                GetComponent<RectTransform>().anchoredPosition += Vector2.up * 70;
+                int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
+                Vector3 hexPos = GlobalStatus.Map[cvc[0]][cvc[1]].transform.position;
+                if (Physics.Raycast(hexPos, GlobalDictionary.VectorToScreen, out RaycastHit hit, 40, GlobalDictionary.Layer.UI))
+                {
+                    GetComponent<RectTransform>().position = hit.point;
+                    GetComponent<RectTransform>().anchoredPosition += Vector2.up * 70;
+                }
             }
             maxValue = _maxValue;
-            curValue = _maxValue;
+            curValue = isStartFromFull ? _maxValue : 0;
             Value = curValue / maxValue;
             callbackWhenZero = _callbackWhenZero;
             gameObject.SetActive(true);
@@ -72,7 +72,8 @@ namespace Assets.Scripts.UI
         /// 값 더하기/빼기 함수; 값이 0이 되면 콜백 함수 작동 + 풀에 반납
         /// </summary>
         /// <param name="amount"></param>
-        public void ApplyValue(float amount)
+        /// <param name="isFixValue">연산 적용이 아닌 통째로 적용일 경우</param>
+        public void ApplyValue(float amount, bool isFixValue = false)
         {
             curValue = Mathf.Min(maxValue, amount + curValue);
             Value = curValue / maxValue;

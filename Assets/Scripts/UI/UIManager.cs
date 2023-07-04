@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private InfoController infoController;
         [SerializeField]
-        private GageController gageController;
+        private GageController gageController, roundProgressGage;
         private int curTimer;
 
         /// <summary>
@@ -126,6 +126,20 @@ namespace Assets.Scripts.UI
                 GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
             }
             IsRayCastable = false;
+        }
+
+        /// <summary>
+        /// 데이터 업데이트 종료 후 실행되어야 하는 UI 매니저 초기화
+        /// </summary>
+        public void Init()
+        {
+            NickAlly = ServerData.User.nickName;
+            NickEnemy = ServerData.Dungeon.Info.mapTitle;
+            VisualizeDeck(ServerData.User.Deck, true);
+            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, null, () =>
+            {
+                Debug.Log("던전 전부 종료");
+            }, false);
         }
 
         /// <summary>
@@ -248,6 +262,14 @@ namespace Assets.Scripts.UI
                     enemyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
                 }
             }
+        }
+
+        /// <summary>
+        /// 던전 진척도 업데이트
+        /// </summary>
+        public void UpdateProgress()
+        {
+            roundProgressGage.ApplyValue(+1);
         }
     }
 }

@@ -48,7 +48,6 @@ namespace Assets.Scripts.Server
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
             NextStage = IngameStageType.Prepare;
-            GlobalStatus.InGame.Round = 1;
         }
 
         /// <summary>
@@ -79,17 +78,16 @@ namespace Assets.Scripts.Server
             // 서버 데이터 받아오기
             LoadDungeonInfo(mapInfo);
 
+            GlobalStatus.InGame.Round = 1;
+
             // 타일맵 생성
-            MapManager.Instance.Init(ServerData.Dungeon.TilesInfo);
+            MapManager.Instance.Init();
             // 유닛 매니저 초기화
             UnitManager.Instance.Init();
             // 투사체 매니저 초기화
             ProjectileManager.Instance.Init();
-
-            // 헤더 기본 정보 초기화
-            UIManager.Instance.NickAlly = ServerData.User.nickName;
-            UIManager.Instance.NickEnemy = ServerData.Dungeon.Info.mapTitle;
-            UIManager.Instance.VisualizeDeck(ServerData.User.Deck, true);
+            // UI 매니저 정보 초기화
+            UIManager.Instance.Init();
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -139,7 +137,7 @@ namespace Assets.Scripts.Server
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";
+                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
                 UIManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
@@ -269,6 +267,8 @@ namespace Assets.Scripts.Server
                             unitCtrl.ReInit();
                             return true;
                         });
+                        // 진척도 ++
+                        UIManager.Instance.UpdateProgress();
                         NextStage = IngameStageType.Prepare;
                     }, 1f));
                 }, 1.5f));

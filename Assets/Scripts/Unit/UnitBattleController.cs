@@ -334,12 +334,12 @@ namespace Assets.Scripts.Unit
             {
                 // 데미지 텍스트 띄워주기
                 amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
-                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white);
+                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
             }
             else
             {
                 // 힐 텍스트 띄워주기
-                UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1));
+                UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
             }
             hpGage.ApplyValue(amountToApply);
         }
