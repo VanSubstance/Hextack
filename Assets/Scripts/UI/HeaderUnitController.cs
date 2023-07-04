@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI
         {
             if (info != null)
             {
-                UIManager.Instance.InitUnitInfo(info);
+                InGameUIManager.Instance.InitUnitInfo(info);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Assets.Scripts.UI
         {
             if (info != null)
             {
-                UIManager.Instance.ClearUnitInfo();
+                InGameUIManager.Instance.ClearUnitInfo();
             }
         }
     }

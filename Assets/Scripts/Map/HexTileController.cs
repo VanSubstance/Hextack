@@ -218,7 +218,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null && unitAttached.IsLive)
             {
-                UIManager.Instance.InitUnitInfo(unitAttached.Info);
+                InGameUIManager.Instance.InitUnitInfo(unitAttached.Info);
                 ActivateRange();
             }
         }
@@ -230,7 +230,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null)
             {
-                UIManager.Instance.ClearUnitInfo();
+                InGameUIManager.Instance.ClearUnitInfo();
                 DeActivateRange();
             }
         }

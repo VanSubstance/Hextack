@@ -5,11 +5,10 @@ using Assets.Scripts.UI.Window.Result;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
-    public class UIManager : SingletonObject<UIManager>
+    public class InGameUIManager : SingletonObject<InGameUIManager>
     {
         [SerializeField]
         private ChoiceManager choiceManager;

@@ -121,18 +121,18 @@ namespace Assets.Scripts.UI.Choice
                 newUnit.Clear();
             }
             newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
-            UIManager.Instance.InitUnitInfo(info);
+            InGameUIManager.Instance.InitUnitInfo(info);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            UIManager.Instance.ClearUnitInfo();
+            InGameUIManager.Instance.ClearUnitInfo();
             if (newUnit != null && targetTile != null)
             {
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;
-                UIManager.Instance.FinishChoice();
+                InGameUIManager.Instance.FinishChoice();
             }
         }
     }
