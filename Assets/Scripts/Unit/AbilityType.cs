@@ -7,7 +7,7 @@
         /// 도발
         /// </summary>
         Provoke,
-        
+
         /// <summary>
         /// 사거리 내 전부 적용
         /// </summary>
@@ -18,5 +18,14 @@
         /// </summary>
         TargetAlly,
 
+        /// <summary>
+        /// 공격 속도
+        /// </summary>
+        AttackSpeed,
+
+        /// <summary>
+        /// 치명타율
+        /// </summary>
+        RateCritical,
     }
 }

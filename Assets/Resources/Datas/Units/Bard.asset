@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
+  m_Name: Bard
+  m_EditorClassIdentifier: 
+  Code: Bard
+  Title: "\uC74C\uC720\uC2DC\uC778"
+  Desc: 
+  Lv: 1
+  hp: 110
+  damage: 0
+  range: 1
+  atkPerSecond: 0
+  rateToAdd: 0.13
+  IsAttackable: 0
+  Abilities: 010000000200000004000000

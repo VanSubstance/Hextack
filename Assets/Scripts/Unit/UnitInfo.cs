@@ -19,6 +19,12 @@ namespace Assets.Scripts.Unit
         /// </summary>
         [SerializeField]
         private float atkPerSecond;
+        /// <summary>
+        /// 적용할 가/감 계수 (합연산)
+        /// </summary>
+        [SerializeField]
+        private float rateToAdd;
+
         public int Hp
         {
             get
@@ -45,6 +51,13 @@ namespace Assets.Scripts.Unit
             get
             {
                 return atkPerSecond;
+            }
+        }
+        public float RateToAdd
+        {
+            get
+            {
+                return rateToAdd;
             }
         }
         public bool IsAttackable;

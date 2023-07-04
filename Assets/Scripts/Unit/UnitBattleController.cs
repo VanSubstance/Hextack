@@ -19,7 +19,10 @@ namespace Assets.Scripts.Unit
         private UnitInfo info;
         private HexCoordinate hexCoor;
         private bool isEnemy;
-        private float timeAtk;
+        /// <summary>
+        /// 공격 1회에 걸리는 시간, 공격속도 가중치 (기준 1, 분모), 치명타율 가중치 (기준 0, 합)
+        /// </summary>
+        private float timeAtk, rateSpeed, rateCritical;
         private Coroutine attackCr;
         private Action actionClear;
         private GageController hpGage;
@@ -87,6 +90,8 @@ namespace Assets.Scripts.Unit
             {
                 timeAtk = 1f / info.AtkPerSecond;
             }
+            rateCritical = 0;
+            rateSpeed = 1;
             // 체력 게이지 연결
             hpGage = UIManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, hexCoor, () =>
@@ -150,15 +155,16 @@ namespace Assets.Scripts.Unit
             while (true)
             {
                 DecideTarget();
-                yield return new WaitForSeconds(timeAtk);
+                yield return new WaitForSeconds(timeAtk / rateSpeed);
             }
         }
 
         /// <summary>
-        /// 기물 효과 실행 함수
+        /// 최초 기물 효과 실행 함수
         /// </summary>
         public void ExecuteEffect(bool isTimePrevious)
         {
+            targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget);
             foreach (AbilityType abil in info.Abilities)
             {
                 switch (abil)
@@ -166,10 +172,25 @@ namespace Assets.Scripts.Unit
                     case AbilityType.Provoke:
                         // 도발 = 사거리 내 모든 적에게 강제로 타겟 부여
                         if (!isTimePrevious) break;
-                        targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget);
                         foreach (int[] coor in targets)
                         {
                             GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
+                        }
+                        break;
+                    case AbilityType.AttackSpeed:
+                        // 공격속도 버프/너프
+                        if (!isTimePrevious) break;
+                        foreach (int[] coor in targets)
+                        {
+                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(info.RateToAdd);
+                        }
+                        break;
+                    case AbilityType.RateCritical:
+                        // 치명타율 버프/너프
+                        if (!isTimePrevious) break;
+                        foreach (int[] coor in targets)
+                        {
+                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(info.RateToAdd);
                         }
                         break;
                 }
@@ -181,7 +202,29 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void CancelEffect()
         {
-
+            foreach (AbilityType abil in info.Abilities)
+            {
+                switch (abil)
+                {
+                    case AbilityType.Provoke:
+                        // 도발 = 자동으로 해제됨
+                        break;
+                    case AbilityType.AttackSpeed:
+                        // 공격속도 버프/너프 해제
+                        foreach (int[] coor in targets)
+                        {
+                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(-info.RateToAdd);
+                        }
+                        break;
+                    case AbilityType.RateCritical:
+                        // 치명타율 버프/너프 해제
+                        foreach (int[] coor in targets)
+                        {
+                            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(-info.RateToAdd);
+                        }
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -226,7 +269,7 @@ namespace Assets.Scripts.Unit
             {
                 try
                 {
-                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                    GlobalStatus.Units[x][y].BattleController.ApplyHp(-info.Damage, UnityEngine.Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical + rateCritical);
                 }
                 catch (NullReferenceException)
                 {
@@ -236,20 +279,30 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 외부로부터의 효과 적용 함수
-        /// </summary>
-        public void ApplyEffect()
-        {
-
-        }
-
-        /// <summary>
         /// 도발 적용
         /// </summary>
         /// <param name="targetCoor"></param>
         public void ApplyProvoke(HexCoordinate targetCoor)
         {
             forceTarget.Enqueue(targetCoor);
+        }
+
+        /// <summary>
+        /// 공격속도 가감치 합연산 적용
+        /// </summary>
+        /// <param name="rateToAdd"></param>
+        public void ApplyAtkSpeed(float rateToAdd)
+        {
+            rateSpeed += rateToAdd;
+        }
+
+        /// <summary>
+        /// 치명타율 가감치 합연산 적용
+        /// </summary>
+        /// <param name="rateToAdd"></param>
+        public void ApplyCriticalRate(float rateToAdd)
+        {
+            rateCritical += rateToAdd;
         }
 
         /// <summary>
