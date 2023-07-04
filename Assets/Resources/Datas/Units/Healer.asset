@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
-  m_Name: Sword
+  m_Name: Healer
   m_EditorClassIdentifier: 
-  Code: Sword
-  Title: "\uAC80"
+  Code: Healer
+  Title: "\uC131\uC9C1\uC790"
   Desc: 
   Lv: 1
   hp: 130
   range: 1
   AbilityInfos:
   - isOnce: 0
-    isBound: 0
-    isForAlly: 0
-    type: 3
-    amount: 17
-    secondForOnce: 1.1
+    isBound: 1
+    isForAlly: 1
+    type: 4
+    amount: 14
+    secondForOnce: 1.5

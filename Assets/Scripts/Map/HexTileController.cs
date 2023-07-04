@@ -129,7 +129,7 @@ namespace Assets.Scripts.Map
         public void InstallUnit(UnitController unitController)
         {
             ClearPreview();
-            EffectManager.Instance.ExecutNewEffect("Cloud", transform.position);
+            EffectManager.Instance.ExecutNewEffect("Cloud", transform.position, Color.red);
             if (unitAttached != null)
             {
                 // 업그레이드

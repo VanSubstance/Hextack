@@ -74,7 +74,7 @@ namespace Assets.Scripts.Unit
             {
                 if (unit.IsLive)
                 {
-                    if (isAllNoTarget && unit.BattleController.CurTarget != null)
+                    if (isAllNoTarget && unit.BattleController.HasTarget)
                     {
                         isAllNoTarget = false;
                     }

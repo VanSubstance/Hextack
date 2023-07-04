@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
-  m_Name: Sword
+  m_Name: ScareCrow
   m_EditorClassIdentifier: 
-  Code: Sword
-  Title: "\uAC80"
+  Code: ScareCrow
+  Title: "\uAE30\uAD34\uD55C \uD5C8\uC218\uC544\uBE44"
   Desc: 
   Lv: 1
-  hp: 130
+  hp: 110
   range: 1
   AbilityInfos:
-  - isOnce: 0
-    isBound: 0
+  - isOnce: 1
+    isBound: 1
     isForAlly: 0
-    type: 3
-    amount: 17
-    secondForOnce: 1.1
+    type: 2
+    amount: -0.12
+    secondForOnce: 0
