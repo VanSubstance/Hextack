@@ -304,6 +304,18 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
+        /// 추가 틱 효과 부여
+        /// </summary>
+        /// <param name="actionToApply"></param>
+        /// <param name="time"></param>
+        public void ApplyCrTickEffect(System.Action<int> actionToApply, float time)
+        {
+            hasTargetList.Add(false);
+            int newIdx = hasTargetList.Count - 1;
+            activeCrList.Add(StartCoroutine(CrTickEffect(actionToApply, newIdx, time)));
+        }
+
+        /// <summary>
         /// 치명타율 가감치 합연산 적용
         /// </summary>
         /// <param name="rateToAdd"></param>

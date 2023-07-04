@@ -7,16 +7,19 @@ namespace Assets.Scripts.Battle
         [SerializeField]
         private string effectName;
         private ParticleSystem particle;
+        private ParticleSystem.MainModule particleModule;
         private void Awake()
         {
             particle = GetComponent<ParticleSystem>();
+            particleModule = particle.main;
             gameObject.SetActive(false);
         }
 
-        public EffectController InitEffect(Vector3 targetPos)
+        public EffectController InitEffect(Vector3 targetPos, Color color)
         {
             transform.position = targetPos;
             gameObject.SetActive(true);
+            particleModule.startColor = color;
             if (particle != null)
             {
                 particle.Play();

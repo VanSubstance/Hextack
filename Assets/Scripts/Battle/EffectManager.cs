@@ -12,14 +12,14 @@ namespace Assets.Scripts.Battle
         /// </summary>
         /// <param name="effectName"></param>
         /// <param name="targetPos"></param>
-        public void ExecutNewEffect(string effectName, Vector3 targetPos)
+        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color)
         {
             if (!GlobalStatus.effectPool.Keys.Contains(effectName))
             {
                 // 최초
                 GlobalStatus.effectPool[effectName] = new Queue<EffectController>();
             }
-            Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform).InitEffect(targetPos);
+            Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform).InitEffect(targetPos, color);
         }
     }
 }
