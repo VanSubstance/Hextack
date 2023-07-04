@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
-  m_Name: Bow
+  m_Name: Healer
   m_EditorClassIdentifier: 
-  Code: Bow
-  Title: "\uD65C"
+  Code: Healer
+  Title: "\uC131\uC9C1\uC790"
   Desc: 
   Lv: 1
-  hp: 80
-  damage: 13
-  range: 2
-  atkPerSecond: 1
+  hp: 130
+  damage: -14
+  range: 1
+  atkPerSecond: 0.5
   IsAttackable: 1
-  Abilities: 
+  Abilities: 0100000002000000

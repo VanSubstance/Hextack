@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Unit
 {
@@ -17,7 +18,7 @@ namespace Assets.Scripts.Unit
         /// 1초 당 공격 횟수
         /// </summary>
         [SerializeField]
-        private float spd;
+        private float atkPerSecond;
         public int Hp
         {
             get
@@ -39,15 +40,15 @@ namespace Assets.Scripts.Unit
                 return range;
             }
         }
-        public float Spd
+        public float AtkPerSecond
         {
             get
             {
-                return spd;
+                return atkPerSecond;
             }
         }
         public bool IsAttackable;
-        public AbilityType[] Abilities;
+        public List<AbilityType> Abilities;
         public UnitInfo Clone()
         {
             return Instantiate(this);

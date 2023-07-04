@@ -23,6 +23,11 @@ namespace Assets.Scripts.Unit
         private Coroutine attackCr;
         private Action actionClear;
         private GageController hpGage;
+
+        /// <summary>
+        /// 대상이 아군인지 적인지
+        /// </summary>
+        private bool IsTargetAlly;
         /// <summary>
         /// 스크린 투영 좌표
         /// </summary>
@@ -35,10 +40,21 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
+        /// 찾고자 하는 대상
+        /// </summary>
+        private int SeekTarget
+        {
+            get
+            {
+                return isEnemy ? (IsTargetAlly ? 1 : 2) : (IsTargetAlly ? 2 : 1);
+            }
+        }
+
+        /// <summary>
         /// 근처 적들 좌표 (배열 기준)
         /// </summary>
-        private List<int[]> enemiesNear;
-        public UnitController CurTarget;
+        private List<int[]> targets;
+        public bool HasTarget;
 
         /// <summary>
         /// 강제 공격 타겟
@@ -60,14 +76,16 @@ namespace Assets.Scripts.Unit
             info = unitInfo.Clone();
             hexCoor = _coor;
             isEnemy = _isEnemy;
+            IsTargetAlly = info.Abilities.Contains(AbilityType.TargetAlly);
+            HasTarget = false;
             actionClear = _actionClear;
-            if (info.Spd <= 0)
+            if (info.AtkPerSecond <= 0)
             {
                 timeAtk = -1;
             }
             else
             {
-                timeAtk = 1f / info.Spd;
+                timeAtk = 1f / info.AtkPerSecond;
             }
             // 체력 게이지 연결
             hpGage = UIManager.Instance.GetNewGage();
@@ -148,8 +166,8 @@ namespace Assets.Scripts.Unit
                     case AbilityType.Provoke:
                         // 도발 = 사거리 내 모든 적에게 강제로 타겟 부여
                         if (!isTimePrevious) break;
-                        enemiesNear = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, isEnemy ? 2 : 1);
-                        foreach (int[] coor in enemiesNear)
+                        targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget);
+                        foreach (int[] coor in targets)
                         {
                             GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
                         }
@@ -171,7 +189,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         private void DecideTarget()
         {
-            CurTarget = null;
+            HasTarget = false;
             while (forceTarget.Count > 0)
             {
                 HexCoordinate temp = forceTarget.Peek();
@@ -189,10 +207,10 @@ namespace Assets.Scripts.Unit
                 }
             }
             // 사거리 안에 있는 가장 가까운 적 식별
-            enemiesNear = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, isEnemy ? 2 : 1, true);
-            if (enemiesNear.Count != 0)
+            targets = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget, !info.Abilities.Contains(AbilityType.Bounds));
+            foreach (int[] target in targets)
             {
-                ExecuteAttack(enemiesNear[0][0], enemiesNear[0][1]);
+                ExecuteAttack(target[0], target[1]);
             }
         }
 
@@ -203,7 +221,7 @@ namespace Assets.Scripts.Unit
         /// <param name="y"></param>
         private void ExecuteAttack(int x, int y)
         {
-            CurTarget = GlobalStatus.Units[x][y];
+            HasTarget = true;
             ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
             {
                 try
@@ -240,11 +258,16 @@ namespace Assets.Scripts.Unit
         /// <param name="amountToApply"></param>
         public void ApplyHp(int amountToApply, bool isCrit)
         {
-            amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
             if (amountToApply < 0)
             {
                 // 데미지 텍스트 띄워주기
+                amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
                 UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white);
+            }
+            else
+            {
+                // 힐 텍스트 띄워주기
+                UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1));
             }
             hpGage.ApplyValue(amountToApply);
         }

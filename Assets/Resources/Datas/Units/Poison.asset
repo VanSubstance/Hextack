@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
-  m_Name: Bow
+  m_Name: Poison
   m_EditorClassIdentifier: 
-  Code: Bow
-  Title: "\uD65C"
+  Code: Poison
+  Title: "\uB3C5"
   Desc: 
   Lv: 1
-  hp: 80
-  damage: 13
-  range: 2
-  atkPerSecond: 1
+  hp: 100
+  damage: 7
+  range: 1
+  atkPerSecond: 1.5
   IsAttackable: 1
-  Abilities: 
+  Abilities: 01000000

@@ -417,6 +417,8 @@ MonoBehaviour:
   - Bow
   - Sword
   - Provoke
+  - Healer
+  - Poison
   mapInfo: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   isSingle: 1
   tilesInfo: []
@@ -1016,7 +1018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBB34\uC2B9\uBD80"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a81e3f85dfc3228439c7e54d50205ad9, type: 2}
   m_sharedMaterial: {fileID: 5604343592820235232, guid: a81e3f85dfc3228439c7e54d50205ad9,
