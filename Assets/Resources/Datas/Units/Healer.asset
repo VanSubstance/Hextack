@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
+  m_Name: Healer
+  m_EditorClassIdentifier: 
+  Code: Healer
+  Title: "\uC131\uC9C1\uC790 \uD0C0\uC6CC"
+  Desc: "\uC131\uC9C1\uC790 \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n1 \uAC70\uB9AC \uC774\uB0B4\uC758
+    \uBAA8\uB4E0 \uC544\uAD70\uC744 {timeCool}\uCD08\uB9C8\uB2E4 {amount} \uB9CC\uD07C
+    \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4. "
+  Lv: 1
+  hp: 130
+  range: 1
+  tier: 1
+  Gold: 3
+  AccuDamage: 336
+  CountSummon: 1
+  AbilityInfos:
+  - isOnce: 0
+    isBound: 1
+    isForAlly: 1
+    type: 4
+    amount: 14
+    secondForOnce: 2

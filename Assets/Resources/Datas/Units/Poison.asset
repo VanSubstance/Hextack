@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
+  m_Name: Poison
+  m_EditorClassIdentifier: 
+  Code: Poison
+  Title: "\uD654\uD559 \uD0C0\uC6CC"
+  Desc: "\uD654\uD559 \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n{timeCool}\uCD08\uB9C8\uB2E4
+    \uB3C5 \uC548\uAC1C\uB97C \uBFDC\uC5B4 1 \uAC70\uB9AC \uC774\uB0B4\uC758 \uBAA8\uB4E0
+    \uC801\uC5D0\uAC8C {amount}\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4. "
+  Lv: 1
+  hp: 100
+  range: 1
+  tier: 1
+  Gold: 3
+  AccuDamage: 215
+  CountSummon: 2
+  AbilityInfos:
+  - isOnce: 0
+    isBound: 1
+    isForAlly: 0
+    type: 3
+    amount: 3
+    secondForOnce: 0.3

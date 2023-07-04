@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed703b1a8d6909c48938a31e0c6ef702, type: 3}
+  m_Name: ScareCrow
+  m_EditorClassIdentifier: 
+  Code: ScareCrow
+  Title: "\uAE30\uAD34\uD55C \uD5C8\uC218\uC544\uBE44"
+  Desc: "\uAE30\uAD34\uD55C \uAE30\uC6B4\uC774 \uB3C4\uB294 \uD5C8\uC218\uC544\uBE44
+    \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n1 \uAC70\uB9AC \uC774\uB0B4\uC758 \uBAA8\uB4E0
+    \uC801\uC5D0\uAC8C {amount}% \uB9CC\uD07C\uC758 \uCE58\uBA85\uD0C0\uC728\uC744
+    \uAC10\uC18C\uC2DC\uD0B5\uB2C8\uB2E4."
+  Lv: 1
+  hp: 110
+  range: 1
+  tier: 1
+  Gold: 3
+  AccuDamage: 0
+  CountSummon: 0
+  AbilityInfos:
+  - isOnce: 1
+    isBound: 1
+    isForAlly: 0
+    type: 2
+    amount: -0.12
+    secondForOnce: 0
