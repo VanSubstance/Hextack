@@ -16,12 +16,36 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf;
         [SerializeField]
-        private TextMeshProUGUI textCenter, textTimer, textEnemy;
+        private TextMeshProUGUI textCenter, textTimer, textEnemy, nickNameAlly, nickNameEnemy;
         [SerializeField]
         private InfoController infoController;
         [SerializeField]
         private GageController gageController;
         private int curTimer;
+
+        /// <summary>
+        /// 좌측 닉네임 텍스트
+        /// </summary>
+        public string NickAlly
+        {
+            set
+            {
+                nickNameAlly.text = value;
+            }
+        }
+
+
+        /// <summary>
+        /// 우측 닉네임 텍스트
+        /// </summary>
+        public string NickEnemy
+        {
+            set
+            {
+                nickNameEnemy.text = value;
+            }
+        }
+
         /// <summary>
         /// 가운데 텍스트 변경 setter
         /// </summary>

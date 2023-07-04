@@ -444,6 +444,8 @@ MonoBehaviour:
   textCenter: {fileID: 1661860900}
   textTimer: {fileID: 1260765528}
   textEnemy: {fileID: 761288820}
+  nickNameAlly: {fileID: 204351352}
+  nickNameEnemy: {fileID: 779304538}
   infoController: {fileID: -4063776571761123243, guid: 4068253fd45a85b45a270d380e369682,
     type: 3}
   gageController: {fileID: 7889471818984896737, guid: 0d7462283a8a72b418f0468efadb3f62,
@@ -638,7 +640,6 @@ MonoBehaviour:
   - Healer
   mapInfo: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   isSingle: 1
-  tilesInfo: []
 --- !u!1 &210495102
 GameObject:
   m_ObjectHideFlags: 0

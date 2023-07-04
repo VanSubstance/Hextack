@@ -7,7 +7,7 @@ namespace Assets.Scripts.Map
     public class MapInfo : ScriptableObject
     {
         public string mapTitle;
-        public string code;
+        public string Code;
         public int radius, rounds, cntTileBan, cntUnitBan, cntUnit;
     }
 }

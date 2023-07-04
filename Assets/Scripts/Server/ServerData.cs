@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Unit;
+using Assets.Scripts.Map;
 using System.Collections.Generic;
 
 /// <summary>
@@ -11,5 +12,36 @@ public static class ServerData
     {
         public static string rootPath = $"{ServerData.rootPath}/Units";
         public static Dictionary<string, UnitInfo> data = new Dictionary<string, UnitInfo>();
+    }
+
+    /// <summary>
+    /// 유저 정보
+    /// </summary>
+    public static class User
+    {
+        /// <summary>
+        /// 닉네임
+        /// </summary>
+        public static string nickName = "서버수신닉네임";
+    }
+
+    /// <summary>
+    /// 던전 정보
+    /// </summary>
+    public static class Dungeon
+    {
+        /// <summary>
+        /// 기본 맵 정보
+        /// </summary>
+        public static MapInfo Info;
+        /// <summary>
+        /// 몬스터 정보
+        /// </summary>
+        public static UnitToken[][] MonsterInfo;
+
+        /// <summary>
+        /// 타일 정보
+        /// </summary>
+        public static HexCoordinate[] TilesInfo;
     }
 }

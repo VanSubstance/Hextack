@@ -19,9 +19,6 @@ namespace Assets.Scripts.Server
         private MapInfo mapInfo;
         [SerializeField]
         private bool isSingle;
-        [HideInInspector]
-        public HexCoordinate[] tilesInfo;
-        public UnitToken[][] monstersInfo;
         private bool IsStageOver
         {
             set
@@ -51,24 +48,38 @@ namespace Assets.Scripts.Server
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
             NextStage = IngameStageType.Prepare;
-            string basePath = $"Datas/Maps/{mapInfo.radius}/{mapInfo.mapTitle}";
-            tilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
-            monstersInfo = new UnitToken[mapInfo.rounds][];
-            for (int i = 0; i < mapInfo.rounds; i++)
-            {
-                monstersInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
-            }
             GlobalStatus.InGame.Round = 1;
+            LoadDungeonInfo(mapInfo);
+        }
+
+        /// <summary>
+        /// 던전 정보 받아오기 함수
+        /// </summary>
+        /// <param name="dungeonName"></param>
+        private void LoadDungeonInfo(MapInfo _mapInfo)
+        {
+            ServerData.Dungeon.Info = _mapInfo;
+            string basePath = $"Datas/Maps/{ServerData.Dungeon.Info.radius}/{ServerData.Dungeon.Info.Code}";
+            ServerData.Dungeon.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
+            ServerData.Dungeon.MonsterInfo = new UnitToken[ServerData.Dungeon.Info.rounds][];
+            for (int i = 0; i < ServerData.Dungeon.Info.rounds; i++)
+            {
+                ServerData.Dungeon.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
+            }
         }
 
         private void Start()
         {
             // 타일맵 생성
-            MapManager.Instance.Init(tilesInfo);
-            // 유닛 내니저 초기화
+            MapManager.Instance.Init(ServerData.Dungeon.TilesInfo);
+            // 유닛 매니저 초기화
             UnitManager.Instance.Init();
             // 투사체 매니저 초기화
             ProjectileManager.Instance.Init();
+
+            // 헤더 기본 정보 초기화
+            UIManager.Instance.NickAlly = ServerData.User.nickName;
+            UIManager.Instance.NickEnemy = ServerData.Dungeon.Info.mapTitle;
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -136,7 +147,7 @@ namespace Assets.Scripts.Server
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         UIManager.Instance.TextCenter = "";
-                        UnitManager.Instance.InitUnits(monstersInfo[GlobalStatus.InGame.Round - 1], true);
+                        UnitManager.Instance.InitUnits(ServerData.Dungeon.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
                         NextStage = IngameStageType.Place;
                     }, 1f));
                 }, 1f));
