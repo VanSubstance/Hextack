@@ -32,12 +32,12 @@ namespace Assets.Scripts.UI.Choice
                 UnitInfo cur;
                 while (true)
                 {
-                    idx = Random.Range(0, GlobalStatus.Deck.Length);
+                    idx = Random.Range(0, ServerData.User.Deck.Length);
                     if (!idxPicked.Contains(idx))
                     {
                         idxPicked.Add(idx);
                         // 신규 인덱스
-                        if ((cur = GlobalStatus.Deck[idx]) != null)
+                        if ((cur = ServerData.User.Deck[idx]) != null)
                         {
                             // 벤 안됨
                             choice.Init(cur);

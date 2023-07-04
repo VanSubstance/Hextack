@@ -1,7 +1,5 @@
-﻿using Assets.Scripts.Server;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Assets.Scripts.Map
 {
@@ -21,16 +19,14 @@ namespace Assets.Scripts.Map
         /// <summary>
         /// 신규 맵 생성 함수
         /// </summary>
-        /// <param name="_radius">반지름</param>
-        /// <param name="coors">배치 가능 타일 좌표들</param>
-        public void Init(HexCoordinate[] coors)
+        public void Init()
         {
             GlobalStatus.Map = new HexTileController[GlobalStatus.Radius * 2 + 1][];
             for (int i = 0; i <= GlobalStatus.Radius * 2; i++)
             {
                 GlobalStatus.Map[i] = new HexTileController[GlobalStatus.Radius * 2 + 1];
             }
-            InitField(coors);
+            InitField(ServerData.Dungeon.TilesInfo);
         }
 
         private void InitField(HexCoordinate[] coors)

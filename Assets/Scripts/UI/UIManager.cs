@@ -4,6 +4,7 @@ using Assets.Scripts.UI.Window;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
@@ -14,14 +15,38 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private UI.TextController textController;
         [SerializeField]
-        private Transform textHitParent, rayCaster;
+        private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf, allyDeckTf, enemyDeckTf;
         [SerializeField]
-        private TextMeshProUGUI textCenter, textTimer;
+        private TextMeshProUGUI textCenter, textTimer, textEnemy, nickNameAlly, nickNameEnemy;
         [SerializeField]
         private InfoController infoController;
         [SerializeField]
-        private GageController gageController;
+        private GageController gageController, roundProgressGage;
         private int curTimer;
+
+        /// <summary>
+        /// 좌측 닉네임 텍스트
+        /// </summary>
+        public string NickAlly
+        {
+            set
+            {
+                nickNameAlly.text = value;
+            }
+        }
+
+
+        /// <summary>
+        /// 우측 닉네임 텍스트
+        /// </summary>
+        public string NickEnemy
+        {
+            set
+            {
+                nickNameEnemy.text = value;
+            }
+        }
+
         /// <summary>
         /// 가운데 텍스트 변경 setter
         /// </summary>
@@ -39,7 +64,22 @@ namespace Assets.Scripts.UI
         {
             set
             {
+                if (value.Equals(""))
+                {
+                    textTimer.text = "60";
+                    return;
+                }
                 textTimer.text = value;
+            }
+        }
+        /// <summary>
+        /// 헤더 적 체력 대체 텍스트 변경 setter
+        /// </summary>
+        public string TextEnemy
+        {
+            set
+            {
+                textEnemy.text = value;
             }
         }
 
@@ -74,6 +114,7 @@ namespace Assets.Scripts.UI
             infoController = Instantiate(infoController, transform);
             TextCenter = "";
             TextTimer = "";
+            TextEnemy = "";
 
             // 텍스트 풀 100개 사전 생성
             for (int i = 0; i < 100; i++)
@@ -85,6 +126,20 @@ namespace Assets.Scripts.UI
                 GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
             }
             IsRayCastable = false;
+        }
+
+        /// <summary>
+        /// 데이터 업데이트 종료 후 실행되어야 하는 UI 매니저 초기화
+        /// </summary>
+        public void Init()
+        {
+            NickAlly = ServerData.User.nickName;
+            NickEnemy = ServerData.Dungeon.Info.mapTitle;
+            VisualizeDeck(ServerData.User.Deck, true);
+            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, null, () =>
+            {
+                Debug.Log("던전 전부 종료");
+            }, false);
         }
 
         /// <summary>
@@ -151,11 +206,70 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
+        /// 체력 차감
+        /// </summary>
+        public void DeductHP(bool isAlly, int cnt = 1)
+        {
+            Transform temp;
+            if (isAlly)
+            {
+                while (0 < cnt--)
+                {
+                    temp = allyHpTf.GetChild(0);
+                    temp.gameObject.SetActive(false);
+                    temp.SetAsLastSibling();
+                }
+            }
+            else
+            {
+                while (0 < cnt--)
+                {
+                    temp = enemyHpTf.GetChild(0);
+                    temp.gameObject.SetActive(false);
+                    temp.SetAsLastSibling();
+                }
+            }
+        }
+
+        /// <summary>
         /// 유닛 정보 닫기
         /// </summary>
         public void ClearUnitInfo()
         {
             infoController.Clear();
+        }
+
+        /// <summary>
+        /// 덱 헤더에 연결
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <param name="isAlly"></param>
+        public void VisualizeDeck(UnitInfo[] deck, bool isAlly)
+        {
+            if (isAlly)
+            {
+                for (int idx = 0; idx < deck.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    allyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                }
+            }
+            else
+            {
+                for (int idx = 0; idx < deck.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    enemyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 던전 진척도 업데이트
+        /// </summary>
+        public void UpdateProgress()
+        {
+            roundProgressGage.ApplyValue(+1);
         }
     }
 }

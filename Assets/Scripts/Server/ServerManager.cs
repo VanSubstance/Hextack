@@ -19,9 +19,6 @@ namespace Assets.Scripts.Server
         private MapInfo mapInfo;
         [SerializeField]
         private bool isSingle;
-        [HideInInspector]
-        public HexCoordinate[] tilesInfo;
-        public UnitToken[][] monstersInfo;
         private bool IsStageOver
         {
             set
@@ -51,24 +48,46 @@ namespace Assets.Scripts.Server
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
             NextStage = IngameStageType.Prepare;
-            string basePath = $"Datas/Maps/{mapInfo.radius}/{mapInfo.mapTitle}";
-            tilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
-            monstersInfo = new UnitToken[mapInfo.rounds][];
-            for (int i = 0; i < mapInfo.rounds; i++)
+        }
+
+        /// <summary>
+        /// 던전 정보 받아오기 함수
+        /// </summary>
+        /// <param name="dungeonName"></param>
+        private void LoadDungeonInfo(MapInfo _mapInfo)
+        {
+            ServerData.Dungeon.Info = _mapInfo;
+            string basePath = $"Datas/Maps/{ServerData.Dungeon.Info.radius}/{ServerData.Dungeon.Info.Code}";
+            ServerData.Dungeon.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
+            ServerData.Dungeon.MonsterInfo = new UnitToken[ServerData.Dungeon.Info.rounds][];
+            for (int i = 0; i < ServerData.Dungeon.Info.rounds; i++)
             {
-                monstersInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
+                ServerData.Dungeon.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
             }
-            GlobalStatus.InGame.Round = 1;
+            // 덱 정보 받아오기
+            ServerData.User.Deck = new UnitInfo[testDeck.Length];
+            for (int i = 0; i < testDeck.Length; i++)
+            {
+                if (testDeck[i] == null) continue;
+                ServerData.User.Deck[i] = ServerData.Unit.data[testDeck[i]];
+            }
         }
 
         private void Start()
         {
+            // 서버 데이터 받아오기
+            LoadDungeonInfo(mapInfo);
+
+            GlobalStatus.InGame.Round = 1;
+
             // 타일맵 생성
-            MapManager.Instance.Init(tilesInfo);
-            // 유닛 내니저 초기화
+            MapManager.Instance.Init();
+            // 유닛 매니저 초기화
             UnitManager.Instance.Init();
             // 투사체 매니저 초기화
             ProjectileManager.Instance.Init();
+            // UI 매니저 정보 초기화
+            UIManager.Instance.Init();
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -116,26 +135,17 @@ namespace Assets.Scripts.Server
         /// </summary>
         private void InitStagePrepare()
         {
-            if (GlobalStatus.Deck == null)
-            {
-                // 최초 = 덱 초기화
-                GlobalStatus.Deck = new UnitInfo[testDeck.Length];
-                for (int i = 0; i < testDeck.Length; i++)
-                {
-                    if (testDeck[i] == null) continue;
-                    GlobalStatus.Deck[i] = ServerData.Unit.data[testDeck[i]];
-                }
-            }
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round}";
+                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
+                UIManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
                     UIManager.Instance.TextCenter = "배치";
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         UIManager.Instance.TextCenter = "";
-                        UnitManager.Instance.InitUnits(monstersInfo[GlobalStatus.InGame.Round - 1], true);
+                        UnitManager.Instance.InitUnits(ServerData.Dungeon.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
                         NextStage = IngameStageType.Place;
                     }, 1f));
                 }, 1f));
@@ -241,6 +251,7 @@ namespace Assets.Scripts.Server
                         case 2:
                             UIManager.Instance.TextCenter = "패배";
                             // 체력 깎여야 함
+                            UIManager.Instance.DeductHP(true);
                             break;
                         case 3:
                             UIManager.Instance.TextCenter = "무승부";
@@ -256,6 +267,8 @@ namespace Assets.Scripts.Server
                             unitCtrl.ReInit();
                             return true;
                         });
+                        // 진척도 ++
+                        UIManager.Instance.UpdateProgress();
                         NextStage = IngameStageType.Prepare;
                     }, 1f));
                 }, 1.5f));
