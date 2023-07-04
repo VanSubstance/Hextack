@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   Code: Sword
-  Title: "\uAC80"
-  Desc: 
+  Title: "\uB300\uAC80 \uD0C0\uC6CC"
+  Desc: "\uB300\uAC80 \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n1 \uAC70\uB9AC \uC774\uB0B4\uC758
+    \uC801 \uD558\uB098\uC5D0\uAC8C {timeCool}\uCD08\uB9C8\uB2E4 {amount}\uC758 \uD53C\uD574\uB97C
+    \uC90D\uB2C8\uB2E4. "
   Lv: 1
   hp: 130
   range: 1

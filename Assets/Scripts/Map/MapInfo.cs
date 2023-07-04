@@ -9,5 +9,6 @@ namespace Assets.Scripts.Map
         public string mapTitle;
         public string Code;
         public int radius, rounds, cntTileBan, cntUnitBan, cntUnit;
+        public string[] unitCodeList;
     }
 }

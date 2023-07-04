@@ -13,6 +13,7 @@ namespace Assets.Scripts.UI
         private void Awake()
         {
             image = GetComponent<Image>();
+            gameObject.SetActive(false);
         }
         /// <summary>
         /// 해당 유닛 정보로 초기화
@@ -22,6 +23,7 @@ namespace Assets.Scripts.UI
         {
             info = _info;
             image.sprite = GlobalDictionary.Texture.Unit.data[info.Code];
+            gameObject.SetActive(true);
         }
 
         public void OnPointerDown(PointerEventData eventData)

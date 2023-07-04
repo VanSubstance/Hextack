@@ -136,6 +136,7 @@ namespace Assets.Scripts.UI
             NickAlly = ServerData.User.nickName;
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
             VisualizeDeck(ServerData.User.Deck, true);
+            VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
             roundProgressGage.Init(ServerData.Dungeon.Info.rounds, null, () =>
             {
                 Debug.Log("던전 전부 종료");
@@ -260,6 +261,30 @@ namespace Assets.Scripts.UI
                 {
                     if (idx >= 6) return;
                     enemyDeckTf.GetChild(idx).GetComponent<HeaderUnitController>().Init(deck[idx]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 덱 헤더에 연결
+        /// </summary>
+        /// <param name="isAlly"></param>
+        public void VisualizeDeck(string[] codeList, bool isAlly)
+        {
+            if (isAlly)
+            {
+                for (int idx = 0; idx < codeList.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    allyDeckTf.GetChild(idx).GetComponent<HeaderUnitController>().Init(ServerData.Unit.data[codeList[idx]]);
+                }
+            }
+            else
+            {
+                for (int idx = 0; idx < codeList.Length; idx++)
+                {
+                    if (idx >= 6) return;
+                    enemyDeckTf.GetChild(idx).GetComponent<HeaderUnitController>().Init(ServerData.Unit.data[codeList[idx]]);
                 }
             }
         }
