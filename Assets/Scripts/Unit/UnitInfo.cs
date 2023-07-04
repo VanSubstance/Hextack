@@ -14,6 +14,9 @@ namespace Assets.Scripts.Unit
         public int Lv = 1;
         [SerializeField]
         private int hp, range;
+        [SerializeField]
+        [Range(1, 4)]
+        private int tier;
 
         public int Hp
         {
@@ -27,6 +30,17 @@ namespace Assets.Scripts.Unit
             get
             {
                 return range;
+            }
+        }
+
+        /// <summary>
+        /// 기물 티어
+        /// </summary>
+        public int Tier
+        {
+            get
+            {
+                return tier;
             }
         }
 
