@@ -42,6 +42,7 @@ namespace Assets.Scripts.UI
             gage = GetComponent<Slider>();
             fill.color = fillColor;
             background.color = backgroudColor;
+            gameObject.SetActive(false);
         }
 
         /// <summary>

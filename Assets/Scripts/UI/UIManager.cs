@@ -251,7 +251,7 @@ namespace Assets.Scripts.UI
                 for (int idx = 0; idx < deck.Length; idx++)
                 {
                     if (idx >= 6) return;
-                    allyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                    allyDeckTf.GetChild(idx).GetComponent<HeaderUnitController>().Init(deck[idx]);
                 }
             }
             else
@@ -259,7 +259,7 @@ namespace Assets.Scripts.UI
                 for (int idx = 0; idx < deck.Length; idx++)
                 {
                     if (idx >= 6) return;
-                    enemyDeckTf.GetChild(idx).GetComponent<Image>().sprite = GlobalDictionary.Texture.Unit.data[deck[idx].Code];
+                    enemyDeckTf.GetChild(idx).GetComponent<HeaderUnitController>().Init(deck[idx]);
                 }
             }
         }

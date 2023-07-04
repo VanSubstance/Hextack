@@ -87,12 +87,12 @@ public static class GlobalStatus
     }
 
     public static HexTileController[][] Map;
-    public static UnitController[][] Units;
+    public static Assets.Scripts.Unit.UnitController[][] Units;
     /// <summary>
     /// 기물 오브젝트 풀
     /// </summary>
-    public static Queue<UnitController> UnitPool;
-    public static List<UnitController> UnitsActive;
+    public static Queue<Assets.Scripts.Unit.UnitController> UnitPool;
+    public static List<Assets.Scripts.Unit.UnitController> UnitsActive;
     public static IngameStageType CurrentStage;
     public static bool IsInStage;
 
@@ -132,7 +132,7 @@ public static class GlobalStatus
     /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
     /// </summary>
     /// <returns></returns>
-    public static UnitController GetUnit()
+    public static Assets.Scripts.Unit.UnitController GetUnit()
     {
         if (UnitPool.Count > 0)
             return UnitPool.Dequeue();

@@ -66,7 +66,7 @@ namespace Assets.Scripts.Map
 
         private MeshRenderer meshRenderer;
 
-        private UnitController unitAttached, unitPreview;
+        private Unit.UnitController unitAttached, unitPreview;
         /// <summary>
         /// 현재 부착된 유닛 코드 반환
         /// </summary>
@@ -126,7 +126,7 @@ namespace Assets.Scripts.Map
         /// 타일에 기물 설치 함수
         /// </summary>
         /// <param name="unitController"></param>
-        public void InstallUnit(UnitController unitController)
+        public void InstallUnit(Unit.UnitController unitController)
         {
             ClearPreview();
             EffectManager.Instance.ExecutNewEffect("Cloud", transform.position, Color.white);
@@ -152,7 +152,7 @@ namespace Assets.Scripts.Map
         /// 미리보기 함수
         /// </summary>
         /// <param name="unitController"></param>
-        public void PreviewUnit(UnitController unitController)
+        public void PreviewUnit(Unit.UnitController unitController)
         {
             unitPreview = unitController.PreviewInstallation();
             ActivateRange();
