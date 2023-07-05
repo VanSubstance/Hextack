@@ -15,7 +15,7 @@ MonoBehaviour:
   mapTitle: "\uAE4A\uACE0 \uC5B4\uB450\uC6B4 \uC232"
   Code: Spin
   radius: 4
-  rounds: 1
+  rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
   cntUnit: 3

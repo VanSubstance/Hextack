@@ -55,11 +55,6 @@ namespace Assets.Scripts.Unit
         private HexTileController tileInstalled;
 
         /// <summary>
-        /// 파티클 시스템
-        /// </summary>
-        private ParticleSystem particle;
-
-        /// <summary>
         /// 실제 전투를 관리하는 컨트롤러
         /// </summary>
         public UnitBattleController BattleController;
@@ -83,7 +78,6 @@ namespace Assets.Scripts.Unit
             meshCollider = GetComponent<MeshCollider>();
             rigid = GetComponent<Rigidbody>();
             UseGravity = false;
-            particle = transform.GetChild(0).GetComponent<ParticleSystem>();
             BattleController = GetComponent<UnitBattleController>();
             gameObject.SetActive(false);
         }
