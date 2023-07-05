@@ -9,9 +9,9 @@ namespace Assets.Scripts.Common
     /// </summary>
     public class DataManager : SingletonObject<DataManager>
     {
-        private new void Awake()
+
+        public void LoadLocalDatas()
         {
-            base.Awake();
             LoadPrefabs();
             LoadMaterials();
             LoadTextures();

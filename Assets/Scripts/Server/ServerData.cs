@@ -28,6 +28,11 @@ public static class ServerData
         /// 인게임에 들고 들어간 덱
         /// </summary>
         public static UnitInfo[] Deck;
+
+        /// <summary>
+        /// 보유 재화량
+        /// </summary>
+        public static int AmountGold, AmountArtifact;
     }
 
     /// <summary>

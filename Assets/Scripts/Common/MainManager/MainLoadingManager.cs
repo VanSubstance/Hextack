@@ -16,7 +16,6 @@ namespace Assets.Scripts.Common.MainManager
         private void Awake()
         {
             gage.Init(1, 0, null);
-            Debug.Log($"로딩 시작:: 목표 씬 => {GlobalStatus.NextScene}");
             sceneLoading = SceneManager.LoadSceneAsync($"{GlobalStatus.NextScene}");
         }
 
