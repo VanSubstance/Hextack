@@ -318,6 +318,8 @@ namespace Assets.Scripts.Server
         {
             Debug.Log($"두배 수령 -> 메인 메뉴로 나가기");
             GlobalStatus.NextScene = "MainMenu";
+            GlobalStatus.InGame.AccuArtifact *= 2;
+            GlobalStatus.InGame.AccuGold *= 2;
             SceneManager.LoadScene("Loading");
         }
 
