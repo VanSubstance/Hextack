@@ -112,7 +112,6 @@ namespace Assets.Scripts.UI
         private new void Awake()
         {
             base.Awake();
-            DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
             infoController = Instantiate(infoController, transform);
             resultController = Instantiate(resultController, transform);
@@ -141,10 +140,7 @@ namespace Assets.Scripts.UI
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
             VisualizeDeck(ServerData.User.Deck, true);
             VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
-            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null, () =>
-            {
-                Debug.Log("던전 전부 종료");
-            });
+            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null);
         }
 
         /// <summary>

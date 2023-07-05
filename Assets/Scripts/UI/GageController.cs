@@ -13,6 +13,17 @@ namespace Assets.Scripts.UI
         [SerializeField]
         private Color fillColor, backgroudColor;
 
+        /// <summary>
+        /// 유저가 조작 가능한지
+        /// </summary>
+        public bool IsInteractable
+        {
+            set
+            {
+                gage.interactable = value;
+            }
+        }
+
         private Slider gage;
         private float maxValue, curValue;
         private Action callbackWhenZero;
@@ -46,6 +57,7 @@ namespace Assets.Scripts.UI
         private void Awake()
         {
             gage = GetComponent<Slider>();
+            IsInteractable = false;
             fill.color = fillColor;
             background.color = backgroudColor;
             gameObject.SetActive(false);
@@ -68,7 +80,7 @@ namespace Assets.Scripts.UI
                 if (Physics.Raycast(hexPos, GlobalDictionary.VectorToScreen, out RaycastHit hit, 40, GlobalDictionary.Layer.UI))
                 {
                     GetComponent<RectTransform>().position = hit.point;
-                    GetComponent<RectTransform>().anchoredPosition += Vector2.up * 70;
+                    GetComponent<RectTransform>().anchoredPosition += Vector2.up * 100;
                 }
             }
             maxValue = _maxValue;

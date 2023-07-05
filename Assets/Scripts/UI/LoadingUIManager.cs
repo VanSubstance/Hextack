@@ -12,7 +12,7 @@ namespace Assets.Scripts.UI
 
         private void Awake()
         {
-            
+            Debug.Log($"로딩 시작:: 목표 씬 => {GlobalStatus.NextScene}");
         }
     }
 }

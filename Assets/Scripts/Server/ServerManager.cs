@@ -5,6 +5,7 @@ using Assets.Scripts.Unit;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Server
 {
@@ -317,6 +318,7 @@ namespace Assets.Scripts.Server
         {
             Debug.Log($"두배 수령 -> 메인 메뉴로 나가기");
             GlobalStatus.NextScene = "MainMenu";
+            SceneManager.LoadScene("Loading");
         }
 
         /// <summary>
@@ -326,6 +328,7 @@ namespace Assets.Scripts.Server
         {
             Debug.Log($"그냥 수령 -> 메인 메뉴로 나가기");
             GlobalStatus.NextScene = "MainMenu";
+            SceneManager.LoadScene("Loading");
         }
 
         /// <summary>
