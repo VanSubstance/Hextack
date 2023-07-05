@@ -1,9 +1,6 @@
-﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Common.MainManager;
+﻿using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,26 +17,6 @@ namespace Assets.Scripts.Server
         private MapInfo mapInfo;
         [SerializeField]
         private bool isSingle;
-        private bool IsStageOver
-        {
-            set
-            {
-                GlobalStatus.IsInStage = !value;
-            }
-            get
-            {
-                return !GlobalStatus.IsInStage;
-            }
-        }
-
-        private IngameStageType NextStage
-        {
-            set
-            {
-                GlobalStatus.CurrentStage = value;
-                IsStageOver = true;
-            }
-        }
 
         private new void Awake()
         {
@@ -48,7 +25,8 @@ namespace Assets.Scripts.Server
             Application.targetFrameRate = 1000;
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
-            NextStage = IngameStageType.Prepare;
+            LoadDungeonInfo(mapInfo);
+            MainInGameManager.Instance.NextStage = IngameStageType.Prepare;
         }
 
         /// <summary>
@@ -76,250 +54,14 @@ namespace Assets.Scripts.Server
             }
         }
 
-        private void Start()
-        {
-            // 서버 데이터 받아오기
-            LoadDungeonInfo(mapInfo);
-
-            GlobalStatus.InGame.Round = 1;
-            GlobalStatus.InGame.WinCount = 0;
-            GlobalStatus.InGame.AccuGold = 0;
-
-            // 타일맵 생성
-            MapManager.Instance.Init();
-            // 유닛 매니저 초기화
-            UnitManager.Instance.Init();
-            // 투사체 매니저 초기화
-            ProjectileManager.Instance.Init();
-            // UI 매니저 정보 초기화
-            MainInGameManager.Instance.Init();
-
-            // 스테이지 관리 코루틴 시작
-            StartCoroutine(CoroutineExecuteActionInRepeat(
-                () =>
-                {
-                    if (!IsStageOver) return;
-                    IsStageOver = false;
-                    switch (GlobalStatus.CurrentStage)
-                    {
-                        case IngameStageType.Prepare:
-                            // 기물 배치 시작
-                            // 적 기물 배치
-                            InitStagePrepare();
-                            break;
-                        case IngameStageType.Place:
-                            InitStagePlace();
-                            break;
-                        case IngameStageType.Applying:
-                            InitStageApplying();
-                            break;
-                        case IngameStageType.Battle:
-                            InitStageBattle();
-                            break;
-                        case IngameStageType.Result:
-                            InitStageResult();
-                            break;
-                        case IngameStageType.Exit:
-                            ExitDungeon();
-                            break;
-                    }
-                },
-                () =>
-                {
-                    return false;
-                }, () =>
-                {
-
-                },
-                1f
-                ));
-        }
-
-        /// <summary>
-        /// 덱 불러오기
-        /// 아군 유닛 생성
-        /// 적 유닛 생성 
-        /// -> 배치 스테이지로 이동
-        /// </summary>
-        private void InitStagePrepare()
-        {
-            StartCoroutine(CoroutineExecuteAfterWait(() =>
-            {
-                MainInGameManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
-                MainInGameManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
-                StartCoroutine(CoroutineExecuteAfterWait(() =>
-                {
-                    MainInGameManager.Instance.TextCenter = "배치";
-                    StartCoroutine(CoroutineExecuteAfterWait(() =>
-                    {
-                        MainInGameManager.Instance.TextCenter = "";
-                        UnitManager.Instance.InitUnits(ServerData.Dungeon.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
-                        NextStage = IngameStageType.Place;
-                    }, 1f));
-                }, 1f));
-            }, .5f));
-        }
-
-        /// <summary>
-        /// 배치 스테이지 시작
-        /// </summary>
-        public void InitStagePlace()
-        {
-            GlobalStatus.InGame.CntInstalled = 0;
-            MainInGameManager.Instance.InitChoices();
-        }
-
-        /// <summary>
-        /// 배치 스테이지 종료 -> .5f초 대기 후 적용 스테이지로 이동
-        /// </summary>
-        public void FinishStagePlace()
-        {
-            StartCoroutine(CoroutineExecuteAfterWait(() =>
-            {
-                MainInGameManager.Instance.TextCenter = $"배치 종료";
-                StartCoroutine(CoroutineExecuteAfterWait(() =>
-                {
-                    MainInGameManager.Instance.TextCenter = "전투 준비";
-                    StartCoroutine(CoroutineExecuteAfterWait(() =>
-                    {
-                        MainInGameManager.Instance.TextCenter = "2";
-                        StartCoroutine(CoroutineExecuteAfterWait(() =>
-                        {
-                            MainInGameManager.Instance.TextCenter = "1";
-                            NextStage = IngameStageType.Applying;
-                            StartCoroutine(CoroutineExecuteAfterWait(() =>
-                            {
-                                MainInGameManager.Instance.TextCenter = "";
-                            }, 1f));
-                        }, 1f));
-                    }, 1f));
-                }, 1f));
-            }, .5f));
-        }
-
-        /// <summary>
-        /// 적용 스테이지 시작 -> 전투 스테이지로 이동
-        /// </summary>
-        private void InitStageApplying()
-        {
-            // 사전 효과 실행
-            MainInGameManager.Instance.IsRayCastable = true;
-            GlobalStatus.UnitsActive.All((unitCtrl) =>
-            {
-                unitCtrl.InitBattle();
-                return true;
-            });
-            MainInGameManager.Instance.IsRayCastable = false;
-            // 전투 상태 체크 함수 실행
-            GlobalStatus.InGame.BattleStatus = 0;
-            MainInGameManager.Instance.CurTimer = 60;
-            NextStage = IngameStageType.Battle;
-        }
-
-        /// <summary>
-        /// 전투 스테이지 시작
-        /// </summary>
-        private void InitStageBattle()
-        {
-            // 모든 기물 전투 상태로 돌입
-            GlobalStatus.UnitsActive.All((unitCtrl) =>
-            {
-                unitCtrl.EnableBattle();
-                return true;
-            });
-            StartCoroutine(CoroutineExecuteActionInRepeat(() =>
-            {
-                GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
-                MainInGameManager.Instance.PassSecond();
-            }, () =>
-            {
-                return GlobalStatus.InGame.BattleStatus != 0;
-            }, () =>
-            {
-                NextStage = IngameStageType.Result;
-            }, 1f));
-        }
-
-        /// <summary>
-        /// 결과 스테이지 시작 -> 준비 스테이지로 이동
-        /// </summary>
-        private void InitStageResult()
-        {
-            StartCoroutine(CoroutineExecuteAfterWait(() =>
-            {
-                MainInGameManager.Instance.TextCenter = "전투 종료";
-                StartCoroutine(CoroutineExecuteAfterWait(() =>
-                {
-                    MainInGameManager.Instance.TextTimer = "";
-                    switch (GlobalStatus.InGame.BattleStatus)
-                    {
-                        case 1:
-                            MainInGameManager.Instance.TextCenter = "승리";
-                            GlobalStatus.InGame.WinCount++;
-                            break;
-                        case 2:
-                            MainInGameManager.Instance.TextCenter = "패배";
-                            // 체력 깎여야 함
-                            MainInGameManager.Instance.DeductHP(true);
-                            break;
-                        case 3:
-                            MainInGameManager.Instance.TextCenter = "무승부";
-                            break;
-                    }
-                    StartCoroutine(CoroutineExecuteAfterWait(() =>
-                    {
-                        GlobalStatus.UnitsActive.All((unitCtrl) =>
-                        {
-                            // 리셋
-                            unitCtrl.ReInit();
-                            return true;
-                        });
-                        GlobalStatus.InGame.Round++;
-                        if (GlobalStatus.InGame.Round > ServerData.Dungeon.Info.rounds)
-                        {
-                            // 던전 종료 = 결과 페이지로
-                            NextStage = IngameStageType.Exit;
-                        }
-                        else
-                        {
-                            // 필드 전부 리셋
-                            // 진척도 ++
-                            MainInGameManager.Instance.UpdateProgress();
-                            NextStage = IngameStageType.Prepare;
-                        }
-                    }, 1f));
-                }, 1.5f));
-            }, 0f));
-        }
-
-        /// <summary>
-        /// 던전 종료 = 결과 보여주기
-        /// </summary>
-        private void ExitDungeon()
-        {
-            StartCoroutine(CoroutineExecuteAfterWait(() =>
-            {
-                MainInGameManager.Instance.TextCenter = "던전 종료";
-                StartCoroutine(CoroutineExecuteAfterWait(() =>
-                {
-                    // 결과 윈도우 보여주기
-                    // 보여줄 결과 = 주사위 별 누적 딜량
-                    // 승리한 라운드 수
-                    // 메인 메뉴로 돌아가기
-                    MainInGameManager.Instance.OpenResult();
-                }, 1f));
-            }, 1f));
-        }
-
         /// <summary>
         /// 광고 보고 두배 수령하고 메인메뉴로 나가기
         /// </summary>
         public void ExitDouble()
         {
-            Debug.Log($"두배 수령 -> 메인 메뉴로 나가기");
+            ServerData.User.AmountArtifact += GlobalStatus.InGame.AccuArtifact * 2;
+            ServerData.User.AmountGold += GlobalStatus.InGame.AccuGold * 2;
             GlobalStatus.NextScene = "MainMenu";
-            GlobalStatus.InGame.AccuArtifact *= 2;
-            GlobalStatus.InGame.AccuGold *= 2;
             SceneManager.LoadScene("Loading");
         }
 
@@ -328,43 +70,10 @@ namespace Assets.Scripts.Server
         /// </summary>
         public void ExitNormal()
         {
-            Debug.Log($"그냥 수령 -> 메인 메뉴로 나가기");
+            ServerData.User.AmountArtifact += GlobalStatus.InGame.AccuArtifact;
+            ServerData.User.AmountGold += GlobalStatus.InGame.AccuGold;
             GlobalStatus.NextScene = "Main";
             SceneManager.LoadScene("Loading");
-        }
-
-        /// <summary>
-        /// 반복 실행 코루틴
-        /// </summary>
-        /// <param name="actionRepeat"></param>
-        /// <param name="actionCondition">true 반환 시 코루틴 강제 종료</param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        private IEnumerator CoroutineExecuteActionInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(time);
-                if (actionCondition?.Invoke() == true)
-                {
-                    actionEscape?.Invoke();
-                    yield break;
-                }
-                actionRepeat?.Invoke();
-            }
-        }
-
-
-        /// <summary>
-        /// 일정 시간 지연 지정된 함수 실행 코루틴
-        /// </summary>
-        /// <param name="actionAfter"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        private IEnumerator CoroutineExecuteAfterWait(System.Action actionAfter, float time)
-        {
-            yield return new WaitForSeconds(time);
-            actionAfter?.Invoke();
         }
 
     }
