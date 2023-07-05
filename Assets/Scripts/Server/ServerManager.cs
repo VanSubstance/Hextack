@@ -1,10 +1,11 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
-using Assets.Scripts.UI;
 using Assets.Scripts.Unit;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Server
 {
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Server
             // 투사체 매니저 초기화
             ProjectileManager.Instance.Init();
             // UI 매니저 정보 초기화
-            UIManager.Instance.Init();
+            MainInGameManager.Instance.Init();
 
             // 스테이지 관리 코루틴 시작
             StartCoroutine(CoroutineExecuteActionInRepeat(
@@ -144,14 +145,14 @@ namespace Assets.Scripts.Server
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
-                UIManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
+                MainInGameManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
+                MainInGameManager.Instance.TextEnemy = $"라운드 {GlobalStatus.InGame.Round}";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
-                    UIManager.Instance.TextCenter = "배치";
+                    MainInGameManager.Instance.TextCenter = "배치";
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
-                        UIManager.Instance.TextCenter = "";
+                        MainInGameManager.Instance.TextCenter = "";
                         UnitManager.Instance.InitUnits(ServerData.Dungeon.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
                         NextStage = IngameStageType.Place;
                     }, 1f));
@@ -165,7 +166,7 @@ namespace Assets.Scripts.Server
         public void InitStagePlace()
         {
             GlobalStatus.InGame.CntInstalled = 0;
-            UIManager.Instance.InitChoices();
+            MainInGameManager.Instance.InitChoices();
         }
 
         /// <summary>
@@ -175,20 +176,20 @@ namespace Assets.Scripts.Server
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = $"배치 종료";
+                MainInGameManager.Instance.TextCenter = $"배치 종료";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
-                    UIManager.Instance.TextCenter = "전투 준비";
+                    MainInGameManager.Instance.TextCenter = "전투 준비";
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
-                        UIManager.Instance.TextCenter = "2";
+                        MainInGameManager.Instance.TextCenter = "2";
                         StartCoroutine(CoroutineExecuteAfterWait(() =>
                         {
-                            UIManager.Instance.TextCenter = "1";
+                            MainInGameManager.Instance.TextCenter = "1";
                             NextStage = IngameStageType.Applying;
                             StartCoroutine(CoroutineExecuteAfterWait(() =>
                             {
-                                UIManager.Instance.TextCenter = "";
+                                MainInGameManager.Instance.TextCenter = "";
                             }, 1f));
                         }, 1f));
                     }, 1f));
@@ -202,16 +203,16 @@ namespace Assets.Scripts.Server
         private void InitStageApplying()
         {
             // 사전 효과 실행
-            UIManager.Instance.IsRayCastable = true;
+            MainInGameManager.Instance.IsRayCastable = true;
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
                 unitCtrl.InitBattle();
                 return true;
             });
-            UIManager.Instance.IsRayCastable = false;
+            MainInGameManager.Instance.IsRayCastable = false;
             // 전투 상태 체크 함수 실행
             GlobalStatus.InGame.BattleStatus = 0;
-            UIManager.Instance.CurTimer = 60;
+            MainInGameManager.Instance.CurTimer = 60;
             NextStage = IngameStageType.Battle;
         }
 
@@ -229,7 +230,7 @@ namespace Assets.Scripts.Server
             StartCoroutine(CoroutineExecuteActionInRepeat(() =>
             {
                 GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
-                UIManager.Instance.PassSecond();
+                MainInGameManager.Instance.PassSecond();
             }, () =>
             {
                 return GlobalStatus.InGame.BattleStatus != 0;
@@ -246,23 +247,23 @@ namespace Assets.Scripts.Server
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = "전투 종료";
+                MainInGameManager.Instance.TextCenter = "전투 종료";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
-                    UIManager.Instance.TextTimer = "";
+                    MainInGameManager.Instance.TextTimer = "";
                     switch (GlobalStatus.InGame.BattleStatus)
                     {
                         case 1:
-                            UIManager.Instance.TextCenter = "승리";
+                            MainInGameManager.Instance.TextCenter = "승리";
                             GlobalStatus.InGame.WinCount++;
                             break;
                         case 2:
-                            UIManager.Instance.TextCenter = "패배";
+                            MainInGameManager.Instance.TextCenter = "패배";
                             // 체력 깎여야 함
-                            UIManager.Instance.DeductHP(true);
+                            MainInGameManager.Instance.DeductHP(true);
                             break;
                         case 3:
-                            UIManager.Instance.TextCenter = "무승부";
+                            MainInGameManager.Instance.TextCenter = "무승부";
                             break;
                     }
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
@@ -283,7 +284,7 @@ namespace Assets.Scripts.Server
                         {
                             // 필드 전부 리셋
                             // 진척도 ++
-                            UIManager.Instance.UpdateProgress();
+                            MainInGameManager.Instance.UpdateProgress();
                             NextStage = IngameStageType.Prepare;
                         }
                     }, 1f));
@@ -298,14 +299,14 @@ namespace Assets.Scripts.Server
         {
             StartCoroutine(CoroutineExecuteAfterWait(() =>
             {
-                UIManager.Instance.TextCenter = "던전 종료";
+                MainInGameManager.Instance.TextCenter = "던전 종료";
                 StartCoroutine(CoroutineExecuteAfterWait(() =>
                 {
                     // 결과 윈도우 보여주기
                     // 보여줄 결과 = 주사위 별 누적 딜량
                     // 승리한 라운드 수
                     // 메인 메뉴로 돌아가기
-                    UIManager.Instance.OpenResult();
+                    MainInGameManager.Instance.OpenResult();
                 }, 1f));
             }, 1f));
         }
@@ -316,6 +317,8 @@ namespace Assets.Scripts.Server
         public void ExitDouble()
         {
             Debug.Log($"두배 수령 -> 메인 메뉴로 나가기");
+            GlobalStatus.NextScene = "MainMenu";
+            SceneManager.LoadScene("Loading");
         }
 
         /// <summary>
@@ -324,6 +327,8 @@ namespace Assets.Scripts.Server
         public void ExitNormal()
         {
             Debug.Log($"그냥 수령 -> 메인 메뉴로 나가기");
+            GlobalStatus.NextScene = "Main";
+            SceneManager.LoadScene("Loading");
         }
 
         /// <summary>

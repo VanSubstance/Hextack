@@ -94,6 +94,11 @@ public static class GlobalStatus
         public static int AccuArtifact = 0;
     }
 
+    /// <summary>
+    /// 현재 씬 이름, 다음 씬 이름
+    /// </summary>
+    public static string CurScene, NextScene;
+
     public static HexTileController[][] Map;
     public static Assets.Scripts.Unit.UnitController[][] Units;
     /// <summary>

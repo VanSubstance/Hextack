@@ -1,15 +1,15 @@
 ﻿using Assets.Scripts.Server;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.Choice;
 using Assets.Scripts.UI.Window;
 using Assets.Scripts.UI.Window.Result;
 using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.Common.MainManager
 {
-    public class UIManager : SingletonObject<UIManager>
+    public class MainInGameManager : SingletonObject<MainInGameManager>
     {
         [SerializeField]
         private ChoiceManager choiceManager;
@@ -113,7 +113,6 @@ namespace Assets.Scripts.UI
         private new void Awake()
         {
             base.Awake();
-            DontDestroyOnLoad(this);
             choiceManager = Instantiate(choiceManager, transform);
             infoController = Instantiate(infoController, transform);
             resultController = Instantiate(resultController, transform);
@@ -142,10 +141,7 @@ namespace Assets.Scripts.UI
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
             VisualizeDeck(ServerData.User.Deck, true);
             VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
-            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null, () =>
-            {
-                Debug.Log("던전 전부 종료");
-            });
+            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null);
         }
 
         /// <summary>
@@ -307,6 +303,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void OpenResult()
         {
+            TextCenter = string.Empty;
             resultController.Init();
         }
     }
