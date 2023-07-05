@@ -21,8 +21,5 @@ public class SafeArea : MonoBehaviour
 
         _rectTransform.anchorMin = _minAnchor;
         _rectTransform.anchorMax = _maxAnchor;
-
-        GlobalStatus.AnchorMin = _minAnchor;
-        GlobalStatus.AnchorMax = _maxAnchor;
     }
 }

@@ -99,16 +99,6 @@ public static class GlobalStatus
     /// </summary>
     public static string CurScene, NextScene;
 
-    /// <summary>
-    /// 세이프에리어 너비, 높이
-    /// </summary>
-    public static UnityEngine.Vector2 AnchorMin, AnchorMax;
-    public static void SetSizeSafeArea(UnityEngine.RectTransform target)
-    {
-        target.anchorMin = AnchorMin;
-        target.anchorMax = AnchorMax;
-    }
-
     public static HexTileController[][] Map;
     public static Assets.Scripts.Unit.UnitController[][] Units;
     /// <summary>
