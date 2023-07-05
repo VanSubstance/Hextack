@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using System;
@@ -88,7 +89,7 @@ namespace Assets.Scripts.Unit
             rateCritical = 0;
             rateSpeed = 1;
             // 체력 게이지 연결
-            hpGage = InGameUIManager.Instance.GetNewGage();
+            hpGage = MainInGameManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
             {
                 if (_isEnemy)
@@ -351,12 +352,12 @@ namespace Assets.Scripts.Unit
             {
                 // 데미지 텍스트 띄워주기
                 amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
-                InGameUIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
+                MainInGameManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
             }
             else
             {
                 // 힐 텍스트 띄워주기
-                InGameUIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
+                MainInGameManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
 
                 // 힐 이펙트 띄워주기
                 EffectManager.Instance.ExecutNewEffect("Heal", transform.position, Color.white);

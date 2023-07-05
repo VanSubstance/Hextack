@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Server;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.Choice;
 using Assets.Scripts.UI.Window;
 using Assets.Scripts.UI.Window.Result;
@@ -6,9 +7,9 @@ using Assets.Scripts.Unit;
 using TMPro;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.Common.MainManager
 {
-    public class InGameUIManager : SingletonObject<InGameUIManager>
+    public class MainInGameManager : SingletonObject<MainInGameManager>
     {
         [SerializeField]
         private ChoiceManager choiceManager;
@@ -302,6 +303,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void OpenResult()
         {
+            TextCenter = string.Empty;
             resultController.Init();
         }
     }

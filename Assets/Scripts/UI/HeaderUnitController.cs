@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Common.MainManager;
+using Assets.Scripts.Unit;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ namespace Assets.Scripts.UI
         {
             if (info != null)
             {
-                InGameUIManager.Instance.InitUnitInfo(info);
+                MainInGameManager.Instance.InitUnitInfo(info);
             }
         }
 
@@ -38,7 +39,7 @@ namespace Assets.Scripts.UI
         {
             if (info != null)
             {
-                InGameUIManager.Instance.ClearUnitInfo();
+                MainInGameManager.Instance.ClearUnitInfo();
             }
         }
     }

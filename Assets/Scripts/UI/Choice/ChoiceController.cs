@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Common.MainManager;
+using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -121,18 +122,18 @@ namespace Assets.Scripts.UI.Choice
                 newUnit.Clear();
             }
             newUnit = UnitManager.Instance.GetNewUnit().Init(info.GetLiveInfo(), false);
-            InGameUIManager.Instance.InitUnitInfo(info);
+            MainInGameManager.Instance.InitUnitInfo(info);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            InGameUIManager.Instance.ClearUnitInfo();
+            MainInGameManager.Instance.ClearUnitInfo();
             if (newUnit != null && targetTile != null)
             {
                 targetTile.InstallUnit(newUnit);
                 targetTile = null;
                 newUnit = null;
-                InGameUIManager.Instance.FinishChoice();
+                MainInGameManager.Instance.FinishChoice();
             }
         }
     }

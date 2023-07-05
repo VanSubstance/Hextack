@@ -96,9 +96,9 @@ namespace Assets.Scripts.UI
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="isFixValue">연산 적용이 아닌 통째로 적용일 경우</param>
-        public void ApplyValue(float amount)
+        public void ApplyValue(float amount, bool isFixValue = false)
         {
-            curValue = Mathf.Min(maxValue, amount + curValue);
+            curValue = isFixValue ? amount : Mathf.Min(maxValue, amount + curValue);
             Value = curValue / maxValue;
             if (Value <= 0)
             {

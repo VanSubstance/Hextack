@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.UI;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Unit;
 using UnityEngine;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 namespace Assets.Scripts.Map
 {
@@ -218,7 +217,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null && unitAttached.IsLive)
             {
-                InGameUIManager.Instance.InitUnitInfo(unitAttached.Info);
+                MainInGameManager.Instance.InitUnitInfo(unitAttached.Info);
                 ActivateRange();
             }
         }
@@ -230,7 +229,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null)
             {
-                InGameUIManager.Instance.ClearUnitInfo();
+                MainInGameManager.Instance.ClearUnitInfo();
                 DeActivateRange();
             }
         }
