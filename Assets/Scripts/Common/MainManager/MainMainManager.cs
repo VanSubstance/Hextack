@@ -68,6 +68,7 @@ namespace Assets.Scripts.Common.MainManager
             TextNick = ServerData.User.nickName;
             AmountGold = ServerData.User.AmountGold;
             AmountArtifact = ServerData.User.AmountArtifact;
+            swiper.GoToFragment(startIdx, false);
         }
     }
 }

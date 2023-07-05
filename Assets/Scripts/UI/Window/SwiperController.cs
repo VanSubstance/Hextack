@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Window
 {
-    public class SwiperController : MonoBehaviour, IEndDragHandler
+    public class SwiperController : SingletonObject<SwiperController>, IEndDragHandler
     {
         [SerializeField]
         private SwiperContentController[] fragments;
         private ScrollRect scrollRect;
         private int currentIdx;
         private float normHorPos;
-        private void Awake()
+        private new void Awake()
         {
+            base.Awake();
             scrollRect = GetComponent<ScrollRect>();
             scrollRect.onValueChanged.AddListener((value) =>
             {
@@ -37,17 +38,18 @@ namespace Assets.Scripts.UI.Window
                 scrollRect.horizontalNormalizedPosition = (float)targetIdx / (fragments.Length - 1);
                 currentIdx = targetIdx;
             }
+            FooterController.Instance.Track(targetIdx);
         }
 
         private IEnumerator CrGoToFragment(int targetIdx)
         {
             float targetNorm = (float)targetIdx / (fragments.Length - 1);
             float curNorm = normHorPos;
-            int frameLeft = 15;
+            int frameLeft = 30;
             while (frameLeft-- > 0)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
-                scrollRect.horizontalNormalizedPosition = curNorm = ((targetNorm - curNorm) / 3) + curNorm;
+                scrollRect.horizontalNormalizedPosition = curNorm = ((targetNorm - curNorm) / 30f) + curNorm;
             }
             scrollRect.horizontalNormalizedPosition = targetNorm;
             currentIdx = targetIdx;

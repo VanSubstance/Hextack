@@ -155,6 +155,7 @@ namespace Assets.Scripts.Common.MainManager
                 GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
             }
             IsRayCastable = false;
+            GlobalStatus.CurScene = "InGame";
         }
 
         private void Start()

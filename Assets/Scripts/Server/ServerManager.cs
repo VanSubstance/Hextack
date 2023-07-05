@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Common.MainManager;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using UnityEngine;
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Server
             Application.targetFrameRate = 1000;
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
+            DataManager.Instance.LoadLocalDatas();
             LoadDungeonInfo(mapInfo);
             MainInGameManager.Instance.NextStage = IngameStageType.Prepare;
         }
