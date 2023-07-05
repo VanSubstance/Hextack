@@ -156,6 +156,7 @@ namespace Assets.Scripts.Common.MainManager
             }
             IsRayCastable = false;
             GlobalStatus.CurScene = "InGame";
+            NextStage = IngameStageType.Prepare;
         }
 
         private void Start()

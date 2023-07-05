@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.UI.Fragment.Storage;
 
 namespace Assets.Scripts.Common.MainManager
 {
@@ -58,6 +59,7 @@ namespace Assets.Scripts.Common.MainManager
         private void Start()
         {
             Init();
+            StorageFragmentController.Instance.Init();
         }
 
         /// <summary>

@@ -28,7 +28,6 @@ namespace Assets.Scripts.Server
             GlobalStatus.IsSingle = isSingle;
             DataManager.Instance.LoadLocalDatas();
             LoadDungeonInfo(mapInfo);
-            MainInGameManager.Instance.NextStage = IngameStageType.Prepare;
         }
 
         /// <summary>

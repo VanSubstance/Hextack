@@ -30,6 +30,11 @@ public static class ServerData
         public static UnitInfo[] Deck;
 
         /// <summary>
+        /// 소유중인 기물들
+        /// </summary>
+        public static UnitInfo[] Storages;
+
+        /// <summary>
         /// 보유 재화량
         /// </summary>
         public static int AmountGold, AmountArtifact;
