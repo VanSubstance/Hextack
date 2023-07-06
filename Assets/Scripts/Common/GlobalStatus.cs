@@ -101,6 +101,7 @@ public static class GlobalStatus
 
     public static HexTileController[][] Map;
     public static Assets.Scripts.Unit.UnitController[][] Units;
+
     /// <summary>
     /// 기물 오브젝트 풀
     /// </summary>
@@ -113,11 +114,6 @@ public static class GlobalStatus
     /// 체력게이지 풀
     /// </summary>
     public static Queue<GageController> HpGagePool = new Queue<GageController>();
-
-    /// <summary>
-    /// 텍스트 풀
-    /// </summary>
-    public static Queue<TextController> textPoll = new Queue<TextController>();
 
     /// <summary>
     /// 창고용 유닛 오브젝트 풀
@@ -162,18 +158,6 @@ public static class GlobalStatus
     {
         if (HpGagePool.Count > 0)
             return HpGagePool.Dequeue();
-        else
-            return null;
-    }
-
-    /// <summary>
-    /// 텍스트가 풀에 존재 -> 꺼내줌
-    /// </summary>
-    /// <returns></returns>
-    public static TextController GetTextController()
-    {
-        if (textPoll.Count > 0)
-            return textPoll.Dequeue();
         else
             return null;
     }

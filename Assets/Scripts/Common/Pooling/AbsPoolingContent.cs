@@ -22,6 +22,7 @@ namespace Assets.Scripts.Common.Pooling
         {
             if (!isConnected || !InitExtra(info))
             {
+                Debug.Log("Not Connected.");
                 ReturnToPool();
                 return null;
             }

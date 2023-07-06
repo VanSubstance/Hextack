@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Common.Pooling;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class TextController : MonoBehaviour
+    public class TextController : AbsPoolingContent
     {
         private TextMeshProUGUI ugui;
         private Rigidbody rigid;
@@ -38,32 +39,6 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// 초기화 함수
-        /// </summary>
-        public TextController Init(Vector2 screenPos, string targetText, Color textColor, float time = 1f, float sizeMultiplier = 1)
-        {
-            GetComponent<RectTransform>().anchoredPosition = screenPos;
-            Text = targetText;
-            ugui.color = textColor;
-            ugui.fontSize = originFontsize * sizeMultiplier;
-            rigid.AddForce(Vector3.up * 20);
-            StartCoroutine(CrTimer(time));
-            return this;
-        }
-
-        /// <summary>
-        /// 풀에 반납
-        /// </summary>
-        private void Clear()
-        {
-            Text = string.Empty;
-            ugui.color = Color.white;
-            ugui.fontSize = originFontsize;
-            rigid.velocity = Vector3.zero;
-            GlobalStatus.textPoll.Enqueue(this);
-        }
-
-        /// <summary>
         /// 해당 시간 후 텍스트 파기
         /// </summary>
         /// <param name="time"></param>
@@ -71,7 +46,37 @@ namespace Assets.Scripts.UI
         private IEnumerator CrTimer(float time)
         {
             yield return new WaitForSeconds(time);
-            Clear();
+            ReturnToPool();
+        }
+
+        protected override bool InitExtra(AbsPoolingContent.Info _info)
+        {
+            if (_info is not Info info)
+                return false;
+            GetComponent<RectTransform>().anchoredPosition = info.ScreenPos;
+            Text = info.TargetText;
+            ugui.color = info.TextColor;
+            ugui.fontSize = originFontsize * info.SizeMultiplier;
+            rigid.AddForce(Vector3.up * 20);
+            StartCoroutine(CrTimer(info.Time));
+            return true;
+        }
+
+        public override void Clear()
+        {
+            Text = string.Empty;
+            ugui.color = Color.white;
+            ugui.fontSize = originFontsize;
+            rigid.velocity = Vector3.zero;
+        }
+
+        public new class Info : AbsPoolingContent.Info
+        {
+            public Vector2 ScreenPos;
+            public string TargetText;
+            public Color TextColor;
+            public float Time = 1f;
+            public float SizeMultiplier = 1;
         }
     }
 }

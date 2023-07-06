@@ -367,7 +367,14 @@ namespace Assets.Scripts.Unit
             {
                 // 데미지 텍스트 띄워주기
                 amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
-                MainInGameManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
+                TextManager.Instance.GetNewComponent().Init(new TextController.Info()
+                {
+                    ScreenPos = screenPos,
+                    TargetText = $"{Mathf.Abs(amountToApply)}",
+                    TextColor = isCrit ? new Color(1, .8f, 0, 1) : Color.white,
+                    Time = .5f,
+                    SizeMultiplier = 1.3f
+                });
 
                 // 힐 이펙트 띄워주기
                 EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
@@ -375,7 +382,13 @@ namespace Assets.Scripts.Unit
             else
             {
                 // 힐 텍스트 띄워주기
-                MainInGameManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
+                TextManager.Instance.GetNewComponent().Init(new TextController.Info()
+                {
+                    ScreenPos = screenPos,
+                    TargetText = $"+{Mathf.Abs(amountToApply)}",
+                    TextColor = new Color(.5f, 1, .8f, 1),
+                    Time = .5f,
+                });
 
                 // 힐 이펙트 띄워주기
                 EffectManager.Instance.ExecutNewEffect("Heal", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);

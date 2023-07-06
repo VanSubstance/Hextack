@@ -20,8 +20,6 @@ namespace Assets.Scripts.Common.MainManager
         [SerializeField]
         private ChoiceManager choiceManager;
         [SerializeField]
-        private UI.TextController textController;
-        [SerializeField]
         private Transform textHitParent, rayCaster, allyHpTf, enemyHpTf, allyDeckTf, enemyDeckTf;
         [SerializeField]
         private TextMeshProUGUI textCenter, textTimer, textEnemy, nickNameAlly, nickNameEnemy;
@@ -152,15 +150,6 @@ namespace Assets.Scripts.Common.MainManager
             TextTimer = "";
             TextEnemy = "";
 
-            // 텍스트 풀 100개 사전 생성
-            for (int i = 0; i < 100; i++)
-            {
-                if (1 < 10)
-                {
-                    GlobalStatus.HpGagePool.Enqueue(Instantiate(gageController, transform));
-                }
-                GlobalStatus.textPoll.Enqueue(Instantiate(textController, textHitParent));
-            }
             IsRayCastable = false;
             GlobalStatus.CurScene = "InGame";
             NextStage = IngameStageType.Prepare;
@@ -267,19 +256,6 @@ namespace Assets.Scripts.Common.MainManager
                 return;
             }
             choiceManager.PickRandom();
-        }
-
-        /// <summary>
-        /// 텍스트 오브젝트 생성 함수
-        /// </summary>
-        public UI.TextController GetNewText()
-        {
-            UI.TextController res;
-            if ((res = GlobalStatus.GetTextController()) == null)
-            {
-                res = Instantiate(textController, transform);
-            }
-            return res;
         }
 
         /// <summary>
