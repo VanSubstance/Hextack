@@ -32,12 +32,12 @@ namespace Assets.Scripts.UI.Choice
                 UnitInfo cur;
                 while (true)
                 {
-                    idx = Random.Range(0, ServerData.User.DeckLive.Length);
+                    idx = Random.Range(0, ServerData.InGame.DeckAlly.Length);
                     if (!idxPicked.Contains(idx))
                     {
                         idxPicked.Add(idx);
                         // 신규 인덱스
-                        if ((cur = ServerData.User.DeckLive[idx]) != null)
+                        if ((cur = ServerData.InGame.DeckAlly[idx]) != null)
                         {
                             // 벤 안됨
                             choice.Init(cur);
