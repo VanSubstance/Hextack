@@ -67,6 +67,23 @@ namespace Assets.Scripts.Server
             SceneManager.LoadScene("Loading");
         }
 
+        /// <summary>
+        /// 신규 던전 입장
+        /// </summary>
+        /// <param name="DungeonName"></param>
+        public void EnterDungeon(string DungeonName)
+        {
+            Debug.Log($"신규 던전 드가자 ㅡ ! {DungeonName}");
+        }
+
+        /// <summary>
+        /// 기존 던전 이어서 진행
+        /// </summary>
+        public void ContinueDungeon()
+        {
+            Debug.Log($"이어서 드가자 ㅡ ! ");
+        }
+
 
         /// <summary>
         /// 유저 정보 불러오기
