@@ -1,26 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Common
+namespace Assets.Scripts.Common.Pooling
 {
     /// <summary>
     /// 오브젝트 풀링용 기본 컨트롤러
     /// </summary>
-    public abstract class AbsPoolingController<TObject> : MonoBehaviour where TObject : MonoBehaviour
+    public abstract class AbsPoolingController : MonoBehaviour
     {
         [SerializeField]
-        private TObject componentPrefab;
-        private Queue<TObject> q;
+        private AbsPoolingContent componentPrefab;
+        private Queue<AbsPoolingContent> q;
 
         protected virtual void Awake()
         {
-            q = new Queue<TObject>();
+            q = new Queue<AbsPoolingContent>();
             // 풀링: 10개만
             int ii = 0;
-            TObject temp;
+            AbsPoolingContent temp;
             while (ii++ < 10)
             {
                 temp = Instantiate(componentPrefab, GetParent());
+                temp.ConnectWithParent((content) =>
+                {
+                    q.Enqueue(content);
+                });
                 temp.gameObject.SetActive(false);
                 q.Enqueue(temp);
             }
@@ -30,10 +34,9 @@ namespace Assets.Scripts.Common
         /// 신규 컨텐츠 컴포넌트 반환
         /// </summary>
         /// <returns></returns>
-        public TObject GetNewComponent()
+        public AbsPoolingContent GetNewComponent()
         {
-            TObject res;
-            if (q.TryDequeue(out res))
+            if (q.TryDequeue(out AbsPoolingContent res))
             {
                 return res;
             }

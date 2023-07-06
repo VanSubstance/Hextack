@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Common;
+﻿using Assets.Scripts.Common.Pooling;
 using UnityEngine;
 
 namespace Assets.Scripts.Battle
 {
-    public class ProjectileManager : AbsPoolingController<ProjectileController>
+    public class ProjectileManager : AbsPoolingController
     {
         public static ProjectileManager Instance;
 
