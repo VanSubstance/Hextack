@@ -50,10 +50,23 @@ public static class ServerData
     /// </summary>
     public static class Dungeon
     {
+        public static string rootPath = $"{ServerData.rootPath}/Maps";
+
+        /// <summary>
+        /// 접근 가능한 던전 리스트
+        /// </summary>
+        public static Dictionary<string, DungeonInfo> DungeonList = new Dictionary<string, DungeonInfo>();
+
+        /// <summary>
+        /// 이전 진행 기록 (라운드까지만 저장)
+        /// </summary>
+        public static DungeonInfo History;
+
         /// <summary>
         /// 기본 맵 정보
         /// </summary>
-        public static MapInfo Info;
+        public static DungeonInfo Info;
+
         /// <summary>
         /// 몬스터 정보
         /// </summary>

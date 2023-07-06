@@ -13,7 +13,7 @@ namespace Assets.Scripts.Server
     public class ServerManager : SingletonObject<ServerManager>
     {
         [SerializeField]
-        private MapInfo mapInfo;
+        private DungeonInfo mapInfo;
         [SerializeField]
         private bool isSingle;
 
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Server
         /// 던전 정보 받아오기 함수
         /// </summary>
         /// <param name="dungeonName"></param>
-        private void LoadDungeonInfo(MapInfo _mapInfo)
+        private void LoadDungeonInfo(DungeonInfo _mapInfo)
         {
             ServerData.Dungeon.Info = _mapInfo;
             string basePath = $"Datas/Maps/{ServerData.Dungeon.Info.radius}/{ServerData.Dungeon.Info.Code}";
