@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Unit;
 using System.Linq;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Fragment.Storage
@@ -58,13 +59,14 @@ namespace Assets.Scripts.UI.Fragment.Storage
                 if (ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i].Code.Equals(newUnitInfo.Code))
                 {
                     // 겹치는 애가 있다 = 스왑해야함 i -> idx로, idx -> i로
-                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i] = ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx];
+                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i] = ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx].Clone();
                     socketList[i].Init(ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i]);
-                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx] = newUnitInfo;
+                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx] = newUnitInfo.Clone();
                     socketList[idx].Init(ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx]);
                     return;
                 }
             }
+            ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx] = newUnitInfo.Clone();
             socketList[idx].Init(newUnitInfo);
         }
 
