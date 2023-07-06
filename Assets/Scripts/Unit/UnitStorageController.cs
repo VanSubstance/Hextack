@@ -14,11 +14,14 @@ namespace Assets.Scripts.Unit
             gameObject.SetActive(false);
         }
 
-        public UnitStorageController Init(UnitInfo _unitInfo, Transform parent)
+        public UnitStorageController Init(UnitInfo _unitInfo, Transform parent = null)
         {
             unitInfo = _unitInfo;
             image.sprite = GlobalDictionary.Texture.Unit.data[unitInfo.Code];
-            transform.SetParent(parent);
+            if (parent != null)
+            {
+                transform.SetParent(parent);
+            }
             gameObject.SetActive(true);
             return this;
         }

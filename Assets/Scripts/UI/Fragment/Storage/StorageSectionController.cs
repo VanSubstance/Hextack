@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.UI.Fragment.Storage
 {
-    public class StorageSectionController : MonoBehaviour
+    public class StorageSectionController : MonoBehaviour, IInitiable
     {
         [SerializeField]
         private StorageByTierController storageByTierPrefab;

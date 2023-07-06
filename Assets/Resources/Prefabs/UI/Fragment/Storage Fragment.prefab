@@ -399,6 +399,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13300e4975a800844b605adcf07e9782, type: 3}
+--- !u!114 &762853022262781187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 849363301988855590, guid: 13300e4975a800844b605adcf07e9782,
+    type: 3}
+  m_PrefabInstance: {fileID: 99001832520682021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d51f78aeb85d26a41972c3623deeb19d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1131795041280850756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -514,7 +526,7 @@ PrefabInstance:
     - target: {fileID: 1859380425731499515, guid: acc5b6564eaed604895dc40a174dc2a7,
         type: 3}
       propertyPath: m_Name
-      value: Swiper Fragment
+      value: Storage Fragment
       objectReference: {fileID: 0}
     - target: {fileID: 6939131940085952451, guid: acc5b6564eaed604895dc40a174dc2a7,
         type: 3}
@@ -548,8 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storageSection: {fileID: 7457698877566022900}
-  unitStoragePrefab: {fileID: 6025760568537465663, guid: 1555e3931de31ef47b6eb152aeca9ad5,
-    type: 3}
+  deckSection: {fileID: 762853022262781187}
 --- !u!1001 &3454227928306719052
 PrefabInstance:
   m_ObjectHideFlags: 0

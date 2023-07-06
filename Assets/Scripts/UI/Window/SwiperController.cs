@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI.Fragment;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Assets.Scripts.UI.Window
 {
-    public class SwiperController : SingletonObject<SwiperController>, IEndDragHandler
+    public class SwiperController : SingletonObject<SwiperController>, IEndDragHandler, IInitiable<int>
     {
         [SerializeField]
-        private SwiperContentController[] fragments;
+        private SwiperFragmentController[] fragments;
         private ScrollRect scrollRect;
         private int currentIdx;
         private float normHorPos;
@@ -67,6 +69,18 @@ namespace Assets.Scripts.UI.Window
                 }
                 tempIdx++;
             }
+        }
+
+        public void Init(int param)
+        {
+            // 프레그먼트들 초기화
+            fragments.All((frag) =>
+            {
+                frag?.Init();
+                return true;
+            });
+            // 시작 프레그먼트로 이동
+            GoToFragment(param, false);
         }
     }
 }

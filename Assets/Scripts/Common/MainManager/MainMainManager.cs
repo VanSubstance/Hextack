@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.UI.Window;
+using Assets.Scripts.Unit;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Assets.Scripts.UI.Fragment.Storage;
 
 namespace Assets.Scripts.Common.MainManager
 {
@@ -19,6 +19,9 @@ namespace Assets.Scripts.Common.MainManager
         private TextMeshProUGUI textGold, textArtifact, textNick;
         [SerializeField]
         private Image imageUser;
+
+        [SerializeField]
+        private UnitStorageController unitStoragePrefab;
 
         /// <summary>
         /// 닉네임 설정
@@ -53,13 +56,21 @@ namespace Assets.Scripts.Common.MainManager
             }
         }
 
+        private new void Awake()
+        {
+            base.Awake();
+            for (int i = 0; i < 100; i++)
+            {
+                GlobalStatus.UnitStoragePool.Enqueue(Instantiate(unitStoragePrefab, transform));
+            }
+        }
+
         /// <summary>
         /// 메인 메뉴 시작
         /// </summary>
         private void Start()
         {
             Init();
-            StorageFragmentController.Instance.Init();
         }
 
         /// <summary>
@@ -70,7 +81,24 @@ namespace Assets.Scripts.Common.MainManager
             TextNick = ServerData.User.Base.NickName;
             AmountGold = ServerData.User.Base.AmountGold;
             AmountArtifact = ServerData.User.Base.AmountArtifact;
-            swiper.GoToFragment(startIdx, false);
+
+            // 프레그먼트들 초기화
+            swiper.Init(startIdx);
+        }
+
+        /// <summary>
+        /// 신규 차옥 유닛 오브젝트 호출 함수
+        /// 풀에 있음 -> 꺼내주기; 없다 -> 생성해서 주기
+        /// </summary>
+        /// <returns></returns>
+        public UnitStorageController GetUnitStorage()
+        {
+            UnitStorageController res;
+            if ((res = GlobalStatus.GetUnitStorage()) == null)
+            {
+                return Instantiate(unitStoragePrefab, transform);
+            }
+            return res;
         }
     }
 }

@@ -231,7 +231,7 @@ namespace Assets.Scripts.Common.MainManager
         {
             NickAlly = ServerData.User.Base.NickName;
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
-            VisualizeDeck(ServerData.User.Deck, true);
+            VisualizeDeck(ServerData.User.DeckLive, true);
             VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
             roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null);
         }

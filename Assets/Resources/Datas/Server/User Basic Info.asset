@@ -16,18 +16,47 @@ MonoBehaviour:
   Rank: 1
   AmountGold: 100
   AmountArtifact: 4
-  unitPossessList:
-  - Code: Bard
+  UnitStorageList:
+  - Code: Provoke
     Upgrade: 0
   - Code: Sword
-    Upgrade: 0
-  - Code: Poison
     Upgrade: 0
   - Code: Bow
     Upgrade: 0
   - Code: Healer
     Upgrade: 0
-  - Code: Provoke
+  - Code: Poison
+    Upgrade: 0
+  - Code: Bard
     Upgrade: 0
   - Code: ScareCrow
     Upgrade: 0
+  DeckList:
+  - Codes:
+    - Provoke
+    - Healer
+    - Bard
+    - Poison
+    - Bow
+    - Sword
+  - Codes:
+    - Provoke
+    - Healer
+    - Bard
+    - Poison
+    - Bow
+    - Sword
+  - Codes:
+    - Provoke
+    - Healer
+    - Bard
+    - Poison
+    - Bow
+    - Sword
+  - Codes:
+    - Provoke
+    - Healer
+    - Bard
+    - Poison
+    - Bow
+    - Sword

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Common.MainManager;
+using Assets.Scripts.Unit;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -50,7 +51,7 @@ namespace Assets.Scripts.UI.Fragment.Storage
             }
             foreach (UnitInfo unitInfo in units[tier])
             {
-                StorageFragmentController.Instance.GetUnitStorage().Init(unitInfo, unitStorageParent);
+                MainMainManager.Instance.GetUnitStorage().Init(unitInfo, unitStorageParent);
             }
             return this;
         }

@@ -30,14 +30,19 @@ public static class ServerData
         public static UserBasicInfo Base;
 
         /// <summary>
-        /// 인게임에 들고 들어간 덱
-        /// </summary>
-        public static UnitInfo[] Deck;
-
-        /// <summary>
         /// 소유중인 기물들
         /// </summary>
         public static UnitInfo[] Storages;
+
+        /// <summary>
+        /// 등록된 덱 리스트
+        /// </summary>
+        public static UnitInfo[][] Decks;
+
+        /// <summary>
+        /// 인게임에 들고 들어간 덱
+        /// </summary>
+        public static UnitInfo[] DeckLive;
     }
 
     /// <summary>
