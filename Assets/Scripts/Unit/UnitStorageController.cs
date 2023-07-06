@@ -18,6 +18,9 @@ namespace Assets.Scripts.Unit
             }
         }
 
+        /// <summary>
+        /// 장착 시 실행되는 람다
+        /// </summary>
         [HideInInspector]
         public System.Action<int> ActionOnEquip;
 
