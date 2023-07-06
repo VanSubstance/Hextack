@@ -115,11 +115,6 @@ public static class GlobalStatus
     public static Queue<GageController> HpGagePool = new Queue<GageController>();
 
     /// <summary>
-    /// 투사체 풀
-    /// </summary>
-    public static Queue<ProjectileController> ProjectilePool = new Queue<ProjectileController>();
-
-    /// <summary>
     /// 텍스트 풀
     /// </summary>
     public static Queue<TextController> textPoll = new Queue<TextController>();
@@ -143,18 +138,6 @@ public static class GlobalStatus
     {
         if (UnitStoragePool.Count > 0)
             return UnitStoragePool.Dequeue();
-        else
-            return null;
-    }
-
-    /// <summary>
-    /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
-    /// </summary>
-    /// <returns></returns>
-    public static ProjectileController GetProjectile()
-    {
-        if (ProjectilePool.Count > 0)
-            return ProjectilePool.Dequeue();
         else
             return null;
     }

@@ -16,6 +16,8 @@ namespace Assets.Scripts.Common.MainManager
     public class MainInGameManager : SingletonObject<MainInGameManager>
     {
         [SerializeField]
+        private DungeonInfo testDungeon;
+        [SerializeField]
         private ChoiceManager choiceManager;
         [SerializeField]
         private UI.TextController textController;
@@ -138,6 +140,10 @@ namespace Assets.Scripts.Common.MainManager
         private new void Awake()
         {
             base.Awake();
+            if (ServerData.InGame.DungeonInfo == null)
+            {
+                ServerData.InGame.DungeonInfo = testDungeon;
+            }
             ServerManager.Instance.LoadDungeonInfo();
             choiceManager = Instantiate(choiceManager, transform);
             infoController = Instantiate(infoController, transform);
@@ -179,8 +185,6 @@ namespace Assets.Scripts.Common.MainManager
             MapManager.Instance.Init();
             // 유닛 매니저 초기화
             UnitManager.Instance.Init();
-            // 투사체 매니저 초기화
-            ProjectileManager.Instance.Init();
             // UI 매니저 정보 초기화
             Init();
 

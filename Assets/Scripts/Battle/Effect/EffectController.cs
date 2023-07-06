@@ -15,8 +15,9 @@ namespace Assets.Scripts.Battle
             gameObject.SetActive(false);
         }
 
-        public EffectController InitEffect(Vector3 targetPos, Color color)
+        public EffectController InitEffect(Vector3 targetPos, Color color, string _effectName)
         {
+            effectName = _effectName;
             transform.position = targetPos;
             gameObject.SetActive(true);
             particleModule.startColor = color;

@@ -19,7 +19,11 @@ namespace Assets.Scripts.Battle
                 // 최초
                 GlobalStatus.effectPool[effectName] = new Queue<EffectController>();
             }
-            Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform).InitEffect(targetPos, color);
+            if (!GlobalStatus.effectPool[effectName].TryDequeue(out EffectController res))
+            {
+                res = Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform);
+            }
+            res.InitEffect(targetPos, color, effectName);
         }
     }
 }

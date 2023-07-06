@@ -38,6 +38,8 @@ public static class ServerData
         /// 등록된 덱 리스트
         /// </summary>
         public static UnitInfo[][] Decks;
+
+        public static int CurrentDeckIdx = 0;
     }
 
     /// <summary>

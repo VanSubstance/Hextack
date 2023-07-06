@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c522dd4dc26e3438d957dd39125f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testDungeon: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   choiceManager: {fileID: 7508099684541242423, guid: 7e83c8d0fe3cbb74bac5239e0fde1c6d,
     type: 3}
   textController: {fileID: 6712707992971887536, guid: dcd6e44111760c4449483c4d56f09a71,
@@ -1425,10 +1426,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 617250205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9c27bf1eab517429fba9ae72b5eaf6, type: 3}
+  m_Script: {fileID: 11500000, guid: 82a26ef00ea364443acc18cd06983a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 226362093158447041, guid: ddf7bb78367bec84aae52ea598c1bda1,
+  componentPrefab: {fileID: 226362093158447041, guid: ddf7bb78367bec84aae52ea598c1bda1,
     type: 3}
 --- !u!1 &661417542
 GameObject:
@@ -2547,7 +2548,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1035475800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5abcac286ede7a489ef189f53890e5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 34e9c299cd62bc84986aca34f43f6d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1035475802

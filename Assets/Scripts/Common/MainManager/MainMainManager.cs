@@ -21,8 +21,6 @@ namespace Assets.Scripts.Common.MainManager
         [SerializeField]
         private UnitStorageController unitStoragePrefab;
 
-        [HideInInspector]
-        public int CurrentDeckIdx;
         private bool isTryingEquip;
         [HideInInspector]
         public UnitInfo CurrentSelectedUnitInfo;
@@ -129,3 +127,4 @@ namespace Assets.Scripts.Common.MainManager
         }
     }
 }
+

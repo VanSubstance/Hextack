@@ -306,9 +306,15 @@ namespace Assets.Scripts.Unit
                 Execute();
                 return;
             }
-            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            ProjectileManager.Instance.GetNewComponent().Init(new ProjectileController.Info()
             {
-                Execute();
+                color = Color.white,
+                StartPos = transform.position + Vector3.up,
+                EndPos = GlobalStatus.Units[x][y].transform.position + Vector3.up,
+                ActionEnd = () =>
+                {
+                    Execute();
+                },
             });
         }
 

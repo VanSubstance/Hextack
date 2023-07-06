@@ -17,7 +17,7 @@ MonoBehaviour:
     ,,, \uBB54\uAC00 \uC788\uB2E4 .."
   Code: Spin
   radius: 4
-  rounds: 5
+  rounds: 1
   cntTileBan: 2
   cntUnitBan: 1
   cntUnit: 3
