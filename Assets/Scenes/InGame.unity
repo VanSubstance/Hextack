@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af9c27bf1eab517429fba9ae72b5eaf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 226362093158447041, guid: ddf7bb78367bec84aae52ea598c1bda1,
+  componentPrefab: {fileID: 226362093158447041, guid: ddf7bb78367bec84aae52ea598c1bda1,
     type: 3}
 --- !u!1 &661417542
 GameObject:

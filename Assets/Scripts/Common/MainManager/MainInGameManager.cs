@@ -185,8 +185,6 @@ namespace Assets.Scripts.Common.MainManager
             MapManager.Instance.Init();
             // 유닛 매니저 초기화
             UnitManager.Instance.Init();
-            // 투사체 매니저 초기화
-            ProjectileManager.Instance.Init();
             // UI 매니저 정보 초기화
             Init();
 
