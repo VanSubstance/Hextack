@@ -21,7 +21,6 @@ namespace Assets.Scripts.Server
             base.Awake();
             DontDestroyOnLoad(transform);
             Application.targetFrameRate = 1000;
-            GlobalStatus.MapInfo = ServerData.InGame.DungeonInfo;
             GlobalStatus.IsSingle = isSingle;
             DataManager.Instance.LoadLocalDatas();
             CallUserInfo();
@@ -33,6 +32,8 @@ namespace Assets.Scripts.Server
         /// <param name="dungeonName"></param>
         public void LoadDungeonInfo()
         {
+            ServerData.InGame.DeckAlly = ServerData.User.Decks[ServerData.User.CurrentDeckIdx];
+            GlobalStatus.MapInfo = ServerData.InGame.DungeonInfo;
             string basePath = $"Datas/Maps/{ServerData.InGame.DungeonInfo.radius}/{ServerData.InGame.DungeonInfo.Code}";
             ServerData.InGame.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
             ServerData.InGame.MonsterInfo = new UnitToken[ServerData.InGame.DungeonInfo.rounds][];
@@ -71,7 +72,6 @@ namespace Assets.Scripts.Server
         public void EnterDungeon(string dungeonCode)
         {
             ServerData.InGame.DungeonInfo = ServerData.Dungeon.DungeonList[dungeonCode];
-            ServerData.InGame.DeckAlly = ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx];
             GlobalStatus.NextScene = "InGame";
             SceneManager.LoadScene("Loading");
         }

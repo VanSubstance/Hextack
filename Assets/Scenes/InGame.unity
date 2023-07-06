@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c522dd4dc26e3438d957dd39125f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testDungeon: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   choiceManager: {fileID: 7508099684541242423, guid: 7e83c8d0fe3cbb74bac5239e0fde1c6d,
     type: 3}
   textController: {fileID: 6712707992971887536, guid: dcd6e44111760c4449483c4d56f09a71,

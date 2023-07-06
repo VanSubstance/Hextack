@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI.Fragment.Storage
         /// <param name="idx"></param>
         public void SelectDeck(int idx)
         {
-            MainMainManager.Instance.CurrentDeckIdx = idx;
+            ServerData.User.CurrentDeckIdx = idx;
             // 각 소켓 데이터 바꿔쳐주기
             int ii = 0;
             while (ii < 6)
@@ -63,17 +63,17 @@ namespace Assets.Scripts.UI.Fragment.Storage
         {
             for (int i = 0; i < 6; i++)
             {
-                if (ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i].Code.Equals(newUnitInfo.Code))
+                if (ServerData.User.Decks[ServerData.User.CurrentDeckIdx][i].Code.Equals(newUnitInfo.Code))
                 {
                     // 겹치는 애가 있다 = 스왑해야함 i -> idx로, idx -> i로
-                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i] = ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx].Clone();
-                    socketList[i].Init(ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][i]);
-                    ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx] = newUnitInfo.Clone();
-                    socketList[idx].Init(ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx]);
+                    ServerData.User.Decks[ServerData.User.CurrentDeckIdx][i] = ServerData.User.Decks[ServerData.User.CurrentDeckIdx][idx].Clone();
+                    socketList[i].Init(ServerData.User.Decks[ServerData.User.CurrentDeckIdx][i]);
+                    ServerData.User.Decks[ServerData.User.CurrentDeckIdx][idx] = newUnitInfo.Clone();
+                    socketList[idx].Init(ServerData.User.Decks[ServerData.User.CurrentDeckIdx][idx]);
                     return;
                 }
             }
-            ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx][idx] = newUnitInfo.Clone();
+            ServerData.User.Decks[ServerData.User.CurrentDeckIdx][idx] = newUnitInfo.Clone();
             socketList[idx].Init(newUnitInfo);
         }
 
