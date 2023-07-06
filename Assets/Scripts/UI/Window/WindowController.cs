@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Unit;
+using Assets.Scripts.Common.MainManager;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Window
@@ -24,6 +25,7 @@ namespace Assets.Scripts.UI.Window
 
         public void Close()
         {
+            MainMainManager.Instance.CurrentSelectedUnitInfo = null;
             gameObject.SetActive(false);
             unitInfoContent.Init(null);
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Unit;
 
 namespace Assets.Scripts.UI.Fragment.Storage
 {

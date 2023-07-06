@@ -21,7 +21,11 @@ namespace Assets.Scripts.Common.MainManager
         [SerializeField]
         private UnitStorageController unitStoragePrefab;
 
+        [HideInInspector]
+        public int CurrentDeckIdx;
         private bool isTryingEquip;
+        [HideInInspector]
+        public UnitInfo CurrentSelectedUnitInfo;
 
         /// <summary>
         /// 닉네임 설정
@@ -117,6 +121,11 @@ namespace Assets.Scripts.Common.MainManager
                 return Instantiate(unitStoragePrefab, transform);
             }
             return res;
+        }
+
+        public void ChangeUnit()
+        {
+
         }
     }
 }

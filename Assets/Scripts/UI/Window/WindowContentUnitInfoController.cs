@@ -36,12 +36,14 @@ namespace Assets.Scripts.UI.Window
             {
                 // 시도중임 = 시도 끔
                 MainMainManager.Instance.IsTryingEquip = false;
+                MainMainManager.Instance.CurrentSelectedUnitInfo = null;
                 btnToggleEquip.image.color = Color.white;
             }
             else
             {
                 // 시도중이 아님 = 시도 시작
                 MainMainManager.Instance.IsTryingEquip = true;
+                MainMainManager.Instance.CurrentSelectedUnitInfo = curInfo;
                 btnToggleEquip.image.color = new Color(0, 1, .8f, 1);
             }
         }
