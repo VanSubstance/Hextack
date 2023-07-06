@@ -67,9 +67,9 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         public void Init()
         {
-            TextNick = ServerData.User.nickName;
-            AmountGold = ServerData.User.AmountGold;
-            AmountArtifact = ServerData.User.AmountArtifact;
+            TextNick = ServerData.User.Base.NickName;
+            AmountGold = ServerData.User.Base.AmountGold;
+            AmountArtifact = ServerData.User.Base.AmountArtifact;
             swiper.GoToFragment(startIdx, false);
         }
     }

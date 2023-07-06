@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Unit;
 using Assets.Scripts.Map;
 using System.Collections.Generic;
+using Assets.Scripts.Server;
 
 /// <summary>
 /// 서버에서 넘겨받는 데이터들을 가정한 로컬 데이터
@@ -8,6 +9,10 @@ using System.Collections.Generic;
 public static class ServerData
 {
     public static string rootPath = $"Datas";
+
+    /// <summary>
+    /// 기물 별 정보
+    /// </summary>
     public static class Unit
     {
         public static string rootPath = $"{ServerData.rootPath}/Units";
@@ -20,9 +25,9 @@ public static class ServerData
     public static class User
     {
         /// <summary>
-        /// 닉네임
+        /// 서버로부터 넘겨받은 기본 유저 정보
         /// </summary>
-        public static string nickName = "서버수신닉네임";
+        public static UserBasicInfo Base;
 
         /// <summary>
         /// 인게임에 들고 들어간 덱
@@ -33,11 +38,6 @@ public static class ServerData
         /// 소유중인 기물들
         /// </summary>
         public static UnitInfo[] Storages;
-
-        /// <summary>
-        /// 보유 재화량
-        /// </summary>
-        public static int AmountGold, AmountArtifact;
     }
 
     /// <summary>

@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI.Fragment.Storage
                     units[i] = new List<UnitInfo>();
                 }
                 // 분류
-                foreach (UnitInfo unitInfo in ServerData.User.Deck)
+                foreach (UnitInfo unitInfo in ServerData.User.Storages)
                 {
                     units[unitInfo.Tier].Add(unitInfo);
                 }

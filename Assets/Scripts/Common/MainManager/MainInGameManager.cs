@@ -229,7 +229,7 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         public void Init()
         {
-            NickAlly = ServerData.User.nickName;
+            NickAlly = ServerData.User.Base.NickName;
             NickEnemy = ServerData.Dungeon.Info.mapTitle;
             VisualizeDeck(ServerData.User.Deck, true);
             VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);

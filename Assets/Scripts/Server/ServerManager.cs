@@ -4,6 +4,7 @@ using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Assets.Scripts.Server
 {
@@ -27,6 +28,7 @@ namespace Assets.Scripts.Server
             GlobalStatus.MapInfo = mapInfo;
             GlobalStatus.IsSingle = isSingle;
             DataManager.Instance.LoadLocalDatas();
+            CallUserInfo();
             LoadDungeonInfo(mapInfo);
         }
 
@@ -60,8 +62,8 @@ namespace Assets.Scripts.Server
         /// </summary>
         public void ExitDouble()
         {
-            ServerData.User.AmountArtifact += GlobalStatus.InGame.AccuArtifact * 2;
-            ServerData.User.AmountGold += GlobalStatus.InGame.AccuGold * 2;
+            ServerData.User.Base.AmountArtifact += GlobalStatus.InGame.AccuArtifact * 2;
+            ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold * 2;
             GlobalStatus.NextScene = "MainMenu";
             SceneManager.LoadScene("Loading");
         }
@@ -71,11 +73,28 @@ namespace Assets.Scripts.Server
         /// </summary>
         public void ExitNormal()
         {
-            ServerData.User.AmountArtifact += GlobalStatus.InGame.AccuArtifact;
-            ServerData.User.AmountGold += GlobalStatus.InGame.AccuGold;
+            ServerData.User.Base.AmountArtifact += GlobalStatus.InGame.AccuArtifact;
+            ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold;
             GlobalStatus.NextScene = "Main";
             SceneManager.LoadScene("Loading");
         }
 
+
+        /// <summary>
+        /// 유저 정보 불러오기
+        /// </summary>
+        public void CallUserInfo()
+        {
+            // 기본 정보 불러오기
+            ServerData.User.Base = Resources.Load<UserBasicInfo>("Datas/Server/User Basic Info");
+            ServerData.User.Storages = new UnitInfo[ServerData.User.Base.unitPossessList.Length];
+            int idx = 0;
+            // 각 기물 실제 정보 채우기
+            ServerData.User.Base.unitPossessList.All((upInfo) =>
+            {
+                ServerData.User.Storages[idx++] = ServerData.Unit.data[upInfo.Code].Clone();
+                return true;
+            });
+        }
     }
 }
