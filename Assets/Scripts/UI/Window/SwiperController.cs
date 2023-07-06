@@ -49,7 +49,7 @@ namespace Assets.Scripts.UI.Window
             while (frameLeft-- > 0)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
-                scrollRect.horizontalNormalizedPosition = curNorm = ((targetNorm - curNorm) / 30f) + curNorm;
+                scrollRect.horizontalNormalizedPosition = curNorm = ((targetNorm - curNorm) / 3f) + curNorm;
             }
             scrollRect.horizontalNormalizedPosition = targetNorm;
             currentIdx = targetIdx;
