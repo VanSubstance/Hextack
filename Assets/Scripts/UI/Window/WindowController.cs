@@ -16,6 +16,8 @@ namespace Assets.Scripts.UI.Window
         private WindowContentDungeonListController dungeonListContent;
         [SerializeField]
         private WindowContentDungeonInfoController dungeonInfoContent;
+        [SerializeField]
+        private InfoController unitInfoSimple;
 
         public void Init()
         {
@@ -42,10 +44,24 @@ namespace Assets.Scripts.UI.Window
             gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// 던전 정보 열기
+        /// </summary>
+        /// <param name="_dungeonInfo"></param>
         public void OpenDungeonInfo(DungeonInfo _dungeonInfo)
         {
             Close();
             dungeonInfoContent.Init(_dungeonInfo);
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// 기물 간단 정보 열기
+        /// </summary>
+        /// <param name="_unitInfo"></param>
+        public void OpenUnitInfoSimple(UnitInfo _unitInfo)
+        {
+            unitInfoSimple.Init(_unitInfo, true);
             gameObject.SetActive(true);
         }
 
@@ -65,6 +81,9 @@ namespace Assets.Scripts.UI.Window
 
             // 던전 정보 닫기
             dungeonInfoContent.Init(null);
+
+            // 간단 정보 닫기
+            unitInfoSimple.Clear();
         }
     }
 }

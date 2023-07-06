@@ -17,7 +17,7 @@ namespace Assets.Scripts.UI.Window.DungeonInfos
         {
             dungeonInfo = param;
             ActionRetunToPool = actionReturnToPool;
-            textTitle.text = param.name;
+            textTitle.text = param.mapTitle;
             gameObject.SetActive(true);
             return this;
         }

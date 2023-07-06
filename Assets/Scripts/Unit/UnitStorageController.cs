@@ -24,6 +24,12 @@ namespace Assets.Scripts.Unit
         [HideInInspector]
         public System.Action<int> ActionOnEquip;
 
+        /// <summary>
+        /// 간단 정보창이 열려야하는지 판별 람다
+        /// </summary>
+        [HideInInspector]
+        public System.Func<bool> ActionIfSimpleInfo;
+
         private void Awake()
         {
             image = GetComponent<Image>();
@@ -57,7 +63,15 @@ namespace Assets.Scripts.Unit
             else
             {
                 // 정보 띄워주기
-                WindowController.Instance.OpenUnitInfo(unitInfo);
+                if (ActionIfSimpleInfo != null ? ActionIfSimpleInfo() : false)
+                {
+                    WindowController.Instance.OpenUnitInfoSimple(unitInfo);
+
+                }
+                else
+                {
+                    WindowController.Instance.OpenUnitInfo(unitInfo);
+                }
             }
         }
     }

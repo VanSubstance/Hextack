@@ -32,6 +32,10 @@ namespace Assets.Scripts.UI.Fragment.Storage
                 {
                     ChangeUnit(targetIdx, MainMainManager.Instance.CurrentSelectedUnitInfo);
                 };
+                socket.ActionIfSimpleInfo = () =>
+                {
+                    return IsSimpleInfo;
+                };
                 return true;
             });
         }
