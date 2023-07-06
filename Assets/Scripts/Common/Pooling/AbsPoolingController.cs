@@ -9,7 +9,6 @@ namespace Assets.Scripts.Common.Pooling
     public abstract class AbsPoolingController<T> : MonoBehaviour where T : MonoBehaviour
     {
         public static T Instance;
-
         [SerializeField]
         private AbsPoolingContent componentPrefab;
         private Queue<AbsPoolingContent> q;
