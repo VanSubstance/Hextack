@@ -129,7 +129,7 @@ namespace Assets.Scripts.Map
         {
             if (!unitController.IsEnemy)
             {
-                foreach (UnitInfo _info in ServerData.User.Deck)
+                foreach (UnitInfo _info in ServerData.User.DeckLive)
                 {
                     if (_info.Code.Equals(unitController.Info.Code))
                     {
@@ -145,6 +145,9 @@ namespace Assets.Scripts.Map
                 // 업그레이드
                 unitController.Clear();
                 unitAttached.LevelUp();
+
+                // 레벨업 이펙트 띄워주기
+                EffectManager.Instance.ExecutNewEffect("LevelUp", transform.position + (Vector3.up * 2), Color.white);
             }
             else
             {

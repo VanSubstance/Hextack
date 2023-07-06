@@ -159,7 +159,7 @@ namespace Assets.Scripts.Unit
                                 hasTargetList[_idx] = ability.type.Equals(AbilityType.Damage) && temp.Count > 0;
                                 foreach (int[] target in temp)
                                 {
-                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1), !ability.type.Equals(AbilityType.Damage));
                                 }
                             }, idx, ability.secondForOnce)));
                             idx++;
@@ -276,16 +276,16 @@ namespace Assets.Scripts.Unit
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        private void ExecuteHp(int x, int y, float amountToApply)
+        private void ExecuteHp(int x, int y, float amountToApply, bool isInstant = false)
         {
-            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            void Execute()
             {
                 try
                 {
                     bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
                     if (!isEnemy)
                     {
-                        foreach (UnitInfo _info in ServerData.User.Deck)
+                        foreach (UnitInfo _info in ServerData.User.DeckLive)
                         {
                             if (_info.Code.Equals(info.Code))
                             {
@@ -300,6 +300,15 @@ namespace Assets.Scripts.Unit
                 {
                     // 이미 대상이 죽음
                 }
+            }
+            if (isInstant)
+            {
+                Execute();
+                return;
+            }
+            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            {
+                Execute();
             });
         }
 

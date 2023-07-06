@@ -26,9 +26,9 @@ namespace Assets.Scripts.UI.Window.Result
             textCountWin.text = $"{GlobalStatus.InGame.WinCount} / {ServerData.Dungeon.Info.rounds}";
             textGold.text = $"{GlobalStatus.InGame.AccuGold} G";
             textArtifact.text = $"{GlobalStatus.InGame.AccuArtifact} 개";
-            Array.Sort(ServerData.User.Deck);
-            int idx = 0, maxDamage = ServerData.User.Deck[0].AccuDamage;
-            foreach (UnitInfo info in ServerData.User.Deck)
+            Array.Sort(ServerData.User.DeckLive);
+            int idx = 0, maxDamage = ServerData.User.DeckLive[0].AccuDamage;
+            foreach (UnitInfo info in ServerData.User.DeckLive)
             {
                 statControllers[idx++].Init(info, maxDamage);
             }

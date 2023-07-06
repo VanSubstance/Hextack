@@ -1,14 +1,13 @@
 ﻿using Assets.Scripts.UI.Window;
+using Assets.Scripts.Unit;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Assets.Scripts.Common.MainManager
 {
     public class MainMainManager : SingletonObject<MainMainManager>
     {
-        [SerializeField]
-        private SwiperController swiper;
         /// <summary>
         /// 시작 프레그먼트 번호
         /// </summary>
@@ -18,6 +17,15 @@ namespace Assets.Scripts.Common.MainManager
         private TextMeshProUGUI textGold, textArtifact, textNick;
         [SerializeField]
         private Image imageUser;
+
+        [SerializeField]
+        private UnitStorageController unitStoragePrefab;
+
+        [HideInInspector]
+        public int CurrentDeckIdx;
+        private bool isTryingEquip;
+        [HideInInspector]
+        public UnitInfo CurrentSelectedUnitInfo;
 
         /// <summary>
         /// 닉네임 설정
@@ -53,6 +61,30 @@ namespace Assets.Scripts.Common.MainManager
         }
 
         /// <summary>
+        /// 설치를 시도하고 있는가 ?
+        /// </summary>
+        public bool IsTryingEquip
+        {
+            get
+            {
+                return isTryingEquip;
+            }
+            set
+            {
+                isTryingEquip = value;
+            }
+        }
+
+        private new void Awake()
+        {
+            base.Awake();
+            for (int i = 0; i < 100; i++)
+            {
+                GlobalStatus.UnitStoragePool.Enqueue(Instantiate(unitStoragePrefab, transform));
+            }
+        }
+
+        /// <summary>
         /// 메인 메뉴 시작
         /// </summary>
         private void Start()
@@ -65,10 +97,35 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         public void Init()
         {
-            TextNick = ServerData.User.nickName;
-            AmountGold = ServerData.User.AmountGold;
-            AmountArtifact = ServerData.User.AmountArtifact;
-            swiper.GoToFragment(startIdx, false);
+            TextNick = ServerData.User.Base.NickName;
+            AmountGold = ServerData.User.Base.AmountGold;
+            AmountArtifact = ServerData.User.Base.AmountArtifact;
+
+            // 프레그먼트들 초기화
+            SwiperController.Instance.Init(startIdx);
+
+            // 윈도우 초기화
+            WindowController.Instance.Init();
+        }
+
+        /// <summary>
+        /// 신규 차옥 유닛 오브젝트 호출 함수
+        /// 풀에 있음 -> 꺼내주기; 없다 -> 생성해서 주기
+        /// </summary>
+        /// <returns></returns>
+        public UnitStorageController GetUnitStorage()
+        {
+            UnitStorageController res;
+            if ((res = GlobalStatus.GetUnitStorage()) == null)
+            {
+                return Instantiate(unitStoragePrefab, transform);
+            }
+            return res;
+        }
+
+        public void ChangeUnit()
+        {
+
         }
     }
 }

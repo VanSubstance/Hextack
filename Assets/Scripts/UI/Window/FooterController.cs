@@ -14,22 +14,32 @@ namespace Assets.Scripts.UI.Window
         [SerializeField]
         private Image pointer;
         [SerializeField]
-        private Transform contentsTf;
+        private FooterContentController[] menuBtnList;
         private List<Vector3> menus;
 
+        /// <summary>
+        ///  이동한 프레그먼트 메뉴로 포인터 이동
+        /// </summary>
+        /// <param name="idx"></param>
         public void Track(int idx)
         {
             if (menus == null)
             {
                 menus = new List<Vector3>();
-                foreach (Vector3 coor in contentsTf.GetComponentsInChildren<FooterContentController>().Select((rect) =>
+                foreach (Vector3 coor in menuBtnList.Select((btn) =>
                 {
-                    return rect.transform.position;
+                    return btn.transform.position;
                 }))
                 {
                     menus.Add(coor);
                 }
             }
+            int ii = 0;
+            menuBtnList.All((btn) =>
+            {
+                btn.IsSelected = idx == ii++;
+                return true;
+            });
             StartCoroutine(CrAnimate(menus[idx]));
         }
 
@@ -40,7 +50,7 @@ namespace Assets.Scripts.UI.Window
             while (frameLeft-- > 0)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
-                pointer.transform.position = targetPos = ((pointer.transform.position - targetPos) / 30f) + targetPos;
+                pointer.transform.position = targetPos = ((pointer.transform.position - targetPos) / 10f) + targetPos;
             }
             pointer.transform.position = tempPos;
         }

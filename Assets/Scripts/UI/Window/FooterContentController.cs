@@ -15,9 +15,8 @@ namespace Assets.Scripts.UI.Window
         [SerializeField]
         private Image image;
 
-        private Rect rectImage;
-        private Vector2 originImageSize;
-        private float originFontSize;
+        private RectTransform rectImage;
+        private float originFontSize, originImageSize;
 
         /// <summary>
         /// 현재 선택되었는지
@@ -29,14 +28,14 @@ namespace Assets.Scripts.UI.Window
                 if (value)
                 {
                     // 하이라이트 = 크기 키우기
-                    ugui.fontSize = originFontSize * 1.2f;
-                    rectImage.size = originImageSize * 1.2f;
+                    ugui.rectTransform.sizeDelta = Vector2.up * originFontSize * 1.2f;
+                    rectImage.sizeDelta = Vector2.one * originImageSize * 1.2f;
                 }
                 else
                 {
                     // 원상복구
-                    ugui.fontSize = originFontSize;
-                    rectImage.size = originImageSize;
+                    ugui.rectTransform.sizeDelta = Vector2.up * originFontSize;
+                    rectImage.sizeDelta = Vector2.one * originImageSize;
                 }
             }
         }
@@ -45,8 +44,8 @@ namespace Assets.Scripts.UI.Window
         {
             image.sprite = sprite;
             ugui.text = text;
-            originFontSize = ugui.fontSize;
-            originImageSize = (rectImage = image.rectTransform.rect).size;
+            originFontSize = ugui.rectTransform.sizeDelta.y;
+            originImageSize = (rectImage = image.rectTransform).sizeDelta.y;
         }
 
         /// <summary>
