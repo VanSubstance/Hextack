@@ -12,9 +12,12 @@ namespace Assets.Scripts.UI.Fragment.Storage
         private UnitStorageController[] socketList = new UnitStorageController[6];
         [SerializeField]
         private DeckLabelController[] deckLabelList = new DeckLabelController[4];
+        [HideInInspector]
+        public bool IsSimpleInfo;
 
         private void Awake()
         {
+            IsSimpleInfo = false;
             deckLabelList.All((label) =>
             {
                 label.onClick.AddListener(() =>
@@ -28,6 +31,10 @@ namespace Assets.Scripts.UI.Fragment.Storage
                 socket.ActionOnEquip = (targetIdx) =>
                 {
                     ChangeUnit(targetIdx, MainMainManager.Instance.CurrentSelectedUnitInfo);
+                };
+                socket.ActionIfSimpleInfo = () =>
+                {
+                    return IsSimpleInfo;
                 };
                 return true;
             });
@@ -76,6 +83,19 @@ namespace Assets.Scripts.UI.Fragment.Storage
         public void Init()
         {
             SelectDeck(0);
+        }
+
+        /// <summary>
+        /// 강제로 리스트업
+        /// </summary>
+        /// <param name="infos"></param>
+        public void InitMenually(UnitInfo[] infos)
+        {
+            int ii = 0;
+            while (ii < 6 && ii < infos.Length)
+            {
+                ChangeUnit(ii, infos[ii++]);
+            }
         }
     }
 }

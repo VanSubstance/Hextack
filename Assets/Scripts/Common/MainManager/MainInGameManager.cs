@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Map;
+using Assets.Scripts.Server;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Choice;
 using Assets.Scripts.UI.Window;
@@ -9,7 +10,6 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Common.MainManager
 {
@@ -138,6 +138,7 @@ namespace Assets.Scripts.Common.MainManager
         private new void Awake()
         {
             base.Awake();
+            ServerManager.Instance.LoadDungeonInfo();
             choiceManager = Instantiate(choiceManager, transform);
             infoController = Instantiate(infoController, transform);
             resultController = Instantiate(resultController, transform);
@@ -230,10 +231,10 @@ namespace Assets.Scripts.Common.MainManager
         public void Init()
         {
             NickAlly = ServerData.User.Base.NickName;
-            NickEnemy = ServerData.Dungeon.Info.mapTitle;
-            VisualizeDeck(ServerData.User.DeckLive, true);
-            VisualizeDeck(ServerData.Dungeon.Info.unitCodeList, false);
-            roundProgressGage.Init(ServerData.Dungeon.Info.rounds, 0, null);
+            NickEnemy = ServerData.InGame.DungeonInfo.mapTitle;
+            VisualizeDeck(ServerData.InGame.DeckAlly, true);
+            VisualizeDeck(ServerData.InGame.DungeonInfo.unitCodeList, false);
+            roundProgressGage.Init(ServerData.InGame.DungeonInfo.rounds, 0, null);
         }
 
         /// <summary>
@@ -417,7 +418,7 @@ namespace Assets.Scripts.Common.MainManager
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         TextCenter = "";
-                        UnitManager.Instance.InitUnits(ServerData.Dungeon.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
+                        UnitManager.Instance.InitUnits(ServerData.InGame.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
                         NextStage = IngameStageType.Place;
                     }, 1f));
                 }, 1f));
@@ -539,7 +540,7 @@ namespace Assets.Scripts.Common.MainManager
                             return true;
                         });
                         GlobalStatus.InGame.Round++;
-                        if (GlobalStatus.InGame.Round > ServerData.Dungeon.Info.rounds)
+                        if (GlobalStatus.InGame.Round > ServerData.InGame.DungeonInfo.rounds)
                         {
                             // 던전 종료 = 결과 페이지로
                             NextStage = IngameStageType.Exit;

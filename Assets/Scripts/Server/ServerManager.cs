@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Common;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using System.Linq;
@@ -13,8 +14,6 @@ namespace Assets.Scripts.Server
     public class ServerManager : SingletonObject<ServerManager>
     {
         [SerializeField]
-        private MapInfo mapInfo;
-        [SerializeField]
         private bool isSingle;
 
         private new void Awake()
@@ -22,26 +21,24 @@ namespace Assets.Scripts.Server
             base.Awake();
             DontDestroyOnLoad(transform);
             Application.targetFrameRate = 1000;
-            GlobalStatus.MapInfo = mapInfo;
+            GlobalStatus.MapInfo = ServerData.InGame.DungeonInfo;
             GlobalStatus.IsSingle = isSingle;
             DataManager.Instance.LoadLocalDatas();
             CallUserInfo();
-            LoadDungeonInfo(mapInfo);
         }
 
         /// <summary>
         /// 던전 정보 받아오기 함수
         /// </summary>
         /// <param name="dungeonName"></param>
-        private void LoadDungeonInfo(MapInfo _mapInfo)
+        public void LoadDungeonInfo()
         {
-            ServerData.Dungeon.Info = _mapInfo;
-            string basePath = $"Datas/Maps/{ServerData.Dungeon.Info.radius}/{ServerData.Dungeon.Info.Code}";
-            ServerData.Dungeon.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
-            ServerData.Dungeon.MonsterInfo = new UnitToken[ServerData.Dungeon.Info.rounds][];
-            for (int i = 0; i < ServerData.Dungeon.Info.rounds; i++)
+            string basePath = $"Datas/Maps/{ServerData.InGame.DungeonInfo.radius}/{ServerData.InGame.DungeonInfo.Code}";
+            ServerData.InGame.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
+            ServerData.InGame.MonsterInfo = new UnitToken[ServerData.InGame.DungeonInfo.rounds][];
+            for (int i = 0; i < ServerData.InGame.DungeonInfo.rounds; i++)
             {
-                ServerData.Dungeon.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
+                ServerData.InGame.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
             }
         }
 
@@ -65,6 +62,26 @@ namespace Assets.Scripts.Server
             ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold;
             GlobalStatus.NextScene = "Main";
             SceneManager.LoadScene("Loading");
+        }
+
+        /// <summary>
+        /// 신규 던전 입장
+        /// </summary>
+        /// <param name="dungeonCode"></param>
+        public void EnterDungeon(string dungeonCode)
+        {
+            ServerData.InGame.DungeonInfo = ServerData.Dungeon.DungeonList[dungeonCode];
+            ServerData.InGame.DeckAlly = ServerData.User.Decks[MainMainManager.Instance.CurrentDeckIdx];
+            GlobalStatus.NextScene = "InGame";
+            SceneManager.LoadScene("Loading");
+        }
+
+        /// <summary>
+        /// 기존 던전 이어서 진행
+        /// </summary>
+        public void ContinueDungeon()
+        {
+            Debug.Log($"이어서 드가자 ㅡ ! ");
         }
 
 
@@ -93,7 +110,7 @@ namespace Assets.Scripts.Server
             }
             idx = 0;
             int idxx;
-            foreach(UserBasicInfo.DeckCodeList codeList in ServerData.User.Base.DeckList)
+            foreach (UserBasicInfo.DeckCodeList codeList in ServerData.User.Base.DeckList)
             {
                 idxx = 0;
                 foreach (string code in codeList.Codes)

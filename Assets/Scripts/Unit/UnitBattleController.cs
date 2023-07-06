@@ -285,7 +285,7 @@ namespace Assets.Scripts.Unit
                     bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
                     if (!isEnemy)
                     {
-                        foreach (UnitInfo _info in ServerData.User.DeckLive)
+                        foreach (UnitInfo _info in ServerData.InGame.DeckAlly)
                         {
                             if (_info.Code.Equals(info.Code))
                             {

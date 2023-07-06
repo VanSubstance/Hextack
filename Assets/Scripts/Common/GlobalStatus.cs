@@ -10,8 +10,8 @@ using System.Collections.Generic;
 public static class GlobalStatus
 {
 
-    private static MapInfo mapInfo;
-    public static MapInfo MapInfo
+    private static DungeonInfo mapInfo;
+    public static DungeonInfo MapInfo
     {
         get
         {

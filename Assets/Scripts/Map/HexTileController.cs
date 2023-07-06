@@ -129,7 +129,7 @@ namespace Assets.Scripts.Map
         {
             if (!unitController.IsEnemy)
             {
-                foreach (UnitInfo _info in ServerData.User.DeckLive)
+                foreach (UnitInfo _info in ServerData.InGame.DeckAlly)
                 {
                     if (_info.Code.Equals(unitController.Info.Code))
                     {

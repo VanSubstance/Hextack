@@ -38,11 +38,6 @@ public static class ServerData
         /// 등록된 덱 리스트
         /// </summary>
         public static UnitInfo[][] Decks;
-
-        /// <summary>
-        /// 인게임에 들고 들어간 덱
-        /// </summary>
-        public static UnitInfo[] DeckLive;
     }
 
     /// <summary>
@@ -50,10 +45,40 @@ public static class ServerData
     /// </summary>
     public static class Dungeon
     {
+        public static string rootPath = $"{ServerData.rootPath}/Maps";
+
         /// <summary>
-        /// 기본 맵 정보
+        /// 접근 가능한 던전 리스트
         /// </summary>
-        public static MapInfo Info;
+        public static Dictionary<string, DungeonInfo> DungeonList = new Dictionary<string, DungeonInfo>();
+
+        /// <summary>
+        /// 이전 진행 기록 (라운드까지만 저장)
+        /// </summary>
+        public static DungeonInfo History;
+    }
+
+    /// <summary>
+    /// 인게임에서 사용되는 정보
+    /// </summary>
+    public static class InGame
+    {
+
+        /// <summary>
+        /// 인게임에 들고 들어간 덱
+        /// </summary>
+        public static UnitInfo[] DeckAlly;
+
+        /// <summary>
+        /// 던전 덱
+        /// </summary>
+        public static UnitInfo[] DeckEnemy;
+
+        /// <summary>
+        /// 전투에서 사용하는 맵 정보
+        /// </summary>
+        public static DungeonInfo DungeonInfo;
+
         /// <summary>
         /// 몬스터 정보
         /// </summary>
@@ -63,10 +88,5 @@ public static class ServerData
         /// 타일 정보
         /// </summary>
         public static HexCoordinate[] TilesInfo;
-
-        /// <summary>
-        /// 던전 덱
-        /// </summary>
-        public static UnitInfo[] Deck;
     }
 }

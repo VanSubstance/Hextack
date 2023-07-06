@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Unit;
+﻿using Assets.Scripts.Common.MainManager;
+using Assets.Scripts.Unit;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets.Scripts.Common.MainManager;
 
-namespace Assets.Scripts.UI.Window
+namespace Assets.Scripts.UI.Window.UnitInfos
 {
     public class WindowContentUnitInfoController : MonoBehaviour, IInitiable<UnitInfo>
     {
