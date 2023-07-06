@@ -8,8 +8,6 @@ namespace Assets.Scripts.Common.MainManager
 {
     public class MainMainManager : SingletonObject<MainMainManager>
     {
-        [SerializeField]
-        private SwiperController swiper;
         /// <summary>
         /// 시작 프레그먼트 번호
         /// </summary>
@@ -22,6 +20,8 @@ namespace Assets.Scripts.Common.MainManager
 
         [SerializeField]
         private UnitStorageController unitStoragePrefab;
+
+        private bool isTryingEquip;
 
         /// <summary>
         /// 닉네임 설정
@@ -56,6 +56,21 @@ namespace Assets.Scripts.Common.MainManager
             }
         }
 
+        /// <summary>
+        /// 설치를 시도하고 있는가 ?
+        /// </summary>
+        public bool IsTryingEquip
+        {
+            get
+            {
+                return isTryingEquip;
+            }
+            set
+            {
+                isTryingEquip = value;
+            }
+        }
+
         private new void Awake()
         {
             base.Awake();
@@ -83,7 +98,10 @@ namespace Assets.Scripts.Common.MainManager
             AmountArtifact = ServerData.User.Base.AmountArtifact;
 
             // 프레그먼트들 초기화
-            swiper.Init(startIdx);
+            SwiperController.Instance.Init(startIdx);
+
+            // 윈도우 초기화
+            WindowController.Instance.Init();
         }
 
         /// <summary>

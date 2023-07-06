@@ -33,11 +33,18 @@ MonoBehaviour:
     Upgrade: 0
   DeckList:
   - Codes:
+    - Sword
     - Provoke
     - Healer
     - Bard
     - Poison
     - Bow
+  - Codes:
+    - Bow
+    - Provoke
+    - Healer
+    - Bard
+    - Poison
     - Sword
   - Codes:
     - Provoke
@@ -47,16 +54,9 @@ MonoBehaviour:
     - Bow
     - Sword
   - Codes:
+    - Poison
     - Provoke
     - Healer
     - Bard
-    - Poison
-    - Bow
-    - Sword
-  - Codes:
-    - Provoke
-    - Healer
-    - Bard
-    - Poison
     - Bow
     - Sword

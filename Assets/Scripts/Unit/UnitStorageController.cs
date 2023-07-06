@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Window;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Unit
@@ -28,7 +29,7 @@ namespace Assets.Scripts.Unit
 
         public void OnClick()
         {
-            Debug.Log($"{unitInfo.Title}");
+            WindowController.Instance.OpenUnitInfo(unitInfo);
         }
     }
 }
