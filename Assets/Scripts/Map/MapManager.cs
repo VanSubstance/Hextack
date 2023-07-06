@@ -26,7 +26,7 @@ namespace Assets.Scripts.Map
             {
                 GlobalStatus.Map[i] = new HexTileController[GlobalStatus.Radius * 2 + 1];
             }
-            InitField(ServerData.Dungeon.TilesInfo);
+            InitField(ServerData.InGame.TilesInfo);
         }
 
         private void InitField(HexCoordinate[] coors)

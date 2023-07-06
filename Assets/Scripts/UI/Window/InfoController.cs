@@ -20,9 +20,9 @@ namespace Assets.Scripts.UI.Window
         /// 기물 정보 초기화 및 활성화
         /// </summary>
         /// <param name="_info"></param>
-        public void Init(UnitInfo _info)
+        public void Init(UnitInfo _info, bool isForce = false)
         {
-            if (gameObject.activeSelf) return;
+            if (!isForce && gameObject.activeSelf) return;
             image.sprite = GlobalDictionary.Texture.Unit.data[_info.Code];
             textTitle.text = _info.Title;
             textDesc.text = GetFilledDescription(_info);

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
 using UnityEngine;
 
@@ -9,9 +10,9 @@ namespace Assets.Scripts.Common
     /// </summary>
     public class DataManager : SingletonObject<DataManager>
     {
-        private new void Awake()
+
+        public void LoadLocalDatas()
         {
-            base.Awake();
             LoadPrefabs();
             LoadMaterials();
             LoadTextures();
@@ -89,7 +90,13 @@ namespace Assets.Scripts.Common
             // 기물 정보
             foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{ServerData.Unit.rootPath}"))
             {
-                ServerData.Unit.data[unit.name] = unit;
+                ServerData.Unit.data[unit.Code] = unit;
+            }
+
+            // 던전 정보
+            foreach (DungeonInfo dg in Resources.LoadAll<DungeonInfo>($"{ServerData.Dungeon.rootPath}"))
+            {
+                ServerData.Dungeon.DungeonList[dg.Code] = dg;
             }
         }
     }

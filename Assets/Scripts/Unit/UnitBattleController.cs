@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
 using System;
@@ -88,7 +89,7 @@ namespace Assets.Scripts.Unit
             rateCritical = 0;
             rateSpeed = 1;
             // 체력 게이지 연결
-            hpGage = UIManager.Instance.GetNewGage();
+            hpGage = MainInGameManager.Instance.GetNewGage();
             hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
             {
                 if (_isEnemy)
@@ -158,7 +159,7 @@ namespace Assets.Scripts.Unit
                                 hasTargetList[_idx] = ability.type.Equals(AbilityType.Damage) && temp.Count > 0;
                                 foreach (int[] target in temp)
                                 {
-                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1), !ability.type.Equals(AbilityType.Damage));
                                 }
                             }, idx, ability.secondForOnce)));
                             idx++;
@@ -275,16 +276,16 @@ namespace Assets.Scripts.Unit
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        private void ExecuteHp(int x, int y, float amountToApply)
+        private void ExecuteHp(int x, int y, float amountToApply, bool isInstant = false)
         {
-            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            void Execute()
             {
                 try
                 {
                     bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
                     if (!isEnemy)
                     {
-                        foreach (UnitInfo _info in ServerData.User.Deck)
+                        foreach (UnitInfo _info in ServerData.InGame.DeckAlly)
                         {
                             if (_info.Code.Equals(info.Code))
                             {
@@ -299,6 +300,15 @@ namespace Assets.Scripts.Unit
                 {
                     // 이미 대상이 죽음
                 }
+            }
+            if (isInstant)
+            {
+                Execute();
+                return;
+            }
+            ProjectileManager.Instance.GetNewProjectile().Init(Color.white, transform.position + Vector3.up, GlobalStatus.Units[x][y].transform.position + Vector3.up, () =>
+            {
+                Execute();
             });
         }
 
@@ -351,15 +361,18 @@ namespace Assets.Scripts.Unit
             {
                 // 데미지 텍스트 띄워주기
                 amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
-                UIManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
+                MainInGameManager.Instance.GetNewText().Init(screenPos, $"{Mathf.Abs(amountToApply)}", isCrit ? new Color(1, .8f, 0, 1) : Color.white, .5f, 1.3f);
+
+                // 힐 이펙트 띄워주기
+                EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
             }
             else
             {
                 // 힐 텍스트 띄워주기
-                UIManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
+                MainInGameManager.Instance.GetNewText().Init(screenPos, $"+{Mathf.Abs(amountToApply)}", new Color(.5f, 1, .8f, 1), .5f);
 
                 // 힐 이펙트 띄워주기
-                EffectManager.Instance.ExecutNewEffect("Heal", transform.position, Color.white);
+                EffectManager.Instance.ExecutNewEffect("Heal", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
             }
             hpGage.ApplyValue(amountToApply);
         }

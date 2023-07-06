@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.UI;
+using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Unit;
 using UnityEngine;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 namespace Assets.Scripts.Map
 {
@@ -130,7 +129,7 @@ namespace Assets.Scripts.Map
         {
             if (!unitController.IsEnemy)
             {
-                foreach (UnitInfo _info in ServerData.User.Deck)
+                foreach (UnitInfo _info in ServerData.InGame.DeckAlly)
                 {
                     if (_info.Code.Equals(unitController.Info.Code))
                     {
@@ -146,6 +145,9 @@ namespace Assets.Scripts.Map
                 // 업그레이드
                 unitController.Clear();
                 unitAttached.LevelUp();
+
+                // 레벨업 이펙트 띄워주기
+                EffectManager.Instance.ExecutNewEffect("LevelUp", transform.position + (Vector3.up * 2), Color.white);
             }
             else
             {
@@ -218,7 +220,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null && unitAttached.IsLive)
             {
-                UIManager.Instance.InitUnitInfo(unitAttached.Info);
+                MainInGameManager.Instance.InitUnitInfo(unitAttached.Info);
                 ActivateRange();
             }
         }
@@ -230,7 +232,7 @@ namespace Assets.Scripts.Map
         {
             if (unitAttached != null)
             {
-                UIManager.Instance.ClearUnitInfo();
+                MainInGameManager.Instance.ClearUnitInfo();
                 DeActivateRange();
             }
         }

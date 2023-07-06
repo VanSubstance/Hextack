@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ed61d0df88170647b933e9cd9716be9, type: 3}
-  m_Name: info
+  m_Name: Spin
   m_EditorClassIdentifier: 
   mapTitle: "\uAE4A\uACE0 \uC5B4\uB450\uC6B4 \uC232"
+  Desc: "\uAE4A\uACE0 ,,, \uC5B4\uB450\uC6B4 \uC232\uC774\uB2E4,,,\\n\uBB54\uAC00
+    ,,, \uBB54\uAC00 \uC788\uB2E4 .."
   Code: Spin
   radius: 4
-  rounds: 1
+  rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
   cntUnit: 3
