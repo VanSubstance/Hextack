@@ -87,5 +87,10 @@ public static class GlobalDictionary
             public static string rootPath = $"{Texture.rootPath}/Unit";
             public static Dictionary<string, Sprite> data = new Dictionary<string, Sprite>();
         }
+        public static class Icon
+        {
+            public static string rootPath = $"{Texture.rootPath}/Icon";
+            public static Dictionary<string, Sprite> data = new Dictionary<string, Sprite>();
+        }
     }
 }

@@ -75,10 +75,15 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadTextures()
         {
-            // 기물 이미지
+            // 기물 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
             {
                 GlobalDictionary.Texture.Unit.data[unit.name] = unit;
+            }
+            // 아이콘 Sprite
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))
+            {
+                GlobalDictionary.Texture.Icon.data[unit.name] = unit;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Battle;
+﻿using Assets.Scripts.Battle.Monster;
 using Assets.Scripts.Map;
 using Assets.Scripts.Server;
 using Assets.Scripts.UI;
@@ -91,6 +91,9 @@ namespace Assets.Scripts.Common.MainManager
             }
         }
 
+        /// <summary>
+        /// 헤더 중간 숫자 텍스트
+        /// </summary>
         public int CurTimer
         {
             get
@@ -147,7 +150,7 @@ namespace Assets.Scripts.Common.MainManager
             infoController = Instantiate(infoController, transform);
             resultController = Instantiate(resultController, transform);
             TextCenter = "";
-            TextTimer = "";
+            TextTimer = "0";
             TextEnemy = "";
 
             IsRayCastable = false;
@@ -230,13 +233,13 @@ namespace Assets.Scripts.Common.MainManager
             roundProgressGage.Init(ServerData.InGame.DungeonInfo.rounds, 0, null);
         }
 
-        /// <summary>
-        /// 타이머 1초 진행
-        /// </summary>
-        public void PassSecond()
-        {
-            CurTimer = curTimer - 1;
-        }
+        ///// <summary>
+        ///// 타이머 1초 진행
+        ///// </summary>
+        //public void PassSecond()
+        //{
+        //    CurTimer = curTimer - 1;
+        //}
 
         /// <summary>
         /// 현재 덱 5개 중 2개 띄우기 함수
@@ -248,7 +251,7 @@ namespace Assets.Scripts.Common.MainManager
 
         public void FinishChoice()
         {
-            if (++GlobalStatus.InGame.CntInstalled == GlobalStatus.CntUnit)
+            if (++GlobalStatus.InGame.CntInstalled == GlobalStatus.CntUnitSummonAtOnce)
             {
                 // 선택 종료 -> .5초 후 전투 시작
                 FinishStagePlace();
@@ -381,7 +384,6 @@ namespace Assets.Scripts.Common.MainManager
         }
 
         /// <summary>
-        /// 덱 불러오기
         /// 아군 유닛 생성
         /// 적 유닛 생성 
         /// -> 배치 스테이지로 이동
@@ -447,7 +449,6 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         private void InitStageApplying()
         {
-            UnitManager.Instance.SummonEnemies();
             // 사전 효과 실행
             IsRayCastable = true;
             GlobalStatus.UnitsActive.All((unitCtrl) =>
@@ -458,7 +459,7 @@ namespace Assets.Scripts.Common.MainManager
             IsRayCastable = false;
             // 전투 상태 체크 함수 실행
             GlobalStatus.InGame.BattleStatus = 0;
-            CurTimer = 60;
+            CurTimer = 0;
             NextStage = IngameStageType.Battle;
         }
 
@@ -467,16 +468,21 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         private void InitStageBattle()
         {
+            IsRayCastable = true;
+            MonsterManager.Instance.SummonMonsters(ServerData.InGame.MonsterInfo[GlobalStatus.InGame.Round - 1]);
+            IsRayCastable = false;
+
             // 모든 기물 전투 상태로 돌입
             GlobalStatus.UnitsActive.All((unitCtrl) =>
             {
                 unitCtrl.EnableBattle();
                 return true;
             });
+            // 전투 종료 조건 판별
             StartCoroutine(CoroutineExecuteActionInRepeat(() =>
             {
-                GlobalStatus.InGame.BattleStatus = UnitManager.Instance.GetCurrentBattleStatus();
-                PassSecond();
+                GlobalStatus.InGame.BattleStatus = MonsterManager.Instance.GetCurrentBattleStatus();
+                //PassSecond();
             }, () =>
             {
                 return GlobalStatus.InGame.BattleStatus != 0;

@@ -43,11 +43,11 @@ public static class GlobalStatus
             return mapInfo.cntUnitBan;
         }
     }
-    public static int CntUnit
+    public static int CntUnitSummonAtOnce
     {
         get
         {
-            return mapInfo.cntUnit;
+            return mapInfo.cntUnitSummonAtOnce;
         }
     }
     private static bool isSingle;

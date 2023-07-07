@@ -76,6 +76,7 @@ namespace Assets.Scripts.Map
                 worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(coor);
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, TileType.Enemy);
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
+                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].gameObject.SetActive(false);
             }
         }
     }

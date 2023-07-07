@@ -28,7 +28,7 @@ namespace Assets.Scripts.Unit
         private List<Coroutine> activeCrList;
         private List<bool> hasTargetList;
         private Action actionClear;
-        private GageController hpGage;
+        //private GageController hpGage;
         /// <summary>
         /// 기물 파괴 시 실행되어야 할 함수
         /// </summary>
@@ -41,7 +41,8 @@ namespace Assets.Scripts.Unit
         {
             get
             {
-                return hpGage.AnchorPos;
+                //return hpGage.AnchorPos;
+                return transform.position + (GlobalDictionary.VectorToScreen * 10);
             }
         }
 
@@ -89,16 +90,16 @@ namespace Assets.Scripts.Unit
             rateCritical = 0;
             rateSpeed = 1;
             // 체력 게이지 연결
-            hpGage = MainInGameManager.Instance.GetNewGage();
-            hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
-            {
-                if (_isEnemy)
-                {
-                    GlobalStatus.InGame.AccuGold += info.Gold;
-                    GlobalStatus.InGame.AccuArtifact += (UnityEngine.Random.Range(0f, 1f) < .1f ? 1 : 0);
-                }
-                enabled = false;
-            }, _isEnemy ? null : new Color(0, .9f, .6f, 1));
+            //hpGage = MainInGameManager.Instance.GetNewGage();
+            //hpGage.Init(info.Hp, info.Hp, hexCoor, () =>
+            //{
+            //    if (_isEnemy)
+            //    {
+            //        GlobalStatus.InGame.AccuGold += info.Gold;
+            //        GlobalStatus.InGame.AccuArtifact += (UnityEngine.Random.Range(0f, 1f) < .1f ? 1 : 0);
+            //    }
+            //    enabled = false;
+            //}, _isEnemy ? null : new Color(0, .9f, .6f, 1));
             // 사전 효과 우선 실행
             ExecutePreviousEffect();
             // 이후 공격 코루틴 실행
@@ -133,34 +134,37 @@ namespace Assets.Scripts.Unit
                             hasTargetList.Add(false);
                             activeCrList.Add(StartCoroutine(CrTickEffect((_idx) =>
                             {
-                                hasTargetList[_idx] = false;
-                                List<int[]> temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
-                                if (ability.type.Equals(AbilityType.Damage))
-                                {
-                                    while (forceTarget.Count > 0)
-                                    {
-                                        HexCoordinate tempCoor = forceTarget.Peek();
-                                        int[] conv = CommonFunction.ConvertCoordinate(tempCoor);
-                                        if (GlobalStatus.Units[conv[0]][conv[1]].IsLive)
-                                        {
-                                            // 도발 상태 = 그냥 바로 공격
-                                            hasTargetList[_idx] = true;
-                                            ExecuteHp(conv[0], conv[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            // 대상이 죽었다 = Dequeue 후 다음 타겟 확인
-                                            forceTarget.Dequeue();
-                                        }
-                                    }
-                                }
+                                //hasTargetList[_idx] = false;
+                                //List<int[]> temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
+                                //if (ability.type.Equals(AbilityType.Damage))
+                                //{
+                                //    while (forceTarget.Count > 0)
+                                //    {
+                                //        HexCoordinate tempCoor = forceTarget.Peek();
+                                //        int[] conv = CommonFunction.ConvertCoordinate(tempCoor);
+                                //        if (GlobalStatus.Units[conv[0]][conv[1]].IsLive)
+                                //        {
+                                //            // 도발 상태 = 그냥 바로 공격
+                                //            hasTargetList[_idx] = true;
+                                //            ExecuteHp(conv[0], conv[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                //            break;
+                                //        }
+                                //        else
+                                //        {
+                                //            // 대상이 죽었다 = Dequeue 후 다음 타겟 확인
+                                //            forceTarget.Dequeue();
+                                //        }
+                                //    }
+                                //}
 
-                                hasTargetList[_idx] = ability.type.Equals(AbilityType.Damage) && temp.Count > 0;
-                                foreach (int[] target in temp)
-                                {
-                                    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1), !ability.type.Equals(AbilityType.Damage));
-                                }
+                                //hasTargetList[_idx] = ability.type.Equals(AbilityType.Damage) && temp.Count > 0;
+                                //foreach (int[] target in temp)
+                                //{
+                                //    ExecuteHp(target[0], target[1], ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1), !ability.type.Equals(AbilityType.Damage));
+                                //}
+
+                                // 몬스터 찾기
+
                             }, idx, ability.secondForOnce)));
                             idx++;
                             break;
@@ -175,8 +179,8 @@ namespace Assets.Scripts.Unit
         /// </summary>
         public void Disable()
         {
-            hpGage.Clear();
-            hpGage = null;
+            //hpGage.Clear();
+            //hpGage = null;
             enabled = false;
         }
 
@@ -194,13 +198,16 @@ namespace Assets.Scripts.Unit
                 });
                 activeCrList = null;
             }
-            if (hpGage != null)
-            {
-                // 전투 중 사망
-                CancelEffect();
-                info = null;
-                actionClear?.Invoke();
-            }
+            CancelEffect();
+            info = null;
+            actionClear?.Invoke();
+            //if (hpGage != null)
+            //{
+            //    // 전투 중 사망
+            //    CancelEffect();
+            //    info = null;
+            //    actionClear?.Invoke();
+            //}
         }
 
         /// <summary>
@@ -393,7 +400,7 @@ namespace Assets.Scripts.Unit
                 // 힐 이펙트 띄워주기
                 EffectManager.Instance.ExecutNewEffect("Heal", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
             }
-            hpGage.ApplyValue(amountToApply);
+            //hpGage.ApplyValue(amountToApply);
         }
     }
 }

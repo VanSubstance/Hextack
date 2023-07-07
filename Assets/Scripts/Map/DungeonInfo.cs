@@ -8,7 +8,8 @@ namespace Assets.Scripts.Map
     {
         public string mapTitle, Desc;
         public string Code;
-        public int radius, rounds, cntTileBan, cntUnitBan, cntUnit;
+        public int radius, rounds, cntTileBan, cntUnitBan, cntUnitSummonAtOnce;
         public string[] unitCodeList;
+        public Vector2[] EnteranceList;
     }
 }

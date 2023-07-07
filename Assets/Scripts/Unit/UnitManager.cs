@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Assets.Scripts.UI.Marker;
 
 namespace Assets.Scripts.Unit
 {
@@ -10,11 +11,8 @@ namespace Assets.Scripts.Unit
         [SerializeField]
         private UnitController prefab;
 
-        private Queue<HexTileController> previewQ;
-
         public void Init()
         {
-            previewQ = new Queue<HexTileController>();
             GlobalDictionary.Prefab.Unit.Prefab = prefab;
             GlobalStatus.UnitPool = new Queue<UnitController>();
             GlobalStatus.UnitsActive = new List<UnitController>();
@@ -28,32 +26,28 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 적 유닛들 미리보기 연결 함수
+        /// 이번 라운드 유닛들 예상 방향 정보 연결 함수
         /// </summary>
         /// <param name="infos"></param>
         public void PreviewEnemies(UnitToken[] infos)
         {
-            UnitToken t;
             foreach (UnitToken info in infos)
             {
-                t = info.Clone();
-                t.z = 1;
-                int[] convertedCoor;
-                convertedCoor = CommonFunction.ConvertCoordinate(t);
-                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].PreviewUnit(GetNewUnit().Init(t, true), false);
-                previewQ.Enqueue(GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]]);
+                IconManager.Instance.GetNewComponent().Init(new IconController.Info()
+                {
+                    Code = "Exclamation",
+                    color = Color.red,
+                    HexCoor = ServerData.InGame.DungeonInfo.EnteranceList[info.IdxEnterance],
+                });
             }
         }
 
         /// <summary>
         /// 미리보기 걸려잇는 적들 실제 설치 함수
         /// </summary>
-        public void SummonEnemies()
+        public void SummonMonster(UnitInfo info, int idxEnterance)
         {
-            while (previewQ.TryDequeue(out HexTileController res))
-            {
-                res.InstallPreview();
-            }
+            Debug.Log($"해당 유닛 몬스터들 생성");
         }
 
         /// <summary>

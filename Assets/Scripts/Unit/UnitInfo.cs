@@ -20,6 +20,22 @@ namespace Assets.Scripts.Unit
         private int tier;
 
         /// <summary>
+        /// 이번 라운드에 소환한 몬스터 수, 소환 입구
+        /// </summary>
+        [HideInInspector]
+        public int CntMonsterSummoned, IdxEnterance;
+
+        /// <summary>
+        /// 한 라운드에 소환하는 몬스터 수
+        /// </summary>
+        public int CntMonsterMax;
+
+        /// <summary>
+        /// 소환 사이 시간
+        /// </summary>
+        public float TimeMarginSummon;
+
+        /// <summary>
         /// 획득량
         /// </summary>
         public int Gold;
@@ -76,6 +92,7 @@ namespace Assets.Scripts.Unit
         /// 기물의 능력들 리스트
         /// </summary>
         public List<AbilityInfo> AbilityInfos;
+
         public UnitInfo Clone()
         {
             return Instantiate(this);

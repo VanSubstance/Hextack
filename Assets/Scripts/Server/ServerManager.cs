@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Common;
-using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.Unit;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -118,6 +118,32 @@ namespace Assets.Scripts.Server
                     ServerData.User.Decks[idx][idxx++] = ServerData.Unit.data[code].Clone();
                 }
                 idx++;
+            }
+        }
+
+        public void ExecuteCrInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
+        {
+            StartCoroutine(CoroutineExecuteActionInRepeat(actionRepeat, actionCondition, actionEscape, time));
+        }
+
+        /// <summary>
+        /// 반복 실행 코루틴
+        /// </summary>
+        /// <param name="actionRepeat"></param>
+        /// <param name="actionCondition">true 반환 시 코루틴 강제 종료</param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        private IEnumerator CoroutineExecuteActionInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(time);
+                if (actionCondition?.Invoke() == true)
+                {
+                    actionEscape?.Invoke();
+                    yield break;
+                }
+                actionRepeat?.Invoke();
             }
         }
     }
