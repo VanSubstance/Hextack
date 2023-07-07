@@ -481,7 +481,7 @@ namespace Assets.Scripts.Common.MainManager
             // 전투 종료 조건 판별
             StartCoroutine(CoroutineExecuteActionInRepeat(() =>
             {
-                GlobalStatus.InGame.BattleStatus = MonsterManager.Instance.GetCurrentBattleStatus();
+                GlobalStatus.InGame.BattleStatus = (CurTimer == 0 ? 1 : 0);
                 //PassSecond();
             }, () =>
             {
@@ -489,7 +489,7 @@ namespace Assets.Scripts.Common.MainManager
             }, () =>
             {
                 NextStage = IngameStageType.Result;
-            }, 1f));
+            }, 1.1f));
         }
 
         /// <summary>

@@ -9,7 +9,6 @@ namespace Assets.Scripts.Battle.Monster
 {
     public class MonsterManager : AbsPoolingController<MonsterManager>
     {
-        private int cntTotalMonsterToSummon;
 
         public override Transform GetParent()
         {
@@ -18,7 +17,6 @@ namespace Assets.Scripts.Battle.Monster
 
         public void SummonMonsters(UnitToken[] tokenList)
         {
-            cntTotalMonsterToSummon = tokenList.Length;
             UnitInfo info;
             tokenList.All((token) =>
             {
@@ -41,24 +39,10 @@ namespace Assets.Scripts.Battle.Monster
                         return info.CntMonsterMax == info.CntMonsterSummoned;
                     }, () =>
                     {
-                        cntTotalMonsterToSummon--;
                     }, info.TimeMarginSummon
                     );
                 return true;
             });
-        }
-
-        /// <summary>
-        /// 전투 종료인지 판별하는 함수
-        /// </summary>
-        /// <returns>0: 진행중, 1: 종료</returns>
-        public int GetCurrentBattleStatus()
-        {
-            if (cntTotalMonsterToSummon == 0)
-            {
-                return 0;
-            }
-            return 1;
         }
     }
 }

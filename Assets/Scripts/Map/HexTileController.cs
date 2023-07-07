@@ -154,7 +154,7 @@ namespace Assets.Scripts.Map
                 int[] convertedCoor = CommonFunction.ConvertCoordinate(HexCoor);
                 GlobalStatus.Units[convertedCoor[0]][convertedCoor[1]] = unitController;
                 Vector3 resPos = transform.position;
-                resPos.y = 1.1f;
+                resPos.y = 1f;
                 unitAttached.transform.position = resPos;
             }
         }
