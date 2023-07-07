@@ -20,7 +20,7 @@ MonoBehaviour:
   rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
-  cntUnitSummonAtOnce: 1
+  cntUnitSummonAtOnce: 3
   unitCodeList:
   - Bow
   - Sword

@@ -244,24 +244,24 @@ namespace Assets.Scripts.Unit
                     temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
                     switch (ability.type)
                     {
-                        case AbilityType.Provoke:
-                            // 도발 = 적에게 강제로 타겟 부여
-                            foreach (int[] coor in temp)
-                            {
-                                GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
-                            }
-                            break;
-                        case AbilityType.AttackSpeed:
-                            // 공격속도 버프/너프
-                            foreach (int[] coor in temp)
-                            {
-                                GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(ability.amount * info.RateMultipleByLv);
-                                actionWhenDead += () =>
-                                {
-                                    GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(-ability.amount * info.RateMultipleByLv);
-                                };
-                            }
-                            break;
+                        //case AbilityType.Provoke:
+                        //    // 도발 = 적에게 강제로 타겟 부여
+                        //    foreach (int[] coor in temp)
+                        //    {
+                        //        GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyProvoke(hexCoor);
+                        //    }
+                        //    break;
+                        //case AbilityType.AttackSpeed:
+                        //    // 공격속도 버프/너프
+                        //    foreach (int[] coor in temp)
+                        //    {
+                        //        GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(ability.amount * info.RateMultipleByLv);
+                        //        actionWhenDead += () =>
+                        //        {
+                        //            GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyAtkSpeed(-ability.amount * info.RateMultipleByLv);
+                        //        };
+                        //    }
+                        //    break;
                         case AbilityType.RateCritical:
                             // 치명타율 버프/너프
                             foreach (int[] coor in temp)
@@ -272,6 +272,12 @@ namespace Assets.Scripts.Unit
                                     GlobalStatus.Units[coor[0]][coor[1]].BattleController.ApplyCriticalRate(-ability.amount * info.RateMultipleByLv);
                                 };
                             }
+                            break;
+                        case AbilityType.Stun:
+                            // 기절
+                            break;
+                        case AbilityType.RateLackSpeed:
+                            // 이동속도 저하
                             break;
                     }
                 }
