@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Battle.Range;
 using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Unit;
 using UnityEngine;
@@ -204,7 +205,8 @@ namespace Assets.Scripts.Map
             if (unitAttached == null)
             {
                 InstallUnit(unitPreview);
-            } else
+            }
+            else
             {
                 UpgradeUnit();
             }
@@ -237,7 +239,8 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void ActivateRange()
         {
-            RangeViewController.Instance.ActivateInRange(this, unitPreview != null ? unitPreview.Range : unitAttached.Range);
+            //RangeViewController.Instance.ActivateInRange(this, unitPreview != null ? unitPreview.Range : unitAttached.Range);
+            RangeCircleController.Instance.Activate(transform.position, unitPreview != null ? unitPreview.Range : unitAttached.Range);
         }
 
         /// <summary>
@@ -245,7 +248,8 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void DeActivateRange()
         {
-            RangeViewController.Instance.DeActivateInRange();
+            //RangeViewController.Instance.DeActivateInRange();
+            RangeCircleController.Instance.Deactivate();
         }
 
         /// <summary>
