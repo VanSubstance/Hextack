@@ -144,10 +144,7 @@ namespace Assets.Scripts.Map
             {
                 // 업그레이드
                 unitController.Clear();
-                unitAttached.LevelUp();
-
-                // 레벨업 이펙트 띄워주기
-                EffectManager.Instance.ExecutNewEffect("LevelUp", transform.position + (Vector3.up * 2), Color.white);
+                UpgradeUnit();
             }
             else
             {
@@ -162,17 +159,54 @@ namespace Assets.Scripts.Map
         }
 
         /// <summary>
+        /// 설치된 기물 업그레이드
+        /// </summary>
+        public void UpgradeUnit()
+        {
+            ClearPreview();
+            unitAttached.LevelUp();
+            // 레벨업 이펙트 띄워주기
+            EffectManager.Instance.ExecutNewEffect("LevelUp", transform.position + (Vector3.up * 2), Color.white);
+        }
+
+        /// <summary>
         /// 미리보기 함수
         /// </summary>
         /// <param name="unitController"></param>
-        public void PreviewUnit(Unit.UnitController unitController)
+        public void PreviewUnit(Unit.UnitController unitController, bool isWithSight = true)
         {
-            unitPreview = unitController.PreviewInstallation();
-            ActivateRange();
-            IsPreview = true;
-            Vector3 resPos = transform.position;
-            resPos.y = 1.1f;
-            unitPreview.transform.position = resPos;
+            if (unitAttached == null)
+            {
+                // 신규
+                unitPreview = unitController.PreviewInstallation(this);
+                IsPreview = true;
+                Vector3 resPos = transform.position;
+                resPos.y = 1.1f;
+                unitPreview.transform.position = resPos;
+            }
+            else
+            {
+                // 업그레이드 = 기존 기물 레벨업 대기상태 걸어주기
+                Debug.Log("업그레이드 예정 상태 이펙트 고안");
+            }
+            if (isWithSight)
+            {
+                ActivateRange();
+            }
+        }
+
+        /// <summary>
+        /// 미리보기 유닛 설치 확정
+        /// </summary>
+        public void InstallPreview()
+        {
+            if (unitAttached == null)
+            {
+                InstallUnit(unitPreview);
+            } else
+            {
+                UpgradeUnit();
+            }
         }
 
         /// <summary>
@@ -222,6 +256,13 @@ namespace Assets.Scripts.Map
             {
                 MainInGameManager.Instance.InitUnitInfo(unitAttached.Info);
                 ActivateRange();
+                return;
+            }
+            if (unitPreview != null)
+            {
+                MainInGameManager.Instance.InitUnitInfo(unitPreview.Info);
+                ActivateRange();
+                return;
             }
         }
 
@@ -230,7 +271,8 @@ namespace Assets.Scripts.Map
         /// </summary>
         public void OnMouseUp()
         {
-            if (unitAttached != null)
+            if (unitAttached != null ||
+                unitPreview != null)
             {
                 MainInGameManager.Instance.ClearUnitInfo();
                 DeActivateRange();

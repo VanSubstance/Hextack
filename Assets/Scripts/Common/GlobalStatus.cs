@@ -156,8 +156,8 @@ public static class GlobalStatus
     /// <returns></returns>
     public static GageController GetHpGageController()
     {
-        if (HpGagePool.Count > 0)
-            return HpGagePool.Dequeue();
+        if (HpGagePool.TryDequeue(out GageController res))
+            return res;
         else
             return null;
     }

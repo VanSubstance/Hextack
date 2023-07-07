@@ -73,6 +73,10 @@ namespace Assets.Scripts.UI
             {
                 fill.color = (Color)fillColor;
             }
+            else
+            {
+                fill.color = Color.red;
+            }
             if (targetCoor != null)
             {
                 int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
@@ -104,7 +108,6 @@ namespace Assets.Scripts.UI
             {
                 callbackWhenZero?.Invoke();
                 gameObject.SetActive(false);
-                GlobalStatus.HpGagePool.Enqueue(this);
             }
         }
 
@@ -113,6 +116,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void Clear()
         {
+            callbackWhenZero = null;
             gameObject.SetActive(false);
             GlobalStatus.HpGagePool.Enqueue(this);
         }
