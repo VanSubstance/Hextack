@@ -9,11 +9,8 @@ namespace Assets.Scripts.Battle.Monster
     {
         [SerializeField]
         private NavMeshAgent agent;
-        [SerializeField]
-        private Transform ta;
         private void Update()
         {
-            agent.SetDestination(ta.position);
         }
 
         public override void Clear()
@@ -27,6 +24,10 @@ namespace Assets.Scripts.Battle.Monster
             {
                 return false;
             }
+            agent.speed = info.Spd;
+            transform.position = info.InitPos;
+            gameObject.SetActive(true);
+            agent.SetDestination(Vector3.zero);
             return true;
         }
 
@@ -40,6 +41,10 @@ namespace Assets.Scripts.Battle.Monster
             /// 1초에 이동하는 거리
             /// </summary>
             public float Spd;
+            /// <summary>
+            /// 시작 지점 = 절대 좌표
+            /// </summary>
+            public Vector2 InitPos;
         }
     }
 }

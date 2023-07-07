@@ -22,6 +22,10 @@ MonoBehaviour:
   hp: 110
   range: 1
   tier: 1
+  CntMonsterSummoned: 0
+  IdxEnterance: 0
+  CntMonsterMax: 3
+  TimeMarginSummon: 1
   Gold: 3
   AccuDamage: 0
   CountSummon: 0

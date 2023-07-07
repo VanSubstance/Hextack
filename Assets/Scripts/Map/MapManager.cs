@@ -32,12 +32,9 @@ namespace Assets.Scripts.Map
         private void InitField(HexCoordinate[] coors)
         {
             int[] convertedCoor;
-            Vector3 worldCoor;
             HexCoordinate centre = ScriptableObject.CreateInstance<HexCoordinate>();
             convertedCoor = CommonFunction.ConvertCoordinate(centre);
-            worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(centre);
             GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(centre, TileType.Neutral);
-            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
             InitTiles(coors);
         }
 
@@ -54,13 +51,11 @@ namespace Assets.Scripts.Map
             }
 
             int[] convertedCoor;
-            Vector3 worldCoor;
             HexCoordinate coor;
             for (int i = 0; i < coors.Length; i++)
             {
                 coor = coors[i];
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
-                worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(coor);
                 if (GlobalStatus.IsSingle && idxsBan.Contains(i))
                 {
                     GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, TileType.Neutral);
@@ -69,13 +64,10 @@ namespace Assets.Scripts.Map
                 {
                     GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, TileType.Ally);
                 }
-                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
 
                 coor = coor.Reverse();
                 convertedCoor = CommonFunction.ConvertCoordinate(coor);
-                worldCoor = CommonFunction.ConvertCoordinateToWorldPosition(coor);
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]] = Instantiate(tilePrefab, transform).Init(coor, TileType.Enemy);
-                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].transform.localPosition = worldCoor;
                 GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].gameObject.SetActive(false);
             }
         }

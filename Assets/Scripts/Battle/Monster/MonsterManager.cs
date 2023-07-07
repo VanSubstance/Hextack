@@ -30,11 +30,11 @@ namespace Assets.Scripts.Battle.Monster
                     {
                         info.CntMonsterSummoned++;
                         MainInGameManager.Instance.CurTimer++;
-                        Debug.Log($"몬스터 소환:: {info.Title} => {info.IdxEnterance}");
                         GetNewComponent().Init(new MonsterController.Info()
                         {
-                            Hp = 100,
+                            Hp = info.Hp,
                             Spd = 1,
+                            InitPos = CommonFunction.ConvertHexCoordinateToWorldPosition(ServerData.InGame.DungeonInfo.EnteranceList[info.IdxEnterance]) + Vector3.up,
                         });
                     }, () =>
                     {

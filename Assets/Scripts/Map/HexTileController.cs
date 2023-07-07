@@ -114,6 +114,7 @@ namespace Assets.Scripts.Map
         public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
         {
             HexCoor = _hexCoordinate.Clone();
+            transform.position = CommonFunction.ConvertCoordinateToWorldPosition(_hexCoordinate);
             x = HexCoor.x;
             y = HexCoor.y;
             TileTypee = _tileType;

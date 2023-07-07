@@ -44,6 +44,28 @@ public static class CommonFunction
     }
 
     /// <summary>
+    /// 헥스 좌표 -> 절대 좌표계 좌표로 반환
+    /// </summary>
+    /// <param name="hexCoordinate"></param>
+    /// <returns></returns>
+    public static Vector3 ConvertHexCoordinateToWorldPosition(HexCoordinate hexCoordinate)
+    {
+        int[] conv = ConvertCoordinate(hexCoordinate);
+        return GlobalStatus.Units[conv[0]][conv[1]].transform.position;
+    }
+
+    /// <summary>
+    /// 헥스 좌표 (Vector2) -> 절대 좌표계 좌표로 반환
+    /// </summary>
+    /// <param name="hexCoordinate"></param>
+    /// <returns></returns>
+    public static Vector3 ConvertHexCoordinateToWorldPosition(Vector2 hexCoordinate)
+    {
+        int[] conv = ConvertCoordinate((int)hexCoordinate.x, (int)hexCoordinate.y, 0);
+        return GlobalStatus.Map[conv[0]][conv[1]].transform.position;
+    }
+
+    /// <summary>
     /// Hex 기준 좌표 -> range 이내의 Array 기준 배열 좌표들 변환 함수
     /// purpose가 0 초과 : Disable 된 객체는 무시
     /// </summary>
