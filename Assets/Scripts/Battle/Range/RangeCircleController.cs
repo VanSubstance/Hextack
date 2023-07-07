@@ -7,9 +7,6 @@ namespace Assets.Scripts.Battle.Range
     /// </summary>
     public class RangeCircleController : SingletonObject<RangeCircleController>
     {
-
-        private float unitRange = Mathf.Sqrt(3f);
-
         private new void Awake()
         {
             base.Awake();
@@ -24,7 +21,7 @@ namespace Assets.Scripts.Battle.Range
         public void Activate(Vector3 pos, int range)
         {
             transform.position = new Vector3(pos.x, 1, pos.z);
-            transform.localScale = (1 + (range * 2)) * unitRange * Vector3.one;
+            transform.localScale = (1 + (range * 2)) * GlobalDictionary.UnitRange * Vector3.one;
             gameObject.SetActive(true);
         }
 

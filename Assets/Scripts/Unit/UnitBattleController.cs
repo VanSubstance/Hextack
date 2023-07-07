@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Battle.Monster;
 using Assets.Scripts.Common.MainManager;
 using Assets.Scripts.Map;
 using Assets.Scripts.UI;
@@ -7,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts.Unit
 {
@@ -134,6 +136,12 @@ namespace Assets.Scripts.Unit
                             hasTargetList.Add(false);
                             activeCrList.Add(StartCoroutine(CrTickEffect((_idx) =>
                             {
+                                Collider[] cols;
+                                //Debug.DrawLine(transform.position, transform.position + (Vector3.left * ((.5f + (info.Range)) * GlobalDictionary.UnitRange)), Color.red, 10f);
+                                if ((cols = Physics.OverlapSphere(transform.position, (.5f + (info.Range)) * GlobalDictionary.UnitRange, GlobalDictionary.Layer.Monster)).Length > 0)
+                                {
+                                    ExecuteHpToMonster(cols[0].GetComponent<MonsterController>(), ability.amount * info.RateMultipleByLv * (ability.type.Equals(AbilityType.Damage) ? -1 : 1));
+                                }
                                 //hasTargetList[_idx] = false;
                                 //List<int[]> temp = CommonFunction.SeekCoorsInRange(hexCoor.x, hexCoor.y, hexCoor.z, info.Range, SeekTarget(ability.isForAlly), !ability.isBound);
                                 //if (ability.type.Equals(AbilityType.Damage))
@@ -283,6 +291,7 @@ namespace Assets.Scripts.Unit
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <param name="isInstant">투사체가 존재하는가 ? = 즉발기인가</param>
         private void ExecuteHp(int x, int y, float amountToApply, bool isInstant = false)
         {
             void Execute()
@@ -322,6 +331,58 @@ namespace Assets.Scripts.Unit
                 {
                     Execute();
                 },
+            });
+        }
+
+        /// <summary>
+        /// 몬스터에게 공격
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="amountToApply"></param>
+        /// <param name="isInstant"></param>
+        private void ExecuteHpToMonster(MonsterController target, float amountToApply, bool isInstant = false)
+        {
+            void Execute()
+            {
+                try
+                {
+                    if (!target.gameObject.activeSelf)
+                    {
+                        throw new NullReferenceException();
+                    }
+                    bool isCrit = amountToApply < 0 && UnityEngine.Random.Range(0f, 1f) < (GlobalStatus.InGame.RateCritical + rateCritical);
+                    if (!isEnemy)
+                    {
+                        foreach (UnitInfo _info in ServerData.InGame.DeckAlly)
+                        {
+                            if (_info.Code.Equals(info.Code))
+                            {
+                                _info.AccuDamage += (int)Mathf.Abs(amountToApply * (isCrit ? 1.5f : 1f));
+                                break;
+                            }
+                        }
+                    }
+                    target.ApplyHp((int)amountToApply, isCrit);
+                }
+                catch (NullReferenceException)
+                {
+                    // 이미 대상이 죽음
+                }
+            }
+            if (isInstant)
+            {
+                Execute();
+                return;
+            }
+            ProjectileManager.Instance.GetNewComponent().Init(new ProjectileController.Info()
+            {
+                color = Color.white,
+                StartPos = transform.position + Vector3.up,
+                ActionEnd = () =>
+                {
+                    Execute();
+                },
+                targetTr = target.transform,
             });
         }
 

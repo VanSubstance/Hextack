@@ -69,10 +69,6 @@ public static class GlobalStatus
     public static class InGame
     {
         /// <summary>
-        /// 투사체 속도
-        /// </summary>
-        public static float SpdProjectile = 7f;
-        /// <summary>
         /// 0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부
         /// </summary>
         public static int BattleStatus = 0;

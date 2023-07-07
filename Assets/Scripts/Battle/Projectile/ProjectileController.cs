@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Common.Pooling;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Assets.Scripts.Battle
 {
@@ -24,7 +25,8 @@ namespace Assets.Scripts.Battle
         }
         private System.Action actionEnd;
         private Vector3 endPos, startPos;
-        private float distort = .01f;
+        private Transform targetTr;
+        private float distort = .01f, spd;
 
         private void Awake()
         {
@@ -39,6 +41,11 @@ namespace Assets.Scripts.Battle
         /// </summary>
         private void FixedUpdate()
         {
+            if (targetTr != null)
+            {
+                endPos = targetTr.position;
+                rigid.velocity = (endPos - startPos).normalized * spd;
+            }
             if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)
             {
                 // 도착으로 본다
@@ -66,8 +73,14 @@ namespace Assets.Scripts.Battle
             endPos = info.EndPos;
             actionEnd = info.ActionEnd;
             transform.position = startPos;
+            targetTr = info.targetTr;
+            spd = info.Spd;
             gameObject.SetActive(true);
-            rigid.AddForce((endPos - startPos).normalized * GlobalStatus.InGame.SpdProjectile, ForceMode.Impulse);
+            if (info.targetTr == null)
+            {
+                // 추적 아님
+                rigid.velocity = (endPos - startPos).normalized * spd;
+            }
             return true;
         }
 
@@ -76,6 +89,8 @@ namespace Assets.Scripts.Battle
             public Color color;
             public Vector3 StartPos, EndPos;
             public System.Action ActionEnd;
+            public Transform targetTr;
+            public float Spd = 7;
         }
     }
 }

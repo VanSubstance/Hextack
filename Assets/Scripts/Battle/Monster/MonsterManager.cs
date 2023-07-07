@@ -20,14 +20,13 @@ namespace Assets.Scripts.Battle.Monster
             UnitInfo info;
             tokenList.All((token) =>
             {
-                info = ServerData.Unit.data[token.Code];
+                info = ServerData.Unit.data[token.Code].Clone();
                 info.CntMonsterSummoned = 0;
                 // 각 몬스터 별 소환 코루틴 실행
                 ServerManager.Instance.ExecuteCrInRepeat(
                     () =>
                     {
                         info.CntMonsterSummoned++;
-                        MainInGameManager.Instance.CurTimer++;
                         GetNewComponent().Init(new MonsterController.Info()
                         {
                             Hp = info.Hp,

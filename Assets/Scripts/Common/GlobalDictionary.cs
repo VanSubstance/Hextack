@@ -13,6 +13,8 @@ public static class GlobalDictionary
     /// </summary>
     public static Vector3 VectorToScreen = new Vector3(0, Mathf.Sqrt(3f), -1);
 
+    public static float UnitRange = Mathf.Sqrt(3f);
+
     /// <summary>
     /// 레이어
     /// </summary>
@@ -21,7 +23,8 @@ public static class GlobalDictionary
         public static int
             UI = 1 << 5,
             Map = 1 << 6,
-            Unit = 1 << 7
+            Unit = 1 << 7,
+            Monster = 1 << 9
             ;
     }
     /// <summary>
