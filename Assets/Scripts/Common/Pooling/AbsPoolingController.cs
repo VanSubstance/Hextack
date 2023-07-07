@@ -50,6 +50,10 @@ namespace Assets.Scripts.Common.Pooling
                 return res;
             }
             res = Instantiate(componentPrefab, GetParent());
+            res.ConnectWithParent((content) =>
+            {
+                q.Enqueue(content);
+            });
             res.gameObject.SetActive(false);
             return res;
         }

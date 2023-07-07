@@ -164,8 +164,9 @@ namespace Assets.Scripts.Unit
         /// 미리보기 처리 함수
         /// </summary>
         /// <returns></returns>
-        public UnitController PreviewInstallation()
+        public UnitController PreviewInstallation(HexTileController _tileInstalled)
         {
+            tileInstalled = _tileInstalled;
             TargetMaterial = "Fade";
             UseGravity = false;
             rigid.velocity = Vector3.zero;

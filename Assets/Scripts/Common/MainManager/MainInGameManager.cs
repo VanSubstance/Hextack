@@ -398,7 +398,7 @@ namespace Assets.Scripts.Common.MainManager
                     StartCoroutine(CoroutineExecuteAfterWait(() =>
                     {
                         TextCenter = "";
-                        UnitManager.Instance.InitUnits(ServerData.InGame.MonsterInfo[GlobalStatus.InGame.Round - 1], true);
+                        UnitManager.Instance.PreviewEnemies(ServerData.InGame.MonsterInfo[GlobalStatus.InGame.Round - 1]);
                         NextStage = IngameStageType.Place;
                     }, 1f));
                 }, 1f));
@@ -443,10 +443,11 @@ namespace Assets.Scripts.Common.MainManager
         }
 
         /// <summary>
-        /// 적용 스테이지 시작 -> 전투 스테이지로 이동
+        /// 적용 스테이지 시작: 적 유닛 배치 -> 전투 스테이지로 이동
         /// </summary>
         private void InitStageApplying()
         {
+            UnitManager.Instance.SummonEnemies();
             // 사전 효과 실행
             IsRayCastable = true;
             GlobalStatus.UnitsActive.All((unitCtrl) =>

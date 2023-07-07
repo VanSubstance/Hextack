@@ -50,7 +50,7 @@ namespace Assets.Scripts.Server
         {
             ServerData.User.Base.AmountArtifact += GlobalStatus.InGame.AccuArtifact * 2;
             ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold * 2;
-            GlobalStatus.NextScene = "MainMenu";
+            GlobalStatus.NextScene = "Main";
             SceneManager.LoadScene("Loading");
         }
 

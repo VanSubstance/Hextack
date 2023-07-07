@@ -10,8 +10,11 @@ namespace Assets.Scripts.Unit
         [SerializeField]
         private UnitController prefab;
 
+        private Queue<HexTileController> previewQ;
+
         public void Init()
         {
+            previewQ = new Queue<HexTileController>();
             GlobalDictionary.Prefab.Unit.Prefab = prefab;
             GlobalStatus.UnitPool = new Queue<UnitController>();
             GlobalStatus.UnitsActive = new List<UnitController>();
@@ -25,28 +28,32 @@ namespace Assets.Scripts.Unit
         }
 
         /// <summary>
-        /// 유닛들 생성 함수
+        /// 적 유닛들 미리보기 연결 함수
         /// </summary>
         /// <param name="infos"></param>
-        public void InitUnits(UnitToken[] infos, bool isEnemy)
+        public void PreviewEnemies(UnitToken[] infos)
         {
+            UnitToken t;
             foreach (UnitToken info in infos)
             {
-                InitUnits(info, isEnemy);
+                t = info.Clone();
+                t.z = 1;
+                int[] convertedCoor;
+                convertedCoor = CommonFunction.ConvertCoordinate(t);
+                GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].PreviewUnit(GetNewUnit().Init(t, true), false);
+                previewQ.Enqueue(GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]]);
             }
         }
 
         /// <summary>
-        /// 유닛 생성 함수
+        /// 미리보기 걸려잇는 적들 실제 설치 함수
         /// </summary>
-        /// <param name="info"></param>
-        public void InitUnits(UnitToken info, bool isEnemy)
+        public void SummonEnemies()
         {
-            UnitToken t = info.Clone();
-            t.z = 1;
-            int[] convertedCoor;
-            convertedCoor = CommonFunction.ConvertCoordinate(t);
-            GlobalStatus.Map[convertedCoor[0]][convertedCoor[1]].InstallUnit(GetNewUnit().Init(t, isEnemy));
+            while (previewQ.TryDequeue(out HexTileController res))
+            {
+                res.InstallPreview();
+            }
         }
 
         /// <summary>
