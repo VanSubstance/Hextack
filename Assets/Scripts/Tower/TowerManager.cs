@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Common.Pooling;
 using UnityEngine;
 
-namespace Assets.Scripts.UI.Marker
+namespace Assets.Scripts.Tower
 {
-    public class IconManager : AbsPoolingController<IconManager>
+    public class TowerManager : AbsPoolingController<TowerManager>
     {
         public override Transform GetParent()
         {

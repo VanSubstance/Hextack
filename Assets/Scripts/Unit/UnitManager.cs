@@ -1,8 +1,6 @@
-﻿using Assets.Scripts.Map;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Assets.Scripts.UI.Marker;
 
 namespace Assets.Scripts.Unit
 {
@@ -33,12 +31,6 @@ namespace Assets.Scripts.Unit
         {
             foreach (UnitToken info in infos)
             {
-                IconManager.Instance.GetNewComponent().Init(new IconController.Info()
-                {
-                    Code = "Exclamation",
-                    color = Color.red,
-                    HexCoor = ServerData.InGame.DungeonInfo.EnteranceList[info.IdxEnterance],
-                });
             }
         }
 

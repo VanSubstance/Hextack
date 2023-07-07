@@ -22,33 +22,6 @@ namespace Assets.Scripts.Map
                 hexCoordinate = value;
             }
         }
-        public TileType tileType;
-        public TileType TileTypee
-        {
-            get
-            {
-                return tileType;
-            }
-            set
-            {
-                tileType = value;
-                switch (tileType)
-                {
-                    case TileType.Background:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleBlack"], GlobalDictionary.Materials.data["MarbleBlack"] };
-                        break;
-                    case TileType.Neutral:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleBlack"], GlobalDictionary.Materials.data["MarbleBlack"] };
-                        break;
-                    case TileType.Ally:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleWhite"], GlobalDictionary.Materials.data["MarbleWhite"] };
-                        break;
-                    case TileType.Enemy:
-                        meshRenderer.materials = new Material[] { GlobalDictionary.Materials.data["MarbleGray"], GlobalDictionary.Materials.data["MarbleGray"] };
-                        break;
-                }
-            }
-        }
 
         private GameObject inRangeGO;
 
@@ -84,7 +57,7 @@ namespace Assets.Scripts.Map
         {
             get
             {
-                return TileTypee == TileType.Ally;
+                return true;
             }
         }
         /// <summary>
@@ -112,13 +85,12 @@ namespace Assets.Scripts.Map
         /// <param name="_hexCoordinate"></param>
         /// <param name="_tileType"></param>
         /// <returns></returns>
-        public HexTileController Init(HexCoordinate _hexCoordinate, TileType _tileType)
+        public HexTileController Init(HexCoordinate _hexCoordinate)
         {
             HexCoor = _hexCoordinate.Clone();
             transform.position = CommonFunction.ConvertCoordinateToWorldPosition(_hexCoordinate);
             x = HexCoor.x;
             y = HexCoor.y;
-            TileTypee = _tileType;
             IsPreview = false;
             return this;
         }
