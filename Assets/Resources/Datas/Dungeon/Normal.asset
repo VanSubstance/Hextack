@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed61d0df88170647b933e9cd9716be9, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  Code: 
+  Code: Normal
   mapTitle: "\uC77C\uBC18 \uB358\u3161\uC804"
   Desc: "\uC77C\uBC18 \uB358\uC804\uC785\uB2C8\uB2E4.\\n\uC774\uAC8C \uC5B4\uB824\uC6B8\uB9AC
     \uC5C6\uC2B5\uB2C8\uB2E4."
@@ -21,7 +21,12 @@ MonoBehaviour:
     IdxEnterance: 0
   - Code: Slime
     IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
   MonsterCodeList:
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

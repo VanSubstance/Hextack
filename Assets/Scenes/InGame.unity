@@ -430,6 +430,8 @@ MonoBehaviour:
   textLife: {fileID: 1310288671}
   textRound: {fileID: 761288820}
   textCenter: {fileID: 1661860900}
+  textStone: {fileID: 1696292937}
+  textSteel: {fileID: 1940071220}
   gageLife: {fileID: 737785973}
   gageRound: {fileID: 825076011}
   CurrentCountMonster: 0
@@ -443,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 264992102}
   m_Layer: 5
-  m_Name: Currency Tower
+  m_Name: Currency Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -697,7 +699,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464707920}
   m_Layer: 5
-  m_Name: Currency Up
+  m_Name: Currency Steel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3035,7 +3037,7 @@ GameObject:
   - component: {fileID: 1696292938}
   - component: {fileID: 1696292937}
   m_Layer: 5
-  m_Name: Enemy Text
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3474,6 +3476,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2617431854900070382, guid: 173998cf29883d24bb14e0fb75bcbf78,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 173998cf29883d24bb14e0fb75bcbf78, type: 3}
 --- !u!4 &1863777804 stripped
@@ -3870,7 +3877,7 @@ GameObject:
   - component: {fileID: 1940071221}
   - component: {fileID: 1940071220}
   m_Layer: 5
-  m_Name: Enemy Text
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

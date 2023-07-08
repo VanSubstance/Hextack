@@ -12,7 +12,30 @@ namespace Assets.Scripts.Battle
         public bool IsStageDone;
         [SerializeField]
         private string dungeonCodeForTest;
+        /// <summary>
+        /// 인게임 재화
+        /// </summary>
+        private int amountStone, amountSteel;
 
+        public int AmountStone
+        {
+            set
+            {
+                amountStone = value;
+                UIInGameManager.Instance.AmountStone = value;
+            }
+            get { return amountStone; }
+        }
+
+        public int AmountSteel
+        {
+            set
+            {
+                amountSteel = value;
+                UIInGameManager.Instance.AmountSteel = value;
+            }
+            get { return amountSteel; }
+        }
         private void Start()
         {
             // 만약 테스트다 -> 테스트 던전 연결
@@ -26,14 +49,20 @@ namespace Assets.Scripts.Battle
             {
                 IsStageDone = true;
             });
+            ServerData.InGame.MiningLevel = 1;
+            AmountStone = 0;
+            AmountSteel = 0;
 
-            GlobalStatus.InGame.Round = 1;
+            ServerData.InGame.CurrentRound = 1;
             CurrentStageType = IngameStageType.Summon;
             IsStageDone = true;
             // 게임 시작
-            // 현재 스테이지 체크 코루틴 실행
+            // 현재 스테이지 체크 코루틴 실행 = 1초마다
+            // 추가 기능: 철광석 채굴 = 1초마다 1씩
             ServerManager.Instance.ExecuteCrInRepeat(() =>
             {
+                // 채굴
+                AmountSteel += ServerData.InGame.MiningLevel;
                 // 각 스테이지 돌입 체크
                 if (!IsStageDone) return;
                 IsStageDone = false;
@@ -62,12 +91,12 @@ namespace Assets.Scripts.Battle
             Queue<Action> temp = new Queue<Action>();
             temp.Enqueue(() =>
             {
-                UIInGameManager.Instance.TextCenter = $"라운드 {GlobalStatus.InGame.Round} 시작";
+                UIInGameManager.Instance.TextCenter = $"라운드 {ServerData.InGame.CurrentRound} 시작";
             });
             temp.Enqueue(() =>
             {
                 UIInGameManager.Instance.TextCenter = $"";
-                MonsterManager.Instance.SummonMonster(ServerData.InGame.MonsterInfo[GlobalStatus.InGame.Round++ - 1]);
+                MonsterManager.Instance.SummonMonster(ServerData.InGame.MonsterInfo[ServerData.InGame.CurrentRound++ - 1]);
                 UIInGameManager.Instance.StartRound();
             });
             ServerManager.Instance.ExecuteCrInSequnce(temp, 1f);

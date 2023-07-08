@@ -9,12 +9,29 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel;
         [SerializeField]
         private GageController gageLife, gageRound;
 
         private int currentLife, currentTimeLeft;
         public int CurrentCountMonster;
+        private readonly int Time_Round = 45;
+
+        public int AmountStone
+        {
+            set
+            {
+                textStone.text = $"{string.Format("{0:N0}", value)}";
+            }
+        }
+
+        public int AmountSteel
+        {
+            set
+            {
+                textSteel.text = $"{string.Format("{0:N0}", value)}";
+            }
+        }
 
 
         public string TextCenter
@@ -40,12 +57,12 @@ namespace Assets.Scripts.UI.Manager
             }, null, new Color(0, 1, .8f, 1));
 
             CurrentCountMonster = 0;
-            currentTimeLeft = 40;
-            gageRound.Init(40, 0, null, null, () =>
+            currentTimeLeft = Time_Round;
+            gageRound.Init(Time_Round, 0, null, null, () =>
             {
                 CancelInvoke("PassOneSecond");
                 _actionWhenRoundTimeDone.Invoke();
-                currentTimeLeft = 40;
+                currentTimeLeft = Time_Round;
                 gageRound.ApplyValue(0, true);
             }, new Color(0, 1, .8f, 1));
         }

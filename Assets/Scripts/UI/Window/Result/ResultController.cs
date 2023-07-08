@@ -18,9 +18,9 @@ namespace Assets.Scripts.UI.Window.Result
         /// </summary>
         public void Init()
         {
-            textCountWin.text = $"{GlobalStatus.InGame.WinCount} / {ServerData.InGame.MaxRound}";
-            textGold.text = $"{GlobalStatus.InGame.AccuGold} G";
-            textArtifact.text = $"{GlobalStatus.InGame.AccuArtifact} 개";
+            textCountWin.text = $"{ServerData.InGame.CurrentRound} / {ServerData.InGame.MaxRound}";
+            textGold.text = $"{ServerData.InGame.AccuGold} G";
+            textArtifact.text = $"{ServerData.InGame.AccuArtifact} 개";
             gameObject.SetActive(true);
         }
 

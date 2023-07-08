@@ -65,6 +65,11 @@ public static class ServerData
         }
 
         /// <summary>
+        /// 현재 라운드
+        /// </summary>
+        public static int CurrentRound;
+
+        /// <summary>
         /// 던전 총 라운드 수
         /// </summary>
         public static int MaxRound
@@ -74,5 +79,15 @@ public static class ServerData
                 return MonsterInfo.Length;
             }
         }
+
+        /// <summary>
+        /// 현재 채굴 레벨
+        /// </summary>
+        public static int MiningLevel;
+
+        /// <summary>
+        /// 현재 던전 누적 보상량 (끝날 때 획득)
+        /// </summary>
+        public static int AccuGold, AccuArtifact;
     }
 }

@@ -13,25 +13,9 @@ public static class GlobalStatus
     public static class InGame
     {
         /// <summary>
-        /// 0: 진행중; 1: 아군 승; 2: 적군 승; 3: 무승부
-        /// </summary>
-        public static int BattleStatus = 0;
-        /// <summary>
-        /// 이번에 설치한 기물 수, 현재 라운드, 승리한 라운드 카운트
-        /// </summary>
-        public static int CntInstalled, Round, WinCount;
-        /// <summary>
         /// 기본 크리티컬 확률
         /// </summary>
         public static float RateCritical = .1f;
-        /// <summary>
-        /// 획득한 누적 골드량
-        /// </summary>
-        public static int AccuGold = 0;
-        /// <summary>
-        /// 획득한 누적 다이어량
-        /// </summary>
-        public static int AccuArtifact = 0;
     }
 
     /// <summary>

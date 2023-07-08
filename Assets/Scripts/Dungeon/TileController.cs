@@ -21,5 +21,15 @@ namespace Assets.Scripts.Dungeon
         {
 
         }
+
+        private void OnMouseDown()
+        {
+        }
+
+        private void OnMouseUp()
+        {
+            Debug.Log("클 릭 => 설치");
+            Debug.Log($"");
+        }
     }
 }
