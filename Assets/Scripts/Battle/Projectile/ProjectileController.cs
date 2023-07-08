@@ -62,7 +62,10 @@ namespace Assets.Scripts.Battle
             if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)
             {
                 // 도착으로 본다
-                actionEnd?.Invoke(targetTr);
+                if (targetTr.gameObject.activeSelf)
+                {
+                    actionEnd?.Invoke(targetTr);
+                }
                 ReturnToPool();
             }
             int idxT = trail.positionCount - 1;

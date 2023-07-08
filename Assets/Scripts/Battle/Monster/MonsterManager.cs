@@ -34,7 +34,7 @@ namespace Assets.Scripts.Battle.Monster
                         new Vector3(-6, 0, -3),
                         new Vector3(-5.5f, 0, 6.5f),
                         },
-                        IsBoss = false,
+                        IsBoss = info.CntMonsterSummoned == 1,
                     });
                 }, () =>
                 {

@@ -27,4 +27,4 @@ MonoBehaviour:
     Cooltime: 2
     Range: 4
     trailType: 0
-    color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
