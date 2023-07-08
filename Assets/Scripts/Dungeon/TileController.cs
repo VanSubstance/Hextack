@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Tower;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Tower;
+using Assets.Scripts.UI.Manager;
 using UnityEngine;
 
 namespace Assets.Scripts.Dungeon
@@ -29,7 +31,11 @@ namespace Assets.Scripts.Dungeon
         private void OnMouseUp()
         {
             Debug.Log("클 릭 => 설치");
-            Debug.Log($"");
+            Debug.Log($"{CommonInGameManager.Instance.AmountStone}");
+            if (CommonInGameManager.Instance.AmountStone < 40)
+            {
+                UIInGameManager.Instance.TextWarning = $"설치 비용이 부족합니다 !";
+            }
         }
     }
 }

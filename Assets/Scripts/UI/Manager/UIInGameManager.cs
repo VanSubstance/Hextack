@@ -9,7 +9,7 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning;
         [SerializeField]
         private GageController gageLife, gageRound;
 
@@ -41,6 +41,26 @@ namespace Assets.Scripts.UI.Manager
                 textCenter.text = value;
             }
         }
+
+        /// <summary>
+        /// 경고 메세지 출력
+        /// </summary>
+        public string TextWarning
+        {
+            set
+            {
+                textWarning.text = value;
+                if (timerTextWarning != null)
+                {
+                    ServerManager.Instance.StopCoroutine(timerTextWarning);
+                }
+                timerTextWarning = ServerManager.Instance.ExecuteWithDelay(() =>
+                {
+                    textWarning.text = string.Empty;
+                }, 1f);
+            }
+        }
+        private Coroutine timerTextWarning;
 
         /// <summary>
         /// 초기화

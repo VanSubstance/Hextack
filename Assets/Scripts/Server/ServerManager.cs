@@ -88,6 +88,17 @@ public class ServerManager : SingletonObject<ServerManager>
     }
 
     /// <summary>
+    /// 지연 후 함수 실행 = 일반 Invoke와 동일
+    /// </summary>
+    /// <param name="actionToInvoke"></param>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public Coroutine ExecuteWithDelay(System.Action actionToInvoke, float time)
+    {
+        return StartCoroutine(CoroutineExecuteWithDelay(actionToInvoke, time));
+    }
+
+    /// <summary>
     /// 반복 실행 코루틴
     /// </summary>
     /// <param name="actionRepeat"></param>
@@ -121,5 +132,11 @@ public class ServerManager : SingletonObject<ServerManager>
             yield return new WaitForSeconds(time);
             now?.Invoke();
         }
+    }
+
+    private IEnumerator CoroutineExecuteWithDelay(System.Action actionToInvoke, float time)
+    {
+        yield return new WaitForSeconds(time);
+        actionToInvoke?.Invoke();
     }
 }

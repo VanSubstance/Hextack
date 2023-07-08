@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Battle
 {
-    public class CommonInGameManager : MonoBehaviour
+    public class CommonInGameManager : SingletonObject<CommonInGameManager>
     {
         public IngameStageType CurrentStageType;
         public bool IsStageDone;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Battle
                 IsStageDone = true;
             });
             ServerData.InGame.MiningLevel = 1;
-            AmountStone = 0;
+            AmountStone = 30;
             AmountSteel = 0;
 
             ServerData.InGame.CurrentRound = 1;

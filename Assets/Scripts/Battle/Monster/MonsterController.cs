@@ -31,7 +31,7 @@ namespace Assets.Scripts.Battle.Monster
             UIInGameManager.Instance.CurrentCountMonster--;
             if (CrDestinationCheck != null )
             {
-                StopCoroutine( CrDestinationCheck );
+                ServerManager.Instance.StopCoroutine( CrDestinationCheck );
             }
         }
 
