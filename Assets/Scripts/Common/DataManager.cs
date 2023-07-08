@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Map;
-using Assets.Scripts.Unit;
+using Assets.Scripts.Tower;
+using Assets.Scripts.Monster;
 using UnityEngine;
 
 namespace Assets.Scripts.Common
@@ -25,12 +26,6 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadPrefabs()
         {
-            // 유닛
-            foreach (UnitController unit in Resources.LoadAll<UnitController>($"{GlobalDictionary.Prefab.Unit.rootPath}"))
-            {
-                GlobalDictionary.Prefab.Unit.data[unit.name] = unit;
-            }
-
             // UI
             foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
             {
@@ -92,10 +87,14 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadScriptables()
         {
-            // 기물 정보
-            foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{ServerData.Unit.rootPath}"))
+            // 타워 정보
+            foreach (TowerInfo unit in Resources.LoadAll<TowerInfo>($"{ServerData.Tower.rootPath}"))
             {
-                ServerData.Unit.data[unit.Code] = unit;
+                ServerData.Tower.data[unit.Code] = unit;
+            }
+            foreach (MonsterInfo unit in Resources.LoadAll<MonsterInfo>($"{ServerData.Monster.rootPath}"))
+            {
+                ServerData.Monster.data[unit.Code] = unit;
             }
 
             // 던전 정보

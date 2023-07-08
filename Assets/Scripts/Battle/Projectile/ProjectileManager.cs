@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Common.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Battle
 {
-    public class ProjectileManager : AbsPoolingController<ProjectileManager>
+    public class ProjectileManager : AbsPoolingManager<ProjectileManager>
     { 
         public override Transform GetParent()
         {

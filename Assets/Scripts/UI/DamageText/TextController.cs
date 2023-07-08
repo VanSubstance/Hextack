@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Common.Pooling;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 

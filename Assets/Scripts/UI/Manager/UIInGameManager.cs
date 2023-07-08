@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Manager
@@ -18,7 +13,32 @@ namespace Assets.Scripts.UI.Manager
         [SerializeField]
         private GageController gageLife, gageRound;
 
-        private int currentLife;
+        private int currentLife, currentCountMonster;
+
+        public string TextCenter
+        {
+            set
+            {
+                textCenter.text = value;
+            }
+        }
+
+        /// <summary>
+        /// 잔여 몬스터 량 수 가감
+        /// </summary>
+        public int ModifyCountMonster
+        {
+            set
+            {
+                currentCountMonster += value;
+                textCenter.text = $"{currentCountMonster}";
+                gageRound.ApplyValue(value);
+            }
+            get
+            {
+                return currentCountMonster;
+            }
+        }
 
         /// <summary>
         /// 초기화
@@ -31,6 +51,9 @@ namespace Assets.Scripts.UI.Manager
                 // 라이프 다 닳음 = 게임 종료
 
             }, null, new Color(0, 1, .8f, 1));
+
+            currentCountMonster = 0;
+            ModifyCountMonster = +0;
             gageRound.Init(40, 0, null, null, () =>
             {
                 _actionWhenRoundTimeDone.Invoke();

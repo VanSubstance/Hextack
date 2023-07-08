@@ -1,7 +1,4 @@
-﻿using Assets.Scripts.Server;
-using Assets.Scripts.Unit;
-using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Window.Result
@@ -10,8 +7,6 @@ namespace Assets.Scripts.UI.Window.Result
     {
         [SerializeField]
         private TextMeshProUGUI textCountWin, textGold, textArtifact;
-        [SerializeField]
-        private UnitStatisticController[] statControllers;
 
         private void Start()
         {
@@ -26,12 +21,6 @@ namespace Assets.Scripts.UI.Window.Result
             textCountWin.text = $"{GlobalStatus.InGame.WinCount} / {ServerData.InGame.DungeonInfo.rounds}";
             textGold.text = $"{GlobalStatus.InGame.AccuGold} G";
             textArtifact.text = $"{GlobalStatus.InGame.AccuArtifact} 개";
-            Array.Sort(ServerData.InGame.DeckAlly);
-            int idx = 0, maxDamage = ServerData.InGame.DeckAlly[0].AccuDamage;
-            foreach (UnitInfo info in ServerData.InGame.DeckAlly)
-            {
-                statControllers[idx++].Init(info, maxDamage);
-            }
             gameObject.SetActive(true);
         }
 

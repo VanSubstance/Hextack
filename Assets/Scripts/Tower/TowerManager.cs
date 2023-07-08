@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Common.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
-    public class TowerManager : AbsPoolingController<TowerManager>
+    public class TowerManager : AbsPoolingManager<TowerManager>
     {
         public override Transform GetParent()
         {

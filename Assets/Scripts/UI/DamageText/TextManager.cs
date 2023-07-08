@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Common.Pooling;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class TextManager : AbsPoolingController<TextManager>
+    public class TextManager : AbsPoolingManager<TextManager>
     {
         [SerializeField]
         private Transform contentParent;

@@ -1,7 +1,5 @@
-﻿using Assets.Scripts.Common.MainManager;
-using Assets.Scripts.Common.Pooling;
-using Assets.Scripts.UI;
-using System;
+﻿using Assets.Scripts.UI;
+using Assets.Scripts.UI.Manager;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,7 +24,7 @@ namespace Assets.Scripts.Battle.Monster
 
         public override void Clear()
         {
-            MainInGameManager.Instance.CurTimer--;
+            UIInGameManager.Instance.ModifyCountMonster--;
         }
 
         protected override bool InitExtra(AbsPoolingContent.Info _info)
@@ -35,7 +33,7 @@ namespace Assets.Scripts.Battle.Monster
             {
                 return false;
             }
-            MainInGameManager.Instance.CurTimer++;
+            UIInGameManager.Instance.ModifyCountMonster++;
             agent.speed = info.Spd;
             Hp = info.Hp;
             transform.position = info.InitPos;

@@ -1,13 +1,9 @@
-﻿using Assets.Scripts.Common.MainManager;
-using Assets.Scripts.Common.Pooling;
-using Assets.Scripts.Server;
-using Assets.Scripts.Unit;
-using System.Linq;
+﻿using Assets.Scripts.Monster;
 using UnityEngine;
 
 namespace Assets.Scripts.Battle.Monster
 {
-    public class MonsterManager : AbsPoolingController<MonsterManager>
+    public class MonsterManager : AbsPoolingManager<MonsterManager>
     {
 
         public override Transform GetParent()
@@ -15,33 +11,28 @@ namespace Assets.Scripts.Battle.Monster
             return transform;
         }
 
-        public void SummonMonsters(UnitToken[] tokenList)
+        public void SummonMonster(MonsterToken token)
         {
-            UnitInfo info;
-            tokenList.All((token) =>
-            {
-                info = ServerData.Unit.data[token.Code].Clone();
-                info.CntMonsterSummoned = 0;
-                // 각 몬스터 별 소환 코루틴 실행
-                ServerManager.Instance.ExecuteCrInRepeat(
-                    () =>
+            MonsterInfo info = ServerData.Monster.data[token.Code].Clone();
+            info.CntMonsterSummoned = 0;
+            // 각 몬스터 별 소환 코루틴 실행
+            ServerManager.Instance.ExecuteCrInRepeat(
+                () =>
+                {
+                    info.CntMonsterSummoned++;
+                    GetNewComponent().Init(new MonsterController.Info()
                     {
-                        info.CntMonsterSummoned++;
-                        GetNewComponent().Init(new MonsterController.Info()
-                        {
-                            Hp = info.Hp,
-                            Spd = 1,
-                            InitPos = CommonFunction.ConvertHexCoordinateToWorldPosition(ServerData.InGame.DungeonInfo.EnteranceList[info.IdxEnterance]) + Vector3.up,
-                        });
-                    }, () =>
-                    {
-                        return info.CntMonsterMax == info.CntMonsterSummoned;
-                    }, () =>
-                    {
-                    }, info.TimeMarginSummon
-                    );
-                return true;
-            });
+                        Hp = info.Hp,
+                        Spd = 1,
+                        InitPos = Vector2.zero,
+                    });
+                }, () =>
+                {
+                    return info.CntMonsterMax == info.CntMonsterSummoned;
+                }, () =>
+                {
+                }, 1f
+                );
         }
     }
 }

@@ -2,6 +2,7 @@
 using Assets.Scripts.Unit;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Tower;
 
 /// <summary>
 /// 광역으로 사용할 Resources에서 로드한 데이터 관리용 클래스
@@ -33,11 +34,10 @@ public static class GlobalDictionary
     public static class Prefab
     {
         public static string rootPath = $"Prefabs";
-        public static class Unit
+        public static class Tower
         {
-            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Unit";
-            public static UnitController Prefab;
-            public static Dictionary<string, UnitController> data = new Dictionary<string, UnitController>();
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Tower";
+            public static Dictionary<string, TowerController> data = new Dictionary<string, TowerController>();
         }
         public static class UI
         {

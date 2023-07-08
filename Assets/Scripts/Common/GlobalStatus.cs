@@ -95,56 +95,15 @@ public static class GlobalStatus
     /// </summary>
     public static string CurScene, NextScene;
 
-    public static HexTileController[][] Map;
-    public static Assets.Scripts.Unit.UnitController[][] Units;
-
-    /// <summary>
-    /// 기물 오브젝트 풀
-    /// </summary>
-    public static Queue<Assets.Scripts.Unit.UnitController> UnitPool;
-    public static List<Assets.Scripts.Unit.UnitController> UnitsActive;
-    public static IngameStageType CurrentStage;
-    public static bool IsInStage;
-
     /// <summary>
     /// 체력게이지 풀
     /// </summary>
     public static Queue<GageController> HpGagePool = new Queue<GageController>();
 
     /// <summary>
-    /// 창고용 유닛 오브젝트 풀
-    /// </summary>
-
-    public static Queue<UnitStorageController> UnitStoragePool = new Queue<UnitStorageController>();
-
-    /// <summary>
     /// 이펙트 풀
     /// </summary>
     public static Dictionary<string, Queue<EffectController>> effectPool = new Dictionary<string, Queue<EffectController>>();
-
-    /// <summary>
-    /// 창고용 유닛이 풀에 존재할 경우 -> 꺼내서 줌
-    /// </summary>
-    /// <returns></returns>
-    public static UnitStorageController GetUnitStorage()
-    {
-        if (UnitStoragePool.Count > 0)
-            return UnitStoragePool.Dequeue();
-        else
-            return null;
-    }
-
-    /// <summary>
-    /// 기물이 풀에 존재할 경우 -> 꺼내서 줌
-    /// </summary>
-    /// <returns></returns>
-    public static Assets.Scripts.Unit.UnitController GetUnit()
-    {
-        if (UnitPool.Count > 0)
-            return UnitPool.Dequeue();
-        else
-            return null;
-    }
 
     /// <summary>
     /// 체력 게이지가 풀에 존재 -> 꺼내줌

@@ -1,10 +1,19 @@
-﻿namespace Assets.Scripts.Tower
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace Assets.Scripts.Monster
 {
-    public class TowerController : AbsPoolingContent
+    /// <summary>
+    /// 몬스터 풀링 컨텐츠
+    /// </summary>
+    public class MonsterController : AbsPoolingContent
     {
         public override void Clear()
         {
-            throw new System.NotImplementedException();
         }
 
         protected override bool InitExtra(AbsPoolingContent.Info _info)
@@ -13,6 +22,7 @@
             {
                 return false;
             }
+
             return true;
         }
 
