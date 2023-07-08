@@ -31,7 +31,7 @@ namespace Assets.Scripts.Tower
             }
             towerInfo = ServerData.Tower.data[info.Code].Clone();
             // 메쉬 + 메테리얼 연결
-            GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
+            GetComponent<MeshCollider>().sharedMesh = GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
             GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
             transform.position = new Vector3(info.Position.x, 0, info.Position.z);
             gameObject.SetActive(true);
@@ -68,6 +68,16 @@ namespace Assets.Scripts.Tower
                 }, () => false, null, prj.Cooltime));
             }
             return true;
+        }
+
+        private void OnMouseDown()
+        {
+            Debug.Log("다운");
+        }
+
+        private void OnMouseUp()
+        {
+            Debug.Log("업");
         }
 
         public new class Info : AbsPoolingContent.Info

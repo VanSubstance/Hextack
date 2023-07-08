@@ -83,9 +83,9 @@ public static class GlobalDictionary
     public static class Texture
     {
         public static string rootPath = $"Textures";
-        public static class Unit
+        public static class Tower
         {
-            public static string rootPath = $"{Texture.rootPath}/Unit";
+            public static string rootPath = $"{Texture.rootPath}/Tower";
             public static Dictionary<string, Sprite> data = new Dictionary<string, Sprite>();
         }
         public static class Icon

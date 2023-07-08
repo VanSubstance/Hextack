@@ -68,9 +68,9 @@ namespace Assets.Scripts.Common
         public void LoadTextures()
         {
             // 기물 Sprite
-            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Tower.rootPath}"))
             {
-                GlobalDictionary.Texture.Unit.data[unit.name] = unit;
+                GlobalDictionary.Texture.Tower.data[unit.name] = unit;
             }
             // 아이콘 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))

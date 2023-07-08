@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.UI.Window;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,12 +81,6 @@ namespace Assets.Scripts.Common.MainManager
         {
             AmountGold = ServerData.User.AmountGold;
             AmountArtifact = ServerData.User.AmountArtifact;
-
-            // 프레그먼트들 초기화
-            SwiperController.Instance.Init(startIdx);
-
-            // 윈도우 초기화
-            WindowController.Instance.Init();
         }
 
         public void ChangeUnit()
