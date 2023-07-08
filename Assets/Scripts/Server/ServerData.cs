@@ -86,6 +86,11 @@ public static class ServerData
         public static int MiningLevel;
 
         /// <summary>
+        /// 채굴 레벨업 비용
+        /// </summary>
+        public static int PriceMiningLvUp = 10;
+
+        /// <summary>
         /// 현재 던전 누적 보상량 (끝날 때 획득)
         /// </summary>
         public static int AccuGold, AccuArtifact;
