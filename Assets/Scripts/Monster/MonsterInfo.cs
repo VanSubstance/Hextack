@@ -5,12 +5,13 @@ namespace Assets.Scripts.Monster
     /// <summary>
     /// 몬스터 정보
     /// </summary>
-    [CreateAssetMenu(fileName = "MonsterInfo", menuName = "Scriptables/Monster Info", order = int.MaxValue)]
+    [CreateAssetMenu(fileName = "MonsterInfo", menuName = "Scriptables/Monster/Info", order = int.MaxValue)]
     public class MonsterInfo : ScriptableObject
     {
         /// <summary>
         /// 코드
         /// </summary>
+        [HideInInspector]
         public string Code;
 
         [HideInInspector]
@@ -24,6 +25,14 @@ namespace Assets.Scripts.Monster
         /// </summary>
         public int CntMonsterMax = 30;
 
+        /// <summary>
+        /// 이름
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// 체력
+        /// </summary>
         public int Hp;
 
         /// <summary>
@@ -34,6 +43,12 @@ namespace Assets.Scripts.Monster
         public MonsterInfo Clone()
         {
             return Instantiate(this);
+        }
+
+        public MonsterInfo SetCode(string code)
+        {
+            Code = code;
+            return this;
         }
     }
 }

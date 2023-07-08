@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Map;
 using Assets.Scripts.UI;
-using Assets.Scripts.Unit;
 using System.Collections.Generic;
 
 /// <summary>
@@ -9,60 +7,6 @@ using System.Collections.Generic;
 /// </summary>
 public static class GlobalStatus
 {
-
-    private static DungeonInfo mapInfo;
-    public static DungeonInfo MapInfo
-    {
-        get
-        {
-            return mapInfo;
-        }
-        set
-        {
-            mapInfo = value;
-        }
-    }
-    public static int Radius
-    {
-        get
-        {
-            return mapInfo.radius;
-        }
-    }
-    public static int CntTileBan
-    {
-        get
-        {
-            return mapInfo.cntTileBan;
-        }
-    }
-    public static int CntUnitBan
-    {
-        get
-        {
-            return mapInfo.cntUnitBan;
-        }
-    }
-    public static int CntUnitSummonAtOnce
-    {
-        get
-        {
-            return mapInfo.cntUnitSummonAtOnce;
-        }
-    }
-    private static bool isSingle;
-    public static bool IsSingle
-    {
-        get
-        {
-            return isSingle;
-        }
-        set
-        {
-            isSingle = value;
-        }
-    }
-
     /// <summary>
     /// 인게임 상수들
     /// </summary>

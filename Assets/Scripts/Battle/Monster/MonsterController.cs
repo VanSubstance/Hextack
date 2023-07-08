@@ -24,7 +24,7 @@ namespace Assets.Scripts.Battle.Monster
 
         public override void Clear()
         {
-            UIInGameManager.Instance.ModifyCountMonster--;
+            UIInGameManager.Instance.CurrentCountMonster--;
         }
 
         protected override bool InitExtra(AbsPoolingContent.Info _info)
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Battle.Monster
             {
                 return false;
             }
-            UIInGameManager.Instance.ModifyCountMonster++;
+            UIInGameManager.Instance.CurrentCountMonster++;
             agent.speed = info.Spd;
             Hp = info.Hp;
             transform.position = info.InitPos;

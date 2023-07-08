@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Dungeon;
 using Assets.Scripts.UI.Window.DungeonInfos;
 using System.Collections.Generic;
 using UnityEngine;

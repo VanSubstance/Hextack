@@ -10,15 +10,24 @@ namespace Assets.Scripts.Battle
     {
         public IngameStageType CurrentStageType;
         public bool IsStageDone;
+        [SerializeField]
+        private string dungeonCodeForTest;
 
         private void Start()
         {
+            // 만약 테스트다 -> 테스트 던전 연결
+            if (ServerData.InGame.DungeonInfo == null)
+            {
+                ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCodeForTest];
+            }
+
             // 매니저들 초기화
             UIInGameManager.Instance.Init(() =>
             {
                 IsStageDone = true;
             });
 
+            GlobalStatus.InGame.Round = 1;
             CurrentStageType = IngameStageType.Summon;
             IsStageDone = true;
             // 게임 시작

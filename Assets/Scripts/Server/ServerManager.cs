@@ -21,22 +21,7 @@ public class ServerManager : SingletonObject<ServerManager>
         base.Awake();
         DontDestroyOnLoad(transform);
         Application.targetFrameRate = 1000;
-        GlobalStatus.IsSingle = isSingle;
         DataManager.Instance.LoadLocalDatas();
-    }
-
-    /// <summary>
-    /// 던전 정보 받아오기 함수
-    /// </summary>
-    /// <param name="dungeonName"></param>
-    public void LoadDungeonInfo()
-    {
-        GlobalStatus.MapInfo = ServerData.InGame.DungeonInfo;
-        string basePath = $"Datas/Maps/{ServerData.InGame.DungeonInfo.radius}/{ServerData.InGame.DungeonInfo.Code}";
-        for (int i = 0; i < ServerData.InGame.DungeonInfo.rounds; i++)
-        {
-            ServerData.InGame.MonsterInfo = Resources.LoadAll<MonsterToken>($"{basePath}/single/rounds/{i + 1}");
-        }
     }
 
     /// <summary>
@@ -67,7 +52,7 @@ public class ServerManager : SingletonObject<ServerManager>
     /// <param name="dungeonCode"></param>
     public void EnterDungeon(string dungeonCode)
     {
-        ServerData.InGame.DungeonInfo = ServerData.Dungeon.DungeonList[dungeonCode];
+        ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCode];
         GlobalStatus.NextScene = "InGame";
         SceneManager.LoadScene("Loading");
     }

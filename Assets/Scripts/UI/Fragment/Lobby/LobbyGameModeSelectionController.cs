@@ -42,7 +42,7 @@ namespace Assets.Scripts.UI.Fragment.Lobby
         /// </summary>
         public void OpenDungeonSelection()
         {
-            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.DungeonList.Values.ToList());
+            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.data.Values.ToList());
         }
     }
 }

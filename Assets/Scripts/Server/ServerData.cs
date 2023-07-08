@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Dungeon;
 using Assets.Scripts.Monster;
 using Assets.Scripts.Tower;
 using System.Collections.Generic;
@@ -35,12 +35,12 @@ public static class ServerData
     /// </summary>
     public static class Dungeon
     {
-        public static string rootPath = $"{ServerData.rootPath}/Maps";
+        public static string rootPath = $"{ServerData.rootPath}/Dungeon";
 
         /// <summary>
         /// 접근 가능한 던전 리스트
         /// </summary>
-        public static Dictionary<string, DungeonInfo> DungeonList = new Dictionary<string, DungeonInfo>();
+        public static Dictionary<string, DungeonInfo> data = new Dictionary<string, DungeonInfo>();
     }
 
     /// <summary>
@@ -56,6 +56,23 @@ public static class ServerData
         /// <summary>
         /// 몬스터 정보
         /// </summary>
-        public static MonsterToken[] MonsterInfo;
+        public static MonsterToken[] MonsterInfo
+        {
+            get
+            {
+                return DungeonInfo.MonsterCodeList;
+            }
+        }
+
+        /// <summary>
+        /// 던전 총 라운드 수
+        /// </summary>
+        public static int MaxRound
+        {
+            get
+            {
+                return MonsterInfo.Length;
+            }
+        }
     }
 }

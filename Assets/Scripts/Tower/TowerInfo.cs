@@ -2,11 +2,22 @@
 
 namespace Assets.Scripts.Tower
 {
-    [CreateAssetMenu(fileName = "TowerInfo", menuName = "Scriptables/Tower Info", order = int.MaxValue)]
+    /// <summary>
+    /// 타워 정보
+    /// </summary>
+    [CreateAssetMenu(fileName = "TowerInfo", menuName = "Scriptables/Tower/Info", order = int.MaxValue)]
     public class TowerInfo : ScriptableObject
     {
-        public string Code, Name, Desc;
+        [HideInInspector]
+        public string Code;
+        public string Name, Desc;
         public float AttackPerSecond;
-        public int Damage, CountProjectilePerOnce;
+        public int Tier, Damage, CountProjectilePerOnce;
+
+        public TowerInfo SetCode(string code)
+        {
+            Code = code;
+            return this;
+        }
     }
 }

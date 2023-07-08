@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Tower;
 using UnityEngine;
 
-namespace Assets.Scripts.Map
+namespace Assets.Scripts.Dungeon
 {
     /// <summary>
     /// 타워 설치용 타일 컨트롤러

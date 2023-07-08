@@ -13,7 +13,9 @@ namespace Assets.Scripts.UI.Manager
         [SerializeField]
         private GageController gageLife, gageRound;
 
-        private int currentLife, currentCountMonster;
+        private int currentLife;
+        public int CurrentCountMonster;
+
 
         public string TextCenter
         {
@@ -24,27 +26,11 @@ namespace Assets.Scripts.UI.Manager
         }
 
         /// <summary>
-        /// 잔여 몬스터 량 수 가감
-        /// </summary>
-        public int ModifyCountMonster
-        {
-            set
-            {
-                currentCountMonster += value;
-                textCenter.text = $"{currentCountMonster}";
-                gageRound.ApplyValue(value);
-            }
-            get
-            {
-                return currentCountMonster;
-            }
-        }
-
-        /// <summary>
         /// 초기화
         /// </summary>
         public void Init(System.Action _actionWhenRoundTimeDone)
         {
+            TextCenter = $"던전 시작";
             currentLife = 30;
             gageLife.Init(30, 30, null, () =>
             {
@@ -52,8 +38,7 @@ namespace Assets.Scripts.UI.Manager
 
             }, null, new Color(0, 1, .8f, 1));
 
-            currentCountMonster = 0;
-            ModifyCountMonster = +0;
+            CurrentCountMonster = 0;
             gageRound.Init(40, 0, null, null, () =>
             {
                 _actionWhenRoundTimeDone.Invoke();
@@ -76,6 +61,7 @@ namespace Assets.Scripts.UI.Manager
         /// </summary>
         public void StartRound()
         {
+            textRound.text = $"라운드 {GlobalStatus.InGame.Round}";
             InvokeRepeating("PassOneSecond", 1f, 1f);
         }
 

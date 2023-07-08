@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Map;
+using Assets.Scripts.Dungeon;
 using Assets.Scripts.Tower;
 using Assets.Scripts.Monster;
 using UnityEngine;
@@ -90,17 +90,17 @@ namespace Assets.Scripts.Common
             // 타워 정보
             foreach (TowerInfo unit in Resources.LoadAll<TowerInfo>($"{ServerData.Tower.rootPath}"))
             {
-                ServerData.Tower.data[unit.Code] = unit;
+                ServerData.Tower.data[unit.name] = unit.SetCode(unit.name);
             }
             foreach (MonsterInfo unit in Resources.LoadAll<MonsterInfo>($"{ServerData.Monster.rootPath}"))
             {
-                ServerData.Monster.data[unit.Code] = unit;
+                ServerData.Monster.data[unit.name] = unit.SetCode(unit.name);
             }
 
             // 던전 정보
-            foreach (DungeonInfo dg in Resources.LoadAll<DungeonInfo>($"{ServerData.Dungeon.rootPath}"))
+            foreach (DungeonInfo unit in Resources.LoadAll<DungeonInfo>($"{ServerData.Dungeon.rootPath}"))
             {
-                ServerData.Dungeon.DungeonList[dg.Code] = dg;
+                ServerData.Dungeon.data[unit.name] = unit.SetCode(unit.name);
             }
         }
     }
