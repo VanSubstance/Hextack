@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Wizard
+  m_Name: Arrow
   m_EditorClassIdentifier: 
-  Code: Wizard
-  Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
-  Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n \uC5D0\uB108\uC9C0
-    \uBCFC\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+  Code: Arrow
+  Name: "\uC11D\uAD81 \uD0C0\uC6CC"
+  Desc: "\uD754\uD55C \uC11D\uAD81 \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n\uBC14\uB78C\uC744
+    \uAC00\uB974\uB294 \uD654\uC0B4\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   Tier: 1
   Materials:
-  - Pink
+  - Brown
   - Black
   projectileInfo:
   - CountPerOnce: 1
     IsInstant: 0
-    Spd: 6
-    Damage: 7
-    Cooltime: 1
+    Spd: 8
+    Damage: 10
+    Cooltime: 0.5
     Range: 3
-    trailType: 1
-    color: {r: 1, g: 0.8546775, b: 0.24056602, a: 0.5019608}
+    trailType: 0
+    color: {r: 0.3824575, g: 1, b: 0.23921567, a: 0.5019608}

@@ -17,8 +17,8 @@ MonoBehaviour:
   Desc: "\uD754\uD55C \uB300\uD3EC\uD0C0\uC6CC\uC785\uB2C8\uB2E4."
   Tier: 1
   Materials:
-  - Body
-  - OutLine
+  - Grey
+  - Black
   projectileInfo:
   - CountPerOnce: 1
     IsInstant: 0
@@ -27,4 +27,4 @@ MonoBehaviour:
     Cooltime: 2
     Range: 4
     trailType: 0
-    color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}

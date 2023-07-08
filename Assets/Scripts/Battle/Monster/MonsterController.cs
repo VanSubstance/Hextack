@@ -28,6 +28,7 @@ namespace Assets.Scripts.Battle.Monster
 
         public override void Clear()
         {
+            CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
             UIInGameManager.Instance.CurrentCountMonster--;
             if (CrDestinationCheck != null)
             {
@@ -95,7 +96,6 @@ namespace Assets.Scripts.Battle.Monster
             if (Hp <= 0)
             {
                 // 죽음
-                Debug.Log("몬스터 컷");
                 ReturnToPool();
             }
         }
