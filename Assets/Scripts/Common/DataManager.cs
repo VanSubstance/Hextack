@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Map;
-using Assets.Scripts.Unit;
+using Assets.Scripts.Dungeon;
+using Assets.Scripts.Tower;
+using Assets.Scripts.Monster;
 using UnityEngine;
 
 namespace Assets.Scripts.Common
@@ -25,12 +26,6 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadPrefabs()
         {
-            // 유닛
-            foreach (UnitController unit in Resources.LoadAll<UnitController>($"{GlobalDictionary.Prefab.Unit.rootPath}"))
-            {
-                GlobalDictionary.Prefab.Unit.data[unit.name] = unit;
-            }
-
             // UI
             foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
             {
@@ -53,10 +48,6 @@ namespace Assets.Scripts.Common
             {
                 GlobalDictionary.Materials.data[unit.name] = unit;
             }
-            foreach (Material unit in Resources.LoadAll<Material>($"{GlobalDictionary.Materials.Unit.rootPath}"))
-            {
-                GlobalDictionary.Materials.Unit.data[unit.name] = unit;
-            }
         }
 
         /// <summary>
@@ -64,9 +55,10 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadMeshs()
         {
-            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.rootPath}"))
+            // 타워
+            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
             {
-                GlobalDictionary.Mesh.data[unit.name] = unit;
+                GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
             }
         }
 
@@ -75,10 +67,15 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadTextures()
         {
-            // 기물 이미지
+            // 기물 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
             {
                 GlobalDictionary.Texture.Unit.data[unit.name] = unit;
+            }
+            // 아이콘 Sprite
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))
+            {
+                GlobalDictionary.Texture.Icon.data[unit.name] = unit;
             }
         }
 
@@ -87,16 +84,20 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadScriptables()
         {
-            // 기물 정보
-            foreach (UnitInfo unit in Resources.LoadAll<UnitInfo>($"{ServerData.Unit.rootPath}"))
+            // 타워 정보
+            foreach (TowerInfo unit in Resources.LoadAll<TowerInfo>($"{ServerData.Tower.rootPath}"))
             {
-                ServerData.Unit.data[unit.Code] = unit;
+                ServerData.Tower.data[unit.name] = unit.SetCode(unit.name);
+            }
+            foreach (MonsterInfo unit in Resources.LoadAll<MonsterInfo>($"{ServerData.Monster.rootPath}"))
+            {
+                ServerData.Monster.data[unit.name] = unit.SetCode(unit.name);
             }
 
             // 던전 정보
-            foreach (DungeonInfo dg in Resources.LoadAll<DungeonInfo>($"{ServerData.Dungeon.rootPath}"))
+            foreach (DungeonInfo unit in Resources.LoadAll<DungeonInfo>($"{ServerData.Dungeon.rootPath}"))
             {
-                ServerData.Dungeon.DungeonList[dg.Code] = dg;
+                ServerData.Dungeon.data[unit.name] = unit.SetCode(unit.name);
             }
         }
     }

@@ -3,15 +3,25 @@
     [System.Serializable]
     public enum AbilityType
     {
-        /// <summary>
-        /// 도발
-        /// </summary>
-        Provoke,
+        ///// <summary>
+        ///// 도발
+        ///// </summary>
+        //Provoke,
+
+        ///// <summary>
+        ///// 공격 속도
+        ///// </summary>
+        //AttackSpeed,
 
         /// <summary>
-        /// 공격 속도
+        /// 기절
         /// </summary>
-        AttackSpeed,
+        Stun,
+
+        /// <summary>
+        /// 속도 감소율
+        /// </summary>
+        RateLackSpeed,
 
         /// <summary>
         /// 치명타율

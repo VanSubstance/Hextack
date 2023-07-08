@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Common.Pooling;
+﻿using Assets.Scripts.Battle.Projectile;
 using UnityEngine;
 
 namespace Assets.Scripts.Battle
@@ -22,9 +22,24 @@ namespace Assets.Scripts.Battle
                 meshRenderer.materials[0].color = value;
             }
         }
-        private System.Action actionEnd;
+        private System.Action<Transform> actionEnd;
         private Vector3 endPos, startPos;
-        private float distort = .01f;
+        private Transform targetTr;
+        private float spd;
+        private ProjectileTrailType trailType;
+
+        private float distort
+        {
+            get
+            {
+                switch (trailType)
+                {
+                    case ProjectileTrailType.Lighting:
+                        return .2f;
+                }
+                return 0;
+            }
+        }
 
         private void Awake()
         {
@@ -39,10 +54,15 @@ namespace Assets.Scripts.Battle
         /// </summary>
         private void FixedUpdate()
         {
+            if (targetTr != null)
+            {
+                endPos = targetTr.position;
+                rigid.velocity = (endPos - startPos).normalized * spd;
+            }
             if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)
             {
                 // 도착으로 본다
-                actionEnd?.Invoke();
+                actionEnd?.Invoke(targetTr);
                 ReturnToPool();
             }
             int idxT = trail.positionCount - 1;
@@ -66,16 +86,27 @@ namespace Assets.Scripts.Battle
             endPos = info.EndPos;
             actionEnd = info.ActionEnd;
             transform.position = startPos;
+            targetTr = info.targetTr;
+            spd = info.Spd;
+            trailType = info.TrailType;
             gameObject.SetActive(true);
-            rigid.AddForce((endPos - startPos).normalized * GlobalStatus.InGame.SpdProjectile, ForceMode.Impulse);
+            if (info.targetTr == null)
+            {
+                // 추적 아님
+                rigid.velocity = (endPos - startPos).normalized * spd;
+            }
             return true;
         }
 
         public new class Info : AbsPoolingContent.Info
         {
-            public Color color;
             public Vector3 StartPos, EndPos;
-            public System.Action ActionEnd;
+            public System.Action<Transform> ActionEnd;
+            public Transform targetTr;
+
+            public Color color;
+            public float Spd = 7;
+            public ProjectileTrailType TrailType;
         }
     }
 }

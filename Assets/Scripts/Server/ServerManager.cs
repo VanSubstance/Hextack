@@ -1,124 +1,142 @@
 ﻿using Assets.Scripts.Common;
-using Assets.Scripts.Common.MainManager;
-using Assets.Scripts.Map;
+using Assets.Scripts.Monster;
 using Assets.Scripts.Unit;
+using Assets.Scripts.Server;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.Server
+/// <summary>
+/// 서버 연결 관리용 매니저
+/// </summary>
+public class ServerManager : SingletonObject<ServerManager>
 {
-    /// <summary>
-    /// 서버 연결 관리용 매니저
-    /// </summary>
-    public class ServerManager : SingletonObject<ServerManager>
+    [SerializeField]
+    private bool isSingle;
+
+    private new void Awake()
     {
-        [SerializeField]
-        private bool isSingle;
+        base.Awake();
+        DontDestroyOnLoad(transform);
+        Application.targetFrameRate = 1000;
+        DataManager.Instance.LoadLocalDatas();
+    }
 
-        private new void Awake()
-        {
-            base.Awake();
-            DontDestroyOnLoad(transform);
-            Application.targetFrameRate = 1000;
-            GlobalStatus.IsSingle = isSingle;
-            DataManager.Instance.LoadLocalDatas();
-            CallUserInfo();
-        }
+    /// <summary>
+    /// 광고 보고 두배 수령하고 메인메뉴로 나가기
+    /// </summary>
+    public void ExitDouble()
+    {
+        ServerData.User.AmountArtifact += ServerData.InGame.AccuArtifact * 2;
+        ServerData.User.AmountGold += ServerData.InGame.AccuGold * 2;
+        GlobalStatus.NextScene = "Main";
+        SceneManager.LoadScene("Loading");
+    }
 
-        /// <summary>
-        /// 던전 정보 받아오기 함수
-        /// </summary>
-        /// <param name="dungeonName"></param>
-        public void LoadDungeonInfo()
+    /// <summary>
+    /// 그냥 수령하고 메인메뉴로 나가기
+    /// </summary>
+    public void ExitNormal()
+    {
+        ServerData.User.AmountArtifact += ServerData.InGame.AccuArtifact;
+        ServerData.User.AmountGold += ServerData.InGame.AccuGold;
+        GlobalStatus.NextScene = "Main";
+        SceneManager.LoadScene("Loading");
+    }
+
+    /// <summary>
+    /// 신규 던전 입장
+    /// </summary>
+    /// <param name="dungeonCode"></param>
+    public void EnterDungeon(string dungeonCode)
+    {
+        ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCode];
+        GlobalStatus.NextScene = "InGame";
+        SceneManager.LoadScene("Loading");
+    }
+
+    /// <summary>
+    /// 기존 던전 이어서 진행
+    /// </summary>
+    public void ContinueDungeon()
+    {
+        Debug.Log($"이어서 드가자 ㅡ ! ");
+    }
+
+    /// <summary>
+    /// 반복 실행 코루틴
+    /// </summary>
+    /// <param name="actionRepeat">반복할 람다</param>
+    /// <param name="actionCondition">탈출 체크 람다 = true 반환 시 코루틴 강제 종료</param>
+    /// <param name="actionEscape">탈출 시 실행되는 람다</param>
+    /// <param name="time">반복 텀</param>
+    public Coroutine ExecuteCrInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
+    {
+        return StartCoroutine(CoroutineExecuteActionInRepeat(actionRepeat, actionCondition, actionEscape, time));
+    }
+
+    /// <summary>
+    /// 람다 순차 실행 코루틴
+    /// </summary>
+    /// <param name="actionQueue"></param>
+    /// <param name="time"></param>
+    public void ExecuteCrInSequnce(Queue<System.Action> actionQueue, float time)
+    {
+        StartCoroutine(CoroutineExecuteActionsByTerm(actionQueue, time));
+    }
+
+    /// <summary>
+    /// 지연 후 함수 실행 = 일반 Invoke와 동일
+    /// </summary>
+    /// <param name="actionToInvoke"></param>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public Coroutine ExecuteWithDelay(System.Action actionToInvoke, float time)
+    {
+        return StartCoroutine(CoroutineExecuteWithDelay(actionToInvoke, time));
+    }
+
+    /// <summary>
+    /// 반복 실행 코루틴
+    /// </summary>
+    /// <param name="actionRepeat"></param>
+    /// <param name="actionCondition">true 반환 시 코루틴 강제 종료</param>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    private IEnumerator CoroutineExecuteActionInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
+    {
+        while (true)
         {
-            ServerData.InGame.DeckAlly = ServerData.User.Decks[ServerData.User.CurrentDeckIdx];
-            GlobalStatus.MapInfo = ServerData.InGame.DungeonInfo;
-            string basePath = $"Datas/Maps/{ServerData.InGame.DungeonInfo.radius}/{ServerData.InGame.DungeonInfo.Code}";
-            ServerData.InGame.TilesInfo = Resources.LoadAll<HexCoordinate>($"{basePath}/installable");
-            ServerData.InGame.MonsterInfo = new UnitToken[ServerData.InGame.DungeonInfo.rounds][];
-            for (int i = 0; i < ServerData.InGame.DungeonInfo.rounds; i++)
+            yield return new WaitForSeconds(time);
+            if (actionCondition?.Invoke() == true)
             {
-                ServerData.InGame.MonsterInfo[i] = Resources.LoadAll<UnitToken>($"{basePath}/single/rounds/{i + 1}");
+                actionEscape?.Invoke();
+                yield break;
             }
+            actionRepeat?.Invoke();
         }
+    }
 
-        /// <summary>
-        /// 광고 보고 두배 수령하고 메인메뉴로 나가기
-        /// </summary>
-        public void ExitDouble()
+    /// <summary>
+    /// 전달된 람다식들을 time 텀을 두고 순차적으로 실행
+    /// </summary>
+    /// <param name="actionsToExecute"></param>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    private IEnumerator CoroutineExecuteActionsByTerm(Queue<System.Action> actionsToExecute, float time)
+    {
+        while (actionsToExecute.TryDequeue(out System.Action now))
         {
-            ServerData.User.Base.AmountArtifact += GlobalStatus.InGame.AccuArtifact * 2;
-            ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold * 2;
-            GlobalStatus.NextScene = "Main";
-            SceneManager.LoadScene("Loading");
+            yield return new WaitForSeconds(time);
+            now?.Invoke();
         }
+    }
 
-        /// <summary>
-        /// 그냥 수령하고 메인메뉴로 나가기
-        /// </summary>
-        public void ExitNormal()
-        {
-            ServerData.User.Base.AmountArtifact += GlobalStatus.InGame.AccuArtifact;
-            ServerData.User.Base.AmountGold += GlobalStatus.InGame.AccuGold;
-            GlobalStatus.NextScene = "Main";
-            SceneManager.LoadScene("Loading");
-        }
-
-        /// <summary>
-        /// 신규 던전 입장
-        /// </summary>
-        /// <param name="dungeonCode"></param>
-        public void EnterDungeon(string dungeonCode)
-        {
-            ServerData.InGame.DungeonInfo = ServerData.Dungeon.DungeonList[dungeonCode];
-            GlobalStatus.NextScene = "InGame";
-            SceneManager.LoadScene("Loading");
-        }
-
-        /// <summary>
-        /// 기존 던전 이어서 진행
-        /// </summary>
-        public void ContinueDungeon()
-        {
-            Debug.Log($"이어서 드가자 ㅡ ! ");
-        }
-
-
-        /// <summary>
-        /// 유저 정보 불러오기
-        /// </summary>
-        public void CallUserInfo()
-        {
-            // 기본 정보 불러오기
-            ServerData.User.Base = Resources.Load<UserBasicInfo>("Datas/Server/User Basic Info");
-            ServerData.User.Storages = new UnitInfo[ServerData.User.Base.UnitStorageList.Length];
-            int idx = 0;
-            // 각 기물 실제 정보 채우기
-            ServerData.User.Base.UnitStorageList.All((upInfo) =>
-            {
-                ServerData.User.Storages[idx++] = ServerData.Unit.data[upInfo.Code].Clone();
-                return true;
-            });
-
-            // 덱 정보 받아오기
-            ServerData.User.Decks = new UnitInfo[4][];
-            idx = 0;
-            while (idx < 4)
-            {
-                ServerData.User.Decks[idx++] = new UnitInfo[6];
-            }
-            idx = 0;
-            int idxx;
-            foreach (UserBasicInfo.DeckCodeList codeList in ServerData.User.Base.DeckList)
-            {
-                idxx = 0;
-                foreach (string code in codeList.Codes)
-                {
-                    ServerData.User.Decks[idx][idxx++] = ServerData.Unit.data[code].Clone();
-                }
-                idx++;
-            }
-        }
+    private IEnumerator CoroutineExecuteWithDelay(System.Action actionToInvoke, float time)
+    {
+        yield return new WaitForSeconds(time);
+        actionToInvoke?.Invoke();
     }
 }

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Common.Pooling;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -53,7 +52,7 @@ namespace Assets.Scripts.UI
         {
             if (_info is not Info info)
                 return false;
-            GetComponent<RectTransform>().anchoredPosition = info.ScreenPos;
+            transform.position = info.ScreenPos;
             Text = info.TargetText;
             ugui.color = info.TextColor;
             ugui.fontSize = originFontsize * info.SizeMultiplier;
@@ -72,7 +71,7 @@ namespace Assets.Scripts.UI
 
         public new class Info : AbsPoolingContent.Info
         {
-            public Vector2 ScreenPos;
+            public Vector3 ScreenPos;
             public string TargetText;
             public Color TextColor;
             public float Time = 1f;

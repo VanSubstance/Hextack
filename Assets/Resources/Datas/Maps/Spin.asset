@@ -17,11 +17,13 @@ MonoBehaviour:
     ,,, \uBB54\uAC00 \uC788\uB2E4 .."
   Code: Spin
   radius: 4
-  rounds: 1
+  rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
-  cntUnit: 3
+  cntUnitSummonAtOnce: 3
   unitCodeList:
   - Bow
   - Sword
   - Provoke
+  EnteranceList:
+  - {x: -4, y: 2}

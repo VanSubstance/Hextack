@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using Assets.Scripts.UI.Window;
+﻿using Assets.Scripts.UI.Window;
 using System.Linq;
-using Assets.Scripts.Map;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Fragment.Lobby
 {
@@ -43,15 +42,7 @@ namespace Assets.Scripts.UI.Fragment.Lobby
         /// </summary>
         public void OpenDungeonSelection()
         {
-            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.DungeonList.Values.ToList());
-        }
-
-        /// <summary>
-        /// 이전 진행중인 기록 정보창 열기
-        /// </summary>
-        public void OpenHistory()
-        {
-            WindowController.Instance.OpenDungeonInfo(ServerData.Dungeon.History);
+            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.data.Values.ToList());
         }
     }
 }

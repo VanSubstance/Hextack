@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Dungeon;
 using System;
 using TMPro;
 using UnityEngine;
