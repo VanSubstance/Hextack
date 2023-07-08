@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Assets.Scripts.Battle;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -132,6 +133,8 @@ namespace Assets.Scripts.UI.Manager
             TextProgress = ServerData.InGame.CurrentRound;
             if (crTimer != null)
             {
+                // 남은 시간 / 3 만큼 추가 인컴 지급
+                CommonInGameManager.Instance.AmountStone += currentTimeLeft / 3;
                 // 기존 타이머 폐기
                 ServerManager.Instance.StopCoroutine(crTimer);
                 crTimer = null;
