@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.UI;
 using Assets.Scripts.UI.Manager;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,9 @@ namespace Assets.Scripts.Battle.Monster
         [SerializeField]
         private NavMeshAgent agent;
         private int Hp;
+        private bool IsBoss;
+        private Queue<Vector3> destQ;
+        private Coroutine CrDestinationCheck;
 
         /// <summary>
         /// 스크린 투영 좌표
@@ -25,6 +29,10 @@ namespace Assets.Scripts.Battle.Monster
         public override void Clear()
         {
             UIInGameManager.Instance.CurrentCountMonster--;
+            if (CrDestinationCheck != null )
+            {
+                StopCoroutine( CrDestinationCheck );
+            }
         }
 
         protected override bool InitExtra(AbsPoolingContent.Info _info)
@@ -33,12 +41,34 @@ namespace Assets.Scripts.Battle.Monster
             {
                 return false;
             }
+            destQ = new Queue<Vector3>();
+            foreach (Vector3 v in info.Tracks)
+            {
+                destQ.Enqueue(v);
+            }
             UIInGameManager.Instance.CurrentCountMonster++;
             agent.speed = info.Spd;
             Hp = info.Hp;
-            transform.position = info.InitPos;
+            IsBoss = info.IsBoss;
+            transform.position = destQ.Dequeue();
             gameObject.SetActive(true);
-            agent.SetDestination(Vector3.zero);
+            CrDestinationCheck = ServerManager.Instance.ExecuteCrInRepeat(() =>
+            {
+                // 다음 행선지로 이동해야 하는가?
+                if (agent.remainingDistance < 1f)
+                {
+                    // 지금 목표 도착
+                    if (destQ.TryDequeue(out Vector3 nextPos))
+                    {
+                        // 다음 목표가 있다 = 이동
+                        agent.SetDestination(nextPos);
+                        return;
+                    }
+                    // 다음 목표가 없다 = 목숨 차감 후 파기 !
+                    UIInGameManager.Instance.ApplyLife(IsBoss);
+                    ReturnToPool();
+                }
+            }, null, null, .1f);
             return true;
         }
 
@@ -98,9 +128,13 @@ namespace Assets.Scripts.Battle.Monster
             /// </summary>
             public float Spd;
             /// <summary>
-            /// 시작 지점 = 절대 좌표
+            /// 경로 = 절대 좌표
             /// </summary>
-            public Vector2 InitPos;
+            public List<Vector3> Tracks;
+            /// <summary>
+            /// 보스인지
+            /// </summary>
+            public bool IsBoss;
         }
     }
 }

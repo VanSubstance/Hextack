@@ -23,8 +23,18 @@ namespace Assets.Scripts.Battle.Monster
                     GetNewComponent().Init(new MonsterController.Info()
                     {
                         Hp = info.Hp,
-                        Spd = 1,
-                        InitPos = Vector2.zero,
+                        Spd = info.Spd,
+                        Tracks = new() {
+                        new Vector3(-8.5f, 0, 3),
+                        new Vector3(-6f, 0, 3),
+                        new Vector3(6, 0, -3),
+                        new Vector3(0, 0, -6.5f),
+                        new Vector3(0, 0, 6.5f),
+                        new Vector3(6f, 0, 3),
+                        new Vector3(-6, 0, -3),
+                        new Vector3(-5.5f, 0, 6.5f),
+                        },
+                        IsBoss = false,
                     });
                 }, () =>
                 {

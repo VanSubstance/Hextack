@@ -72,9 +72,9 @@ public class ServerManager : SingletonObject<ServerManager>
     /// <param name="actionCondition">탈출 체크 람다 = true 반환 시 코루틴 강제 종료</param>
     /// <param name="actionEscape">탈출 시 실행되는 람다</param>
     /// <param name="time">반복 텀</param>
-    public void ExecuteCrInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
+    public Coroutine ExecuteCrInRepeat(System.Action actionRepeat, System.Func<bool> actionCondition, System.Action actionEscape, float time)
     {
-        StartCoroutine(CoroutineExecuteActionInRepeat(actionRepeat, actionCondition, actionEscape, time));
+        return StartCoroutine(CoroutineExecuteActionInRepeat(actionRepeat, actionCondition, actionEscape, time));
     }
 
     /// <summary>

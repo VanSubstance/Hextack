@@ -66,6 +66,7 @@ namespace Assets.Scripts.UI.Manager
         /// </summary>
         public void StartRound()
         {
+            gageRound.gameObject.SetActive(true);
             InvokeRepeating("PassOneSecond", 1f, 1f);
         }
 
