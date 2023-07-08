@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 73bfd37c72988554bb617113a5e3b2ba
+guid: 0e2819be5d7cbb34aa39e335d0877a7c
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -8,12 +8,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Body
-    second: {fileID: 2100000, guid: 0c3476cb59c6ece4aaae544d2be6b19d, type: 2}
+    second: {fileID: 2100000, guid: 793d0b76318cc264b85e7284bf476fa5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Crystal
+    second: {fileID: 2100000, guid: ddf5762396760204d9227c9785da7090, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: OutLine
-    second: {fileID: 2100000, guid: ed37ce4b5ba53154094c9aa59f541e49, type: 2}
+    second: {fileID: 2100000, guid: 9548c885e0e6c194bbafb863d44722fc, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

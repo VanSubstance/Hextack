@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef063b37d971a04eba667107c9d8464, type: 3}
   m_Name: Golem
   m_EditorClassIdentifier: 
-  Code: Slime
+  Code: Golem
   CntMonsterSummoned: 0
-  CntMonsterMax: 30
-  Name: "\uC2AC\uB77C\uC784"
-  Hp: 30
-  Spd: 2
+  CntMonsterMax: 1
+  Name: "\uACE8\uB818"
+  Hp: 100
+  Spd: 1

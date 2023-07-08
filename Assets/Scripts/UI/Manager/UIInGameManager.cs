@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Manager
 {
@@ -9,13 +10,27 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress;
         [SerializeField]
         private GageController gageLife, gageRound;
+        [SerializeField]
+        private Button btnEarlyStart;
 
         private int currentLife, currentTimeLeft;
         public int CurrentCountMonster;
         private readonly int Time_Round = 45;
+        private Coroutine crTimer;
+
+        /// <summary>
+        /// 현재 라운드 / 전체 라운드
+        /// </summary>
+        public int TextProgress
+        {
+            set
+            {
+                textProgress.text = $"{value} / {ServerData.InGame.MaxRound}";
+            }
+        }
 
         public int AmountStone
         {
@@ -33,14 +48,25 @@ namespace Assets.Scripts.UI.Manager
             }
         }
 
-
+        /// <summary>
+        /// 센터 메세지 출력
+        /// </summary>
         public string TextCenter
         {
             set
             {
                 textCenter.text = value;
+                if (timerTextCenter != null)
+                {
+                    ServerManager.Instance.StopCoroutine(timerTextCenter);
+                }
+                timerTextCenter = ServerManager.Instance.ExecuteWithDelay(() =>
+                {
+                    textCenter.text = string.Empty;
+                }, 1f);
             }
         }
+        private Coroutine timerTextCenter;
 
         /// <summary>
         /// 경고 메세지 출력
@@ -67,6 +93,7 @@ namespace Assets.Scripts.UI.Manager
         /// </summary>
         public void Init(System.Action _actionWhenRoundTimeDone)
         {
+            btnEarlyStart.gameObject.SetActive(false);
             TextCenter = $"던전 시작";
             currentLife = 30;
             textLife.text = $"남은 체력: {currentLife}";
@@ -80,7 +107,6 @@ namespace Assets.Scripts.UI.Manager
             currentTimeLeft = Time_Round;
             gageRound.Init(Time_Round, 0, null, null, () =>
             {
-                CancelInvoke("PassOneSecond");
                 _actionWhenRoundTimeDone.Invoke();
                 currentTimeLeft = Time_Round;
                 gageRound.ApplyValue(0, true);
@@ -99,12 +125,25 @@ namespace Assets.Scripts.UI.Manager
         }
 
         /// <summary>
-        /// 40초 카운트
+        /// 라운드 시작
         /// </summary>
         public void StartRound()
         {
+            TextProgress = ServerData.InGame.CurrentRound;
+            if (crTimer != null)
+            {
+                // 기존 타이머 폐기
+                ServerManager.Instance.StopCoroutine(crTimer);
+                crTimer = null;
+            }
+            currentTimeLeft = Time_Round;
+            btnEarlyStart.gameObject.SetActive(true);
+            gageRound.ApplyValue(0, true);
             gageRound.gameObject.SetActive(true);
-            InvokeRepeating("PassOneSecond", 1f, 1f);
+            crTimer = ServerManager.Instance.ExecuteCrInRepeat(() =>
+            {
+                PassOneSecond();
+            }, null, null, 1f);
         }
 
         private void PassOneSecond()

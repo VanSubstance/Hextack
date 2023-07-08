@@ -17,8 +17,8 @@ MonoBehaviour:
   Desc: "\uD754\uD55C \uB300\uD3EC\uD0C0\uC6CC\uC785\uB2C8\uB2E4."
   Tier: 1
   Materials:
-  - Body
-  - OutLine
+  - Grey
+  - Black
   projectileInfo:
   - CountPerOnce: 1
     IsInstant: 0
