@@ -5,8 +5,6 @@ namespace Assets.Scripts.Tower
 {
     public class TowerController : AbsPoolingContent
     {
-        private MeshFilter filter;
-        private MeshRenderer meshRenderer;
         private TowerInfo towerInfo;
         public override void Clear()
         {
@@ -21,9 +19,10 @@ namespace Assets.Scripts.Tower
             }
             towerInfo = ServerData.Tower.data[info.Code].Clone();
             // 메쉬 + 메테리얼 연결
-            filter.mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
-            meshRenderer.materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
+            GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
+            GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
             transform.position = new Vector3(info.Position.x, 0, info.Position.z);
+            gameObject.SetActive(true);
             return true;
         }
 

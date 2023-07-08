@@ -20,5 +20,5 @@ MonoBehaviour:
   Damage: 30
   CountProjectilePerOnce: 1
   Materials:
-  - Black
-  - White
+  - Outline
+  - Body

@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Arrow
+  m_Name: Wizard
   m_EditorClassIdentifier: 
   Code: Cannon
-  Name: "\uD654\uC0B4 \uD0C0\uC6CC"
-  Desc: "\uD754\uD55C \uD654\uC0B4 \uD0C0\uC6CC\uC785\uB2C8\uB2E4."
+  Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
+  Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n \uC5D0\uB108\uC9C0
+    \uBCFC\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   AttackPerSecond: 1
   Tier: 1
   Damage: 15
   CountProjectilePerOnce: 1
+  Materials:
+  - Outline
+  - Body
