@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Unit;
+using Assets.Scripts.Tower;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.Tower;
 
 /// <summary>
 /// 광역으로 사용할 Resources에서 로드한 데이터 관리용 클래스

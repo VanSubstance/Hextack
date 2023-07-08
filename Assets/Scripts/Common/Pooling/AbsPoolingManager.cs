@@ -41,7 +41,7 @@ public abstract class AbsPoolingManager<T> : MonoBehaviour where T : MonoBehavio
     /// 신규 컨텐츠 컴포넌트 반환
     /// </summary>
     /// <returns></returns>
-    public AbsPoolingContent GetNewComponent()
+    protected AbsPoolingContent GetNewComponent()
     {
         if (q.TryDequeue(out AbsPoolingContent res))
         {

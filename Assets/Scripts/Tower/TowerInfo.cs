@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Battle.Projectile;
+using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
@@ -11,9 +12,13 @@ namespace Assets.Scripts.Tower
         [HideInInspector]
         public string Code;
         public string Name, Desc;
-        public float AttackPerSecond;
-        public int Tier, Damage, CountProjectilePerOnce;
+        public int Tier;
         public string[] Materials;
+
+        /// <summary>
+        /// 투사체 정보
+        /// </summary>
+        public ProjectileInfo[] projectileInfo;
 
         public TowerInfo Clone()
         {

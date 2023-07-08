@@ -29,9 +29,9 @@ namespace Assets.Scripts.Battle.Monster
         public override void Clear()
         {
             UIInGameManager.Instance.CurrentCountMonster--;
-            if (CrDestinationCheck != null )
+            if (CrDestinationCheck != null)
             {
-                ServerManager.Instance.StopCoroutine( CrDestinationCheck );
+                ServerManager.Instance.StopCoroutine(CrDestinationCheck);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Battle.Monster
             CrDestinationCheck = ServerManager.Instance.ExecuteCrInRepeat(() =>
             {
                 // 다음 행선지로 이동해야 하는가?
-                if (agent.remainingDistance < 1f)
+                if (gameObject.activeSelf && agent.remainingDistance < 1f)
                 {
                     // 지금 목표 도착
                     if (destQ.TryDequeue(out Vector3 nextPos))
@@ -73,42 +73,25 @@ namespace Assets.Scripts.Battle.Monster
         }
 
         /// <summary>
-        /// HP 가감치 적용
+        /// HP 감소치 적용
         /// </summary>
-        /// <param name="amountToApply"></param>
-        public void ApplyHp(int amountToApply, bool isCrit)
+        /// <param name="damage"></param>
+        public void ApplyHp(int damage, bool isCrit)
         {
-            if (amountToApply < 0)
+            // 데미지 텍스트 띄워주기
+            damage = (int)(damage * (isCrit ? 1.5f : 1f));
+            TextManager.Instance.ExecuteDamage(new TextController.Info()
             {
-                // 데미지 텍스트 띄워주기
-                amountToApply = (int)(amountToApply * (isCrit ? 1.5f : 1f));
-                TextManager.Instance.GetNewComponent().Init(new TextController.Info()
-                {
-                    ScreenPos = ScreenPos,
-                    TargetText = $"{Mathf.Abs(amountToApply)}",
-                    TextColor = isCrit ? new Color(1, .8f, 0, 1) : Color.white,
-                    Time = .5f,
-                    SizeMultiplier = isCrit ? 1.4f : 1.3f
-                });
+                ScreenPos = ScreenPos,
+                TargetText = $"{Mathf.Abs(damage)}",
+                TextColor = isCrit ? new Color(1, .8f, 0, 1) : Color.white,
+                Time = .5f,
+                SizeMultiplier = isCrit ? 1.4f : 1.3f
+            });
 
-                // 힐 이펙트 띄워주기
-                EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
-            }
-            else
-            {
-                // 힐 텍스트 띄워주기
-                TextManager.Instance.GetNewComponent().Init(new TextController.Info()
-                {
-                    ScreenPos = ScreenPos,
-                    TargetText = $"+{Mathf.Abs(amountToApply)}",
-                    TextColor = new Color(.5f, 1, .8f, 1),
-                    Time = .5f,
-                });
-
-                // 힐 이펙트 띄워주기
-                EffectManager.Instance.ExecutNewEffect("Heal", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
-            }
-            Hp += amountToApply;
+            // 데미지 이펙트 띄워주기
+            EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
+            Hp -= damage;
             if (Hp <= 0)
             {
                 // 죽음

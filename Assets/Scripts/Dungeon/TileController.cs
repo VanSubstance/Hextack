@@ -69,6 +69,10 @@ namespace Assets.Scripts.Dungeon
                     // .1% 확률로 에픽 = 티어 4
                     targetTier = 4;
                 }
+
+                // 아직 다른 티어 종류 타워가 없다 = 1로 고정
+                targetTier = 1;
+
                 // 해당 티어 내에서 랜덤 돌리기
                 string[] codeArr = ServerData.Tower.data.Where((pair) =>
                 {

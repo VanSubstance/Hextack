@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Battle.Projectile;
+using UnityEngine;
 
 namespace Assets.Scripts.Battle
 {
@@ -21,10 +22,24 @@ namespace Assets.Scripts.Battle
                 meshRenderer.materials[0].color = value;
             }
         }
-        private System.Action actionEnd;
+        private System.Action<Transform> actionEnd;
         private Vector3 endPos, startPos;
         private Transform targetTr;
-        private float distort = .01f, spd;
+        private float spd;
+        private ProjectileTrailType trailType;
+
+        private float distort
+        {
+            get
+            {
+                switch (trailType)
+                {
+                    case ProjectileTrailType.Lighting:
+                        return .2f;
+                }
+                return 0;
+            }
+        }
 
         private void Awake()
         {
@@ -47,7 +62,7 @@ namespace Assets.Scripts.Battle
             if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)
             {
                 // 도착으로 본다
-                actionEnd?.Invoke();
+                actionEnd?.Invoke(targetTr);
                 ReturnToPool();
             }
             int idxT = trail.positionCount - 1;
@@ -73,6 +88,7 @@ namespace Assets.Scripts.Battle
             transform.position = startPos;
             targetTr = info.targetTr;
             spd = info.Spd;
+            trailType = info.TrailType;
             gameObject.SetActive(true);
             if (info.targetTr == null)
             {
@@ -84,11 +100,13 @@ namespace Assets.Scripts.Battle
 
         public new class Info : AbsPoolingContent.Info
         {
-            public Color color;
             public Vector3 StartPos, EndPos;
-            public System.Action ActionEnd;
+            public System.Action<Transform> ActionEnd;
             public Transform targetTr;
+
+            public Color color;
             public float Spd = 7;
+            public ProjectileTrailType TrailType;
         }
     }
 }

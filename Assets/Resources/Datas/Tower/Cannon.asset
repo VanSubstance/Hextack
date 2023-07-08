@@ -15,10 +15,16 @@ MonoBehaviour:
   Code: Cannon
   Name: "\uB300\uD3EC \uD0C0\uC6CC"
   Desc: "\uD754\uD55C \uB300\uD3EC\uD0C0\uC6CC\uC785\uB2C8\uB2E4."
-  AttackPerSecond: 0.5
   Tier: 1
-  Damage: 30
-  CountProjectilePerOnce: 1
   Materials:
-  - Outline
   - Body
+  - OutLine
+  projectileInfo:
+  - CountPerOnce: 1
+    IsInstant: 0
+    Spd: 4
+    Damage: 30
+    Cooltime: 2
+    Range: 4
+    trailType: 0
+    color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}

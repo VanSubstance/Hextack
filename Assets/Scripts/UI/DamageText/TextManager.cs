@@ -10,5 +10,12 @@ namespace Assets.Scripts.UI
         {
             return contentParent;
         }
+
+        public TextController ExecuteDamage(TextController.Info _info)
+        {
+            TextController ret = GetNewComponent().GetComponent<TextController>();
+            ret.Init(_info);
+            return ret;
+        }
     }
 }

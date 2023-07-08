@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef063b37d971a04eba667107c9d8464, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
-  Code: 
+  Code: Slime
   CntMonsterSummoned: 0
   CntMonsterMax: 30
   Name: "\uC2AC\uB77C\uC784"
-  Hp: 0
+  Hp: 30
   Spd: 2
