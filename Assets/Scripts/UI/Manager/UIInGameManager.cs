@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.Manager
         [SerializeField]
         private GageController gageLife, gageRound;
 
-        private int currentLife;
+        private int currentLife, currentTimeLeft;
         public int CurrentCountMonster;
 
 
@@ -32,6 +32,7 @@ namespace Assets.Scripts.UI.Manager
         {
             TextCenter = $"던전 시작";
             currentLife = 30;
+            textLife.text = $"남은 체력: {currentLife}";
             gageLife.Init(30, 30, null, () =>
             {
                 // 라이프 다 닳음 = 게임 종료
@@ -39,10 +40,13 @@ namespace Assets.Scripts.UI.Manager
             }, null, new Color(0, 1, .8f, 1));
 
             CurrentCountMonster = 0;
+            currentTimeLeft = 40;
             gageRound.Init(40, 0, null, null, () =>
             {
-                _actionWhenRoundTimeDone.Invoke();
                 CancelInvoke("PassOneSecond");
+                _actionWhenRoundTimeDone.Invoke();
+                currentTimeLeft = 40;
+                gageRound.ApplyValue(0, true);
             }, new Color(0, 1, .8f, 1));
         }
 
@@ -54,6 +58,7 @@ namespace Assets.Scripts.UI.Manager
         {
             currentLife = Mathf.Max(currentLife - (isBoss ? 5 : 1), 0);
             gageLife.ApplyValue(currentLife, true);
+            textLife.text = $"남은 체력: {currentLife}";
         }
 
         /// <summary>
@@ -61,12 +66,13 @@ namespace Assets.Scripts.UI.Manager
         /// </summary>
         public void StartRound()
         {
-            textRound.text = $"라운드 {GlobalStatus.InGame.Round}";
             InvokeRepeating("PassOneSecond", 1f, 1f);
         }
 
         private void PassOneSecond()
         {
+            currentTimeLeft--;
+            textRound.text = $"다음 라운드까지 {currentTimeLeft}초";
             gageRound.ApplyValue(+1);
         }
     }

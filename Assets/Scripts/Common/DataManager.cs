@@ -59,9 +59,10 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadMeshs()
         {
-            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.rootPath}"))
+            // 타워
+            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
             {
-                GlobalDictionary.Mesh.data[unit.name] = unit;
+                GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
             }
         }
 

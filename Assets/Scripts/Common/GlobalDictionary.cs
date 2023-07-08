@@ -75,8 +75,12 @@ public static class GlobalDictionary
     /// </summary>
     public static class Mesh
     {
-        public static string rootPath = $"Meshs";
-        public static Dictionary<string, UnityEngine.Mesh> data = new Dictionary<string, UnityEngine.Mesh>();
+        public static string rootPath = $"Mesh";
+        public static class Tower
+        {
+            public static string rootPath = $"{Mesh.rootPath}/Tower";
+            public static Dictionary<string, UnityEngine.Mesh> data = new Dictionary<string, UnityEngine.Mesh>();
+        }
     }
 
     /// <summary>

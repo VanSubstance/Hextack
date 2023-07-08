@@ -8,5 +8,17 @@ namespace Assets.Scripts.Tower
         {
             return transform;
         }
+
+        public TowerController GetNewTower(string code, Vector3 position)
+        {
+            TowerController ret = GetNewComponent().GetComponent<TowerController>();
+            ret.Init(new TowerController.Info()
+            {
+                Code = code,
+                Position = position,
+            });
+
+            return ret;
+        }
     }
 }

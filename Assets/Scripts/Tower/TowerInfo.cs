@@ -13,6 +13,12 @@ namespace Assets.Scripts.Tower
         public string Name, Desc;
         public float AttackPerSecond;
         public int Tier, Damage, CountProjectilePerOnce;
+        public string[] Materials;
+
+        public TowerInfo Clone()
+        {
+            return Instantiate(this);
+        }
 
         public TowerInfo SetCode(string code)
         {
