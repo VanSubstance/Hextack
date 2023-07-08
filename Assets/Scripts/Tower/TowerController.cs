@@ -23,7 +23,7 @@ namespace Assets.Scripts.Tower
             // 메쉬 + 메테리얼 연결
             filter.mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
             meshRenderer.materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
-            transform.position = info.Position;
+            transform.position = new Vector3(info.Position.x, 0, info.Position.z);
             return true;
         }
 
