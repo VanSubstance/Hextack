@@ -6,15 +6,7 @@
     [System.Serializable]
     public class DamageEffectInfo
     {
-        /// <summary>
-        /// 적용 효과 타입
-        /// </summary>
-        public DamageEffectType damageEffectType;
-        /// <summary>
-        /// 적용할 수치
-        /// </summary>
-        public float Amount;
-
+        public Token[] tokens;
         /// <summary>
         /// 쿨타임
         /// </summary>
@@ -22,7 +14,23 @@
 
         public DamageEffectInfo Clone()
         {
-            return new() { damageEffectType = damageEffectType, Amount = Amount, Cooltime = Cooltime };
+            return new() { tokens = tokens.Clone() as Token[], Cooltime = Cooltime };
+        }
+
+        /// <summary>
+        /// 효과 토큰
+        /// </summary>
+        [System.Serializable]
+        public class Token
+        {
+            /// <summary>
+            /// 적용 효과 타입
+            /// </summary>
+            public DamageEffectType damageEffectType;
+            /// <summary>
+            /// 적용할 수치
+            /// </summary>
+            public float Amount;
         }
     }
 }

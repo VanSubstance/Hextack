@@ -113,6 +113,7 @@ namespace Assets.Scripts.Battle.Projectile
                     return false;
                 case ProjectileExecuteType.Aura:
                     // 아우라 = 바로 아우라 켜고 투사체 파기
+                    // 아우라 = 현재 타워 위치 중심 사거리만큼 장판
                     break;
             }
             return false;

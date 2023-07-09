@@ -22,6 +22,11 @@ namespace Assets.Scripts.Battle.Area
 
         public override void Clear()
         {
+            while (CrEffects.TryDequeue(out Coroutine cr))
+            {
+                Debug.Log("꺼짐 ??");
+                ServerManager.Instance.StopCoroutine(cr);
+            }
             CrEffects = null;
             info = null;
         }
@@ -34,48 +39,44 @@ namespace Assets.Scripts.Battle.Area
             CrEffects = new Queue<Coroutine>();
             foreach (DamageEffectInfo eff in info.damageEffects)
             {
-                switch (eff.damageEffectType)
+                // 각 데미지 효과 별 코루틴 실행
+                CrEffects.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
                 {
-                    case DamageEffectType.Damage:
-                        CrEffects.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
+                    // 장판 내 적들에게 데미지 
+                    Collider[] cols;
+                    if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length == 0)
+                    {
+                        Debug.Log("식별 실패");
+                        return;
+                    }
+                    Debug.Log("식별 성공");
+                    foreach (Collider col in cols)
+                    {
+                        foreach (DamageEffectInfo.Token tk in eff.tokens)
                         {
-                            // 장판 내 적들에게 데미지 계산
-                            Collider[] cols;
-                            if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length > 0)
+                            switch (tk.damageEffectType)
                             {
-                                foreach (Collider col in cols)
-                                {
-                                    col.GetComponent<Monster.MonsterController>().ApplyHp((int)eff.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
-                                }
+                                case DamageEffectType.Damage:
+                                    col.GetComponent<Monster.MonsterController>().ApplyHp((int)tk.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                    break;
+                                case DamageEffectType.Speed:
+                                    col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);
+                                    break;
                             }
-                        }, null, null, eff.Cooltime));
-                        break;
-                    case DamageEffectType.Speed:
-                        CrEffects.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
-                        {
-                            // 장판 내 적들 슬로우 부여
-                            Collider[] cols;
-                            if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length > 0)
-                            {
-                                foreach (Collider col in cols)
-                                {
-                                    col.GetComponent<Monster.MonsterController>().ApplySpeed(eff.Amount);
-                                }
-                            }
-                        }, null, null, eff.Cooltime));
-                        break;
-                }
+                        }
+                    }
+                    cols = null;
+                }, null, null, eff.Cooltime));
             }
 
             // 장판 지속시간 체크 코루틴 실행
-            ServerManager.Instance.ExecuteWithDelay(() =>
+            if (info.duration > 0)
             {
-                while (CrEffects.TryDequeue(out Coroutine cr))
+                ServerManager.Instance.ExecuteWithDelay(() =>
                 {
-                    ServerManager.Instance.StopCoroutine(cr);
-                }
-                ReturnToPool();
-            }, info.duration);
+                    ReturnToPool();
+                }, info.duration);
+            }
             return true;
         }
     }

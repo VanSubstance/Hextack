@@ -20,11 +20,17 @@ MonoBehaviour:
   - Grey
   - Black
   projectileInfo:
-  - CountPerOnce: 1
-    IsInstant: 0
+  - executeType: 0
+    CountPerOnce: 1
     Spd: 4
-    Damage: 30
-    Cooltime: 2
     Range: 4
-    trailType: 0
+    effectInfo:
+      damageEffectType: 0
+      Amount: 30
+      Cooltime: 2
+    TrailType: 0
     color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+  Position: {x: 0, y: 0, z: 0}

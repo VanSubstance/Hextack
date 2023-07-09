@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Monster;
+using Assets.Scripts.Battle.Area;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -68,6 +69,21 @@ namespace Assets.Scripts.Battle.Projectile
                 TrailType = TrailType,
                 effectInfo = effectInfo.Clone(),
                 afterHitInfo = afterHitInfo,
+            };
+        }
+
+        /// <summary>
+        /// 장판 정보 추출
+        /// </summary>
+        /// <returns></returns>
+        public AreaInfo GetAreaInfo()
+        {
+            return new AreaInfo()
+            {
+                color = color,
+                damageEffects = new[] { effectInfo.Clone() },
+                duration = -1,
+                range = Range,
             };
         }
     }

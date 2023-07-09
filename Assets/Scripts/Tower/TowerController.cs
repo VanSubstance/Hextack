@@ -1,5 +1,6 @@
-﻿using Assets.Scripts.Monster;
+﻿using Assets.Scripts.Battle.Area;
 using Assets.Scripts.Battle.Projectile;
+using Assets.Scripts.Monster;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,12 +14,25 @@ namespace Assets.Scripts.Tower
         {
             get { return towerInfo; }
         }
+
+        public float Range
+        {
+            get
+            {
+                return towerInfo.projectileInfo[0].Range;
+            }
+        }
         private Queue<Coroutine> atkQ;
+        private AreaController AreaInCase;
         public override void Clear()
         {
             while (atkQ.TryDequeue(out Coroutine atk))
             {
                 ServerManager.Instance.StopCoroutine(atk);
+            }
+            if (AreaInCase != null)
+            {
+                AreaInCase.ReturnToPool();
             }
         }
 
@@ -41,14 +55,23 @@ namespace Assets.Scripts.Tower
             transform.position = new Vector3(_info.Position.x, 0, _info.Position.z);
             gameObject.SetActive(true);
             atkQ = new Queue<Coroutine>();
+            AreaInCase = null;
             foreach (ProjectileInfo prj in towerInfo.projectileInfo)
             {
+                if (prj.executeType.Equals(ProjectileExecuteType.Aura))
+                {
+                    // 아우라 = 투사체 없음
+                    AreaInfo temp = prj.GetAreaInfo();
+                    temp.targetPos = transform.position;
+                    AreaInCase = AreaManager.Instance.GetNewContent(temp) as AreaController;
+                    continue;
+                }
                 // 투사체 종류 별 코루틴 부여
                 atkQ.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
                 {
                     // 공격 대상 탐색
                     Collider[] cols;
-                    if ((cols = Physics.OverlapSphere(transform.position, 1 + prj.Range, GlobalDictionary.Layer.Monster)).Length == 0)
+                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range, GlobalDictionary.Layer.Monster)).Length == 0)
                     {
                         return;
                     }
@@ -60,16 +83,19 @@ namespace Assets.Scripts.Tower
                         tprj.StartPos = transform.position;
                         tprj.ActionEnd = (targetTr) =>
                         {
-                            switch (tprj.effectInfo.damageEffectType)
+                            foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
                             {
-                                case DamageEffectType.Damage:
-                                    // 데미지 계산
-                                    targetTr.ApplyHp((int)tprj.effectInfo.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
-                                    break;
-                                case DamageEffectType.Speed:
-                                    // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
-                                    targetTr.ApplySpeed(tprj.effectInfo.Amount);
-                                    break;
+                                switch (tk.damageEffectType)
+                                {
+                                    case DamageEffectType.Damage:
+                                        // 데미지 계산
+                                        targetTr.ApplyHp((int)tk.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                        break;
+                                    case DamageEffectType.Speed:
+                                        // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
+                                        targetTr.ApplySpeed(tk.Amount);
+                                        break;
+                                }
                             }
                         };
                         tprj.targetTr = cols[idx].transform.GetComponent<MonsterController>();

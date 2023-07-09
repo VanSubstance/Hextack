@@ -24,7 +24,8 @@ public static class GlobalDictionary
             UI = 1 << 5,
             Map = 1 << 6,
             Unit = 1 << 7,
-            Monster = 1 << 9
+            Monster = 1 << 9,
+            Area = 1 << 10
             ;
     }
     /// <summary>
