@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Battle.Monster
 {
-    public class MonsterManager : AbsPoolingManager<MonsterManager>
+    public class MonsterManager : AbsPoolingManager<MonsterManager, MonsterInfo>
     {
 
         public override Transform GetParent()
@@ -20,11 +20,9 @@ namespace Assets.Scripts.Battle.Monster
                 () =>
                 {
                     info.CntMonsterSummoned++;
-                    GetNewComponent().Init(new MonsterController.Info()
+                    MonsterInfo clone = info.Clone();
+                    clone.Tracks = new()
                     {
-                        Hp = info.Hp,
-                        Spd = info.Spd,
-                        Tracks = new() {
                         new Vector3(-8.5f, 0, 3),
                         new Vector3(-6f, 0, 3),
                         new Vector3(6, 0, -3),
@@ -33,9 +31,8 @@ namespace Assets.Scripts.Battle.Monster
                         new Vector3(6f, 0, 3),
                         new Vector3(-6, 0, -3),
                         new Vector3(-5.5f, 0, 6.5f),
-                        },
-                        IsBoss = info.CntMonsterSummoned == 1,
-                    });
+                    };
+                    GetNewContent(clone);
                 }, () =>
                 {
                     return info.CntMonsterMax == info.CntMonsterSummoned;

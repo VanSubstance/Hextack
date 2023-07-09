@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Monster
 {
@@ -39,6 +40,12 @@ namespace Assets.Scripts.Monster
         /// 1초에 이동하는 유니티 미터 = 기본값 : 2
         /// </summary>
         public float Spd = 2;
+
+        /// <summary>
+        /// 경로 = 절대 좌표
+        /// </summary>
+        [HideInInspector]
+        public List<Vector3> Tracks;
 
         public MonsterInfo Clone()
         {

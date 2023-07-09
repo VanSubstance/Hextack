@@ -25,7 +25,9 @@ namespace Assets.Scripts.Dungeon
             if (towerEquipped == null)
             {
                 // 신규 설치
-                towerEquipped = TowerManager.Instance.GetNewTower(towerCode, transform.position);
+                TowerInfo info = ServerData.Tower.data[towerCode].Clone();
+                info.Position = transform.position;
+                towerEquipped = (TowerController)TowerManager.Instance.GetNewContent(info);
             }
         }
 

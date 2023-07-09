@@ -2,9 +2,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.UI.DamageText
 {
-    public class TextController : AbsPoolingContent
+    public class TextController : AbsPoolingContent<TextInfo>
     {
         private TextMeshProUGUI ugui;
         private Rigidbody rigid;
@@ -48,19 +48,6 @@ namespace Assets.Scripts.UI
             ReturnToPool();
         }
 
-        protected override bool InitExtra(AbsPoolingContent.Info _info)
-        {
-            if (_info is not Info info)
-                return false;
-            transform.position = info.ScreenPos;
-            Text = info.TargetText;
-            ugui.color = info.TextColor;
-            ugui.fontSize = originFontsize * info.SizeMultiplier;
-            rigid.AddForce(Vector3.up * 20);
-            StartCoroutine(CrTimer(info.Time));
-            return true;
-        }
-
         public override void Clear()
         {
             Text = string.Empty;
@@ -69,13 +56,15 @@ namespace Assets.Scripts.UI
             rigid.velocity = Vector3.zero;
         }
 
-        public new class Info : AbsPoolingContent.Info
+        protected override bool InitExtra(TextInfo _info)
         {
-            public Vector3 ScreenPos;
-            public string TargetText;
-            public Color TextColor;
-            public float Time = 1f;
-            public float SizeMultiplier = 1;
+            transform.position = _info.ScreenPos;
+            Text = _info.TargetText;
+            ugui.color = _info.TextColor;
+            ugui.fontSize = originFontsize * _info.SizeMultiplier;
+            rigid.AddForce(Vector3.up * 20);
+            StartCoroutine(CrTimer(_info.Time));
+            return true;
         }
     }
 }

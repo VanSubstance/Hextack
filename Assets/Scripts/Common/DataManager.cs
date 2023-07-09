@@ -26,10 +26,10 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadPrefabs()
         {
-            // UI
-            foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
+            // Icon
+            foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.Icon.rootPath}"))
             {
-                GlobalDictionary.Prefab.UI.data[unit.name] = unit;
+                GlobalDictionary.Prefab.Icon.data[unit.name] = unit;
             }
 
             // Effect

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI;
+﻿using Assets.Scripts.Monster;
+using Assets.Scripts.UI.DamageText;
 using Assets.Scripts.UI.Manager;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts.Battle.Monster
 {
-    public class MonsterController : AbsPoolingContent
+    public class MonsterController : AbsPoolingContent<MonsterInfo>
     {
         [SerializeField]
         private NavMeshAgent agent;
@@ -36,21 +37,44 @@ namespace Assets.Scripts.Battle.Monster
             }
         }
 
-        protected override bool InitExtra(AbsPoolingContent.Info _info)
+        /// <summary>
+        /// HP 감소치 적용
+        /// </summary>
+        /// <param name="damage"></param>
+        public void ApplyHp(int damage, bool isCrit)
         {
-            if (_info is not Info info)
+            // 데미지 텍스트 띄워주기
+            damage = (int)(damage * (isCrit ? 1.5f : 1f));
+            TextManager.Instance.GetNewContent(new()
             {
-                return false;
+                ScreenPos = ScreenPos,
+                TargetText = $"{Mathf.Abs(damage)}",
+                TextColor = isCrit ? new Color(1, .8f, 0, 1) : Color.white,
+                Time = .5f,
+                SizeMultiplier = isCrit ? 1.4f : 1.3f
+            });
+
+            // 데미지 이펙트 띄워주기
+            EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
+            Hp -= damage;
+            if (Hp <= 0)
+            {
+                // 죽음
+                ReturnToPool();
             }
+        }
+
+        protected override bool InitExtra(MonsterInfo _info)
+        {
             destQ = new Queue<Vector3>();
-            foreach (Vector3 v in info.Tracks)
+            foreach (Vector3 v in _info.Tracks)
             {
                 destQ.Enqueue(v);
             }
             UIInGameManager.Instance.CurrentCountMonster++;
-            agent.speed = info.Spd;
-            Hp = info.Hp;
-            IsBoss = info.IsBoss;
+            agent.speed = _info.Spd;
+            Hp = _info.Hp;
+            IsBoss = _info.CntMonsterSummoned == 1;
             transform.position = destQ.Dequeue();
             gameObject.SetActive(true);
             CrDestinationCheck = ServerManager.Instance.ExecuteCrInRepeat(() =>
@@ -71,53 +95,6 @@ namespace Assets.Scripts.Battle.Monster
                 }
             }, null, null, .1f);
             return true;
-        }
-
-        /// <summary>
-        /// HP 감소치 적용
-        /// </summary>
-        /// <param name="damage"></param>
-        public void ApplyHp(int damage, bool isCrit)
-        {
-            // 데미지 텍스트 띄워주기
-            damage = (int)(damage * (isCrit ? 1.5f : 1f));
-            TextManager.Instance.ExecuteDamage(new TextController.Info()
-            {
-                ScreenPos = ScreenPos,
-                TargetText = $"{Mathf.Abs(damage)}",
-                TextColor = isCrit ? new Color(1, .8f, 0, 1) : Color.white,
-                Time = .5f,
-                SizeMultiplier = isCrit ? 1.4f : 1.3f
-            });
-
-            // 데미지 이펙트 띄워주기
-            EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
-            Hp -= damage;
-            if (Hp <= 0)
-            {
-                // 죽음
-                ReturnToPool();
-            }
-        }
-
-        public new class Info : AbsPoolingContent.Info
-        {
-            /// <summary>
-            /// 최대 체력
-            /// </summary>
-            public int Hp;
-            /// <summary>
-            /// 1초에 이동하는 거리
-            /// </summary>
-            public float Spd;
-            /// <summary>
-            /// 경로 = 절대 좌표
-            /// </summary>
-            public List<Vector3> Tracks;
-            /// <summary>
-            /// 보스인지
-            /// </summary>
-            public bool IsBoss;
         }
     }
 }

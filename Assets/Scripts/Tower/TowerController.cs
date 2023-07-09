@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Battle;
-using Assets.Scripts.Battle.Monster;
+﻿using Assets.Scripts.Battle.Monster;
 using Assets.Scripts.Battle.Projectile;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
-    public class TowerController : AbsPoolingContent
+    public class TowerController : AbsPoolingContent<TowerInfo>
     {
         private TowerInfo towerInfo;
         public TowerInfo TowerInfo
@@ -23,17 +22,23 @@ namespace Assets.Scripts.Tower
             }
         }
 
-        protected override bool InitExtra(AbsPoolingContent.Info _info)
+        private void OnMouseDown()
         {
-            if (_info is not Info info)
-            {
-                return false;
-            }
-            towerInfo = ServerData.Tower.data[info.Code].Clone();
+            Debug.Log("다운");
+        }
+
+        private void OnMouseUp()
+        {
+            Debug.Log("업");
+        }
+
+        protected override bool InitExtra(TowerInfo _info)
+        {
+            towerInfo = ServerData.Tower.data[_info.Code].Clone();
             // 메쉬 + 메테리얼 연결
             GetComponent<MeshCollider>().sharedMesh = GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
             GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
-            transform.position = new Vector3(info.Position.x, 0, info.Position.z);
+            transform.position = new Vector3(_info.Position.x, 0, _info.Position.z);
             gameObject.SetActive(true);
             atkQ = new Queue<Coroutine>();
             foreach (ProjectileInfo prj in towerInfo.projectileInfo)
@@ -51,39 +56,19 @@ namespace Assets.Scripts.Tower
                     int idx = 0;
                     while (prj.CountPerOnce > idx)
                     {
-                        ProjectileManager.Instance.ExecuteNewProjectile(new ProjectileController.Info()
+                        ProjectileInfo tprj = prj.Clone();
+                        tprj.StartPos = transform.position;
+                        tprj.ActionEnd = (targetTr) =>
                         {
-                            ActionEnd = (targetTr) =>
-                            {
-                                targetTr.GetComponent<MonsterController>().ApplyHp(prj.Damage, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
-                            },
-                            color = prj.color,
-                            targetTr = cols[idx].transform,
-                            StartPos = transform.position,
-                            Spd = prj.Spd,
-                            TrailType = prj.trailType,
-                        });
+                            targetTr.GetComponent<MonsterController>().ApplyHp((int)tprj.effectInfo.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                        };
+                        tprj.targetTr = cols[idx].transform;
+                        ProjectileManager.Instance.GetNewContent(tprj);
                         idx++;
                     }
-                }, () => false, null, prj.Cooltime));
+                }, () => false, null, prj.effectInfo.Cooltime));
             }
             return true;
-        }
-
-        private void OnMouseDown()
-        {
-            Debug.Log("다운");
-        }
-
-        private void OnMouseUp()
-        {
-            Debug.Log("업");
-        }
-
-        public new class Info : AbsPoolingContent.Info
-        {
-            public string Code;
-            public Vector3 Position;
         }
     }
 }

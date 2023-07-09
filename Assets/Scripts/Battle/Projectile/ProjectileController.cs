@@ -1,14 +1,13 @@
-﻿using Assets.Scripts.Battle.Projectile;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Battle
+namespace Assets.Scripts.Battle.Projectile
 {
     /// <summary>
     /// 투사체 컨트롤러
     /// 시작 -> 도착 위치가 정해져있다
     /// 도착 시 기능 실행
     /// </summary>
-    public class ProjectileController : AbsPoolingContent
+    public class ProjectileController : AbsPoolingContent<ProjectileInfo>
     {
         private TrailRenderer trail;
         private MeshRenderer meshRenderer;
@@ -27,6 +26,7 @@ namespace Assets.Scripts.Battle
         private Transform targetTr;
         private float spd;
         private ProjectileTrailType trailType;
+        private ProjectileExecuteType executeType;
 
         private float distort
         {
@@ -80,36 +80,36 @@ namespace Assets.Scripts.Battle
             rigid.velocity = Vector3.zero;
         }
 
-        protected override bool InitExtra(AbsPoolingContent.Info _info)
+        protected override bool InitExtra(ProjectileInfo _info)
         {
-            if (_info is not Info info)
-                return false;
-            color = info.color;
-            startPos = info.StartPos;
-            endPos = info.EndPos;
-            actionEnd = info.ActionEnd;
-            transform.position = startPos;
-            targetTr = info.targetTr;
-            spd = info.Spd;
-            trailType = info.TrailType;
-            gameObject.SetActive(true);
-            if (info.targetTr == null)
+            switch (_info.executeType)
             {
-                // 추적 아님
-                rigid.velocity = (endPos - startPos).normalized * spd;
+                case ProjectileExecuteType.Bullet:
+                    color = _info.color;
+                    startPos = _info.StartPos;
+                    endPos = _info.EndPos;
+                    actionEnd = _info.ActionEnd;
+                    transform.position = startPos;
+                    targetTr = _info.targetTr;
+                    spd = _info.Spd;
+                    trailType = _info.TrailType;
+                    executeType = _info.executeType;
+                    gameObject.SetActive(true);
+                    if (_info.targetTr == null)
+                    {
+                        // 추적 아님
+                        rigid.velocity = (endPos - startPos).normalized * spd;
+                    }
+                    return true;
+                case ProjectileExecuteType.Instant:
+                    // 즉발 = 바로 효과 적용하고 투사체 파기
+                    _info.ActionEnd?.Invoke(_info.targetTr);
+                    return false;
+                case ProjectileExecuteType.Aura:
+                    // 아우라 = 바로 아우라 켜고 투사체 파기
+                    break;
             }
-            return true;
-        }
-
-        public new class Info : AbsPoolingContent.Info
-        {
-            public Vector3 StartPos, EndPos;
-            public System.Action<Transform> ActionEnd;
-            public Transform targetTr;
-
-            public Color color;
-            public float Spd = 7;
-            public ProjectileTrailType TrailType;
+            return false;
         }
     }
 }

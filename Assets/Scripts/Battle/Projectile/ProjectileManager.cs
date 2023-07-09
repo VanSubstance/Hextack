@@ -1,19 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Battle
+namespace Assets.Scripts.Battle.Projectile
 {
-    public class ProjectileManager : AbsPoolingManager<ProjectileManager>
+    public class ProjectileManager : AbsPoolingManager<ProjectileManager, ProjectileInfo>
     {
         public override Transform GetParent()
         {
             return transform;
-        }
-
-        public ProjectileController ExecuteNewProjectile(ProjectileController.Info info)
-        {
-            ProjectileController ret = GetNewComponent().GetComponent<ProjectileController>();
-            ret.Init(info);
-            return ret;
         }
     }
 }

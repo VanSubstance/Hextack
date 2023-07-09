@@ -38,15 +38,10 @@ public static class GlobalDictionary
             public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Tower";
             public static Dictionary<string, TowerController> data = new Dictionary<string, TowerController>();
         }
-        public static class UI
+        public static class Icon
         {
-            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/UI";
+            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Icon";
             public static Dictionary<string, Transform> data = new Dictionary<string, Transform>();
-        }
-        public static class Battle
-        {
-            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Battle";
-            public static ProjectileController Projectile;
         }
         public static class Effect
         {

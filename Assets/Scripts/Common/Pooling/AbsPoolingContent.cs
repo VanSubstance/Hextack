@@ -3,11 +3,11 @@
 /// <summary>
 /// 풀링 컨텐츠 기본형
 /// </summary>
-public abstract class AbsPoolingContent : MonoBehaviour
+public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
 {
-    private System.Action<AbsPoolingContent> ActionReturnToPool;
+    private System.Action<AbsPoolingContent<TInfo>> ActionReturnToPool;
     private bool isConnected = false;
-    public void ConnectWithParent(System.Action<AbsPoolingContent> _ActionReturnToPool)
+    public void ConnectWithParent(System.Action<AbsPoolingContent<TInfo>> _ActionReturnToPool)
     {
         ActionReturnToPool = _ActionReturnToPool;
         isConnected = true;
@@ -16,11 +16,11 @@ public abstract class AbsPoolingContent : MonoBehaviour
     /// <summary>
     /// 사용 시작 함수
     /// </summary>
-    public AbsPoolingContent Init(Info info)
+    public AbsPoolingContent<TInfo> Init(TInfo info)
     {
         if (!isConnected || !InitExtra(info))
         {
-            Debug.Log("Not Connected.");
+            Debug.Log("Destory Immediately.");
             ReturnToPool();
             return null;
         }
@@ -31,7 +31,7 @@ public abstract class AbsPoolingContent : MonoBehaviour
     /// <summary>
     /// 사용 시작 추가 실행
     /// </summary>
-    protected abstract bool InitExtra(AbsPoolingContent.Info _info);
+    protected abstract bool InitExtra(TInfo _info);
 
     public void ReturnToPool()
     {
@@ -44,9 +44,4 @@ public abstract class AbsPoolingContent : MonoBehaviour
     /// 풀에 반납할 때 추가 실행
     /// </summary>
     public abstract void Clear();
-
-    public class Info
-    {
-
-    }
 }

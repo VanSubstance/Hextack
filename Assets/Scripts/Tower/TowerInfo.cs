@@ -20,6 +20,9 @@ namespace Assets.Scripts.Tower
         /// </summary>
         public ProjectileInfo[] projectileInfo;
 
+        [HideInInspector]
+        public Vector3 Position;
+
         public TowerInfo Clone()
         {
             return Instantiate(this);
