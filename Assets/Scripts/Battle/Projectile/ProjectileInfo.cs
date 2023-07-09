@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Monster;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -46,9 +47,9 @@ namespace Assets.Scripts.Battle.Projectile
         [HideInInspector]
         public Vector3 StartPos, EndPos;
         [HideInInspector]
-        public System.Action<Transform> ActionEnd;
+        public System.Action<MonsterController> ActionEnd;
         [HideInInspector]
-        public Transform targetTr;
+        public MonsterController targetTr;
 
         public ProjectileInfo Clone()
         {

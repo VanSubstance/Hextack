@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Battle.Monster;
+﻿using Assets.Scripts.Monster;
 using Assets.Scripts.Battle.Projectile;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,9 +60,19 @@ namespace Assets.Scripts.Tower
                         tprj.StartPos = transform.position;
                         tprj.ActionEnd = (targetTr) =>
                         {
-                            targetTr.GetComponent<MonsterController>().ApplyHp((int)tprj.effectInfo.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                            switch (tprj.effectInfo.damageEffectType)
+                            {
+                                case DamageEffectType.Damage:
+                                    // 데미지 계산
+                                    targetTr.ApplyHp((int)tprj.effectInfo.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                    break;
+                                case DamageEffectType.Speed:
+                                    // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
+                                    targetTr.ApplySpeed(tprj.effectInfo.Amount);
+                                    break;
+                            }
                         };
-                        tprj.targetTr = cols[idx].transform;
+                        tprj.targetTr = cols[idx].transform.GetComponent<MonsterController>();
                         ProjectileManager.Instance.GetNewContent(tprj);
                         idx++;
                     }

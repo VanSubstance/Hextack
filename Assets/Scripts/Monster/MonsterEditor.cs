@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Battle.Monster
+namespace Assets.Scripts.Monster
 {
     [CustomEditor(typeof(MonsterController))]
     public class MonsterEditor : UnityEditor.Editor

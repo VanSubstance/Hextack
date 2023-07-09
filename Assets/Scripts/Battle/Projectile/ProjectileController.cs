@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Monster;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -21,9 +22,9 @@ namespace Assets.Scripts.Battle.Projectile
                 meshRenderer.materials[0].color = value;
             }
         }
-        private System.Action<Transform> actionEnd;
+        private System.Action<MonsterController> actionEnd;
         private Vector3 endPos, startPos;
-        private Transform targetTr;
+        private MonsterController targetTr;
         private float spd;
         private ProjectileTrailType trailType;
         private ProjectileExecuteType executeType;
@@ -56,7 +57,7 @@ namespace Assets.Scripts.Battle.Projectile
         {
             if (targetTr != null)
             {
-                endPos = targetTr.position;
+                endPos = targetTr.transform.position;
                 rigid.velocity = (endPos - startPos).normalized * spd;
             }
             if ((transform.position - startPos).magnitude >= (endPos - startPos).magnitude)

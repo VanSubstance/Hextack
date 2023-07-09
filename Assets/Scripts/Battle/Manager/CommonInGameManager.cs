@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Battle.Monster;
+﻿using Assets.Scripts.Monster;
 using Assets.Scripts.UI.Manager;
 using UnityEngine;
 
