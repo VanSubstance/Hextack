@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Monster;
+using Assets.Scripts.Battle.Area;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -28,6 +29,7 @@ namespace Assets.Scripts.Battle.Projectile
         private float spd;
         private ProjectileTrailType trailType;
         private ProjectileExecuteType executeType;
+        private AfterHitInfo afterHitInfo;
 
         private float distort
         {
@@ -65,7 +67,8 @@ namespace Assets.Scripts.Battle.Projectile
                 // 도착으로 본다
                 if (targetTr.gameObject.activeSelf)
                 {
-                    actionEnd?.Invoke(targetTr);
+                    ExecuteArrival();
+                    return;
                 }
                 ReturnToPool();
             }
@@ -83,18 +86,19 @@ namespace Assets.Scripts.Battle.Projectile
 
         protected override bool InitExtra(ProjectileInfo _info)
         {
+            afterHitInfo = (_info.afterHitInfo == null || _info.afterHitInfo.afterHitType.Equals(AfterHitType.None)) ? null : _info.afterHitInfo;
+            startPos = _info.StartPos;
+            targetTr = _info.targetTr;
+            transform.position = startPos;
+            color = _info.color;
+            executeType = _info.executeType;
+            actionEnd = _info.ActionEnd;
             switch (_info.executeType)
             {
                 case ProjectileExecuteType.Bullet:
-                    color = _info.color;
-                    startPos = _info.StartPos;
                     endPos = _info.EndPos;
-                    actionEnd = _info.ActionEnd;
-                    transform.position = startPos;
-                    targetTr = _info.targetTr;
                     spd = _info.Spd;
                     trailType = _info.TrailType;
-                    executeType = _info.executeType;
                     gameObject.SetActive(true);
                     if (_info.targetTr == null)
                     {
@@ -104,13 +108,39 @@ namespace Assets.Scripts.Battle.Projectile
                     return true;
                 case ProjectileExecuteType.Instant:
                     // 즉발 = 바로 효과 적용하고 투사체 파기
-                    _info.ActionEnd?.Invoke(_info.targetTr);
+                    transform.position = targetTr.transform.position;
+                    ExecuteArrival();
                     return false;
                 case ProjectileExecuteType.Aura:
                     // 아우라 = 바로 아우라 켜고 투사체 파기
                     break;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 도착 후 효과 실행
+        /// </summary>
+        private void ExecuteArrival()
+        {
+            actionEnd?.Invoke(targetTr);
+            if (afterHitInfo != null)
+            {
+                // 도착 후 효과가 있다 = 실행
+                switch (afterHitInfo.afterHitType)
+                {
+                    case AfterHitType.Explosive:
+                        // 폭발
+                        break;
+                    case AfterHitType.Area:
+                        // 장판
+                        AreaInfo areaInfo = afterHitInfo.GetAreaInfo();
+                        areaInfo.targetPos = transform.position;
+                        AreaManager.Instance.GetNewContent(areaInfo);
+                        break;
+                }
+            }
+            ReturnToPool();
         }
     }
 }

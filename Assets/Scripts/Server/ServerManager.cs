@@ -109,13 +109,13 @@ public class ServerManager : SingletonObject<ServerManager>
     {
         while (true)
         {
-            yield return new WaitForSeconds(time);
             if (actionCondition?.Invoke() == true)
             {
                 actionEscape?.Invoke();
                 yield break;
             }
             actionRepeat?.Invoke();
+            yield return new WaitForSeconds(time);
         }
     }
 
@@ -129,8 +129,8 @@ public class ServerManager : SingletonObject<ServerManager>
     {
         while (actionsToExecute.TryDequeue(out System.Action now))
         {
-            yield return new WaitForSeconds(time);
             now?.Invoke();
+            yield return new WaitForSeconds(time);
         }
     }
 

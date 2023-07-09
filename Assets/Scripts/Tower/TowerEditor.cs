@@ -11,11 +11,18 @@ namespace Assets.Scripts.Tower
 
         private void OnSceneGUI()
         {
-            cont = target as TowerController;
-            Handles.color = Color.white;
-            foreach (ProjectileInfo prj in cont.TowerInfo.projectileInfo)
+            try
             {
-                Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, prj.Range);
+                cont = target as TowerController;
+                Handles.color = Color.white;
+                foreach (ProjectileInfo prj in cont.TowerInfo.projectileInfo)
+                {
+                    Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, prj.Range);
+                }
+            }
+            catch (System.NullReferenceException)
+            {
+
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -28,5 +28,16 @@ namespace Assets.Scripts.Battle.Projectile
         /// 적용 효과 리스트
         /// </summary>
         public DamageEffectInfo[] damageEffects;
+
+        public Area.AreaInfo GetAreaInfo()
+        {
+            return new Area.AreaInfo()
+            {
+                color = color,
+                range = range,
+                duration = duration,
+                damageEffects = damageEffects,
+            };
+        }
     }
 }

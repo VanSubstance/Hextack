@@ -7,6 +7,10 @@
     public enum AfterHitType
     {
         /// <summary>
+        /// 효과 없음
+        /// </summary>
+        None,
+        /// <summary>
         /// 폭발
         /// </summary>
         Explosive,

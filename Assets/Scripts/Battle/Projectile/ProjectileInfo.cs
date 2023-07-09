@@ -40,6 +40,11 @@ namespace Assets.Scripts.Battle.Projectile
         public ProjectileTrailType TrailType;
 
         /// <summary>
+        /// 도착 후 효과; 기본값 = null
+        /// </summary>
+        public AfterHitInfo afterHitInfo;
+
+        /// <summary>
         /// 투사체 색; 기본값 = 흰색
         /// </summary>
         public Color color;
@@ -62,6 +67,7 @@ namespace Assets.Scripts.Battle.Projectile
                 Range = Range,
                 TrailType = TrailType,
                 effectInfo = effectInfo.Clone(),
+                afterHitInfo = afterHitInfo,
             };
         }
     }
