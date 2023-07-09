@@ -34,7 +34,7 @@ namespace Assets.Scripts.Battle.Area
         protected override bool InitExtra(AreaInfo _info)
         {
             info = _info;
-            transform.position = new Vector3(_info.targetPos.x, 0, _info.targetPos.z);
+            transform.position = new Vector3(_info.targetPos.x, .2f, _info.targetPos.z);
             // 각 효과 코루틴 실행
             CrEffects = new Queue<Coroutine>();
             foreach (DamageEffectInfo eff in info.damageEffects)
@@ -68,6 +68,7 @@ namespace Assets.Scripts.Battle.Area
                     cols = null;
                 }, null, null, eff.Cooltime));
             }
+            EffectManager.Instance.ExecutNewEffect("Slow", transform.position, info.color);
 
             // 장판 지속시간 체크 코루틴 실행
             if (info.duration > 0)

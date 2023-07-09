@@ -52,7 +52,6 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
         {
             q.Enqueue(content);
         });
-        res.gameObject.SetActive(true);
         return res;
     }
 

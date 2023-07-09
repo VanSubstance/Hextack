@@ -24,12 +24,19 @@ MonoBehaviour:
   - executeType: 0
     CountPerOnce: 1
     Spd: 8
-    Range: 3
+    Range: 5
     effectInfo:
-      damageEffectType: 0
-      Amount: 10
+      tokens:
+      - damageEffectType: 0
+        Amount: 3
       Cooltime: 0.8
     TrailType: 0
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 0
+      duration: 0
+      damageEffects: []
     color: {r: 0.3824575, g: 1, b: 0.23921567, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}

@@ -30,7 +30,7 @@ MonoBehaviour:
       - damageEffectType: 0
         Amount: 3
       - damageEffectType: 1
-        Amount: 0.5
+        Amount: 0.9
       Cooltime: 1.2
     TrailType: 0
     afterHitInfo:

@@ -27,9 +27,8 @@ MonoBehaviour:
     Spd: 6
     Range: 5
     effectInfo:
-      damageEffectType: 0
-      Amount: 5
-      Cooltime: 2
+      tokens: []
+      Cooltime: 5
     TrailType: 1
     afterHitInfo:
       afterHitType: 2
@@ -37,11 +36,11 @@ MonoBehaviour:
       range: 2
       duration: 5
       damageEffects:
-      - damageEffectType: 1
-        Amount: 0.2
-        Cooltime: 1
-      - damageEffectType: 0
-        Amount: 3
+      - tokens:
+        - damageEffectType: 0
+          Amount: 2
+        - damageEffectType: 1
+          Amount: 0.5
         Cooltime: 0.5
     color: {r: 0, g: 1, b: 0.9700117, a: 0.83137256}
     StartPos: {x: 0, y: 0, z: 0}

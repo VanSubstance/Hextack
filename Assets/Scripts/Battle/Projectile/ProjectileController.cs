@@ -28,8 +28,8 @@ namespace Assets.Scripts.Battle.Projectile
         private MonsterController targetTr;
         private float spd;
         private ProjectileTrailType trailType;
-        private ProjectileExecuteType executeType;
         private AfterHitInfo afterHitInfo;
+        private bool IsArrived;
 
         private float distort
         {
@@ -86,12 +86,12 @@ namespace Assets.Scripts.Battle.Projectile
 
         protected override bool InitExtra(ProjectileInfo _info)
         {
+            IsArrived = false;
             afterHitInfo = (_info.afterHitInfo == null || _info.afterHitInfo.afterHitType.Equals(AfterHitType.None)) ? null : _info.afterHitInfo;
             startPos = _info.StartPos;
             targetTr = _info.targetTr;
             transform.position = startPos;
             color = _info.color;
-            executeType = _info.executeType;
             actionEnd = _info.ActionEnd;
             switch (_info.executeType)
             {
@@ -124,6 +124,8 @@ namespace Assets.Scripts.Battle.Projectile
         /// </summary>
         private void ExecuteArrival()
         {
+            if (IsArrived) return;
+            IsArrived = true;
             actionEnd?.Invoke(targetTr);
             if (afterHitInfo != null)
             {

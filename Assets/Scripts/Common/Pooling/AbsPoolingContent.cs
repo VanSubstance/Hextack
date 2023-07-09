@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Security.Cryptography;
+using UnityEngine;
 
 /// <summary>
 /// 풀링 컨텐츠 기본형
@@ -24,6 +25,7 @@ public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
             ReturnToPool();
             return null;
         }
+        gameObject.SetActive(true);
         return this;
     }
 
