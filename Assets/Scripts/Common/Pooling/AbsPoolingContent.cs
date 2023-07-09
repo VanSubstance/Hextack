@@ -21,7 +21,6 @@ public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
     {
         if (!isConnected || !InitExtra(info))
         {
-            Debug.Log("Destory Immediately.");
             ReturnToPool();
             return null;
         }

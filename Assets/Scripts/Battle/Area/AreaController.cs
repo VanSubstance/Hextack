@@ -24,7 +24,6 @@ namespace Assets.Scripts.Battle.Area
         {
             while (CrEffects.TryDequeue(out Coroutine cr))
             {
-                Debug.Log("꺼짐 ??");
                 ServerManager.Instance.StopCoroutine(cr);
             }
             CrEffects = null;
@@ -46,10 +45,8 @@ namespace Assets.Scripts.Battle.Area
                     Collider[] cols;
                     if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length == 0)
                     {
-                        Debug.Log("식별 실패");
                         return;
                     }
-                    Debug.Log("식별 성공");
                     foreach (Collider col in cols)
                     {
                         foreach (DamageEffectInfo.Token tk in eff.tokens)
@@ -68,7 +65,7 @@ namespace Assets.Scripts.Battle.Area
                     cols = null;
                 }, null, null, eff.Cooltime));
             }
-            EffectManager.Instance.ExecutNewEffect("Slow", transform.position, info.color);
+            EffectManager.Instance.ExecutNewEffect("Slow", transform.position, info.color, info.range, info.duration);
 
             // 장판 지속시간 체크 코루틴 실행
             if (info.duration > 0)

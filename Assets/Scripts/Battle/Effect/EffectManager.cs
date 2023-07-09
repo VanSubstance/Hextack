@@ -12,7 +12,7 @@ namespace Assets.Scripts.Battle
         /// </summary>
         /// <param name="effectName"></param>
         /// <param name="targetPos"></param>
-        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color)
+        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color, float scale = 1, float duration = 0)
         {
             if (!GlobalStatus.effectPool.Keys.Contains(effectName))
             {
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Battle
             {
                 res = Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform);
             }
-            res.InitEffect(targetPos, color, effectName);
+            res.InitEffect(targetPos, color, effectName, scale, duration);
         }
     }
 }
