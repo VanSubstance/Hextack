@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress, textMinigLv;
         [SerializeField]
         private GageController gageLife, gageRound;
         [SerializeField]
@@ -21,6 +21,17 @@ namespace Assets.Scripts.UI.Manager
         public int CurrentCountMonster;
         private readonly int Time_Round = 45;
         private Coroutine crTimer;
+
+        /// <summary>
+        /// 현재 채굴 레벨
+        /// </summary>
+        public int MiningLv
+        {
+            set
+            {
+                textMinigLv.text = $"Lv {value}";
+            }
+        }
 
         /// <summary>
         /// 현재 라운드 / 전체 라운드
@@ -95,6 +106,7 @@ namespace Assets.Scripts.UI.Manager
         public void Init(System.Action _actionWhenRoundTimeDone)
         {
             btnEarlyStart.gameObject.SetActive(false);
+            MiningLv = ServerData.InGame.MiningLevel;
             TextCenter = $"던전 시작";
             currentLife = 30;
             textLife.text = $"남은 체력: {currentLife}";

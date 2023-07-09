@@ -21,11 +21,26 @@ MonoBehaviour:
   - Pink
   - Black
   projectileInfo:
-  - CountPerOnce: 1
-    IsInstant: 0
+  - executeType: 2
+    CountPerOnce: 1
     Spd: 6
-    Damage: 7
-    Cooltime: 1
     Range: 3
-    trailType: 1
+    effectInfo:
+      tokens:
+      - damageEffectType: 0
+        Amount: 3
+      - damageEffectType: 1
+        Amount: 0.9
+      Cooltime: 1.2
+    TrailType: 0
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 0
+      duration: 0
+      damageEffects: []
     color: {r: 1, g: 0.8546775, b: 0.24056602, a: 0.5019608}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+  Position: {x: 0, y: 0, z: 0}

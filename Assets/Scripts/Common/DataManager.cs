@@ -26,10 +26,10 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadPrefabs()
         {
-            // UI
-            foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.UI.rootPath}"))
+            // Icon
+            foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.Icon.rootPath}"))
             {
-                GlobalDictionary.Prefab.UI.data[unit.name] = unit;
+                GlobalDictionary.Prefab.Icon.data[unit.name] = unit;
             }
 
             // Effect
@@ -68,9 +68,9 @@ namespace Assets.Scripts.Common
         public void LoadTextures()
         {
             // 기물 Sprite
-            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Unit.rootPath}"))
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Tower.rootPath}"))
             {
-                GlobalDictionary.Texture.Unit.data[unit.name] = unit;
+                GlobalDictionary.Texture.Tower.data[unit.name] = unit;
             }
             // 아이콘 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))

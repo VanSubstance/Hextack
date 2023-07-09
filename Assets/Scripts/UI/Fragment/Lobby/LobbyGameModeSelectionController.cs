@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.UI.Window;
-using System.Linq;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,14 +33,6 @@ namespace Assets.Scripts.UI.Fragment.Lobby
                 textHistory.text = string.Empty;
                 btnSingleLoad.gameObject.SetActive(false);
             }
-        }
-
-        /// <summary>
-        /// 신규 던전 선택창 열기
-        /// </summary>
-        public void OpenDungeonSelection()
-        {
-            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.data.Values.ToList());
         }
     }
 }

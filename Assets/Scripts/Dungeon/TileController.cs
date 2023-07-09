@@ -25,7 +25,9 @@ namespace Assets.Scripts.Dungeon
             if (towerEquipped == null)
             {
                 // 신규 설치
-                towerEquipped = TowerManager.Instance.GetNewTower(towerCode, transform.position);
+                TowerInfo info = ServerData.Tower.data[towerCode].Clone();
+                info.Position = transform.position;
+                towerEquipped = (TowerController)TowerManager.Instance.GetNewContent(info);
             }
         }
 
@@ -78,7 +80,8 @@ namespace Assets.Scripts.Dungeon
                 {
                     return pair.Value.Tier == targetTier;
                 }).Select((pair) => pair.Key).ToArray();
-                InstallTower(codeArr[Random.Range(0, codeArr.Length)]);
+                //InstallTower(codeArr[Random.Range(0, codeArr.Length)]);
+                InstallTower(codeArr[2]);
                 return;
             }
         }

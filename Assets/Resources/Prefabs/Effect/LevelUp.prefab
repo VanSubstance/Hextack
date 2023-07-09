@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5254441974928411034}
+  - component: {fileID: -6657377020130724285}
   - component: {fileID: 5254441974928411035}
   - component: {fileID: 5254441974928411032}
-  - component: {fileID: -6657377020130724285}
   m_Layer: 0
   m_Name: LevelUp
   m_TagString: Untagged
@@ -35,6 +35,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &-6657377020130724285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5254441974928411033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e51370e6e61d6345b4b9ccd456413ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectName: LevelUp
 --- !u!198 &5254441974928411035
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4814,19 +4827,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-6657377020130724285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5254441974928411033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e51370e6e61d6345b4b9ccd456413ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectName: LevelUp
 --- !u!1 &5254441976488969662
 GameObject:
   m_ObjectHideFlags: 0

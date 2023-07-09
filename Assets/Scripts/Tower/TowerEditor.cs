@@ -1,26 +1,39 @@
 ﻿using Assets.Scripts.Battle.Projectile;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
     [CustomEditor(typeof(TowerController))]
+    [CanEditMultipleObjects]
     public class TowerEditor : UnityEditor.Editor
     {
         private TowerController cont;
 
         private void OnSceneGUI()
         {
-            cont = target as TowerController;
-            Handles.color = Color.white;
-            foreach (ProjectileInfo prj in cont.TowerInfo.projectileInfo)
+            try
             {
-                Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, prj.Range);
+                cont = target as TowerController;
+                Handles.color = Color.white;
+                foreach (ProjectileInfo prj in cont.TowerInfo.projectileInfo)
+                {
+                    Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, prj.Range);
+                }
+
+                Handles.color = Color.red;
+                Collider[] cols;
+                if ((cols = Physics.OverlapSphere(cont.transform.position, cont.Range, GlobalDictionary.Layer.Monster)).Length > 0)
+                {
+                    foreach (Collider col in cols)
+                    {
+                        Handles.DrawLine(cont.transform.position, col.transform.position);
+                    }
+                }
+            }
+            catch (System.NullReferenceException)
+            {
+
             }
         }
     }

@@ -6,6 +6,8 @@ namespace Assets.Scripts.Battle
     {
         [SerializeField]
         private string effectName;
+        [SerializeField]
+        private ParticleSystem[] children;
         private ParticleSystem particle;
         private ParticleSystem.MainModule particleModule;
         private void Awake()
@@ -15,12 +17,22 @@ namespace Assets.Scripts.Battle
             gameObject.SetActive(false);
         }
 
-        public EffectController InitEffect(Vector3 targetPos, Color color, string _effectName)
+        public EffectController InitEffect(Vector3 targetPos, Color color, string _effectName, float scale, float duration)
         {
             effectName = _effectName;
             transform.position = targetPos;
-            gameObject.SetActive(true);
+            transform.localScale = Vector3.one * scale;
             particleModule.startColor = color;
+            if (duration > 0)
+            {
+                ParticleSystem.MainModule t;
+                foreach (ParticleSystem child in children)
+                {
+                    t = child.main;
+                    t.startLifetime = duration;
+                }
+            }
+            gameObject.SetActive(true);
             if (particle != null)
             {
                 particle.Play();

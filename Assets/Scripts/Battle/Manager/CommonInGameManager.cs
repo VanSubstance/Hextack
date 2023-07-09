@@ -1,20 +1,19 @@
-﻿using Assets.Scripts.Battle.Monster;
+﻿using Assets.Scripts.Monster;
 using Assets.Scripts.UI.Manager;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Battle
 {
     public class CommonInGameManager : SingletonObject<CommonInGameManager>
     {
-        public IngameStageType CurrentStageType;
         [SerializeField]
         private string dungeonCodeForTest;
+
         /// <summary>
         /// 인게임 재화
         /// </summary>
-        private int amountStone, amountSteel;
+        [HideInInspector]
+        public int amountStone, amountSteel, MiningLevel;
         private Coroutine crMining;
 
         public int AmountStone
@@ -43,18 +42,17 @@ namespace Assets.Scripts.Battle
             {
                 ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCodeForTest];
             }
+            ServerData.InGame.MiningLevel = 1;
+            AmountStone = 30;
+            AmountSteel = 0;
 
             // 매니저들 초기화
             UIInGameManager.Instance.Init(() =>
             {
                 ExecuteNextRound();
             });
-            ServerData.InGame.MiningLevel = 1;
-            AmountStone = 30;
-            AmountSteel = 0;
 
             ServerData.InGame.CurrentRound = 1;
-            CurrentStageType = IngameStageType.Summon;
             // 게임 시작
             // 철광석 채굴 = 1초마다 1씩
             crMining = ServerManager.Instance.ExecuteCrInRepeat(() =>
@@ -80,6 +78,20 @@ namespace Assets.Scripts.Battle
             MonsterManager.Instance.SummonMonster(ServerData.InGame.MonsterInfo[ServerData.InGame.CurrentRound - 1]);
             UIInGameManager.Instance.StartRound();
             ServerData.InGame.CurrentRound++;
+        }
+
+        /// <summary>
+        /// 채굴 레벨 업그레이드
+        /// </summary>
+        public void MiningLevelUp()
+        {
+            if (AmountStone < ServerData.InGame.PriceMiningLvUp)
+            {
+                UIInGameManager.Instance.TextWarning = $"석재가 부족합니다!";
+                return;
+            }
+            AmountStone -= ServerData.InGame.PriceMiningLvUp;
+            UIInGameManager.Instance.MiningLv = ++ServerData.InGame.MiningLevel;
         }
     }
 }
