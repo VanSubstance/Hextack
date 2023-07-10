@@ -19,7 +19,6 @@ namespace Assets.Scripts.UI.Manager
 
         private int currentLife, currentTimeLeft;
         public int CurrentCountMonster;
-        private readonly int Time_Round = 45;
         private Coroutine crTimer;
 
         /// <summary>
@@ -117,11 +116,11 @@ namespace Assets.Scripts.UI.Manager
             }, null, new Color(0, 1, .8f, 1));
 
             CurrentCountMonster = 0;
-            currentTimeLeft = Time_Round;
-            gageRound.Init(Time_Round, 0, null, null, () =>
+            currentTimeLeft = ServerData.InGame.TimeRound;
+            gageRound.Init(ServerData.InGame.TimeRound, 0, null, null, () =>
             {
                 _actionWhenRoundTimeDone.Invoke();
-                currentTimeLeft = Time_Round;
+                currentTimeLeft = ServerData.InGame.TimeRound;
                 gageRound.ApplyValue(0, true);
             }, new Color(0, 1, .8f, 1));
         }
@@ -151,7 +150,7 @@ namespace Assets.Scripts.UI.Manager
                 ServerManager.Instance.StopCoroutine(crTimer);
                 crTimer = null;
             }
-            currentTimeLeft = Time_Round;
+            currentTimeLeft = ServerData.InGame.TimeRound;
             btnEarlyStart.gameObject.SetActive(true);
             gageRound.ApplyValue(0, true);
             gageRound.gameObject.SetActive(true);

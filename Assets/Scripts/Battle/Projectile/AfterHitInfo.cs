@@ -27,7 +27,7 @@ namespace Assets.Scripts.Battle.Projectile
         /// <summary>
         /// 적용 효과 리스트
         /// </summary>
-        public DamageEffectInfo[] damageEffects;
+        public DamageEffectInfo damageEffects;
 
         public Area.AreaInfo GetAreaInfo()
         {
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Battle.Projectile
                 color = color,
                 range = range,
                 duration = duration,
-                damageEffects = damageEffects,
+                damageEffect = damageEffects,
             };
         }
     }

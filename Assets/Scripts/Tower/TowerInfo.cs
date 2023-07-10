@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Battle.Projectile;
 using UnityEngine;
+using Assets.Scripts.Dungeon;
 
 namespace Assets.Scripts.Tower
 {
@@ -22,6 +23,12 @@ namespace Assets.Scripts.Tower
 
         [HideInInspector]
         public Vector3 Position;
+
+        /// <summary>
+        /// 현재 타워가 설치된 타일
+        /// </summary>
+        [HideInInspector]
+        public TileController TileInstalled;
 
         public TowerInfo Clone()
         {

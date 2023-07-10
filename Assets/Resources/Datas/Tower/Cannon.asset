@@ -25,10 +25,17 @@ MonoBehaviour:
     Spd: 4
     Range: 4
     effectInfo:
-      damageEffectType: 0
-      Amount: 30
+      tokens:
+      - damageEffectType: 0
+        Amount: 20
       Cooltime: 2
     TrailType: 0
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 0
+      duration: 0
+      damageEffects: []
     color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}

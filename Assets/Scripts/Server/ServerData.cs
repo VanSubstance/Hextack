@@ -79,6 +79,17 @@ public static class ServerData
                 return MonsterInfo.Length;
             }
         }
+        
+        /// <summary>
+        /// 던전 라운드당 시간 (초0
+        /// </summary>
+        public static int TimeRound
+        {
+            get
+            {
+                return DungeonInfo.TimeRound;
+            }
+        }
 
         /// <summary>
         /// 현재 채굴 레벨
@@ -94,5 +105,10 @@ public static class ServerData
         /// 현재 던전 누적 보상량 (끝날 때 획득)
         /// </summary>
         public static int AccuGold, AccuArtifact;
+
+        /// <summary>
+        /// 마지막으로 선택한 타워
+        /// </summary>
+        public static TowerController LastTowerClicked = null;
     }
 }
