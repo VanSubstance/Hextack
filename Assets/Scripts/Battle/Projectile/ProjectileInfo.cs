@@ -81,7 +81,7 @@ namespace Assets.Scripts.Battle.Projectile
             return new AreaInfo()
             {
                 color = color,
-                damageEffects = new[] { effectInfo.Clone() },
+                damageEffect = effectInfo.Clone(),
                 duration = -1,
                 range = Range,
             };

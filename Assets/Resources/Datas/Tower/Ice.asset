@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: Ice
   Name: "\uC5BC\uC74C \uD0C0\uC6CC"
-  Desc: "\uC5BC\uC74C \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n \uAD11\uC5ED\uC73C\uB85C
-    \uC801\uC744 \uC5BC\uB9AC\uB294 \uC1A1\uACF3\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+  Desc: "\uC5BC\uC74C \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uAD11\uC5ED\uC73C\uB85C \uC801\uC744
+    \uC5BC\uB9AC\uB294 \uC1A1\uACF3\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   Tier: 2
   Materials:
   - Blue
@@ -38,10 +38,10 @@ MonoBehaviour:
       range: 1
       duration: 1.5
       damageEffects:
-      - tokens:
+        tokens:
         - damageEffectType: 1
-          Amount: 0.5
-        Cooltime: 0.5
+          Amount: 0.2
+        Cooltime: 0.7
     color: {r: 0, g: 1, b: 0.9700117, a: 0.83137256}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}

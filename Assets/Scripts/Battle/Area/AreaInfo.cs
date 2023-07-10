@@ -23,7 +23,7 @@ namespace Assets.Scripts.Battle.Area
         /// <summary>
         /// 적용 효과 리스트
         /// </summary>
-        public DamageEffectInfo[] damageEffects;
+        public DamageEffectInfo damageEffect;
 
         /// <summary>
         /// 장판 목표 지점

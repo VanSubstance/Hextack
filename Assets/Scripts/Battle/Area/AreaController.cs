@@ -36,35 +36,33 @@ namespace Assets.Scripts.Battle.Area
             transform.position = new Vector3(_info.targetPos.x, .2f, _info.targetPos.z);
             // 각 효과 코루틴 실행
             CrEffects = new Queue<Coroutine>();
-            foreach (DamageEffectInfo eff in info.damageEffects)
+            DamageEffectInfo eff = info.damageEffect;
+            // 각 데미지 효과 별 코루틴 실행
+            CrEffects.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
             {
-                // 각 데미지 효과 별 코루틴 실행
-                CrEffects.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
+                // 장판 내 적들에게 데미지 
+                Collider[] cols;
+                if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length == 0)
                 {
-                    // 장판 내 적들에게 데미지 
-                    Collider[] cols;
-                    if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length == 0)
+                    return;
+                }
+                foreach (Collider col in cols)
+                {
+                    foreach (DamageEffectInfo.Token tk in eff.tokens)
                     {
-                        return;
-                    }
-                    foreach (Collider col in cols)
-                    {
-                        foreach (DamageEffectInfo.Token tk in eff.tokens)
+                        switch (tk.damageEffectType)
                         {
-                            switch (tk.damageEffectType)
-                            {
-                                case DamageEffectType.Damage:
-                                    col.GetComponent<Monster.MonsterController>().ApplyHp((int)tk.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
-                                    break;
-                                case DamageEffectType.Speed:
-                                    col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);
-                                    break;
-                            }
+                            case DamageEffectType.Damage:
+                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)tk.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                break;
+                            case DamageEffectType.Speed:
+                                col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);
+                                break;
                         }
                     }
-                    cols = null;
-                }, null, null, eff.Cooltime));
-            }
+                }
+                cols = null;
+            }, null, null, eff.Cooltime));
             EffectManager.Instance.ExecutNewEffect("Slow", transform.position, info.color, info.range, info.duration);
 
             // 장판 지속시간 체크 코루틴 실행
