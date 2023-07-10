@@ -10,7 +10,7 @@ namespace Assets.Scripts.UI.Window
     {
         public abstract AbsWindowContent<TParameter> Init(TParameter parameter);
 
-        public AbsWindowContent<TParameter> Clear()
+        public AbsWindowContent<TParameter> Close()
         {
             gameObject.SetActive(false);
             return this;

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Battle.Area;
 using Assets.Scripts.Battle.Projectile;
 using Assets.Scripts.Monster;
+using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,9 +27,12 @@ namespace Assets.Scripts.Tower
         private AreaController AreaInCase;
         public override void Clear()
         {
-            while (atkQ.TryDequeue(out Coroutine atk))
+            if (atkQ != null)
             {
-                ServerManager.Instance.StopCoroutine(atk);
+                while (atkQ.TryDequeue(out Coroutine atk))
+                {
+                    ServerManager.Instance.StopCoroutine(atk);
+                }
             }
             if (AreaInCase != null)
             {
@@ -36,21 +40,12 @@ namespace Assets.Scripts.Tower
             }
         }
 
-        private void OnMouseDown()
-        {
-            Debug.Log("다운");
-        }
-
-        private void OnMouseUp()
-        {
-            Debug.Log("업");
-        }
-
         protected override bool InitExtra(TowerInfo _info)
         {
             towerInfo = ServerData.Tower.data[_info.Code].Clone();
             // 메쉬 + 메테리얼 연결
-            /*GetComponent<MeshCollider>().sharedMesh = */GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
+            /*GetComponent<MeshCollider>().sharedMesh = */
+            GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
             GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
             transform.position = new Vector3(_info.Position.x, 0, _info.Position.z);
             gameObject.SetActive(true);
@@ -105,6 +100,17 @@ namespace Assets.Scripts.Tower
                 }, () => false, null, prj.effectInfo.Cooltime));
             }
             return true;
+        }
+
+        private void OnMouseDown()
+        {
+            Debug.Log("다운");
+        }
+
+        private void OnMouseUp()
+        {
+            Debug.Log("업");
+            WindowContainer.Instance.Open(towerInfo);
         }
     }
 }

@@ -80,8 +80,8 @@ namespace Assets.Scripts.Dungeon
                 {
                     return pair.Value.Tier == targetTier;
                 }).Select((pair) => pair.Key).ToArray();
-                //InstallTower(codeArr[Random.Range(0, codeArr.Length)]);
-                InstallTower(codeArr[2]);
+                InstallTower(codeArr[Random.Range(0, codeArr.Length)]);
+                //InstallTower(codeArr[1]);
                 return;
             }
         }
