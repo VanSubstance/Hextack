@@ -16,23 +16,33 @@ MonoBehaviour:
   Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
   Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4.\\n \uC5D0\uB108\uC9C0
     \uBCFC\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
-  Tier: 1
+  Tier: 2
   Materials:
   - Yellow
   - Black
   - Brown
   projectileInfo:
-  - executeType: 0
+  - executeType: 2
     CountPerOnce: 1
     Spd: 6
     Range: 3
     effectInfo:
-      damageEffectType: 1
-      Amount: 0.5
-      Cooltime: 1
+      tokens:
+      - damageEffectType: 0
+        Amount: 7
+      - damageEffectType: 1
+        Amount: 0.2
+      Cooltime: 1.5
     TrailType: 1
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 0
+      duration: 0
+      damageEffects: []
     color: {r: 1, g: 0.23921567, b: 0.95212305, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}
   Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}

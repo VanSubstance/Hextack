@@ -105,5 +105,10 @@ public static class ServerData
         /// 현재 던전 누적 보상량 (끝날 때 획득)
         /// </summary>
         public static int AccuGold, AccuArtifact;
+
+        /// <summary>
+        /// 마지막으로 선택한 타워
+        /// </summary>
+        public static TowerController LastTowerClicked = null;
     }
 }

@@ -15,5 +15,11 @@ namespace Assets.Scripts.UI.Window
             gameObject.SetActive(false);
             return this;
         }
+
+        /// <summary>
+        /// 닫을 때 추가로 실행할 기능
+        /// </summary>
+        /// <returns></returns>
+        public abstract AbsWindowContent<TParameter> CloseExtra();
     }
 }

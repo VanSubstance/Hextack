@@ -17,5 +17,5 @@ MonoBehaviour:
   CntMonsterMax: 1
   Name: "\uACE8\uB818"
   Hp: 1000
-  Spd: 1
+  Spd: 0.01
   Tracks: []

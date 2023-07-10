@@ -13,6 +13,12 @@ namespace Assets.Scripts.UI.Window
         [SerializeField]
         private Image image;
 
+        public override AbsWindowContent<TowerInfo> CloseExtra()
+        {
+            ServerData.InGame.LastTowerClicked = null;
+            return this;
+        }
+
         public override AbsWindowContent<TowerInfo> Init(TowerInfo parameter)
         {
             image.sprite = GlobalDictionary.Texture.Tower.data[parameter.Code];
