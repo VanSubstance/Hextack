@@ -47,6 +47,7 @@ namespace Assets.Scripts.Battle.Area
                     {
                         return;
                     }
+                    Debug.Log("장판 -> 적 식별");
                     foreach (Collider col in cols)
                     {
                         foreach (DamageEffectInfo.Token tk in eff.tokens)

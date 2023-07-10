@@ -79,6 +79,17 @@ public static class ServerData
                 return MonsterInfo.Length;
             }
         }
+        
+        /// <summary>
+        /// 던전 라운드당 시간 (초0
+        /// </summary>
+        public static int TimeRound
+        {
+            get
+            {
+                return DungeonInfo.TimeRound;
+            }
+        }
 
         /// <summary>
         /// 현재 채굴 레벨

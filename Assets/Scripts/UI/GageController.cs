@@ -103,7 +103,7 @@ namespace Assets.Scripts.UI
             if (Value <= 0)
             {
                 callbackWhenZero?.Invoke();
-                gameObject.SetActive(false);
+                gameObject.SetActive(isFixValue);
             }
             if (Value == 1)
             {
