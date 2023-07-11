@@ -65,7 +65,15 @@ namespace Assets.Scripts.Battle
             }, () =>
             {
             }, 1f);
-            ExecuteNextRound();
+            // 라운드 시작 전 5초 유예
+            int t = 5;
+            ServerManager.Instance.ExecuteCrInRepeat(() =>
+            {
+                UIInGameManager.Instance.TextCenter = $"게임 시작 {t--}초 전";
+            }, () => t == 0, () =>
+            {
+                ExecuteNextRound();
+            }, 1f);
         }
 
         /// <summary>
@@ -92,6 +100,21 @@ namespace Assets.Scripts.Battle
             }
             AmountStone -= ServerData.InGame.PriceMiningLvUp;
             UIInGameManager.Instance.MiningLv = ++ServerData.InGame.MiningLevel;
+        }
+
+        /// <summary>
+        /// 게임속도 변경(x1 -> x2 -> x3 -> x1)
+        /// </summary>
+        public void AccelarateSpeed()
+        {
+            ServerData.InGame.GameSpeed += 1;
+            ServerData.InGame.GameSpeed %= 3;
+            if (ServerData.InGame.GameSpeed == 0)
+            {
+                ServerData.InGame.GameSpeed = 3;
+            }
+            UIInGameManager.Instance.TextSpeed = ServerData.InGame.GameSpeed;
+            Time.timeScale = ServerData.InGame.GameSpeed;
         }
     }
 }

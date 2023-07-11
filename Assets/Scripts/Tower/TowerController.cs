@@ -83,7 +83,9 @@ namespace Assets.Scripts.Tower
                         return;
                     }
                     // 사거리 내 몬스터 존재
+                    // 첫번째 대상 바라보기
                     int idx = 0;
+                    Stare(cols[idx].transform.position);
                     while (prj.CountPerOnce > idx)
                     {
                         ProjectileInfo tprj = prj.Clone();
@@ -116,6 +118,15 @@ namespace Assets.Scripts.Tower
         }
 
         /// <summary>
+        /// 해당 좌표 방향 바라보기
+        /// </summary>
+        /// <param name="targetPos"></param>
+        private void Stare(Vector3 targetPos)
+        {
+            transform.LookAt(targetPos);
+        }
+
+        /// <summary>
         /// 타워 파기
         /// </summary>
         public void CollabseTower()
@@ -142,7 +153,6 @@ namespace Assets.Scripts.Tower
                     if (!curT.Equals(this))
                     {
                         // 얘랑 합친다
-                        Debug.Log("업그레이드");
                         WindowContainer.Instance.Close();
                         // 2. 합치기 = 양쪽 다 파기 -> 목표 타일에 다음 티어 타워 설치
                         CollabseTower();

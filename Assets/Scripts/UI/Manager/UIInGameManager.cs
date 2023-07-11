@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress, textMinigLv;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress, textMinigLv, textSpeed;
         [SerializeField]
         private GageController gageLife, gageRound;
         [SerializeField]
@@ -56,6 +56,14 @@ namespace Assets.Scripts.UI.Manager
             set
             {
                 textSteel.text = $"{string.Format("{0:N0}", value)}";
+            }
+        }
+
+        public int TextSpeed
+        {
+            set
+            {
+                textSpeed.text = $"X {value}";
             }
         }
 
