@@ -151,7 +151,14 @@ namespace Assets.Scripts.UI.Manager
                 crTimer = null;
             }
             currentTimeLeft = ServerData.InGame.TimeRound;
-            btnEarlyStart.gameObject.SetActive(true);
+            if (ServerData.InGame.CurrentRound == ServerData.InGame.MaxRound)
+            {
+                btnEarlyStart.gameObject.SetActive(false);
+            }
+            else
+            {
+                btnEarlyStart.gameObject.SetActive(true);
+            }
             gageRound.ApplyValue(0, true);
             gageRound.gameObject.SetActive(true);
             crTimer = ServerManager.Instance.ExecuteCrInRepeat(() =>

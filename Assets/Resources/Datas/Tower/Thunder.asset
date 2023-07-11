@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
   m_Name: Thunder
   m_EditorClassIdentifier: 
+  towerType: 2
   Code: Thunder
   Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
   Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uC5D0\uB108\uC9C0

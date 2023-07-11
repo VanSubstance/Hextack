@@ -79,7 +79,7 @@ public static class ServerData
                 return MonsterInfo.Length;
             }
         }
-        
+
         /// <summary>
         /// 던전 라운드당 시간 (초0
         /// </summary>
@@ -92,6 +92,11 @@ public static class ServerData
         }
 
         /// <summary>
+        /// 현재 채굴량
+        /// </summary>
+        public static int AmountSteel = 0;
+
+        /// <summary>
         /// 현재 채굴 레벨
         /// </summary>
         public static int MiningLevel;
@@ -100,6 +105,26 @@ public static class ServerData
         /// 채굴 레벨업 비용
         /// </summary>
         public static int PriceMiningLvUp = 10;
+
+        /// <summary>
+        /// 분류 별 레벨
+        /// </summary>
+        public static Dictionary<TowerType, int> LevelUpgradeTower = new Dictionary<TowerType, int>()
+        {
+            { TowerType.Machine, 0 },
+            { TowerType.Bio, 0 },
+            { TowerType.Magic, 0 },
+        };
+
+        /// <summary>
+        /// 분류 별 레벨업 비용
+        /// </summary>
+        public static Dictionary<TowerType, int> PriceUpgradeTower = new Dictionary<TowerType, int>()
+        {
+            { TowerType.Machine, 10 },
+            { TowerType.Bio, 10 },
+            { TowerType.Magic, 10 },
+        };
 
         /// <summary>
         /// 현재 던전 누적 보상량 (끝날 때 획득)

@@ -10,6 +10,11 @@ namespace Assets.Scripts.Tower
     [CreateAssetMenu(fileName = "TowerInfo", menuName = "Scriptables/Tower/Info", order = int.MaxValue)]
     public class TowerInfo : ScriptableObject
     {
+        /// <summary>
+        /// 타워 타입
+        /// </summary>
+        public TowerType towerType;
+
         [HideInInspector]
         public string Code;
         public string Name, Desc;

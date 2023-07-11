@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
   m_Name: Cannon
   m_EditorClassIdentifier: 
+  towerType: 0
   Code: Cannon
   Name: "\uB300\uD3EC \uD0C0\uC6CC"
   Desc: "\uD754\uD55C \uB300\uD3EC\uD0C0\uC6CC\uC785\uB2C8\uB2E4."
-  Tier: 1
+  Tier: 2
   Materials:
   - Grey
   - Black
@@ -35,9 +36,12 @@ MonoBehaviour:
       color: {r: 0, g: 0, b: 0, a: 0}
       range: 0
       duration: 0
-      damageEffects: []
+      damageEffects:
+        tokens: []
+        Cooltime: 0
     color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}
   Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}
