@@ -31,7 +31,7 @@ namespace Assets.Scripts.Monster
         public override void Clear()
         {
             CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
-            UIInGameManager.Instance.CurrentCountMonster--;
+            ServerData.InGame.CountMonsterLive--;
             if (CrDestinationCheck != null)
             {
                 ServerManager.Instance.StopCoroutine(CrDestinationCheck);
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Monster
             {
                 destQ.Enqueue(v);
             }
-            UIInGameManager.Instance.CurrentCountMonster++;
+            ServerData.InGame.CountMonsterLive++;
             baseSpeed = agent.speed = _info.Spd;
             Hp = _info.Hp;
             IsBoss = _info.CntMonsterSummoned == 1;

@@ -18,7 +18,6 @@ namespace Assets.Scripts.UI.Manager
         private Button btnEarlyStart;
 
         private int currentLife, currentTimeLeft;
-        public int CurrentCountMonster;
         private Coroutine crTimer;
 
         /// <summary>
@@ -123,7 +122,7 @@ namespace Assets.Scripts.UI.Manager
 
             }, null, new Color(0, 1, .8f, 1));
 
-            CurrentCountMonster = 0;
+            ServerData.InGame.CountMonsterLive = 0;
             currentTimeLeft = ServerData.InGame.TimeRound;
             gageRound.Init(ServerData.InGame.TimeRound, 0, null, null, () =>
             {
@@ -161,6 +160,8 @@ namespace Assets.Scripts.UI.Manager
             currentTimeLeft = ServerData.InGame.TimeRound;
             if (ServerData.InGame.CurrentRound == ServerData.InGame.MaxRound)
             {
+                // 마지막 라운드
+                // 조기 시작 버튼 끄기
                 btnEarlyStart.gameObject.SetActive(false);
             }
             else

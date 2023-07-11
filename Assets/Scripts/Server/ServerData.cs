@@ -137,6 +137,11 @@ public static class ServerData
         public static TowerController LastTowerClicked = null;
 
         /// <summary>
+        /// 현재 살아있는 몬스터 수
+        /// </summary>
+        public static int CountMonsterLive = 0;
+
+        /// <summary>
         /// 인게임 속도
         /// </summary>
         public static int GameSpeed = 1;

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Battle
         /// </summary>
         [HideInInspector]
         public int amountStone, MiningLevel;
-        private Coroutine crMining;
+        private Coroutine crMining, crGameOver;
 
         public int AmountStone
         {
@@ -65,6 +65,16 @@ namespace Assets.Scripts.Battle
             }, () =>
             {
             }, 1f);
+            // 게임 종료 조건 체커
+            crGameOver = ServerManager.Instance.ExecuteCrInRepeat(null, () =>
+            {
+                // 마지막 라운드가 아니다 and 라이브 몬스터 수 > 0
+                return ServerData.InGame.CurrentRound == ServerData.InGame.MaxRound && ServerData.InGame.CountMonsterLive == 0;
+            }, () =>
+            {
+                Debug.Log("게임 종료");
+            }, 1f);
+
             // 라운드 시작 전 5초 유예
             int t = 5;
             ServerManager.Instance.ExecuteCrInRepeat(() =>
