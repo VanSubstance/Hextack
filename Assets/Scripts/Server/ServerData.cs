@@ -135,5 +135,10 @@ public static class ServerData
         /// 마지막으로 선택한 타워
         /// </summary>
         public static TowerController LastTowerClicked = null;
+
+        /// <summary>
+        /// 인게임 속도
+        /// </summary>
+        public static int GameSpeed = 1;
     }
 }
