@@ -73,6 +73,7 @@ namespace Assets.Scripts.Dungeon
         /// </summary>
         public void RemoveTower()
         {
+            TowerManager.Instance.TowerLiveList.Remove(towerEquipped);
             towerEquipped.ReturnToPool();
             towerEquipped = null;
         }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Monster;
 using Assets.Scripts.Battle.Area;
+using Assets.Scripts.Tower;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -56,6 +57,11 @@ namespace Assets.Scripts.Battle.Projectile
         public System.Action<MonsterController> ActionEnd;
         [HideInInspector]
         public MonsterController targetTr;
+        /// <summary>
+        /// 부모 타워 분류
+        /// </summary>
+        [HideInInspector]
+        public TowerType towerType;
 
         public ProjectileInfo Clone()
         {
@@ -84,6 +90,7 @@ namespace Assets.Scripts.Battle.Projectile
                 damageEffect = effectInfo.Clone(),
                 duration = -1,
                 range = Range,
+                towerType = towerType,
             };
         }
     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
   m_Name: Ice
   m_EditorClassIdentifier: 
+  towerType: 2
   Code: Ice
   Name: "\uC5BC\uC74C \uD0C0\uC6CC"
   Desc: "\uC5BC\uC74C \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uAD11\uC5ED\uC73C\uB85C \uC801\uC744

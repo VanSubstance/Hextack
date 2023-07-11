@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle.Projectile;
+using Assets.Scripts.Tower;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,7 +54,7 @@ namespace Assets.Scripts.Battle.Area
                         switch (tk.damageEffectType)
                         {
                             case DamageEffectType.Damage:
-                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)tk.Amount, Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[info.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
                                 break;
                             case DamageEffectType.Speed:
                                 col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);

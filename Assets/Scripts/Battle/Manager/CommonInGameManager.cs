@@ -13,7 +13,7 @@ namespace Assets.Scripts.Battle
         /// 인게임 재화
         /// </summary>
         [HideInInspector]
-        public int amountStone, amountSteel, MiningLevel;
+        public int amountStone, MiningLevel;
         private Coroutine crMining;
 
         public int AmountStone
@@ -30,10 +30,10 @@ namespace Assets.Scripts.Battle
         {
             set
             {
-                amountSteel = value;
+                ServerData.InGame.AmountSteel = value;
                 UIInGameManager.Instance.AmountSteel = value;
             }
-            get { return amountSteel; }
+            get { return ServerData.InGame.AmountSteel; }
         }
         private void Start()
         {
