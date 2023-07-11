@@ -65,7 +65,15 @@ namespace Assets.Scripts.Battle
             }, () =>
             {
             }, 1f);
-            ExecuteNextRound();
+            // 라운드 시작 전 5초 유예
+            int t = 5;
+            ServerManager.Instance.ExecuteCrInRepeat(() =>
+            {
+                UIInGameManager.Instance.TextCenter = $"게임 시작 {t--}초 전";
+            }, () => t == 0, () =>
+            {
+                ExecuteNextRound();
+            }, 1f);
         }
 
         /// <summary>
