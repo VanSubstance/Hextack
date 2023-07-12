@@ -33,6 +33,7 @@ namespace Assets.Scripts.Monster
                         new Vector3(-5.5f, 0, 6.5f),
                     };
                     GetNewContent(clone);
+                    ServerData.InGame.CountMonsterLive++;
                 }, () =>
                 {
                     return info.CntMonsterMax == info.CntMonsterSummoned;

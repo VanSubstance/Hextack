@@ -29,7 +29,7 @@ public class ServerManager : SingletonObject<ServerManager>
     /// </summary>
     public void ExitDouble()
     {
-        ServerData.User.AmountArtifact += ServerData.InGame.AccuArtifact * 2;
+        ServerData.User.AmountGear += ServerData.InGame.AccuGear * 2;
         ServerData.User.AmountGold += ServerData.InGame.AccuGold * 2;
         GlobalStatus.NextScene = "Main";
         SceneManager.LoadScene("Loading");
@@ -40,7 +40,7 @@ public class ServerManager : SingletonObject<ServerManager>
     /// </summary>
     public void ExitNormal()
     {
-        ServerData.User.AmountArtifact += ServerData.InGame.AccuArtifact;
+        ServerData.User.AmountGear += ServerData.InGame.AccuGear;
         ServerData.User.AmountGold += ServerData.InGame.AccuGold;
         GlobalStatus.NextScene = "Main";
         SceneManager.LoadScene("Loading");

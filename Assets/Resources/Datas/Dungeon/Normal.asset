@@ -20,5 +20,17 @@ MonoBehaviour:
   monsterCodeList:
   - Code: Golem
     IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
   MonsterCodeList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}

@@ -80,7 +80,7 @@ namespace Assets.Scripts.Common.MainManager
         public void Init()
         {
             AmountGold = ServerData.User.AmountGold;
-            AmountArtifact = ServerData.User.AmountArtifact;
+            AmountArtifact = ServerData.User.AmountGear;
         }
 
         public void ChangeUnit()

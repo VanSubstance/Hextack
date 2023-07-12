@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Tower;
 using Assets.Scripts.UI.DamageText;
 using Assets.Scripts.UI.Manager;
 using System.Collections.Generic;
@@ -30,6 +31,17 @@ namespace Assets.Scripts.Monster
 
         public override void Clear()
         {
+            if (IsBoss)
+            {
+                ServerData.InGame.AccuGear++;
+            }
+            else
+            {
+                if (Random.Range(0f, 1f) < .01f)
+                {
+                    ServerData.InGame.AccuGear++;
+                }
+            }
             CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
             ServerData.InGame.CountMonsterLive--;
             ServerData.InGame.CountMonsterKill++;
@@ -43,10 +55,16 @@ namespace Assets.Scripts.Monster
         /// HP 감소치 적용
         /// </summary>
         /// <param name="damage"></param>
-        public void ApplyHp(int damage, bool isCrit)
+        public void ApplyHp(int damage, bool isCrit, TowerType towerType)
         {
-            // 데미지 텍스트 띄워주기
+            if (Hp <= 0)
+            {
+                return;
+            }
             damage = (int)(damage * (isCrit ? 1.5f : 1f));
+            ServerData.InGame.AmountDealByCategory[towerType] += damage;
+
+            // 데미지 텍스트 띄워주기
             TextManager.Instance.GetNewContent(new()
             {
                 ScreenPos = ScreenPos,
@@ -72,6 +90,10 @@ namespace Assets.Scripts.Monster
         /// <param name="rateSlow"></param>
         public void ApplySpeed(float rateSlow)
         {
+            if (Hp <= 0)
+            {
+                return;
+            }
             rateSpeed = Mathf.Max(rateSpeed, rateSlow);
             agent.speed = baseSpeed * (1 - rateSpeed);
             // 갱신된 속도로 신규 코루틴 시작
@@ -88,7 +110,7 @@ namespace Assets.Scripts.Monster
             // 슬로우 텍스트 띄우기
             TextManager.Instance.GetNewContent(new()
             {
-                ScreenPos = ScreenPos,
+                ScreenPos = ScreenPos + (Vector3.up * 1),
                 TargetText = $"느려짐!",
                 TextColor = Color.gray,
                 Time = .5f,
@@ -105,7 +127,6 @@ namespace Assets.Scripts.Monster
             {
                 destQ.Enqueue(v);
             }
-            ServerData.InGame.CountMonsterLive++;
             baseSpeed = agent.speed = _info.Spd;
             Hp = _info.Hp;
             IsBoss = _info.CntMonsterSummoned == 1;
