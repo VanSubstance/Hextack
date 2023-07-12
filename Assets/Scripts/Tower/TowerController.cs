@@ -98,7 +98,7 @@ namespace Assets.Scripts.Tower
                                 {
                                     case DamageEffectType.Damage:
                                         // 데미지 계산
-                                        targetTr.ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                        targetTr.ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
                                         break;
                                     case DamageEffectType.Speed:
                                         // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용

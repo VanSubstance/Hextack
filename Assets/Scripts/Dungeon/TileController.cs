@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Tower;
 using Assets.Scripts.UI.Manager;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Dungeon
 {
@@ -95,6 +95,7 @@ namespace Assets.Scripts.Dungeon
                 // 설치
                 // 비용 차감
                 CommonInGameManager.Instance.AmountStone -= 10;
+                ServerData.InGame.AmountStoneUsage += 10;
                 //InstallTower(codeArr[1]);
                 BuildTower(1);
                 return;

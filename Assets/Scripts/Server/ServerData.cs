@@ -27,7 +27,7 @@ public static class ServerData
 
     public static class User
     {
-        public static int AmountGold, AmountArtifact;
+        public static int AmountGold, AmountGear;
     }
 
     /// <summary>
@@ -96,6 +96,10 @@ public static class ServerData
         /// </summary>
         public static int AmountSteel = 0;
 
+        public static int AmountSteelUsage = 0;
+        public static int AmountStoneUsage = 0;
+
+
         /// <summary>
         /// 현재 채굴 레벨
         /// </summary>
@@ -127,14 +131,33 @@ public static class ServerData
         };
 
         /// <summary>
+        /// 분류 별 누적 데미지량
+        /// </summary>
+        public static Dictionary<TowerType, int> AmountDealByCategory = new Dictionary<TowerType, int>()
+        {
+            { TowerType.Machine, 0 },
+            { TowerType.Bio, 0 },
+            { TowerType.Magic, 0 },
+        };
+
+        /// <summary>
         /// 현재 던전 누적 보상량 (끝날 때 획득)
         /// </summary>
-        public static int AccuGold, AccuArtifact;
+        public static int AccuGold = 0, AccuGear = 0;
 
         /// <summary>
         /// 마지막으로 선택한 타워
         /// </summary>
         public static TowerController LastTowerClicked = null;
+
+        /// <summary>
+        /// 현재 살아있는 몬스터 수
+        /// </summary>
+        public static int CountMonsterLive = 0;
+        /// <summary>
+        /// 처치한 몬스터 수
+        /// </summary>
+        public static int CountMonsterKill = 0;
 
         /// <summary>
         /// 인게임 속도

@@ -54,7 +54,7 @@ namespace Assets.Scripts.Battle.Area
                         switch (tk.damageEffectType)
                         {
                             case DamageEffectType.Damage:
-                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[info.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical);
+                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[info.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, info.towerType);
                                 break;
                             case DamageEffectType.Speed:
                                 col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);

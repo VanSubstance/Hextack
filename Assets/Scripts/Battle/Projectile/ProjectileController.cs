@@ -59,6 +59,11 @@ namespace Assets.Scripts.Battle.Projectile
         {
             if (targetTr != null)
             {
+                if (!targetTr.gameObject.activeSelf)
+                {
+                    // 죽음 = 투사체 그냥 파기
+                    ReturnToPool();
+                }
                 endPos = targetTr.transform.position;
                 rigid.velocity = (endPos - startPos).normalized * spd;
             }
