@@ -32,6 +32,7 @@ namespace Assets.Scripts.Monster
         {
             CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
             ServerData.InGame.CountMonsterLive--;
+            ServerData.InGame.CountMonsterKill++;
             if (CrDestinationCheck != null)
             {
                 ServerManager.Instance.StopCoroutine(CrDestinationCheck);

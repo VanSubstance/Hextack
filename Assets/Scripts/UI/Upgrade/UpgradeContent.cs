@@ -55,6 +55,7 @@ namespace Assets.Scripts.UI.Upgrade
             }
             // 업그레이드
             UIInGameManager.Instance.AmountSteel = ServerData.InGame.AmountSteel -= ServerData.InGame.PriceUpgradeTower[towerType];
+            ServerData.InGame.AmountSteelUsage += ServerData.InGame.PriceUpgradeTower[towerType];
             CurrentLevel = ++ServerData.InGame.LevelUpgradeTower[towerType];
             curPrice = ++ServerData.InGame.PriceUpgradeTower[towerType];
         }

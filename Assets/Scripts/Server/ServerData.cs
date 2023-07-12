@@ -96,6 +96,10 @@ public static class ServerData
         /// </summary>
         public static int AmountSteel = 0;
 
+        public static int AmountSteelUsage = 0;
+        public static int AmountStoneUsage = 0;
+
+
         /// <summary>
         /// 현재 채굴 레벨
         /// </summary>
@@ -140,6 +144,10 @@ public static class ServerData
         /// 현재 살아있는 몬스터 수
         /// </summary>
         public static int CountMonsterLive = 0;
+        /// <summary>
+        /// 처치한 몬스터 수
+        /// </summary>
+        public static int CountMonsterKill = 0;
 
         /// <summary>
         /// 인게임 속도
