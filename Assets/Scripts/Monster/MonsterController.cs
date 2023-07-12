@@ -79,11 +79,11 @@ namespace Assets.Scripts.Monster
                 // 기존 코루틴이 있다 = 파기
                 ServerManager.Instance.StopCoroutine(CrSpeedLack);
             }
-            // 다시 타이머 시작: 모든 슬로우는 [1]초간 지속된다
+            // 다시 타이머 시작: 모든 슬로우는 [.25]초간 지속된다
             CrSpeedLack = ServerManager.Instance.ExecuteWithDelay(() =>
             {
                 agent.speed = baseSpeed;
-            }, 1f);
+            }, .25f);
             // 슬로우 텍스트 띄우기
             TextManager.Instance.GetNewContent(new()
             {

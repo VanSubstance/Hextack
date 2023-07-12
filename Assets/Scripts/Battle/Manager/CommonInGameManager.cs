@@ -65,15 +65,6 @@ namespace Assets.Scripts.Battle
             }, () =>
             {
             }, 1f);
-            // 게임 종료 조건 체커
-            crGameOver = ServerManager.Instance.ExecuteCrInRepeat(null, () =>
-            {
-                // 마지막 라운드가 아니다 and 라이브 몬스터 수 > 0
-                return ServerData.InGame.CurrentRound == ServerData.InGame.MaxRound && ServerData.InGame.CountMonsterLive == 0;
-            }, () =>
-            {
-                Debug.Log("게임 종료");
-            }, 1f);
 
             // 라운드 시작 전 5초 유예
             int t = 5;
@@ -96,6 +87,18 @@ namespace Assets.Scripts.Battle
             MonsterManager.Instance.SummonMonster(ServerData.InGame.MonsterInfo[ServerData.InGame.CurrentRound - 1]);
             UIInGameManager.Instance.StartRound();
             ServerData.InGame.CurrentRound++;
+            if (crGameOver == null)
+            {
+                // 게임 종료 조건 체커
+                crGameOver = ServerManager.Instance.ExecuteCrInRepeat(null, () =>
+                {
+                    // 마지막 라운드가 아니다 and 라이브 몬스터 수 > 0
+                    return ServerData.InGame.CurrentRound > ServerData.InGame.MaxRound && ServerData.InGame.CountMonsterLive == 0;
+                }, () =>
+                {
+                    UIInGameManager.Instance.ExitGame();
+                }, 1f);
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.UI.Window;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -174,6 +175,22 @@ namespace Assets.Scripts.UI.Manager
             {
                 PassOneSecond();
             }, null, null, 1f);
+        }
+
+        /// <summary>
+        /// 게임 종료
+        /// </summary>
+        public void ExitGame()
+        {
+            // 타이머 정지 및 파기
+            ServerManager.Instance.StopCoroutine(crTimer);
+            crTimer = null;
+
+            // 결과창 열기
+            WindowFullContainer.Instance.Open(new ResultInfo()
+            {
+
+            });
         }
 
         private void PassOneSecond()
