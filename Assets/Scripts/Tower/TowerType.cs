@@ -3,6 +3,7 @@
     /// <summary>
     /// 타워 분류; 업그레이드와 직결
     /// </summary>
+    [System.Serializable]
     public enum TowerType
     {
         /// <summary>

@@ -44,6 +44,34 @@ public static class ServerData
     }
 
     /// <summary>
+    /// 아웃게임 정보
+    /// </summary>
+    public static class OutGame
+    {
+        public static Dictionary<TowerType, Dictionary<TowerUpgradeType, int>> GoldUpgradeLevel = new Dictionary<TowerType, Dictionary<TowerUpgradeType, int>>()
+        {
+            {TowerType.Machine, new Dictionary<TowerUpgradeType, int>()
+            {
+                { TowerUpgradeType.AttackSpeed, 0 },
+                { TowerUpgradeType.Range, 0 },
+                { TowerUpgradeType.Damage, 0 },
+            } },
+            {TowerType.Magic, new Dictionary<TowerUpgradeType, int>()
+            {
+                { TowerUpgradeType.AttackSpeed, 0 },
+                { TowerUpgradeType.Range, 0 },
+                { TowerUpgradeType.Damage, 0 },
+            } },
+            {TowerType.Bio, new Dictionary<TowerUpgradeType, int>()
+            {
+                { TowerUpgradeType.AttackSpeed, 0 },
+                { TowerUpgradeType.Range, 0 },
+                { TowerUpgradeType.Damage, 0 },
+            } },
+        };
+    }
+
+    /// <summary>
     /// 인게임에서 사용되는 정보
     /// </summary>
     public static class InGame

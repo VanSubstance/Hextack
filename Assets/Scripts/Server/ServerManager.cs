@@ -21,6 +21,7 @@ public class ServerManager : SingletonObject<ServerManager>
         base.Awake();
         DontDestroyOnLoad(transform);
         Application.targetFrameRate = 1000;
+        //ServerData.User.AmountGold = 100000;
         DataManager.Instance.LoadLocalDatas();
     }
 
