@@ -37,5 +37,21 @@ namespace Assets.Scripts.UI.Window
             gameObject.SetActive(true);
             return this;
         }
+
+        /// <summary>
+        /// 일반 수령
+        /// </summary>
+        public void ExitNormal()
+        {
+            ServerManager.Instance.ExitNormal();
+        }
+
+        /// <summary>
+        /// 두배 수령
+        /// </summary>
+        public void ExitDouble()
+        {
+            ServerManager.Instance.ExitDouble();
+        }
     }
 }

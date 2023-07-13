@@ -9,8 +9,9 @@ namespace Assets.Scripts.UI.Swiper
     public abstract class AbsSwiperContainer<TParameterForContent> : MonoBehaviour, IEndDragHandler
     {
         [SerializeField]
-        private Transform contentParentTr;
+        protected Transform ContentParentTr;
 
+        [HideInInspector]
         public AbsSwiperContent<TParameterForContent>[] ContentList;
         private ScrollRect scrollRect;
         private int currentIdx;
@@ -18,7 +19,7 @@ namespace Assets.Scripts.UI.Swiper
 
         private void Awake()
         {
-            ContentList = contentParentTr.GetComponentsInChildren<AbsSwiperContent<TParameterForContent>>();
+            ContentList = ContentParentTr.GetComponentsInChildren<AbsSwiperContent<TParameterForContent>>();
             scrollRect = GetComponent<ScrollRect>();
             scrollRect.onValueChanged.AddListener((value) =>
             {
@@ -28,6 +29,7 @@ namespace Assets.Scripts.UI.Swiper
 
         private void Start()
         {
+            Init();
             GoToContent(0, false);
         }
 

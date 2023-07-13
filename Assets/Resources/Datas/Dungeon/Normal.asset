@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: Normal
   mapTitle: "\uC77C\uBC18 \uB358\u3161\uC804"
-  Desc: "\uC77C\uBC18 \uB358\uC804\uC785\uB2C8\uB2E4.\\n\uC774\uAC8C \uC5B4\uB824\uC6B8\uB9AC
+  Desc: "\uC77C\uBC18 \uB358\uC804\uC785\uB2C8\uB2E4. \uC774\uAC8C \uC5B4\uB824\uC6B8\uB9AC
     \uC5C6\uC2B5\uB2C8\uB2E4."
   TimeRound: 60
   monsterCodeList:

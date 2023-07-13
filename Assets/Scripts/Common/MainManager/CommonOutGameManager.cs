@@ -22,7 +22,7 @@ namespace Assets.Scripts.Common.MainManager
         [SerializeField]
         private int startIdx;
         [SerializeField]
-        private TextMeshProUGUI textGold, textArtifact, textNick;
+        private TextMeshProUGUI textGold, textGear, textNick;
         [SerializeField]
         private Image imageUser;
 
@@ -53,11 +53,11 @@ namespace Assets.Scripts.Common.MainManager
         /// <summary>
         /// 아티펙트 개수 설정
         /// </summary>
-        public int AmountArtifact
+        public int AmountGear
         {
             set
             {
-                textArtifact.text = string.Format("{0:N0}", value);
+                textGear.text = string.Format("{0:N0}", value);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Assets.Scripts.Common.MainManager
         public void Init()
         {
             AmountGold = ServerData.User.AmountGold;
-            AmountArtifact = ServerData.User.AmountGear;
+            AmountGear = ServerData.User.AmountGear;
         }
 
         public void ChangeUnit()

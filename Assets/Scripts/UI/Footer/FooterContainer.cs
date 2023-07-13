@@ -53,11 +53,10 @@ namespace Assets.Scripts.UI.Footer
         private IEnumerator CrAnimate(Vector3 targetPos)
         {
             Vector3 tempPos = new Vector3(targetPos.x, targetPos.y, targetPos.z);
-            int frameLeft = 30;
-            while (frameLeft-- > 0)
+            while ((pointer.transform.position - targetPos).magnitude > .1f)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
-                pointer.transform.position = targetPos = ((pointer.transform.position - targetPos) / 10f) + targetPos;
+                pointer.transform.position = targetPos = ((pointer.transform.position - targetPos) * Time.deltaTime * 10) + targetPos;
             }
             pointer.transform.position = tempPos;
         }
