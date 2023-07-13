@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.UI.Swiper;
 
 namespace Assets.Scripts.UI.Fragment.Gold
 {
-    public class FragmentContentGold : AbsFragmentContent
+    public class FragmentContentGold : AbsSwiperContent<object>
     {
-        public override void Init()
+        public override void Init(object _info)
         {
         }
     }

@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.UI.Fragment;
+﻿using Assets.Scripts.Common.MainManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +52,7 @@ namespace Assets.Scripts.UI.Footer
         /// <param name="targetIdx"></param>
         public void GoToFragment(int targetIdx)
         {
-            FragmentContainer.Instance.GoToFragment(targetIdx, true);
+            CommonOutGameManager.Instance.FragmentContainer.GoToContent(targetIdx, true);
         }
     }
 }

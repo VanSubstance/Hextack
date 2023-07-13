@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f8af9a4bf9bd64fac668390ac3ea6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fragmentContanier: {fileID: 1044227620}
   startIdx: 1
   textGold: {fileID: 622910915}
   textArtifact: {fileID: 924229234}
@@ -1676,6 +1677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentParentTr: {fileID: 1122818118}
+  ContentList: []
 --- !u!1 &1122818117
 GameObject:
   m_ObjectHideFlags: 0

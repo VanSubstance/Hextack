@@ -1,11 +1,21 @@
-﻿using TMPro;
+﻿using Assets.Scripts.UI.Fragment;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Common.MainManager
 {
-    public class MainMainManager : SingletonObject<MainMainManager>
+    public class CommonOutGameManager : SingletonObject<CommonOutGameManager>
     {
+        [SerializeField]
+        private FragmentContainer fragmentContanier;
+        public FragmentContainer FragmentContainer
+        {
+            get
+            {
+                return fragmentContanier;
+            }
+        }
         /// <summary>
         /// 시작 프레그먼트 번호
         /// </summary>

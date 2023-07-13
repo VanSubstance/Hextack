@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.UI.Swiper;
 
 namespace Assets.Scripts.UI.Fragment.Lobby
 {
-    public class FragmentContentLobby : AbsFragmentContent
+    public class FragmentContentLobby : AbsSwiperContent<object>
     {
-        public override void Init()
+
+        public override void Init(object _info)
         {
         }
     }
