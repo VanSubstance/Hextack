@@ -82,6 +82,8 @@ namespace Assets.Scripts.Common.MainManager
         private void Start()
         {
             Init();
+            fragmentContanier.GoToContent(startIdx, false);
+            CommonOutGameManager.Instance.AmountGear = ServerData.User.AmountGear = 1000;
         }
 
         /// <summary>
