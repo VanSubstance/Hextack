@@ -21,7 +21,10 @@ namespace Assets.Scripts.UI.Component
 
         private void Awake()
         {
-            textButton.text = textForButton;
+            if (textForButton != string.Empty)
+            {
+                textButton.text = textForButton;
+            }
             image.color = colorForImage;
         }
     }

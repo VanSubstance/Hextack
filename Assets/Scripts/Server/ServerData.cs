@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Dungeon;
 using Assets.Scripts.Monster;
 using Assets.Scripts.Tower;
+using Assets.Scripts.UI.Fragment.Section.GearUpgrade;
 using System.Collections.Generic;
 
 /// <summary>
@@ -68,6 +69,12 @@ public static class ServerData
                 { TowerUpgradeType.Range, 0 },
                 { TowerUpgradeType.Damage, 0 },
             } },
+        };
+
+        public static Dictionary<GearUpgradeType, int> GearUpgradeLevel = new Dictionary<GearUpgradeType, int>()
+        {
+            {GearUpgradeType.Stone, 1 },
+            {GearUpgradeType.Mining, 1 },
         };
     }
 

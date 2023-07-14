@@ -30,7 +30,6 @@ namespace Assets.Scripts.UI.Swiper
         private void Start()
         {
             Init();
-            GoToContent(0, false);
         }
 
         /// <summary>
