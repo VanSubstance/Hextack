@@ -18,5 +18,9 @@
         /// 아우라형
         /// </summary>
         Aura,
+        /// <summary>
+        /// 레이저
+        /// </summary>
+        Lazer,
     }
 }

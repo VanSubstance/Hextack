@@ -3,6 +3,7 @@ using Assets.Scripts.Battle.Projectile;
 using Assets.Scripts.Monster;
 using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
+using Assets.Scripts.Battle;
 using System.Linq;
 using UnityEngine;
 using Assets.Scripts.Dungeon;
@@ -89,6 +90,37 @@ namespace Assets.Scripts.Tower
                     while (prj.CountPerOnce > idx)
                     {
                         ProjectileInfo tprj = prj.Clone();
+                        if (prj.executeType.Equals(ProjectileExecuteType.Lazer))
+                        {
+                            // 레이저 = 투사체 없음
+                            // 이펙트 on
+                            EffectManager.Instance.ExecutNewEffect("Lazer", transform.position, Color.yellow, 50, .5f, cols[idx].transform.position);
+                            // 레이캐스트 = 걸리는 몬스터 전부 데미지
+                            RaycastHit[] res;
+                            if ((res = Physics.BoxCastAll(transform.position, Vector3.one, cols[idx].transform.position, Quaternion.identity, 100, GlobalDictionary.Layer.Monster)).Length > 0)
+                            {
+                                // 걸린 모든 몬스터에게 영향 부여
+                                foreach (MonsterController targetTr in res.Select((ress) => { return ress.transform.GetComponent<MonsterController>(); }))
+                                {
+                                    foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
+                                    {
+                                        switch (tk.damageEffectType)
+                                        {
+                                            case DamageEffectType.Damage:
+                                                // 데미지 계산
+                                                targetTr.ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
+                                                break;
+                                            case DamageEffectType.Speed:
+                                                // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
+                                                targetTr.ApplySpeed(tk.Amount);
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            idx++;
+                            continue;
+                        }
                         tprj.StartPos = transform.position;
                         tprj.ActionEnd = (targetTr) =>
                         {
