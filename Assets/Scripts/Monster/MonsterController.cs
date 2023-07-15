@@ -15,7 +15,7 @@ namespace Assets.Scripts.Monster
         private int Hp;
         private float baseSpeed, rateSpeed;
         private bool IsBoss;
-        private Queue<Vector3> destQ;
+        private Queue<Transform> destQ;
         private Coroutine CrDestinationCheck, CrSpeedLack;
 
         /// <summary>
@@ -122,15 +122,15 @@ namespace Assets.Scripts.Monster
 
         protected override bool InitExtra(MonsterInfo _info)
         {
-            destQ = new Queue<Vector3>();
-            foreach (Vector3 v in _info.Tracks)
+            destQ = new Queue<Transform>();
+            foreach (Transform v in _info.Tracks)
             {
                 destQ.Enqueue(v);
             }
             baseSpeed = agent.speed = _info.Spd;
             Hp = _info.Hp;
             IsBoss = _info.CntMonsterSummoned == 1;
-            transform.position = destQ.Dequeue();
+            transform.position = destQ.Dequeue().position;
             gameObject.SetActive(true);
             CrDestinationCheck = ServerManager.Instance.ExecuteCrInRepeat(() =>
             {
@@ -138,10 +138,10 @@ namespace Assets.Scripts.Monster
                 if (gameObject.activeSelf && agent.remainingDistance < 1f)
                 {
                     // 지금 목표 도착
-                    if (destQ.TryDequeue(out Vector3 nextPos))
+                    if (destQ.TryDequeue(out Transform nextPos))
                     {
                         // 다음 목표가 있다 = 이동
-                        agent.SetDestination(nextPos);
+                        agent.SetDestination(nextPos.position);
                         return;
                     }
                     // 다음 목표가 없다 = 목숨 차감 후 파기 !

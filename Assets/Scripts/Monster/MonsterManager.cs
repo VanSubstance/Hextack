@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Monster;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Monster
 {
@@ -21,17 +20,7 @@ namespace Assets.Scripts.Monster
                 {
                     info.CntMonsterSummoned++;
                     MonsterInfo clone = info.Clone();
-                    clone.Tracks = new()
-                    {
-                        new Vector3(-8.5f, 0, 3),
-                        new Vector3(-6f, 0, 3),
-                        new Vector3(6, 0, -3),
-                        new Vector3(0, 0, -6.5f),
-                        new Vector3(0, 0, 6.5f),
-                        new Vector3(6f, 0, 3),
-                        new Vector3(-6, 0, -3),
-                        new Vector3(-5.5f, 0, 6.5f),
-                    };
+                    clone.Tracks = Path.PathManager.Instance.PathList[token.IdxEnterance].TargetTr;
                     GetNewContent(clone);
                     ServerData.InGame.CountMonsterLive++;
                 }, () =>
