@@ -55,6 +55,9 @@ namespace Assets.Scripts.UI.Window
                 case ProjectileExecuteType.Aura:
                     eft += "부여하는 아우라를 발산합니다.";
                     break;
+                case ProjectileExecuteType.Lazer:
+                    eft += "경로의 모든 적을 타격하는 레이저는 발사합니다.";
+                    break;
             }
 
             eft += "\n";

@@ -22,7 +22,7 @@ MonoBehaviour:
   - Brown
   - Black
   projectileInfo:
-  - executeType: 0
+  - executeType: 3
     CountPerOnce: 1
     Spd: 8
     Range: 5
@@ -44,5 +44,6 @@ MonoBehaviour:
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}
+    towerType: 0
   Position: {x: 0, y: 0, z: 0}
   TileInstalled: {fileID: 0}

@@ -12,18 +12,28 @@ namespace Assets.Scripts.Battle
         /// </summary>
         /// <param name="effectName"></param>
         /// <param name="targetPos"></param>
-        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color, float scale = 1, float duration = 0)
+        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color, float scale = 1, float duration = 0, Vector3? stareDirectionInCase = null)
         {
-            if (!GlobalStatus.effectPool.Keys.Contains(effectName))
+            try
             {
-                // 최초
-                GlobalStatus.effectPool[effectName] = new Queue<EffectController>();
-            }
-            if (!GlobalStatus.effectPool[effectName].TryDequeue(out EffectController res))
+                if (!GlobalStatus.effectPool.Keys.Contains(effectName))
+                {
+                    // 최초
+                    GlobalStatus.effectPool[effectName] = new Queue<EffectController>();
+                }
+                if (!GlobalStatus.effectPool[effectName].TryDequeue(out EffectController res))
+                {
+                    res = Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform);
+                }
+                res.InitEffect(targetPos, color, effectName, scale, duration);
+                if (stareDirectionInCase != null)
+                {
+                    res.transform.LookAt((Vector3)stareDirectionInCase);
+                }
+            } catch (KeyNotFoundException)
             {
-                res = Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform);
+                Debug.Log($"이펙트 정의되어있지 않음 ::: {effectName}");
             }
-            res.InitEffect(targetPos, color, effectName, scale, duration);
         }
     }
 }
