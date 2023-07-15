@@ -43,7 +43,7 @@ namespace Assets.Scripts.Battle.Area
             {
                 // 장판 내 적들에게 데미지 
                 Collider[] cols;
-                if ((cols = Physics.OverlapSphere(transform.position, info.range, GlobalDictionary.Layer.Monster)).Length == 0)
+                if ((cols = Physics.OverlapSphere(transform.position, info.range * (1 + (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                 {
                     return;
                 }
@@ -54,7 +54,13 @@ namespace Assets.Scripts.Battle.Area
                         switch (tk.damageEffectType)
                         {
                             case DamageEffectType.Damage:
-                                col.GetComponent<Monster.MonsterController>().ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[info.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, info.towerType);
+                                col.GetComponent<Monster.MonsterController>().ApplyHp(
+                                    (int)(
+                                        tk.Amount
+                                            * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[info.towerType]))
+                                            * (1 + (.05f * ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                    ), 
+                                    Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, info.towerType);
                                 break;
                             case DamageEffectType.Speed:
                                 col.GetComponent<Monster.MonsterController>().ApplySpeed(tk.Amount);
@@ -63,7 +69,7 @@ namespace Assets.Scripts.Battle.Area
                     }
                 }
                 cols = null;
-            }, null, null, eff.Cooltime));
+            }, null, null, Mathf.Max(.2f, eff.Cooltime - (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             EffectManager.Instance.ExecutNewEffect("Slow", transform.position, info.color, info.range, info.duration);
 
             // 장판 지속시간 체크 코루틴 실행

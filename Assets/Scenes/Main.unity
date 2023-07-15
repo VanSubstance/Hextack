@@ -3131,6 +3131,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 946391243, guid: 8c1800370fabfad4e836696e3053d4e8, type: 3}
+      propertyPath: m_text
+      value: "\uD574\uB2F9 \uC138\uB825 \uD0C0\uC6CC\uC758 \uCFE8\uD0C0\uC784\uC744
+        \n\uB808\uBCA8\uB2F9 0.02\uCD08 \uB9CC\uD07C \uAC10\uC18C\uC2DC\uD0B5\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
     - target: {fileID: 948335703, guid: 8c1800370fabfad4e836696e3053d4e8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
