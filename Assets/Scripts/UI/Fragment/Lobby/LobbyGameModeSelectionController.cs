@@ -1,9 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Assets.Scripts.UI.Window;
-using System.Linq;
-using Assets.Scripts.Map;
 
 namespace Assets.Scripts.UI.Fragment.Lobby
 {
@@ -36,22 +33,6 @@ namespace Assets.Scripts.UI.Fragment.Lobby
                 textHistory.text = string.Empty;
                 btnSingleLoad.gameObject.SetActive(false);
             }
-        }
-
-        /// <summary>
-        /// 신규 던전 선택창 열기
-        /// </summary>
-        public void OpenDungeonSelection()
-        {
-            WindowController.Instance.OpenDungeonList(ServerData.Dungeon.DungeonList.Values.ToList());
-        }
-
-        /// <summary>
-        /// 이전 진행중인 기록 정보창 열기
-        /// </summary>
-        public void OpenHistory()
-        {
-            WindowController.Instance.OpenDungeonInfo(ServerData.Dungeon.History);
         }
     }
 }

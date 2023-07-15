@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Map;
+﻿using Assets.Scripts.Dungeon;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.UI
 
         private Slider gage;
         private float maxValue, curValue;
-        private Action callbackWhenZero;
+        private Action callbackWhenZero, callbackWhenFull;
         public Vector2 AnchorPos
         {
             get
@@ -67,26 +67,26 @@ namespace Assets.Scripts.UI
         /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, float _initValue, HexCoordinate targetCoor, Action _callbackWhenZero = null, Color? fillColor = null)
+        public GageController Init(float _maxValue, float _initValue, Transform targetTr, Action _callbackWhenZero = null, Action _callbackWhenFull = null, Color? fillColor = null)
         {
             if (fillColor != null)
             {
                 fill.color = (Color)fillColor;
             }
-            if (targetCoor != null)
+            else
             {
-                int[] cvc = CommonFunction.ConvertCoordinate(targetCoor);
-                Vector3 hexPos = GlobalStatus.Map[cvc[0]][cvc[1]].transform.position;
-                if (Physics.Raycast(hexPos, GlobalDictionary.VectorToScreen, out RaycastHit hit, 40, GlobalDictionary.Layer.UI))
-                {
-                    GetComponent<RectTransform>().position = hit.point;
-                    GetComponent<RectTransform>().anchoredPosition += Vector2.up * 100;
-                }
+                fill.color = Color.red;
+            }
+            if (targetTr != null)
+            {
+                GetComponent<RectTransform>().position = targetTr.position + (GlobalDictionary.VectorToScreen * 10);
+                GetComponent<RectTransform>().anchoredPosition += Vector2.up * 100;
             }
             maxValue = _maxValue;
             curValue = _initValue;
             Value = curValue / maxValue;
             callbackWhenZero = _callbackWhenZero;
+            callbackWhenFull = _callbackWhenFull;
             gameObject.SetActive(true);
             return this;
         }
@@ -103,8 +103,11 @@ namespace Assets.Scripts.UI
             if (Value <= 0)
             {
                 callbackWhenZero?.Invoke();
-                gameObject.SetActive(false);
-                GlobalStatus.HpGagePool.Enqueue(this);
+                gameObject.SetActive(isFixValue);
+            }
+            if (Value == 1)
+            {
+                callbackWhenFull?.Invoke();
             }
         }
 
@@ -113,6 +116,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public void Clear()
         {
+            callbackWhenZero = null;
             gameObject.SetActive(false);
             GlobalStatus.HpGagePool.Enqueue(this);
         }

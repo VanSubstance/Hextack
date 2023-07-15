@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
+  m_Name: Thunder
+  m_EditorClassIdentifier: 
+  towerType: 2
+  Code: Thunder
+  Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
+  Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uC5D0\uB108\uC9C0
+    \uBCFC\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+  Tier: 3
+  Materials:
+  - Pink
+  - Black
+  projectileInfo:
+  - executeType: 1
+    CountPerOnce: 1
+    Spd: 6
+    Range: 3
+    effectInfo:
+      tokens:
+      - damageEffectType: 0
+        Amount: 12
+      Cooltime: 1.7
+    TrailType: 0
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 0
+      duration: 0
+      damageEffects:
+        tokens: []
+        Cooltime: 0
+    color: {r: 1, g: 0.8546775, b: 0.24056602, a: 0.5019608}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+  Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}

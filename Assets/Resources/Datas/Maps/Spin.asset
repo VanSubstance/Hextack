@@ -20,8 +20,10 @@ MonoBehaviour:
   rounds: 5
   cntTileBan: 2
   cntUnitBan: 1
-  cntUnit: 3
+  cntUnitSummonAtOnce: 3
   unitCodeList:
   - Bow
   - Sword
   - Provoke
+  EnteranceList:
+  - {x: -4, y: 2}
