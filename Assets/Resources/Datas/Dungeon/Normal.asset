@@ -19,7 +19,7 @@ MonoBehaviour:
   TimeRound: 60
   monsterCodeList:
   - Code: Golem
-    IdxEnterance: 0
+    IdxEnterance: 1
   - Code: Slime
     IdxEnterance: 0
   - Code: Slime

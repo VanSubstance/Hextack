@@ -74,7 +74,11 @@ namespace Assets.Scripts.Battle
             }, () => t == 0, () =>
             {
                 ExecuteNextRound();
+                Path.PathManager.Instance.DeactivateVisualization();
             }, 1f);
+
+            // 트랙 가시화
+            Path.PathManager.Instance.ActivateVisualization();
         }
 
         /// <summary>
