@@ -45,7 +45,7 @@ namespace Assets.Scripts.Monster
         /// 경로 = 절대 좌표
         /// </summary>
         [HideInInspector]
-        public List<Vector3> Tracks;
+        public Transform[] Tracks;
 
         public MonsterInfo Clone()
         {
