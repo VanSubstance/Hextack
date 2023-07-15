@@ -127,6 +127,11 @@ public static class ServerData
         }
 
         /// <summary>
+        /// 현재 석재량
+        /// </summary>
+        public static int AmountStone = 0;
+
+        /// <summary>
         /// 현재 채굴량
         /// </summary>
         public static int AmountSteel = 0;

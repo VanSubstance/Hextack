@@ -9,21 +9,16 @@ namespace Assets.Scripts.Battle
         [SerializeField]
         private string dungeonCodeForTest;
 
-        /// <summary>
-        /// 인게임 재화
-        /// </summary>
-        [HideInInspector]
-        public int amountStone, MiningLevel;
         private Coroutine crMining, crGameOver;
 
         public int AmountStone
         {
             set
             {
-                amountStone = value;
+                ServerData.InGame.AmountStone = value;
                 UIInGameManager.Instance.AmountStone = value;
             }
-            get { return amountStone; }
+            get { return ServerData.InGame.AmountStone; }
         }
 
         public int AmountSteel
@@ -51,6 +46,10 @@ namespace Assets.Scripts.Battle
             {
                 ExecuteNextRound();
             });
+
+            // 초기 기어 업그레이드 적용
+            ServerData.InGame.MiningLevel = ServerData.OutGame.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Mining];
+            ServerData.InGame.AmountStone = 20 + (ServerData.OutGame.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Stone] * 10);
 
             ServerData.InGame.CurrentRound = 1;
             // 게임 시작

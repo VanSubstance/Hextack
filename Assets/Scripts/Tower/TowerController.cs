@@ -97,7 +97,7 @@ namespace Assets.Scripts.Tower
                             EffectManager.Instance.ExecutNewEffect("Lazer", transform.position, Color.yellow, 50, .5f, cols[idx].transform.position);
                             // 레이캐스트 = 걸리는 몬스터 전부 데미지
                             RaycastHit[] res;
-                            if ((res = Physics.RaycastAll(transform.position, cols[idx].transform.position, 100, GlobalDictionary.Layer.Monster)).Length > 0)
+                            if ((res = Physics.BoxCastAll(transform.position, Vector3.one, cols[idx].transform.position, Quaternion.identity, 100, GlobalDictionary.Layer.Monster)).Length > 0)
                             {
                                 // 걸린 모든 몬스터에게 영향 부여
                                 foreach (MonsterController targetTr in res.Select((ress) => { return ress.transform.GetComponent<MonsterController>(); }))
