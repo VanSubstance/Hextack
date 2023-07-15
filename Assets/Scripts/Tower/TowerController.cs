@@ -1,12 +1,12 @@
-﻿using Assets.Scripts.Battle.Area;
+﻿using Assets.Scripts.Battle;
+using Assets.Scripts.Battle.Area;
 using Assets.Scripts.Battle.Projectile;
+using Assets.Scripts.Dungeon;
 using Assets.Scripts.Monster;
 using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
-using Assets.Scripts.Battle;
 using System.Linq;
 using UnityEngine;
-using Assets.Scripts.Dungeon;
 
 namespace Assets.Scripts.Tower
 {
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Tower
                 {
                     // 공격 대상 탐색
                     Collider[] cols;
-                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range, GlobalDictionary.Layer.Monster)).Length == 0)
+                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range * (1 + (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                     {
                         return;
                     }
@@ -108,7 +108,13 @@ namespace Assets.Scripts.Tower
                                         {
                                             case DamageEffectType.Damage:
                                                 // 데미지 계산
-                                                targetTr.ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
+                                                targetTr.ApplyHp(
+                                                    (int)(
+                                                        tk.Amount
+                                                            * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
+                                                            * (1 + (.05f * ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                                    ),
+                                                    Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
                                                 break;
                                             case DamageEffectType.Speed:
                                                 // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
@@ -130,7 +136,13 @@ namespace Assets.Scripts.Tower
                                 {
                                     case DamageEffectType.Damage:
                                         // 데미지 계산
-                                        targetTr.ApplyHp((int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))), Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
+                                        targetTr.ApplyHp(
+                                            (int)(
+                                                tk.Amount
+                                                    * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
+                                                    * (1 + (.05f * ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                            ),
+                                            Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
                                         break;
                                     case DamageEffectType.Speed:
                                         // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
@@ -143,7 +155,7 @@ namespace Assets.Scripts.Tower
                         ProjectileManager.Instance.GetNewContent(tprj);
                         idx++;
                     }
-                }, () => false, null, prj.effectInfo.Cooltime));
+                }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             }
             TowerManager.Instance.TowerLiveList.Add(this);
             return true;
