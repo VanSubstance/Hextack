@@ -10,40 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Slow
+  m_Name: Napoleon
   m_EditorClassIdentifier: 
-  towerType: 2
-  Code: Slow
-  Name: "\uB9C8\uBC95\uC0AC \uD0C0\uC6CC"
-  Desc: "\uD754\uD55C \uB9C8\uBC95\uC0AC \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uC5D0\uB108\uC9C0
-    \uBCFC\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
-  Tier: 1
+  towerType: 0
+  Code: Cannon
+  Name: "\uB098\uD3F4\uB808\uC639\uD3EC"
+  Desc: "\uC791\uC9C0 \uC54A\uC740 \uB300\uD3EC\uC785\uB2C8\uB2E4. \uAD34\uBA78\uC801\uC778
+    \uD55C\uBC29\uC744 \uAC00\uC9D1\uB2C8\uB2E4. "
+  Tier: 3
   Materials:
-  - Yellow
+  - Grey
   - Black
-  - Brown
   projectileInfo:
-  - executeType: 2
+  - executeType: 0
     CountPerOnce: 1
-    Spd: 6
-    Range: 3
+    Spd: 5
+    Range: 4
     effectInfo:
       tokens:
       - damageEffectType: 0
-        Amount: 7
+        Amount: 300
       - damageEffectType: 1
-        Amount: 0.2
-      Cooltime: 1.5
-    TrailType: 1
+        Amount: 0.1
+      Cooltime: 1.6666666
+    TrailType: 0
     afterHitInfo:
       afterHitType: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-      range: 0
-      duration: 0
+      color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
+      range: 1
+      duration: 20
       damageEffects:
         tokens: []
         Cooltime: 0
-    color: {r: 1, g: 0.23921567, b: 0.95212305, a: 0.5019608}
+    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}

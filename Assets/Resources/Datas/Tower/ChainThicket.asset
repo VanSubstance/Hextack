@@ -10,36 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Cannon
+  m_Name: ChainThicket
   m_EditorClassIdentifier: 
-  towerType: 0
-  Code: Cannon
-  Name: "\uB300\uD3EC"
-  Desc: "\uCEE4\uB2E4\uB780 \uB300\uD3EC\uC785\uB2C8\uB2E4."
+  towerType: 1
+  Code: Ice
+  Name: "\uC0AC\uC2AC \uB364\uBD88"
+  Desc: "\uC8FC\uBCC0\uC758 \uC801\uB4E4\uC5D0\uAC8C \uB370\uBBF8\uC9C0\uB97C \uC785\uD788\uACE0
+    \uC18D\uB3C4\uB97C \uB2A6\uCDA5\uB2C8\uB2E4."
   Tier: 1
   Materials:
+  - Blue
   - Grey
   - Black
   projectileInfo:
-  - executeType: 0
-    CountPerOnce: 1
-    Spd: 4
-    Range: 3
+  - executeType: 2
+    CountPerOnce: 2
+    Spd: 10
+    Range: 1.5
     effectInfo:
       tokens:
       - damageEffectType: 0
-        Amount: 30
-      Cooltime: 1.6666666
-    TrailType: 0
+        Amount: 5
+      - damageEffectType: 1
+        Amount: 0.1
+      Cooltime: 0.5
+    TrailType: 1
     afterHitInfo:
       afterHitType: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-      range: 0
-      duration: 0
+      color: {r: 0.514151, g: 0.96646935, b: 1, a: 0}
+      range: 1
+      duration: 1.5
       damageEffects:
-        tokens: []
-        Cooltime: 0
-    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
+        tokens:
+        - damageEffectType: 1
+          Amount: 0.2
+        Cooltime: 0.7
+    color: {r: 0, g: 1, b: 0.9700117, a: 0.83137256}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}

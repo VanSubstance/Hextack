@@ -10,37 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Arrow
+  m_Name: Plutoniumcolony
   m_EditorClassIdentifier: 
   towerType: 1
-  Code: Arrow
-  Name: "\uC11D\uAD81 \uD0C0\uC6CC"
-  Desc: "\uD754\uD55C \uC11D\uAD81 \uD0C0\uC6CC\uC785\uB2C8\uB2E4. \uBC14\uB78C\uC744
-    \uAC00\uB974\uB294 \uD654\uC0B4\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
-  Tier: 1
+  Code: Cannon
+  Name: "\uBC29\uC0AC\uB2A5 \uBC8C\uB808 \uAD70\uCCB4"
+  Desc: "\uBC29\uC0AC\uC120\uC744 \uB0B4\uBFDC\uB294 \uBC8C\uB808\uB4E4\uC758 \uAD70\uCCB4\uC785\uB2C8\uB2E4.
+    \uADFC\uCC98 \uC801\uC744\uC5D0\uAC8C \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
+  Tier: 3
   Materials:
-  - Brown
+  - Grey
   - Black
   projectileInfo:
-  - executeType: 3
-    CountPerOnce: 1
-    Spd: 8
-    Range: 5
+  - executeType: 2
+    CountPerOnce: 0
+    Spd: 0
+    Range: 1.6
     effectInfo:
       tokens:
       - damageEffectType: 0
-        Amount: 3
-      Cooltime: 0.8
+        Amount: 50
+      Cooltime: 0.5
     TrailType: 0
     afterHitInfo:
       afterHitType: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-      range: 0
-      duration: 0
+      color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
+      range: 1
+      duration: 20
       damageEffects:
         tokens: []
         Cooltime: 0
-    color: {r: 0.3824575, g: 1, b: 0.23921567, a: 0.5019608}
+    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
     targetTr: {fileID: 0}

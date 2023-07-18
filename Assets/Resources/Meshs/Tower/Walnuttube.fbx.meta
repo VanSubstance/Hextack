@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0b1c1e35aa127af459efa5d769cf0e91
+guid: 82acd145ad6a29c4182d3706a469928d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,13 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Body
-    second: {fileID: 2100000, guid: dfd1b711a9a69574fb0982ed736956f2, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: bc035c3231916514084eb8248bbabd73, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: OutLine
-    second: {fileID: 2100000, guid: f15641418d2cf154f903468ada790f72, type: 2}
+      name: OutLine.003
+    second: {fileID: 2100000, guid: 5ce3cd21cd9843b4fb936d791f524479, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Thunder
+    second: {fileID: 2100000, guid: 1bf024f9c1a73684f8b17cdcdb2cf5b9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

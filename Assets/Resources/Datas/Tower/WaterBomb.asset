@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Cannon
+  m_Name: WaterBomb
   m_EditorClassIdentifier: 
-  towerType: 0
+  towerType: 2
   Code: Cannon
-  Name: "\uB300\uD3EC"
-  Desc: "\uCEE4\uB2E4\uB780 \uB300\uD3EC\uC785\uB2C8\uB2E4."
+  Name: "\uBB3C\uD3ED\uD0C4"
+  Desc: "\uBA85\uC911\uD55C \uB4A4 \uD574\uB2F9 \uC704\uCE58\uC5D0 \uD37C\uC9C0\uB294
+    \uBB3C\uD3ED\uD0C4\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4. "
   Tier: 1
   Materials:
   - Grey
@@ -24,20 +25,22 @@ MonoBehaviour:
   - executeType: 0
     CountPerOnce: 1
     Spd: 4
-    Range: 3
+    Range: 2
     effectInfo:
       tokens:
       - damageEffectType: 0
-        Amount: 30
-      Cooltime: 1.6666666
-    TrailType: 0
+        Amount: 5
+      Cooltime: 1
+    TrailType: 1
     afterHitInfo:
-      afterHitType: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-      range: 0
+      afterHitType: 1
+      color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
+      range: 1
       duration: 0
       damageEffects:
-        tokens: []
+        tokens:
+        - damageEffectType: 0
+          Amount: 20
         Cooltime: 0
     color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}

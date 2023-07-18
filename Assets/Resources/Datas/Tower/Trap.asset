@@ -10,32 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
-  m_Name: Cannon
+  m_Name: Trap
   m_EditorClassIdentifier: 
   towerType: 0
   Code: Cannon
-  Name: "\uB300\uD3EC"
-  Desc: "\uCEE4\uB2E4\uB780 \uB300\uD3EC\uC785\uB2C8\uB2E4."
+  Name: "\uC0AC\uB0E5\uC6A9 \uB36B"
+  Desc: "\uAC78\uB9AC\uBA74 \uBAB9\uC2DC \uC544\uD50C\uAC83\uB9CC \uAC19\uC740 \uBB34\uC2DC\uBB34\uC2DC\uD55C
+    \uB36B\uC785\uB2C8\uB2E4."
   Tier: 1
   Materials:
   - Grey
   - Black
   projectileInfo:
-  - executeType: 0
+  - executeType: 1
     CountPerOnce: 1
     Spd: 4
-    Range: 3
+    Range: 2.5
     effectInfo:
-      tokens:
-      - damageEffectType: 0
-        Amount: 30
-      Cooltime: 1.6666666
+      tokens: []
+      Cooltime: 1.25
     TrailType: 0
     afterHitInfo:
-      afterHitType: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-      range: 0
-      duration: 0
+      afterHitType: 1
+      color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
+      range: 1
+      duration: 20
       damageEffects:
         tokens: []
         Cooltime: 0

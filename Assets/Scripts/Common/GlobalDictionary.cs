@@ -65,7 +65,7 @@ public static class GlobalDictionary
     /// </summary>
     public static class Mesh
     {
-        public static string rootPath = $"Mesh";
+        public static string rootPath = $"Meshs";
         public static class Tower
         {
             public static string rootPath = $"{Mesh.rootPath}/Tower";
