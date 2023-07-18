@@ -36,13 +36,11 @@ MonoBehaviour:
     afterHitInfo:
       afterHitType: 0
       color: {r: 0.514151, g: 0.96646935, b: 1, a: 0}
-      range: 1
-      duration: 1.5
+      range: 0
+      duration: 0
       damageEffects:
-        tokens:
-        - damageEffectType: 1
-          Amount: 0.2
-        Cooltime: 0.7
+        tokens: []
+        Cooltime: 0
     color: {r: 0, g: 1, b: 0.9700117, a: 0.83137256}
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}

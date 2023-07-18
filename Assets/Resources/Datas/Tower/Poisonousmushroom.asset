@@ -34,8 +34,8 @@ MonoBehaviour:
     afterHitInfo:
       afterHitType: 0
       color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
-      range: 1
-      duration: 20
+      range: 0
+      duration: 0
       damageEffects:
         tokens: []
         Cooltime: 0
