@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
+  m_Name: Mine
+  m_EditorClassIdentifier: 
+  towerType: 0
+  Code: Thunder
+  Name: "\uC9C0\uB8B0 \uB9E4\uC124\uAE30"
+  Desc: "\uC8FC\uBCC0\uC5D0 \uC9C0\uB8B0\uB97C \uC124\uCE58\uD569\uB2C8\uB2E4."
+  Tier: 2
+  Materials:
+  - Pink
+  - Black
+  projectileInfo:
+  - executeType: 1
+    CountPerOnce: 2
+    Spd: 6
+    Range: 3
+    effectInfo:
+      tokens: []
+      Cooltime: 1.4285715
+    TrailType: 0
+    afterHitInfo:
+      afterHitType: 1
+      color: {r: 0, g: 0, b: 0, a: 0}
+      range: 1.2
+      duration: 0
+      damageEffects:
+        tokens:
+        - damageEffectType: 0
+          Amount: 35
+        Cooltime: 0
+    color: {r: 1, g: 0.8546775, b: 0.24056602, a: 0.5019608}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+    towerType: 0
+  Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}

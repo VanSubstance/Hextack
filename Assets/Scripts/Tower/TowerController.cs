@@ -79,7 +79,7 @@ namespace Assets.Scripts.Tower
                 {
                     // 공격 대상 탐색
                     Collider[] cols;
-                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range * (1 + (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
+                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range * (1 + (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                     {
                         return;
                     }
@@ -112,7 +112,7 @@ namespace Assets.Scripts.Tower
                                                     (int)(
                                                         tk.Amount
                                                             * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
-                                                            * (1 + (.05f * ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                                            * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
                                                     ),
                                                     Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
                                                 break;
@@ -140,7 +140,7 @@ namespace Assets.Scripts.Tower
                                             (int)(
                                                 tk.Amount
                                                     * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
-                                                    * (1 + (.05f * ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                                    * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
                                             ),
                                             Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
                                         break;
@@ -155,7 +155,7 @@ namespace Assets.Scripts.Tower
                         ProjectileManager.Instance.GetNewContent(tprj);
                         idx++;
                     }
-                }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.OutGame.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
+                }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             }
             TowerManager.Instance.TowerLiveList.Add(this);
             return true;
