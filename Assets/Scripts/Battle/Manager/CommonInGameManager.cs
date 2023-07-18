@@ -48,8 +48,8 @@ namespace Assets.Scripts.Battle
             });
 
             // 초기 기어 업그레이드 적용
-            ServerData.InGame.MiningLevel = ServerData.OutGame.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Mining];
-            ServerData.InGame.AmountStone = 20 + (ServerData.OutGame.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Stone] * 10);
+            ServerData.InGame.MiningLevel = ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Mining];
+            ServerData.InGame.AmountStone = 20 + (ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Stone] * 10);
 
             ServerData.InGame.CurrentRound = 1;
             // 게임 시작

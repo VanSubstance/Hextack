@@ -20,6 +20,7 @@ namespace Assets.Scripts.UI.Swiper
         private void Awake()
         {
             ContentList = ContentParentTr.GetComponentsInChildren<AbsSwiperContent<TParameterForContent>>();
+            Debug.Log(ContentList.Length);
             scrollRect = GetComponent<ScrollRect>();
             scrollRect.onValueChanged.AddListener((value) =>
             {

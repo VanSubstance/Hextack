@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.Fragment.Section.GoldUpgrade
         private SectionGoldUpgradeChoiceContent choiceMachine, choiceMagic, choiceBio;
         private Dictionary<TowerType, SectionGoldUpgradeChoiceContent> choiceList;
 
-        private void Awake()
+        private void Start()
         {
             choiceList = new Dictionary<TowerType, SectionGoldUpgradeChoiceContent>()
             {
@@ -26,48 +26,51 @@ namespace Assets.Scripts.UI.Fragment.Section.GoldUpgrade
 
         private void UpdateValue(TowerType towerType)
         {
-            choiceList[towerType].Lv = ServerData.OutGame.GoldUpgradeLevel[towerType][upgradeTarget];
-            choiceList[towerType].Price = (1 + (ServerData.OutGame.GoldUpgradeLevel[towerType][upgradeTarget] / 10)) * 1000;
+            choiceList[towerType].Lv = ServerData.Saving.GoldUpgradeLevel[towerType][upgradeTarget];
+            choiceList[towerType].Price = (1 + (ServerData.Saving.GoldUpgradeLevel[towerType][upgradeTarget] / 10)) * 1000;
         }
 
         public void UpgradeMachine()
         {
-            if (ServerData.User.AmountGold < (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Machine][upgradeTarget] / 10)) * 1000)
+            if (ServerData.Saving.AmountGold < (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Machine][upgradeTarget] / 10)) * 1000)
             {
 
             }
             else
             {
-                CommonOutGameManager.Instance.AmountGold = ServerData.User.AmountGold -= (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Machine][upgradeTarget] / 10)) * 1000;
-                ServerData.OutGame.GoldUpgradeLevel[TowerType.Machine][upgradeTarget]++;
+                CommonOutGameManager.Instance.AmountGold = ServerData.Saving.AmountGold -= (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Machine][upgradeTarget] / 10)) * 1000;
+                ServerData.Saving.GoldUpgradeLevel[TowerType.Machine][upgradeTarget]++;
+                ServerData.Saving.GoldLvMachine[(int)upgradeTarget]++;
                 UpdateValue(TowerType.Machine);
             }
         }
 
         public void UpgradeMagic()
         {
-            if (ServerData.User.AmountGold < (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Magic][upgradeTarget] / 10)) * 1000)
+            if (ServerData.Saving.AmountGold < (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Magic][upgradeTarget] / 10)) * 1000)
             {
 
             }
             else
             {
-                CommonOutGameManager.Instance.AmountGold = ServerData.User.AmountGold -= (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Magic][upgradeTarget] / 10)) * 1000;
-                ServerData.OutGame.GoldUpgradeLevel[TowerType.Magic][upgradeTarget]++;
+                CommonOutGameManager.Instance.AmountGold = ServerData.Saving.AmountGold -= (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Magic][upgradeTarget] / 10)) * 1000;
+                ServerData.Saving.GoldUpgradeLevel[TowerType.Magic][upgradeTarget]++;
+                ServerData.Saving.GoldLvMagic[(int)upgradeTarget]++;
                 UpdateValue(TowerType.Magic);
             }
         }
 
         public void UpgradeBio()
         {
-            if (ServerData.User.AmountGold < (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Bio][upgradeTarget] / 10)) * 1000)
+            if (ServerData.Saving.AmountGold < (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Bio][upgradeTarget] / 10)) * 1000)
             {
 
             }
             else
             {
-                CommonOutGameManager.Instance.AmountGold = ServerData.User.AmountGold -= (1 + (ServerData.OutGame.GoldUpgradeLevel[TowerType.Bio][upgradeTarget] / 10)) * 1000;
-                ServerData.OutGame.GoldUpgradeLevel[TowerType.Bio][upgradeTarget]++;
+                CommonOutGameManager.Instance.AmountGold = ServerData.Saving.AmountGold -= (1 + (ServerData.Saving.GoldUpgradeLevel[TowerType.Bio][upgradeTarget] / 10)) * 1000;
+                ServerData.Saving.GoldUpgradeLevel[TowerType.Bio][upgradeTarget]++;
+                ServerData.Saving.GoldLvBio[(int)upgradeTarget]++;
                 UpdateValue(TowerType.Bio);
             }
         }

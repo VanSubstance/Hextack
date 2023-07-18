@@ -18,8 +18,8 @@ namespace Assets.Scripts.UI.Fragment.Section.GearUpgrade
                 switch (upgradeType)
                 {
                     case GearUpgradeType.Stone:
-                        textCurrent.text = $"Lv {value} : {value * 10 + 30}";
-                        textNext.text = $"Lv {value + 1} : {(value + 1) * 10 + 30}";
+                        textCurrent.text = $"Lv {value} : {value * 10 + 20}";
+                        textNext.text = $"Lv {value + 1} : {(value + 1) * 10 + 20}";
                         break;
                     case GearUpgradeType.Mining:
                         textCurrent.text = $"Lv {value}";
@@ -37,25 +37,26 @@ namespace Assets.Scripts.UI.Fragment.Section.GearUpgrade
             }
         }
 
-        private void Awake()
+        private void Start()
         {
-            LevelCurrent = ServerData.OutGame.GearUpgradeLevel[upgradeType];
-            Price = ServerData.OutGame.GearUpgradeLevel[upgradeType] * 2;
+            LevelCurrent = ServerData.Saving.GearUpgradeLevel[upgradeType];
+            Price = ServerData.Saving.GearUpgradeLevel[upgradeType] * 2;
         }
 
         public void Upgrade()
         {
             // 가격은 현재 레벨 * 2로 책정한다
-            if (ServerData.User.AmountGear < ServerData.OutGame.GearUpgradeLevel[upgradeType] * 2)
+            if (ServerData.Saving.AmountGear < ServerData.Saving.GearUpgradeLevel[upgradeType] * 2)
             {
                 // 부족
             }
             else
             {
                 // 업그레이드
-                CommonOutGameManager.Instance.AmountGear = ServerData.User.AmountGear -= ServerData.OutGame.GearUpgradeLevel[upgradeType] * 2;
-                LevelCurrent = ++ServerData.OutGame.GearUpgradeLevel[upgradeType];
-                Price = ServerData.OutGame.GearUpgradeLevel[upgradeType] * 2;
+                CommonOutGameManager.Instance.AmountGear = ServerData.Saving.AmountGear -= ServerData.Saving.GearUpgradeLevel[upgradeType] * 2;
+                LevelCurrent = ++ServerData.Saving.GearUpgradeLevel[upgradeType];
+                ServerData.Saving.GearLv[(int)upgradeType]++;
+                Price = ServerData.Saving.GearUpgradeLevel[upgradeType] * 2;
             }
         }
     }
