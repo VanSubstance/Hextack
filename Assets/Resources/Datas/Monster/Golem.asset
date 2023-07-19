@@ -19,8 +19,8 @@ MonoBehaviour:
   Desc: "\uB2E8\uB2E8\uD574\uBCF4\uC774\uB294 \uACE8\uB818\uC785\uB2C8\uB2E4."
   Hp: 2000
   MaxHp: 2000
-  Spd: 10
-  MaxSpd: 1
+  Spd: 1
+  MaxSpd: 10
   TowerResist: 00000000
   TowerWeak: 01000000
   Tracks: []

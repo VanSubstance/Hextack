@@ -306,8 +306,47 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1804508449756514070, guid: 7adddd7c611c4cd489ab3bdb39953b5b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7adddd7c611c4cd489ab3bdb39953b5b, type: 3}
+--- !u!224 &1534694273744653364 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 9200551081856094555, guid: 7adddd7c611c4cd489ab3bdb39953b5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7701920871111073135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1534694273744653365 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9200551081856094554, guid: 7adddd7c611c4cd489ab3bdb39953b5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7701920871111073135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5285247529813104860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534694273744653365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!224 &1534694274512535557 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9200551082287914346, guid: 7adddd7c611c4cd489ab3bdb39953b5b,
@@ -332,6 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54358afc9ad96864cb5386a36a8e4887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContentParentTr: {fileID: 8816315085603068197, guid: 31ce001ba368c9f4b9ca696fd674c7b2,
-    type: 3}
+  ContentParentTr: {fileID: 1534694273744653364}
   ContentList: []
+  contentPrefab: {fileID: 2157667046496291972, guid: 31ce001ba368c9f4b9ca696fd674c7b2,
+    type: 3}

@@ -3,14 +3,19 @@
     public class AchievementInfo
     {
         /// <summary>
+        /// 이름
+        /// </summary>
+        public string Title;
+
+        /// <summary>
         /// 설명
         /// </summary>
-        public string TextDesc;
+        public string Desc;
 
         /// <summary>
         /// 조건
         /// </summary>
-        public System.Func<object, bool> ActionCondition;
+        public System.Func<bool> ActionCondition;
 
         /// <summary>
         /// 달성 시 보상

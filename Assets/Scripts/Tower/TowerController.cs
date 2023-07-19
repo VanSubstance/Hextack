@@ -167,6 +167,7 @@ namespace Assets.Scripts.Tower
                 }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             }
             TowerManager.Instance.TowerLiveList.Add(this);
+            EffectManager.Instance.ExecutNewEffect("Cloud", transform.position, Color.white, 1);
             return true;
         }
 

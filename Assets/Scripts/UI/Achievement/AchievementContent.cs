@@ -1,33 +1,35 @@
-﻿using TMPro;
+﻿using Assets.Scripts.UI.Swiper;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Achievement
 {
-    public class AchievementContent : AbsPoolingContent<AchievementInfo>
+    public class AchievementContent : AbsSwiperContent<AchievementInfo>
     {
         [SerializeField]
-        private TextMeshProUGUI textDesc;
-        private System.Func<object, bool> ActionCondition;
+        private TextMeshProUGUI textTitle, textDesc, textIsClear;
+        private System.Func<bool> ActionCondition;
         private System.Action ActionAchiveve;
-        public override void Clear()
-        {
+        private bool isCleared;
 
+        public void UpdateCondition()
+        {
+            if (!isCleared && ActionCondition())
+            {
+                isCleared = true;
+                ActionAchiveve?.Invoke();
+                textIsClear.gameObject.SetActive(true);
+            }
         }
 
-        protected override bool InitExtra(AchievementInfo _info)
+        public override void Init(AchievementInfo _info)
         {
-            textDesc.text = _info.TextDesc;
+            isCleared = false;
+            textTitle.text = _info.Title;
+            textDesc.text = _info.Desc;
             ActionCondition = _info.ActionCondition;
             ActionAchiveve = _info.ActionAchieve;
-            return true;
-        }
-
-        public void UpdateCondition(object obj)
-        {
-            if (ActionCondition(obj))
-            {
-                ActionAchiveve?.Invoke();
-            }
+            textIsClear.gameObject.SetActive(false);
         }
     }
 }
