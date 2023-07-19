@@ -116,6 +116,11 @@ namespace Assets.Scripts.Common
             {
                 GlobalDictionary.Texture.Tower.data[unit.name] = unit;
             }
+            // 몬스터 Sprite
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Monster.rootPath}"))
+            {
+                GlobalDictionary.Texture.Monster.data[unit.name] = unit;
+            }
             // 아이콘 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))
             {

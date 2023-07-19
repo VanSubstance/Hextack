@@ -78,83 +78,91 @@ namespace Assets.Scripts.Tower
                 // 투사체 종류 별 코루틴 부여
                 atkQ.Enqueue(ServerManager.Instance.ExecuteCrInRepeat(() =>
                 {
-                    // 공격 대상 탐색
-                    Collider[] cols;
-                    if ((cols = Physics.OverlapSphere(transform.position, prj.Range * (1 + (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
+                    try
                     {
-                        return;
-                    }
-                    // 사거리 내 몬스터 존재
-                    // 첫번째 대상 바라보기
-                    int idx = 0;
-                    Stare(cols[idx].transform.position);
-                    while (prj.CountPerOnce > idx)
-                    {
-                        ProjectileInfo tprj = prj.Clone();
-                        if (prj.executeType.Equals(ProjectileExecuteType.Lazer))
+                        // 공격 대상 탐색
+                        Collider[] cols;
+                        if ((cols = Physics.OverlapSphere(transform.position, (.5f + prj.Range) * (1 + (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                         {
-                            // 레이저 = 투사체 없음
-                            // 이펙트 on
-                            EffectManager.Instance.ExecutNewEffect("Lazer", transform.position, Color.yellow, 50, .5f, cols[idx].transform.position);
-                            // 레이캐스트 = 걸리는 몬스터 전부 데미지
-                            RaycastHit[] res;
-                            if ((res = Physics.BoxCastAll(transform.position, Vector3.one, cols[idx].transform.position, Quaternion.identity, 100, GlobalDictionary.Layer.Monster)).Length > 0)
+                            return;
+                        }
+                        // 사거리 내 몬스터 존재
+                        // 첫번째 대상 바라보기
+                        int idx = 0;
+                        Stare(cols[idx].transform.position);
+                        while (prj.CountPerOnce > idx)
+                        {
+                            ProjectileInfo tprj = prj.Clone();
+                            if (prj.executeType.Equals(ProjectileExecuteType.Lazer))
                             {
-                                // 걸린 모든 몬스터에게 영향 부여
-                                foreach (MonsterController targetTr in res.Select((ress) => { return ress.transform.GetComponent<MonsterController>(); }))
+                                // 레이저 = 투사체 없음
+                                // 이펙트 on
+                                EffectManager.Instance.ExecutNewEffect("Lazer", transform.position, Color.yellow, 50, .5f, cols[idx].transform.position);
+                                // 레이캐스트 = 걸리는 몬스터 전부 데미지
+                                RaycastHit[] res;
+                                if ((res = Physics.BoxCastAll(transform.position, Vector3.one, cols[idx].transform.position, Quaternion.identity, 100, GlobalDictionary.Layer.Monster)).Length > 0)
                                 {
-                                    foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
+                                    // 걸린 모든 몬스터에게 영향 부여
+                                    foreach (MonsterController targetTr in res.Select((ress) => { return ress.transform.GetComponent<MonsterController>(); }))
                                     {
-                                        switch (tk.damageEffectType)
+                                        foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
                                         {
-                                            case DamageEffectType.Damage:
-                                                // 데미지 계산
-                                                targetTr.ApplyHp(
-                                                    (int)(
-                                                        tk.Amount
-                                                            * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
-                                                            * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
-                                                    ),
-                                                    Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
-                                                break;
-                                            case DamageEffectType.Speed:
-                                                // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
-                                                targetTr.ApplySpeed(tk.Amount);
-                                                break;
+                                            switch (tk.damageEffectType)
+                                            {
+                                                case DamageEffectType.Damage:
+                                                    // 데미지 계산
+                                                    targetTr.ApplyHp(
+                                                        (int)(
+                                                            tk.Amount
+                                                                * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
+                                                                * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                                        ),
+                                                        Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
+                                                    break;
+                                                case DamageEffectType.Speed:
+                                                    // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
+                                                    targetTr.ApplySpeed(tk.Amount);
+                                                    break;
+                                            }
                                         }
                                     }
                                 }
+                                idx++;
+                                continue;
                             }
-                            idx++;
-                            continue;
-                        }
-                        tprj.StartPos = transform.position;
-                        tprj.ActionEnd = (targetTr) =>
-                        {
-                            foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
+                            tprj.StartPos = transform.position;
+                            tprj.ActionEnd = (targetTr) =>
                             {
-                                switch (tk.damageEffectType)
+                                foreach (DamageEffectInfo.Token tk in tprj.effectInfo.tokens)
                                 {
-                                    case DamageEffectType.Damage:
-                                        // 데미지 계산
-                                        targetTr.ApplyHp(
-                                            (int)(
-                                                tk.Amount
-                                                    * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
-                                                    * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
-                                            ),
-                                            Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
-                                        break;
-                                    case DamageEffectType.Speed:
-                                        // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
-                                        targetTr.ApplySpeed(tk.Amount);
-                                        break;
+                                    switch (tk.damageEffectType)
+                                    {
+                                        case DamageEffectType.Damage:
+                                            // 데미지 계산
+                                            targetTr.ApplyHp(
+                                                (int)(
+                                                    tk.Amount
+                                                        * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[towerInfo.towerType]))
+                                                        * (1 + (.05f * ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Damage]))
+                                                ),
+                                                Random.Range(0f, 1f) < GlobalStatus.InGame.RateCritical, towerInfo.towerType);
+                                            break;
+                                        case DamageEffectType.Speed:
+                                            // 이동속도 저하 = 누적 X, Max(기존 슬로우, 신규 슬로우) 적용
+                                            targetTr.ApplySpeed(tk.Amount);
+                                            break;
+                                    }
                                 }
-                            }
-                        };
-                        tprj.targetTr = cols[idx].transform.GetComponent<MonsterController>();
-                        ProjectileManager.Instance.GetNewContent(tprj);
-                        idx++;
+                            };
+                            tprj.targetTr = cols[idx].transform.GetComponent<MonsterController>();
+                            ProjectileManager.Instance.GetNewContent(tprj);
+                            idx++;
+                        }
+                    }
+                    catch (System.IndexOutOfRangeException e)
+                    {
+                        // 대상이 유실됨 = 그냥 넘긴다
+                        Debug.Log($"대상 유실:: {e}");
                     }
                 }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             }
@@ -177,10 +185,6 @@ namespace Assets.Scripts.Tower
         public void CollabseTower()
         {
             tileInstalled.RemoveTower();
-        }
-
-        private void OnMouseDown()
-        {
         }
 
         private void OnMouseUp()

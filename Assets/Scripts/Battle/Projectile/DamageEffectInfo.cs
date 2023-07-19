@@ -18,6 +18,19 @@
         }
 
         /// <summary>
+        /// 폭발용 일회성 효과
+        /// </summary>
+        /// <returns></returns>
+        public DamageEffectInfo CloneDisposal()
+        {
+            return new()
+            {
+                tokens = tokens.Clone() as Token[],
+                Cooltime = 2f,
+            };
+        }
+
+        /// <summary>
         /// 효과 토큰
         /// </summary>
         [System.Serializable]

@@ -70,5 +70,19 @@ namespace Assets.Scripts.Tower
         {
             // 풀링 생성 안함
         }
+
+        public string TranslateTowerType(TowerType type)
+        {
+            switch (type)
+            {
+                case TowerType.Machine:
+                    return "기계";
+                case TowerType.Bio:
+                    return "생체";
+                case TowerType.Magic:
+                    return "마법";
+            }
+            return string.Empty;
+        }
     }
 }

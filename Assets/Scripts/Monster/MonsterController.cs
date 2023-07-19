@@ -2,10 +2,11 @@
 using Assets.Scripts.Tower;
 using Assets.Scripts.UI.DamageText;
 using Assets.Scripts.UI.Manager;
+using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 
 namespace Assets.Scripts.Monster
 {
@@ -13,10 +14,9 @@ namespace Assets.Scripts.Monster
     {
         [SerializeField]
         private NavMeshAgent agent;
-        private int Hp;
         private float baseSpeed, rateSpeed;
         private bool IsBoss;
-        private TowerType[] typeResist, typeWeak;
+        private MonsterInfo info;
         private Queue<Transform> destQ;
         private Coroutine CrDestinationCheck, CrSpeedLack;
 
@@ -59,19 +59,19 @@ namespace Assets.Scripts.Monster
         /// <param name="damage"></param>
         public void ApplyHp(int damage, bool isCrit, TowerType towerType)
         {
-            if (Hp <= 0)
+            if (info.Hp <= 0)
             {
                 return;
             }
             // 크리티컬 데미지 연산
             damage = (int)(damage * (isCrit ? 1.5f : 1f));
             // 타워 타입 별 저항 연산
-            if (typeWeak.Contains(towerType))
+            if (info.TowerWeak.Contains(towerType))
             {
                 // 데미지 추가
                 damage = (int)(damage * 1.25f);
             }
-            if (typeResist.Contains(towerType))
+            if (info.TowerResist.Contains(towerType))
             {
                 // 데미지 경감
                 damage = (int)(damage * .75f);
@@ -90,8 +90,8 @@ namespace Assets.Scripts.Monster
 
             // 데미지 이펙트 띄워주기
             EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
-            Hp -= damage;
-            if (Hp <= 0)
+            info.Hp -= damage;
+            if (info.Hp <= 0)
             {
                 // 죽음
                 ReturnToPool();
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Monster
         /// <param name="rateSlow"></param>
         public void ApplySpeed(float rateSlow)
         {
-            if (Hp <= 0)
+            if (info.Hp <= 0)
             {
                 return;
             }
@@ -141,10 +141,8 @@ namespace Assets.Scripts.Monster
             {
                 destQ.Enqueue(v);
             }
-            typeResist = _info.TowerResist;
-            typeWeak = _info.TowerWeak;
+            info = _info.Clone();
             baseSpeed = agent.speed = _info.Spd;
-            Hp = _info.Hp;
             IsBoss = _info.CntMonsterSummoned == 1;
             transform.position = destQ.Dequeue().position;
             gameObject.SetActive(true);
@@ -166,6 +164,11 @@ namespace Assets.Scripts.Monster
                 }
             }, null, null, .1f);
             return true;
+        }
+
+        private void OnMouseUp()
+        {
+            WindowContainer.Instance.Open(info);
         }
     }
 }

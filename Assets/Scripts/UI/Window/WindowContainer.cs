@@ -12,6 +12,8 @@ namespace Assets.Scripts.UI.Window
         /// </summary>
         [SerializeField]
         private WindowContentTowerInfo windowTowerInfo;
+        [SerializeField]
+        private WindowContentMonsterInfo windowMonsterInfo;
 
         private void Start()
         {
@@ -30,12 +32,24 @@ namespace Assets.Scripts.UI.Window
         }
 
         /// <summary>
+        /// 몬스터 정보 오픈
+        /// </summary>
+        /// <param name="info"></param>
+        public void Open(Monster.MonsterInfo info)
+        {
+            Close();
+            windowMonsterInfo.Init(info);
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
         /// 정보창 닫기
         /// </summary>
         public void Close()
         {
             gameObject.SetActive(false);
             windowTowerInfo.Close();
+            windowMonsterInfo.Close();
         }
     }
 }
