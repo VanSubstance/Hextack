@@ -1,10 +1,6 @@
 ﻿using Assets.Scripts.Common;
-using Assets.Scripts.Monster;
-using Assets.Scripts.Unit;
-using Assets.Scripts.Server;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,7 +17,6 @@ public class ServerManager : SingletonObject<ServerManager>
         base.Awake();
         DontDestroyOnLoad(transform);
         Application.targetFrameRate = 1000;
-        //ServerData.User.AmountGold = 100000;
         DataManager.Instance.LoadLocalDatas();
     }
 
@@ -30,8 +25,8 @@ public class ServerManager : SingletonObject<ServerManager>
     /// </summary>
     public void ExitDouble()
     {
-        ServerData.User.AmountGear += ServerData.InGame.AccuGear * 2;
-        ServerData.User.AmountGold += ServerData.InGame.AccuGold * 2;
+        ServerData.Saving.AmountGear += ServerData.InGame.AccuGear * 2;
+        ServerData.Saving.AmountGold += ServerData.InGame.AccuGold * 2;
         GlobalStatus.NextScene = "Main";
         SceneManager.LoadScene("Loading");
     }
@@ -41,8 +36,8 @@ public class ServerManager : SingletonObject<ServerManager>
     /// </summary>
     public void ExitNormal()
     {
-        ServerData.User.AmountGear += ServerData.InGame.AccuGear;
-        ServerData.User.AmountGold += ServerData.InGame.AccuGold;
+        ServerData.Saving.AmountGear += ServerData.InGame.AccuGear;
+        ServerData.Saving.AmountGold += ServerData.InGame.AccuGold;
         GlobalStatus.NextScene = "Main";
         SceneManager.LoadScene("Loading");
     }

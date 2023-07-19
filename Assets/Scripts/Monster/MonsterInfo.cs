@@ -29,7 +29,7 @@ namespace Assets.Scripts.Monster
         /// <summary>
         /// 이름
         /// </summary>
-        public string Name;
+        public string Name, Desc;
 
         /// <summary>
         /// 체력
@@ -37,9 +37,29 @@ namespace Assets.Scripts.Monster
         public int Hp;
 
         /// <summary>
+        /// 최대 체력
+        /// </summary>
+        public int MaxHp;
+
+        /// <summary>
         /// 1초에 이동하는 유니티 미터 = 기본값 : 2
         /// </summary>
         public float Spd = 2;
+
+        /// <summary>
+        /// 최대 속도
+        /// </summary>
+        public float MaxSpd;
+
+        /// <summary>
+        /// 저항을 가지는 타워 종류
+        /// </summary>
+        public Tower.TowerType[] TowerResist;
+
+        /// <summary>
+        /// 추가 데미지를 입는 타워 종류
+        /// </summary>
+        public Tower.TowerType[] TowerWeak;
 
         /// <summary>
         /// 경로 = 절대 좌표
@@ -54,6 +74,8 @@ namespace Assets.Scripts.Monster
 
         public MonsterInfo SetCode(string code)
         {
+            MaxHp = +Hp;
+            MaxSpd = +Spd;
             Code = code;
             return this;
         }

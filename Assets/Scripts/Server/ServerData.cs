@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Dungeon;
 using Assets.Scripts.Monster;
 using Assets.Scripts.Tower;
+using Assets.Scripts.Server;
 using Assets.Scripts.UI.Fragment.Section.GearUpgrade;
 using System.Collections.Generic;
 
@@ -26,10 +27,10 @@ public static class ServerData
         public static Dictionary<string, MonsterInfo> data = new Dictionary<string, MonsterInfo>();
     }
 
-    public static class User
-    {
-        public static int AmountGold, AmountGear;
-    }
+    /// <summary>
+    /// 저장 정보
+    /// </summary>
+    public static SavingData Saving;
 
     /// <summary>
     /// 던전 정보
@@ -42,40 +43,6 @@ public static class ServerData
         /// 접근 가능한 던전 리스트
         /// </summary>
         public static Dictionary<string, DungeonInfo> data = new Dictionary<string, DungeonInfo>();
-    }
-
-    /// <summary>
-    /// 아웃게임 정보
-    /// </summary>
-    public static class OutGame
-    {
-        public static Dictionary<TowerType, Dictionary<TowerUpgradeType, int>> GoldUpgradeLevel = new Dictionary<TowerType, Dictionary<TowerUpgradeType, int>>()
-        {
-            {TowerType.Machine, new Dictionary<TowerUpgradeType, int>()
-            {
-                { TowerUpgradeType.AttackSpeed, 0 },
-                { TowerUpgradeType.Range, 0 },
-                { TowerUpgradeType.Damage, 0 },
-            } },
-            {TowerType.Magic, new Dictionary<TowerUpgradeType, int>()
-            {
-                { TowerUpgradeType.AttackSpeed, 0 },
-                { TowerUpgradeType.Range, 0 },
-                { TowerUpgradeType.Damage, 0 },
-            } },
-            {TowerType.Bio, new Dictionary<TowerUpgradeType, int>()
-            {
-                { TowerUpgradeType.AttackSpeed, 0 },
-                { TowerUpgradeType.Range, 0 },
-                { TowerUpgradeType.Damage, 0 },
-            } },
-        };
-
-        public static Dictionary<GearUpgradeType, int> GearUpgradeLevel = new Dictionary<GearUpgradeType, int>()
-        {
-            {GearUpgradeType.Stone, 1 },
-            {GearUpgradeType.Mining, 1 },
-        };
     }
 
     /// <summary>

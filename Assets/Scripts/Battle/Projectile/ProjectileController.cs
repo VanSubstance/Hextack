@@ -135,18 +135,9 @@ namespace Assets.Scripts.Battle.Projectile
             if (afterHitInfo != null)
             {
                 // 도착 후 효과가 있다 = 실행
-                switch (afterHitInfo.afterHitType)
-                {
-                    case AfterHitType.Explosive:
-                        // 폭발
-                        break;
-                    case AfterHitType.Area:
-                        // 장판
-                        AreaInfo areaInfo = afterHitInfo.GetAreaInfo();
-                        areaInfo.targetPos = transform.position;
-                        AreaManager.Instance.GetNewContent(areaInfo);
-                        break;
-                }
+                AreaInfo areaInfo = afterHitInfo.GetAreaInfo();
+                areaInfo.targetPos = transform.position;
+                AreaManager.Instance.GetNewContent(areaInfo);
             }
             ReturnToPool();
         }

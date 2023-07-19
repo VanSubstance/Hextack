@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
+  m_Name: ChainThicket
+  m_EditorClassIdentifier: 
+  towerType: 1
+  Code: Ice
+  Name: "\uC0AC\uC2AC \uB364\uBD88"
+  Desc: "\uC8FC\uBCC0\uC758 \uC801\uB4E4\uC5D0\uAC8C \uB370\uBBF8\uC9C0\uB97C \uC785\uD788\uACE0
+    \uC18D\uB3C4\uB97C \uB2A6\uCDA5\uB2C8\uB2E4."
+  Tier: 1
+  Materials:
+  - Blue
+  - Grey
+  - Black
+  projectileInfo:
+  - executeType: 2
+    CountPerOnce: 2
+    Spd: 10
+    Range: 1.5
+    effectInfo:
+      tokens:
+      - damageEffectType: 0
+        Amount: 5
+      - damageEffectType: 1
+        Amount: 0.1
+      Cooltime: 0.5
+    TrailType: 1
+    afterHitInfo:
+      afterHitType: 0
+      color: {r: 0.514151, g: 0.96646935, b: 1, a: 0}
+      range: 0
+      duration: 0
+      damageEffects:
+        tokens: []
+        Cooltime: 0
+    color: {r: 0, g: 1, b: 0.9700117, a: 0.83137256}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+    towerType: 0
+  Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}

@@ -83,7 +83,7 @@ namespace Assets.Scripts.Common.MainManager
         {
             Init();
             fragmentContanier.GoToContent(startIdx, false);
-            Instance.AmountGear = ServerData.User.AmountGear = 1000;
+            Instance.AmountGear = ServerData.Saving.AmountGear;
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Assets.Scripts.Common.MainManager
         /// </summary>
         public void Init()
         {
-            AmountGold = ServerData.User.AmountGold;
-            AmountGear = ServerData.User.AmountGear;
+            AmountGold = ServerData.Saving.AmountGold;
+            AmountGear = ServerData.Saving.AmountGear;
         }
 
         public void ChangeUnit()

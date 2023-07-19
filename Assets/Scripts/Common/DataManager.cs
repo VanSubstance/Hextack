@@ -1,7 +1,10 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Dungeon;
-using Assets.Scripts.Tower;
 using Assets.Scripts.Monster;
+using Assets.Scripts.Server;
+using Assets.Scripts.Tower;
+using Assets.Scripts.UI.Fragment.Section.GearUpgrade;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Common
@@ -14,11 +17,46 @@ namespace Assets.Scripts.Common
 
         public void LoadLocalDatas()
         {
+            LoadSavingData();
             LoadPrefabs();
             LoadMaterials();
             LoadTextures();
             LoadMeshs();
             LoadScriptables();
+        }
+
+        /// <summary>
+        /// 로컬 저장 정보 로드 함수
+        /// </summary>
+        public void LoadSavingData()
+        {
+            ServerData.Saving = Resources.Load<SavingData>($"{ServerData.rootPath}/Server/Base");
+            ServerData.Saving.GoldUpgradeLevel = new Dictionary<TowerType, Dictionary<TowerUpgradeType, int>>()
+                {
+                    {TowerType.Machine, new Dictionary<TowerUpgradeType, int>()
+                    {
+                        { TowerUpgradeType.AttackSpeed, ServerData.Saving.GoldLvMachine[0] },
+                        { TowerUpgradeType.Range, ServerData.Saving.GoldLvMachine[1] },
+                        { TowerUpgradeType.Damage, ServerData.Saving.GoldLvMachine[2] },
+                    } },
+                    {TowerType.Magic, new Dictionary<TowerUpgradeType, int>()
+                    {
+                        { TowerUpgradeType.AttackSpeed, ServerData.Saving.GoldLvMagic[0] },
+                        { TowerUpgradeType.Range, ServerData.Saving.GoldLvMagic[1] },
+                        { TowerUpgradeType.Damage, ServerData.Saving.GoldLvMagic[2] },
+                    } },
+                    {TowerType.Bio, new Dictionary<TowerUpgradeType, int>()
+                    {
+                        { TowerUpgradeType.AttackSpeed, ServerData.Saving.GoldLvBio[0] },
+                        { TowerUpgradeType.Range, ServerData.Saving.GoldLvBio[1] },
+                        { TowerUpgradeType.Damage, ServerData.Saving.GoldLvBio[2] },
+                    } },
+                };
+            ServerData.Saving.GearUpgradeLevel = new Dictionary<GearUpgradeType, int>()
+                {
+                    {GearUpgradeType.Stone, ServerData.Saving.GearLv[0] },
+                    {GearUpgradeType.Mining, ServerData.Saving.GearLv[1] },
+                };
         }
 
         /// <summary>
@@ -36,6 +74,12 @@ namespace Assets.Scripts.Common
             foreach (EffectController unit in Resources.LoadAll<EffectController>($"{GlobalDictionary.Prefab.Effect.rootPath}"))
             {
                 GlobalDictionary.Prefab.Effect.data[unit.name] = unit;
+            }
+
+            // 타워
+            foreach (GameObject unit in Resources.LoadAll<GameObject>($"{GlobalDictionary.Prefab.Tower.rootPath}"))
+            {
+                GlobalDictionary.Prefab.Tower.data[unit.name] = unit;
             }
         }
 
@@ -56,10 +100,10 @@ namespace Assets.Scripts.Common
         public void LoadMeshs()
         {
             // 타워
-            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
-            {
-                GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
-            }
+            //foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
+            //{
+            //    GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
+            //}
         }
 
         /// <summary>
@@ -71,6 +115,11 @@ namespace Assets.Scripts.Common
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Tower.rootPath}"))
             {
                 GlobalDictionary.Texture.Tower.data[unit.name] = unit;
+            }
+            // 몬스터 Sprite
+            foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Monster.rootPath}"))
+            {
+                GlobalDictionary.Texture.Monster.data[unit.name] = unit;
             }
             // 아이콘 Sprite
             foreach (Sprite unit in Resources.LoadAll<Sprite>($"{GlobalDictionary.Texture.Icon.rootPath}"))
