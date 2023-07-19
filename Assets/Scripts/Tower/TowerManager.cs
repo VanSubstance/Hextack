@@ -13,6 +13,10 @@ namespace Assets.Scripts.Tower
         {
             return transform;
         }
+        public override int GetCountPoolForFirst()
+        {
+            return 10;
+        }
 
         /// <summary>
         /// 설치된 타워 중 같은 타워 리스트 반환
@@ -66,7 +70,7 @@ namespace Assets.Scripts.Tower
             return res;
         }
 
-        protected new void CreatePool(int quantity = 10)
+        protected new void CreatePool()
         {
             // 풀링 생성 안함
         }

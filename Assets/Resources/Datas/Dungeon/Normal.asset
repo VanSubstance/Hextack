@@ -22,12 +22,12 @@ MonoBehaviour:
     IdxEnterance: 1
   - Code: Slime
     IdxEnterance: 0
-  - Code: Slime
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Cobalt
     IdxEnterance: 0
   - Code: Slime
-    IdxEnterance: 0
-  - Code: Slime
-    IdxEnterance: 0
+    IdxEnterance: 1
   MonsterCodeList:
   - {fileID: 0}
   - {fileID: 0}

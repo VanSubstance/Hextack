@@ -10,5 +10,9 @@ namespace Assets.Scripts.UI.DamageText
         {
             return contentParent;
         }
+        public override int GetCountPoolForFirst()
+        {
+            return 100;
+        }
     }
 }

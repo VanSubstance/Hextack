@@ -4,10 +4,13 @@ namespace Assets.Scripts.Monster
 {
     public class MonsterManager : AbsPoolingManager<MonsterManager, MonsterInfo>
     {
-
         public override Transform GetParent()
         {
             return transform;
+        }
+        public override int GetCountPoolForFirst()
+        {
+            return 300;
         }
 
         public void SummonMonster(MonsterToken token)

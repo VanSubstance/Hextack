@@ -155,10 +155,12 @@ namespace Assets.Scripts.Monster
                     if (destQ.TryDequeue(out Transform nextPos))
                     {
                         // 다음 목표가 있다 = 이동
+                        agent.velocity = Vector3.zero;
                         agent.SetDestination(nextPos.position);
                         return;
                     }
                     // 다음 목표가 없다 = 목숨 차감 후 파기 !
+                    ServerAddOnPhysics.Instance.Vibrate(Camera.main.transform, IsBoss ? 2 : 1, true);
                     UIInGameManager.Instance.ApplyLife(IsBoss);
                     ReturnToPool();
                 }

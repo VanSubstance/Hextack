@@ -8,5 +8,9 @@ namespace Assets.Scripts.Battle.Projectile
         {
             return transform;
         }
+        public override int GetCountPoolForFirst()
+        {
+            return 100;
+        }
     }
 }
