@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.UI.Manager;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -105,6 +106,10 @@ public class ServerManager : SingletonObject<ServerManager>
     {
         while (true)
         {
+            if (UIInGameManager.Instance && UIInGameManager.Instance.IsInGameOver)
+            {
+                yield break;
+            }
             if (actionCondition?.Invoke() == true)
             {
                 actionEscape?.Invoke();

@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
 {
-    private System.Action<AbsPoolingContent<TInfo>> ActionReturnToPool;
+    protected System.Action<AbsPoolingContent<TInfo>> ActionReturnToPool;
     private bool isConnected = false;
     public void ConnectWithParent(System.Action<AbsPoolingContent<TInfo>> _ActionReturnToPool)
     {

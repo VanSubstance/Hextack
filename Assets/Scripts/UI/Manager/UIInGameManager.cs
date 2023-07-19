@@ -22,6 +22,11 @@ namespace Assets.Scripts.UI.Manager
         private Coroutine crTimer;
 
         /// <summary>
+        /// 인게임이 끝났는지 여부
+        /// </summary>
+        public bool IsInGameOver;
+
+        /// <summary>
         /// 현재 채굴 레벨
         /// </summary>
         public int MiningLv
@@ -112,6 +117,7 @@ namespace Assets.Scripts.UI.Manager
         /// </summary>
         public void Init(System.Action _actionWhenRoundTimeDone)
         {
+            IsInGameOver = false;
             btnEarlyStart.gameObject.SetActive(false);
             MiningLv = ServerData.InGame.MiningLevel;
             TextCenter = $"던전 시작";
@@ -120,7 +126,7 @@ namespace Assets.Scripts.UI.Manager
             gageLife.Init(30, 30, null, () =>
             {
                 // 라이프 다 닳음 = 게임 종료
-
+                ExitGame();
             }, null, new Color(0, 1, .8f, 1));
 
             ServerData.InGame.CountMonsterLive = 0;
@@ -185,6 +191,9 @@ namespace Assets.Scripts.UI.Manager
             // 타이머 정지 및 파기
             ServerManager.Instance.StopCoroutine(crTimer);
             crTimer = null;
+
+            // 인게임 종료
+            IsInGameOver = true;
 
             // 결과창 열기
             WindowFullContainer.Instance.Open(new ResultInfo()
