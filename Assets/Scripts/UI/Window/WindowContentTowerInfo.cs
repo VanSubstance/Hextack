@@ -29,7 +29,7 @@ namespace Assets.Scripts.UI.Window
             string eft = $"";
 
             // 기본 효과
-            eft += $"{p.Range} 거리 내 {p.CountPerOnce} 대상에게 {p.effectInfo.Cooltime}초마다 ";
+            eft += $"{p.Range} 거리 내 {p.CountPerOnce} 대상에게 {string.Format("{0:0.00}", p.effectInfo.Cooltime)}초마다 ";
             foreach (DamageEffectInfo.Token tk in p.effectInfo.tokens)
             {
                 switch (tk.damageEffectType)
@@ -70,7 +70,7 @@ namespace Assets.Scripts.UI.Window
                     // 폭발 = 지금은 배제
                     break;
                 case AfterHitType.Area:
-                    eft += $"피격 후 {a.duration}초 유지되는 {a.range * 2} 지름의 원의 대상에게 {a.damageEffects.Cooltime}초마다 ";
+                    eft += $"피격 후 {a.duration}초 유지되는 {a.range * 2} 지름의 원의 대상에게 {string.Format("{0:0.00}", a.damageEffects.Cooltime)}초마다 ";
                     foreach (DamageEffectInfo.Token tk in a.damageEffects.tokens)
                     {
                         switch (tk.damageEffectType)

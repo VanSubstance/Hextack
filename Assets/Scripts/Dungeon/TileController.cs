@@ -44,6 +44,7 @@ namespace Assets.Scripts.Dungeon
             }
             // 최대 티어 = 4
             targetTier = Mathf.Min(targetTier, 4);
+            Debug.Log($"Tier:: {targetTier}");
             // 해당 티어 내에서 랜덤 돌리기
             string[] codeArr = ServerData.Tower.data.Where((pair) =>
             {

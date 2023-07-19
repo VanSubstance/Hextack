@@ -36,8 +36,8 @@ public static class GlobalDictionary
         public static string rootPath = $"Prefabs";
         public static class Tower
         {
-            public static string rootPath = $"{GlobalDictionary.Prefab.rootPath}/Tower";
-            public static Dictionary<string, TowerController> data = new Dictionary<string, TowerController>();
+            public static string rootPath = $"{GlobalDictionary.Mesh.rootPath}/Tower";
+            public static Dictionary<string, GameObject> data = new Dictionary<string, GameObject>();
         }
         public static class Icon
         {

@@ -16,5 +16,6 @@ MonoBehaviour:
   CntMonsterSummoned: 0
   CntMonsterMax: 30
   Name: "\uC2AC\uB77C\uC784"
-  Hp: 30
+  Hp: 100
   Spd: 2
+  Tracks: []

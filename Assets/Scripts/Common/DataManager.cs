@@ -75,6 +75,12 @@ namespace Assets.Scripts.Common
             {
                 GlobalDictionary.Prefab.Effect.data[unit.name] = unit;
             }
+
+            // 타워
+            foreach (GameObject unit in Resources.LoadAll<GameObject>($"{GlobalDictionary.Prefab.Tower.rootPath}"))
+            {
+                GlobalDictionary.Prefab.Tower.data[unit.name] = unit;
+            }
         }
 
         /// <summary>
@@ -94,10 +100,10 @@ namespace Assets.Scripts.Common
         public void LoadMeshs()
         {
             // 타워
-            foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
-            {
-                GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
-            }
+            //foreach (Mesh unit in Resources.LoadAll<Mesh>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
+            //{
+            //    GlobalDictionary.Mesh.Tower.data[unit.name] = unit;
+            //}
         }
 
         /// <summary>

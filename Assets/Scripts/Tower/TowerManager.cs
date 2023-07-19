@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
     public class TowerManager : AbsPoolingManager<TowerManager, TowerInfo>
     {
+        private Dictionary<string, Queue<TowerController>> qForTowers = new Dictionary<string, Queue<TowerController>>();
         public List<TowerController> TowerLiveList = new List<TowerController>();
         private Coroutine CrSustainTowerLastClicked;
         public override Transform GetParent()
@@ -40,6 +41,34 @@ namespace Assets.Scripts.Tower
             {
                 ServerData.InGame.LastTowerClicked = null;
             }, .5f);
+        }
+
+        public new TowerController GetNewContent(TowerInfo _info)
+        {
+            if (!qForTowers.ContainsKey(_info.Code))
+            {
+                qForTowers[_info.Code] = new Queue<TowerController>();
+            }
+            if (!qForTowers[_info.Code].TryDequeue(out TowerController res))
+            {
+                // 신규 인스턴스
+                GameObject newInst = Instantiate(GlobalDictionary.Prefab.Tower.data[_info.Code], GetParent());
+                newInst.transform.localScale = Vector3.one * .6f;
+                res = newInst.AddComponent<TowerController>();
+                res.GetComponent<BoxCollider>().center = Vector3.up;
+                res.GetComponent<BoxCollider>().size = new Vector3(2, 2, 1.723f);
+            }
+            res.ConnectWithParent((content) =>
+            {
+                qForTowers[_info.Code].Enqueue(content as TowerController);
+            });
+            res.Init(_info);
+            return res;
+        }
+
+        protected new void CreatePool(int quantity = 10)
+        {
+            // 풀링 생성 안함
         }
     }
 }

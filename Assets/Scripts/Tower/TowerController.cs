@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Tower
 {
+    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
     public class TowerController : AbsPoolingContent<TowerInfo>
     {
         private TowerInfo towerInfo;
@@ -57,8 +58,8 @@ namespace Assets.Scripts.Tower
             towerInfo = ServerData.Tower.data[_info.Code].Clone();
             // 메쉬 + 메테리얼 연결
             /*GetComponent<MeshCollider>().sharedMesh = */
-            GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
-            GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
+            //GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
+            //GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
             transform.position = new Vector3(_info.Position.x, 0, _info.Position.z);
             gameObject.SetActive(true);
             atkQ = new Queue<Coroutine>();
