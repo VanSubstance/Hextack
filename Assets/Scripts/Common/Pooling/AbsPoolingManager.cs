@@ -22,10 +22,18 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
             Destroy(gameObject);
         }
         q = new Queue<AbsPoolingContent<TContentInfo>>();
+        CreatePool();
+    }
+
+    /// <summary>
+    /// 최초 풀링 객체 생성
+    /// </summary>
+    protected virtual void CreatePool(int quantity = 10)
+    {
         // 풀링: 10개만
         int ii = 0;
         AbsPoolingContent<TContentInfo> temp;
-        while (ii++ < 10)
+        while (ii++ < quantity)
         {
             temp = Instantiate(componentPrefab, GetParent());
             temp.ConnectWithParent((content) =>

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trap
   m_EditorClassIdentifier: 
   towerType: 0
-  Code: Cannon
+  Code: Trap
   Name: "\uC0AC\uB0E5\uC6A9 \uB36B"
   Desc: "\uAC78\uB9AC\uBA74 \uBAB9\uC2DC \uC544\uD50C\uAC83\uB9CC \uAC19\uC740 \uBB34\uC2DC\uBB34\uC2DC\uD55C
     \uB36B\uC785\uB2C8\uB2E4."
@@ -34,9 +34,11 @@ MonoBehaviour:
       afterHitType: 1
       color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
       range: 1
-      duration: 20
+      duration: 0
       damageEffects:
-        tokens: []
+        tokens:
+        - damageEffectType: 0
+          Amount: 20
         Cooltime: 0
     color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
     StartPos: {x: 0, y: 0, z: 0}

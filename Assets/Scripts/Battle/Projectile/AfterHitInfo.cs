@@ -31,13 +31,26 @@ namespace Assets.Scripts.Battle.Projectile
 
         public Area.AreaInfo GetAreaInfo()
         {
-            return new Area.AreaInfo()
+            switch (afterHitType)
             {
-                color = color,
-                range = range,
-                duration = duration,
-                damageEffect = damageEffects,
-            };
+                case AfterHitType.Area:
+                    return new Area.AreaInfo()
+                    {
+                        color = color,
+                        range = range,
+                        duration = duration,
+                        damageEffect = damageEffects,
+                    };
+                case AfterHitType.Explosive:
+                    return new Area.AreaInfo()
+                    {
+                        color = color,
+                        range = range,
+                        duration = 1f,
+                        damageEffect = damageEffects.CloneDisposal(),
+                    };
+            }
+            return null;
         }
     }
 }

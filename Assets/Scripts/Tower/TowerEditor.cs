@@ -18,7 +18,7 @@ namespace Assets.Scripts.Tower
                 Handles.color = Color.white;
                 foreach (ProjectileInfo prj in cont.TowerInfo.projectileInfo)
                 {
-                    Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, prj.Range);
+                    Handles.DrawWireArc(cont.transform.position, Vector3.up, Vector3.right, 360, (.5f + prj.Range) * (1 + (ServerData.Saving.GoldUpgradeLevel[cont.TowerInfo.towerType][TowerUpgradeType.Range] * .05f)));
                 }
 
                 Handles.color = Color.red;
