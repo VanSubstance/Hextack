@@ -18,4 +18,6 @@ MonoBehaviour:
   Name: "\uC2AC\uB77C\uC784"
   Hp: 100
   Spd: 2
+  TowerResist: 01000000
+  TowerWeak: 02000000
   Tracks: []

@@ -8,7 +8,7 @@ namespace Assets.Scripts.UI.DamageText
     {
         private TextMeshProUGUI ugui;
         private Rigidbody rigid;
-        private float originFontsize;
+        private Vector3 originScale;
 
         public string Text
         {
@@ -32,7 +32,7 @@ namespace Assets.Scripts.UI.DamageText
         private void Awake()
         {
             ugui = GetComponent<TextMeshProUGUI>();
-            originFontsize = ugui.fontSize;
+            originScale = transform.localScale;
             Text = string.Empty;
             rigid = GetComponent<Rigidbody>();
         }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.UI.DamageText
         {
             Text = string.Empty;
             ugui.color = Color.white;
-            ugui.fontSize = originFontsize;
+            transform.localScale = originScale;
             rigid.velocity = Vector3.zero;
         }
 
@@ -61,7 +61,7 @@ namespace Assets.Scripts.UI.DamageText
             transform.position = _info.ScreenPos;
             Text = _info.TargetText;
             ugui.color = _info.TextColor;
-            ugui.fontSize = originFontsize * _info.SizeMultiplier;
+            transform.localScale = originScale * _info.SizeMultiplier;
             rigid.AddForce(Vector3.up * 20);
             StartCoroutine(CrTimer(_info.Time));
             return true;

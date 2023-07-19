@@ -18,4 +18,6 @@ MonoBehaviour:
   Name: "\uACE8\uB818"
   Hp: 2000
   Spd: 1
+  TowerResist: 00000000
+  TowerWeak: 01000000
   Tracks: []

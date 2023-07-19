@@ -5,6 +5,7 @@ using Assets.Scripts.UI.Manager;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 namespace Assets.Scripts.Monster
 {
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Monster
         private int Hp;
         private float baseSpeed, rateSpeed;
         private bool IsBoss;
+        private TowerType[] typeResist, typeWeak;
         private Queue<Transform> destQ;
         private Coroutine CrDestinationCheck, CrSpeedLack;
 
@@ -61,7 +63,19 @@ namespace Assets.Scripts.Monster
             {
                 return;
             }
+            // 크리티컬 데미지 연산
             damage = (int)(damage * (isCrit ? 1.5f : 1f));
+            // 타워 타입 별 저항 연산
+            if (typeWeak.Contains(towerType))
+            {
+                // 데미지 추가
+                damage = (int)(damage * 1.25f);
+            }
+            if (typeResist.Contains(towerType))
+            {
+                // 데미지 경감
+                damage = (int)(damage * .75f);
+            }
             ServerData.InGame.AmountDealByCategory[towerType] += damage;
 
             // 데미지 텍스트 띄워주기
@@ -127,6 +141,8 @@ namespace Assets.Scripts.Monster
             {
                 destQ.Enqueue(v);
             }
+            typeResist = _info.TowerResist;
+            typeWeak = _info.TowerWeak;
             baseSpeed = agent.speed = _info.Spd;
             Hp = _info.Hp;
             IsBoss = _info.CntMonsterSummoned == 1;

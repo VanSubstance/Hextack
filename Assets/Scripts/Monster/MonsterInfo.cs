@@ -42,6 +42,16 @@ namespace Assets.Scripts.Monster
         public float Spd = 2;
 
         /// <summary>
+        /// 저항을 가지는 타워 종류
+        /// </summary>
+        public Tower.TowerType[] TowerResist;
+
+        /// <summary>
+        /// 추가 데미지를 입는 타워 종류
+        /// </summary>
+        public Tower.TowerType[] TowerWeak;
+
+        /// <summary>
         /// 경로 = 절대 좌표
         /// </summary>
         [HideInInspector]
