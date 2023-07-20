@@ -18,6 +18,10 @@ namespace Assets.Scripts.Tower
         {
             get { return towerInfo; }
         }
+
+        /// <summary>
+        /// 타워 코드
+        /// </summary>
         public string Code
         {
             get
