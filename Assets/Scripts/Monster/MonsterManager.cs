@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Achievement;
+using Assets.Scripts.UI.Manager;
+using UnityEngine;
 
 namespace Assets.Scripts.Monster
 {
@@ -26,6 +28,13 @@ namespace Assets.Scripts.Monster
                     clone.Tracks = Path.PathManager.Instance.PathList[token.IdxEnterance].TargetTr;
                     GetNewContent(clone);
                     ServerData.InGame.CountMonsterLive++;
+                    UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>
+                    {
+                        if (ach.ResourceType.Equals(AchievementInfo.TargetResourceType.Monster))
+                        {
+                            ach.UpdateCondition();
+                        }
+                    });
                 }, () =>
                 {
                     return info.CntMonsterMax == info.CntMonsterSummoned;

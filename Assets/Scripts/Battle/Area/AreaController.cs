@@ -23,11 +23,14 @@ namespace Assets.Scripts.Battle.Area
 
         public override void Clear()
         {
-            while (CrEffects.TryDequeue(out Coroutine cr))
+            if (CrEffects != null)
             {
-                ServerManager.Instance.StopCoroutine(cr);
+                while (CrEffects.TryDequeue(out Coroutine cr))
+                {
+                    ServerManager.Instance.StopCoroutine(cr);
+                }
+                CrEffects = null;
             }
-            CrEffects = null;
             info = null;
         }
 

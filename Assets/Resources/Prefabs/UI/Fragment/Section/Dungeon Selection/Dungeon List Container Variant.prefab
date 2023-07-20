@@ -127,16 +127,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9200551082287914347, guid: 7adddd7c611c4cd489ab3bdb39953b5b,
-        type: 3}
-      propertyPath: m_VerticalScrollbar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200551082287914347, guid: 7adddd7c611c4cd489ab3bdb39953b5b,
-        type: 3}
-      propertyPath: m_HorizontalScrollbar
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adddd7c611c4cd489ab3bdb39953b5b, type: 3}
 --- !u!224 &2000615087566437634 stripped

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.UI.Achievement;
+using Assets.Scripts.UI.Manager;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -67,6 +69,13 @@ namespace Assets.Scripts.Tower
                 qForTowers[_info.Code].Enqueue(content as TowerController);
             });
             res.Init(_info);
+            UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>
+            {
+                if (ach.ResourceType.Equals(AchievementInfo.TargetResourceType.Tower))
+                {
+                    ach.UpdateCondition();
+                }
+            });
             return res;
         }
 

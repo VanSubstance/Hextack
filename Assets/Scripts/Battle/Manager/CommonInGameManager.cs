@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Monster;
+using Assets.Scripts.UI.Achievement;
 using Assets.Scripts.UI.Manager;
 using UnityEngine;
 
@@ -15,6 +16,13 @@ namespace Assets.Scripts.Battle
         {
             set
             {
+                UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>
+                {
+                    if (ach.ResourceType.Equals(AchievementInfo.TargetResourceType.Stone))
+                    {
+                        ach.UpdateCondition();
+                    }
+                });
                 ServerData.InGame.AmountStone = value;
                 UIInGameManager.Instance.AmountStone = value;
             }
@@ -37,8 +45,10 @@ namespace Assets.Scripts.Battle
             {
                 ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCodeForTest];
             }
-            ServerData.InGame.MiningLevel = 1;
-            AmountStone = 30;
+
+            // 초기 기어 업그레이드 적용
+            ServerData.InGame.MiningLevel = ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Mining];
+            AmountStone = 20 + (ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Stone] * 10);
             AmountSteel = 0;
 
             // 매니저들 초기화
@@ -46,10 +56,6 @@ namespace Assets.Scripts.Battle
             {
                 ExecuteNextRound();
             });
-
-            // 초기 기어 업그레이드 적용
-            ServerData.InGame.MiningLevel = ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Mining];
-            ServerData.InGame.AmountStone = 20 + (ServerData.Saving.GearUpgradeLevel[UI.Fragment.Section.GearUpgrade.GearUpgradeType.Stone] * 10);
 
             ServerData.InGame.CurrentRound = 1;
             // 게임 시작

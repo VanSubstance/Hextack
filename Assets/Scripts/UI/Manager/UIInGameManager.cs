@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.UI.Achievement;
 using Assets.Scripts.UI.Window;
 using TMPro;
 using UnityEngine;
@@ -12,11 +13,13 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress, textMinigLv, textSpeed;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textInfo, textProgress, textMinigLv, textSpeed;
         [SerializeField]
         private GageController gageLife, gageRound;
         [SerializeField]
         private Button btnEarlyStart;
+        [SerializeField]
+        public AchievementContainer AchievementContainer;
 
         private int currentLife, currentTimeLeft;
         private Coroutine crTimer;
@@ -113,6 +116,26 @@ namespace Assets.Scripts.UI.Manager
         private Coroutine timerTextWarning;
 
         /// <summary>
+        /// 정보 메세지 출력
+        /// </summary>
+        public string TextInfo
+        {
+            set
+            {
+                textInfo.text = value;
+                if (timerTextInfo != null)
+                {
+                    ServerManager.Instance.StopCoroutine(timerTextInfo);
+                }
+                timerTextInfo = ServerManager.Instance.ExecuteWithDelay(() =>
+                {
+                    textInfo.text = string.Empty;
+                }, 1f);
+            }
+        }
+        private Coroutine timerTextInfo;
+
+        /// <summary>
         /// 초기화
         /// </summary>
         public void Init(System.Action _actionWhenRoundTimeDone)
@@ -121,6 +144,7 @@ namespace Assets.Scripts.UI.Manager
             btnEarlyStart.gameObject.SetActive(false);
             MiningLv = ServerData.InGame.MiningLevel;
             TextCenter = $"던전 시작";
+            TextInfo = string.Empty;
             currentLife = 30;
             textLife.text = $"남은 체력: {currentLife}";
             gageLife.Init(30, 30, null, () =>
