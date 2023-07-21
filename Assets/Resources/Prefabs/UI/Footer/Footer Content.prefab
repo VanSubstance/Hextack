@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2575425786795267152}
   - component: {fileID: 2575425786795267155}
   - component: {fileID: 2575425786795267154}
+  - component: {fileID: 8289369129552047957}
   m_Layer: 5
   m_Name: Footer Content
   m_TagString: Untagged
@@ -54,7 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad5c77e5f9cf4340a62a6f72bba0f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
   ugui: {fileID: 2575425786964698061}
   image: {fileID: 2575425787819762708}
 --- !u!114 &2575425786795267152
@@ -151,6 +151,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8289369129552047957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2575425786795267167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa60783d7cfb4bf4eb00e73213737f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2575425786964698063
 GameObject:
   m_ObjectHideFlags: 0

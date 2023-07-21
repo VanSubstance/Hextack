@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Battle.Projectile;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Battle.Projectile;
 using Assets.Scripts.Tower;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,15 @@ namespace Assets.Scripts.Battle.Area
                 if ((cols = Physics.OverlapSphere(transform.position, (.5f + info.range) * (1 + (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                 {
                     return;
+                }
+                // 투사체 효과음
+                if (info.SoundFire != null)
+                {
+                    AudioManager.Instance.GetNewContent(new AudioInfo()
+                    {
+                        Clip = info.SoundFire,
+                        Pos = transform.position,
+                    });
                 }
                 foreach (Collider col in cols)
                 {

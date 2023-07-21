@@ -34,11 +34,20 @@ public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
     /// </summary>
     protected abstract bool InitExtra(TInfo _info);
 
+    /// <summary>
+    /// 풀에 반납
+    /// </summary>
     public void ReturnToPool()
     {
-        Clear();
-        ActionReturnToPool?.Invoke(this);
-        gameObject.SetActive(false);
+        try
+        {
+            Clear();
+            ActionReturnToPool?.Invoke(this);
+            gameObject.SetActive(false);
+        } catch (MissingReferenceException e)
+        {
+
+        }
     }
 
     /// <summary>

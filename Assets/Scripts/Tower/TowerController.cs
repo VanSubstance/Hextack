@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Battle;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Battle;
 using Assets.Scripts.Battle.Area;
 using Assets.Scripts.Battle.Projectile;
 using Assets.Scripts.Dungeon;
@@ -97,6 +98,15 @@ namespace Assets.Scripts.Tower
                         while (prj.CountPerOnce > idx)
                         {
                             ProjectileInfo tprj = prj.Clone();
+                            // 투사체 효과음
+                            if (prj.SoundFire != null)
+                            {
+                                AudioManager.Instance.GetNewContent(new AudioInfo()
+                                {
+                                    Clip = prj.SoundFire,
+                                    Pos = transform.position,
+                                });
+                            }
                             if (prj.executeType.Equals(ProjectileExecuteType.Lazer))
                             {
                                 // 레이저 = 투사체 없음

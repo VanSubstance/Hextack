@@ -19578,6 +19578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectName: Hit
+  children: []
 --- !u!198 &1267409586868536917
 ParticleSystem:
   m_ObjectHideFlags: 0

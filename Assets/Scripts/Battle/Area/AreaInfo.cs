@@ -14,6 +14,11 @@ namespace Assets.Scripts.Battle.Area
         /// </summary>
         [HideInInspector]
         public TowerType towerType;
+
+        /// <summary>
+        /// 사용 시 소리
+        /// </summary>
+        public AudioClip SoundFire;
         /// <summary>
         /// 효과 색상
         /// </summary>

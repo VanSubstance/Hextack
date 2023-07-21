@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8436d7116b19bf4399db70bbd466dee, type: 3}
   m_Name: Base
   m_EditorClassIdentifier: 
+  IsMute: 0
+  Volume: 0.7
   AmountGold: 10000
   AmountGear: 968
   GoldLvMachine: 030000000200000000000000

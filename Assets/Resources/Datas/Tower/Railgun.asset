@@ -18,11 +18,9 @@ MonoBehaviour:
   Desc: "\uB300\uC0C1 \uBC29\uD5A5\uC744 \uAD00\uD1B5\uD558\uB294 \uB808\uC774\uC800\uB97C
     \uC3E9\uB2C8\uB2E4."
   Tier: 4
-  Materials:
-  - Grey
-  - Black
   projectileInfo:
   - executeType: 3
+    SoundFire: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
     CountPerOnce: 1
     Spd: 0
     Range: 4
@@ -34,6 +32,7 @@ MonoBehaviour:
     TrailType: 0
     afterHitInfo:
       afterHitType: 0
+      SoundFire: {fileID: 0}
       color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
       range: 0
       duration: 0

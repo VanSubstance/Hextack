@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using Assets.Scripts.Monster;
+﻿using Assets.Scripts.Audio;
 using Assets.Scripts.Battle.Area;
+using Assets.Scripts.Monster;
+using UnityEngine;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -117,8 +118,6 @@ namespace Assets.Scripts.Battle.Projectile
                     ExecuteArrival();
                     return false;
                 case ProjectileExecuteType.Aura:
-                    // 아우라 = 바로 아우라 켜고 투사체 파기
-                    // 아우라 = 현재 타워 위치 중심 사거리만큼 장판
                     break;
             }
             return false;
@@ -137,6 +136,14 @@ namespace Assets.Scripts.Battle.Projectile
                 // 도착 후 효과가 있다 = 실행
                 AreaInfo areaInfo = afterHitInfo.GetAreaInfo();
                 areaInfo.targetPos = transform.position;
+                if (areaInfo.SoundFire != null)
+                {
+                    AudioManager.Instance.GetNewContent(new AudioInfo()
+                    {
+                        Clip = areaInfo.SoundFire,
+                        Pos = areaInfo.targetPos,
+                    });
+                }
                 AreaManager.Instance.GetNewContent(areaInfo);
             }
             ReturnToPool();
