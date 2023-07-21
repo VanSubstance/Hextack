@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Battle;
 using Assets.Scripts.Tower;
+using Assets.Scripts.Audio;
 using Assets.Scripts.UI.DamageText;
 using Assets.Scripts.UI.Manager;
 using Assets.Scripts.UI.Window;
@@ -90,6 +91,11 @@ namespace Assets.Scripts.Monster
 
             // 데미지 이펙트 띄워주기
             EffectManager.Instance.ExecutNewEffect("Hit", transform.position + (Vector3.up * 2) + Vector3.back, Color.white);
+            AudioManager.Instance.GetNewContent(new()
+            {
+                Clip = info.ClipWhenHit,
+                Pos = transform.position,
+            });
             info.Hp -= damage;
             if (info.Hp <= 0)
             {
@@ -165,6 +171,11 @@ namespace Assets.Scripts.Monster
                     ReturnToPool();
                 }
             }, null, null, .1f);
+            AudioManager.Instance.GetNewContent(new AudioInfo()
+            {
+                Clip = ServerData.Sound.ClipForMonster,
+                Pos = transform.position,
+            });
             return true;
         }
 

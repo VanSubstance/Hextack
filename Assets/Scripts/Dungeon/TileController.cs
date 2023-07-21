@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Battle;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Battle;
 using Assets.Scripts.Tower;
 using Assets.Scripts.UI.Manager;
 using System.Linq;
@@ -50,6 +51,11 @@ namespace Assets.Scripts.Dungeon
                 return pair.Value.Tier == targetTier;
             }).Select((pair) => pair.Key).ToArray();
             InstallTower(codeArr[Random.Range(0, codeArr.Length)]);
+            AudioManager.Instance.GetNewContent(new AudioInfo()
+            {
+                Clip = ServerData.Sound.ClipForInstall,
+                Pos = transform.position,
+            });
             //InstallTower("Railgun");
         }
 

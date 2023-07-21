@@ -69,6 +69,11 @@ namespace Assets.Scripts.Monster
         [HideInInspector]
         public Transform[] Tracks;
 
+        /// <summary>
+        /// 피격 효과음
+        /// </summary>
+        public AudioClip ClipWhenHit;
+
         public MonsterInfo Clone()
         {
             return Instantiate(this);

@@ -28,6 +28,11 @@ public static class ServerData
     }
 
     /// <summary>
+    /// 사운드
+    /// </summary>
+    public static PresetSound Sound;
+
+    /// <summary>
     /// 저장 정보
     /// </summary>
     public static SavingData Saving;

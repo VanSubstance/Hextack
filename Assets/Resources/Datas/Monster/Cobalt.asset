@@ -24,3 +24,4 @@ MonoBehaviour:
   TowerResist: 01000000
   TowerWeak: 02000000
   Tracks: []
+  ClipWhenHit: {fileID: 8300000, guid: b4687018faed14139946bb99c09c6923, type: 3}
