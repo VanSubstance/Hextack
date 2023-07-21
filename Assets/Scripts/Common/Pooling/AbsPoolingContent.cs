@@ -34,6 +34,9 @@ public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
     /// </summary>
     protected abstract bool InitExtra(TInfo _info);
 
+    /// <summary>
+    /// 풀에 반납
+    /// </summary>
     public void ReturnToPool()
     {
         Clear();

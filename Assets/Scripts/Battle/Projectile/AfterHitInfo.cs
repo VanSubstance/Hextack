@@ -12,6 +12,12 @@ namespace Assets.Scripts.Battle.Projectile
         /// 효과 타입
         /// </summary>
         public AfterHitType afterHitType;
+
+        /// <summary>
+        /// 사용 시 소리
+        /// </summary>
+        public AudioClip SoundFire;
+
         /// <summary>
         /// 효과 색상
         /// </summary>
@@ -40,6 +46,7 @@ namespace Assets.Scripts.Battle.Projectile
                         range = range,
                         duration = duration,
                         damageEffect = damageEffects,
+                        SoundFire = SoundFire,
                     };
                 case AfterHitType.Explosive:
                     return new Area.AreaInfo()
@@ -48,6 +55,7 @@ namespace Assets.Scripts.Battle.Projectile
                         range = range,
                         duration = 1f,
                         damageEffect = damageEffects.CloneDisposal(),
+                        SoundFire = SoundFire,
                     };
             }
             return null;

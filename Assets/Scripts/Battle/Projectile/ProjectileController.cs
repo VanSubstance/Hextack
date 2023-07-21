@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using Assets.Scripts.Monster;
+﻿using Assets.Scripts.Audio;
 using Assets.Scripts.Battle.Area;
+using Assets.Scripts.Monster;
+using UnityEngine;
 
 namespace Assets.Scripts.Battle.Projectile
 {
@@ -91,6 +92,15 @@ namespace Assets.Scripts.Battle.Projectile
 
         protected override bool InitExtra(ProjectileInfo _info)
         {
+            if (_info.SoundFire != null)
+            {
+                // 효과음 있음 = 실행
+                AudioManager.Instance.GetNewContent(new AudioInfo()
+                {
+                    Clip = _info.SoundFire,
+                    Pos = _info.StartPos,
+                });
+            }
             IsArrived = false;
             afterHitInfo = (_info.afterHitInfo == null || _info.afterHitInfo.afterHitType.Equals(AfterHitType.None)) ? null : _info.afterHitInfo;
             startPos = _info.StartPos;

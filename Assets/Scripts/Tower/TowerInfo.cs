@@ -19,7 +19,6 @@ namespace Assets.Scripts.Tower
         public string Code;
         public string Name, Desc;
         public int Tier;
-        public string[] Materials;
 
         /// <summary>
         /// 투사체 정보

@@ -17,11 +17,9 @@ MonoBehaviour:
   Name: "\uC9C0\uB8B0 \uB9E4\uC124\uAE30"
   Desc: "\uC8FC\uBCC0\uC5D0 \uC9C0\uB8B0\uB97C \uC124\uCE58\uD569\uB2C8\uB2E4."
   Tier: 2
-  Materials:
-  - Pink
-  - Black
   projectileInfo:
   - executeType: 1
+    SoundFire: {fileID: 0}
     CountPerOnce: 2
     Spd: 6
     Range: 3
@@ -31,6 +29,7 @@ MonoBehaviour:
     TrailType: 0
     afterHitInfo:
       afterHitType: 1
+      SoundFire: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
       color: {r: 0, g: 0, b: 0, a: 0}
       range: 1.2
       duration: 0

@@ -119,7 +119,7 @@ namespace Assets.Scripts.UI.Achievement
                     {
                         if (!countDict.ContainsKey(tower.Code))
                         {
-                            countDict.Add(tower.Code, 1);
+                            countDict.Add(tower.Code, 0);
                         }
                         countDict[tower.Code]++;
                         if (countDict[tower.Code] >= 4) return true;
