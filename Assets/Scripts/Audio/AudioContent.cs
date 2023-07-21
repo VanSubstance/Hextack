@@ -14,6 +14,7 @@ namespace Assets.Scripts.Audio
 
         protected override bool InitExtra(AudioInfo _info)
         {
+            src.volume = ServerData.Saving.IsMute ? 0 : ServerData.Saving.Volume;
             src.clip = _info.Clip;
             transform.position = _info.Pos;
             ServerManager.Instance.ExecuteWithDelay(() =>

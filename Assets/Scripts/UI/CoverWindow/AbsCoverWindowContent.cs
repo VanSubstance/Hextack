@@ -38,5 +38,10 @@ namespace Assets.Scripts.UI.CoverWindow
         /// </summary>
         /// <returns></returns>
         protected abstract int GetHeight();
+
+        /// <summary>
+        /// 초기화
+        /// </summary>
+        public abstract AbsCoverWindowContent Init();
     }
 }

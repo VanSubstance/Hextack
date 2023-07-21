@@ -34,13 +34,13 @@ namespace Assets.Scripts.UI.CoverWindow
         /// <summary>
         /// 각 컨텐츠 불러와서 연결
         /// </summary>
-        private void Awake()
+        private void Start()
         {
             // 자식들 컨텐츠 불러다가 연결
             contentDict = new Dictionary<CoverWindowContentType, AbsCoverWindowContent>();
             foreach (AbsCoverWindowContent cont in contentParent.GetComponentsInChildren<AbsCoverWindowContent>())
             {
-                contentDict.Add(cont.ContentType, cont);
+                contentDict.Add(cont.ContentType, cont.Init());
             }
             gameObject.SetActive(false);
         }

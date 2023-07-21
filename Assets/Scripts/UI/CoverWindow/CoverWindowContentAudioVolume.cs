@@ -5,6 +5,11 @@
     /// </summary>
     public class CoverWindowContentAudioVolume : AbsCoverWindowContent
     {
+
+        public override AbsCoverWindowContent Init()
+        {
+            return this;
+        }
         protected override CoverWindowContentType GetContentType()
         {
             return CoverWindowContentType.AudioVolume;

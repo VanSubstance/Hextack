@@ -5,6 +5,11 @@
     /// </summary>
     public class CoverWindowContentIngameQuit : AbsCoverWindowContent
     {
+
+        public override AbsCoverWindowContent Init()
+        {
+            return this;
+        }
         /// <summary>
         /// 인게임 > 아웃게임
         /// </summary>
