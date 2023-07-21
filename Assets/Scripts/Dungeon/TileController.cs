@@ -24,23 +24,23 @@ namespace Assets.Scripts.Dungeon
         {
             // 설치할 타워 티어 확률뽑기
             float randFloat = Random.Range(0f, 1f);
-            if (randFloat < .9f)
+            if (randFloat < .99f)
             {
-                // 90% 확률로 목표 티어
-            }
-            else if (randFloat < .99f)
-            {
-                // 9% 확률로 티어 +1
-                targetTier += 1;
+                // 99% 확률로 목표 티어
             }
             else if (randFloat < .999f)
             {
-                // .9% 확률로 티어 +2
+                // .9% 확률로 티어 +1
+                targetTier += 1;
+            }
+            else if (randFloat < .9999f)
+            {
+                // .09% 확률로 티어 +2
                 targetTier += 2;
             }
             else
             {
-                // .1% 확률로 티어 +3
+                // .01% 확률로 티어 +3
                 targetTier += 3;
             }
             // 최대 티어 = 4
