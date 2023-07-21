@@ -20,21 +20,11 @@ namespace Assets.Scripts.UI.CoverWindow
             return this;
         }
 
-        public void ToggleMute()
+        public void ToggleMute(bool isOn)
         {
             if (!isInit) return;
-            if (ServerData.Saving.IsMute)
-            {
-                // 음소거 풀기
-                toggle.isOn = false;
-                ServerData.Saving.IsMute = false;
-            }
-            else
-            {
-                // 음소거 켜기
-                toggle.isOn = true;
-                ServerData.Saving.IsMute = true;
-            }
+            ServerData.Saving.IsMute = isOn;
+            //AudioListener.pause = !isOn;
         }
 
         protected override CoverWindowContentType GetContentType()

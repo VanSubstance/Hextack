@@ -92,15 +92,6 @@ namespace Assets.Scripts.Battle.Projectile
 
         protected override bool InitExtra(ProjectileInfo _info)
         {
-            if (_info.SoundFire != null)
-            {
-                // 효과음 있음 = 실행
-                AudioManager.Instance.GetNewContent(new AudioInfo()
-                {
-                    Clip = _info.SoundFire,
-                    Pos = _info.StartPos,
-                });
-            }
             IsArrived = false;
             afterHitInfo = (_info.afterHitInfo == null || _info.afterHitInfo.afterHitType.Equals(AfterHitType.None)) ? null : _info.afterHitInfo;
             startPos = _info.StartPos;
@@ -127,8 +118,6 @@ namespace Assets.Scripts.Battle.Projectile
                     ExecuteArrival();
                     return false;
                 case ProjectileExecuteType.Aura:
-                    // 아우라 = 바로 아우라 켜고 투사체 파기
-                    // 아우라 = 현재 타워 위치 중심 사거리만큼 장판
                     break;
             }
             return false;
@@ -147,6 +136,14 @@ namespace Assets.Scripts.Battle.Projectile
                 // 도착 후 효과가 있다 = 실행
                 AreaInfo areaInfo = afterHitInfo.GetAreaInfo();
                 areaInfo.targetPos = transform.position;
+                if (areaInfo.SoundFire != null)
+                {
+                    AudioManager.Instance.GetNewContent(new AudioInfo()
+                    {
+                        Clip = areaInfo.SoundFire,
+                        Pos = areaInfo.targetPos,
+                    });
+                }
                 AreaManager.Instance.GetNewContent(areaInfo);
             }
             ReturnToPool();

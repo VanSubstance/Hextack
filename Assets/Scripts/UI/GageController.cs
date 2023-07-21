@@ -37,7 +37,7 @@ namespace Assets.Scripts.UI
         /// <summary>
         /// 값 조정
         /// </summary>
-        public float Value
+        private float Value
         {
             set
             {
@@ -56,10 +56,6 @@ namespace Assets.Scripts.UI
         }
         private void Awake()
         {
-            gage = GetComponent<Slider>();
-            IsInteractable = false;
-            fill.color = fillColor;
-            background.color = backgroudColor;
             gameObject.SetActive(false);
         }
 
@@ -67,15 +63,14 @@ namespace Assets.Scripts.UI
         /// 초기화 함수
         /// </summary>
         /// <param name="_maxValue"></param>
-        public GageController Init(float _maxValue, float _initValue, Transform targetTr, Action _callbackWhenZero = null, Action _callbackWhenFull = null, Color? fillColor = null)
+        public GageController Init(float _maxValue, float _initValue, Transform targetTr, Action _callbackWhenZero = null, Action _callbackWhenFull = null, Color? fillColor = null, bool isInteractable = false)
         {
+            gage = GetComponent<Slider>();
+            IsInteractable = isInteractable;
+            background.color = backgroudColor;
             if (fillColor != null)
             {
-                fill.color = (Color)fillColor;
-            }
-            else
-            {
-                fill.color = Color.red;
+                fill.color = this.fillColor = (Color)fillColor;
             }
             if (targetTr != null)
             {

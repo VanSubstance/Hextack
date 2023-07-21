@@ -37,15 +37,6 @@ namespace Assets.Scripts.Battle.Area
 
         protected override bool InitExtra(AreaInfo _info)
         {
-            if (_info.SoundFire != null)
-            {
-                // 효과음 있음 = 실행
-                AudioManager.Instance.GetNewContent(new AudioInfo()
-                {
-                    Clip = _info.SoundFire,
-                    Pos = _info.targetPos,
-                });
-            }
             info = _info;
             transform.position = new Vector3(_info.targetPos.x, .2f, _info.targetPos.z);
             // 각 효과 코루틴 실행
@@ -59,6 +50,15 @@ namespace Assets.Scripts.Battle.Area
                 if ((cols = Physics.OverlapSphere(transform.position, (.5f + info.range) * (1 + (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.Range] * .05f)), GlobalDictionary.Layer.Monster)).Length == 0)
                 {
                     return;
+                }
+                // 투사체 효과음
+                if (info.SoundFire != null)
+                {
+                    AudioManager.Instance.GetNewContent(new AudioInfo()
+                    {
+                        Clip = info.SoundFire,
+                        Pos = transform.position,
+                    });
                 }
                 foreach (Collider col in cols)
                 {

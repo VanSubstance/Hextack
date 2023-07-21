@@ -80,6 +80,7 @@ namespace Assets.Scripts.Battle.Projectile
                 TrailType = TrailType,
                 effectInfo = effectInfo.Clone(),
                 afterHitInfo = afterHitInfo,
+                SoundFire = SoundFire,
             };
         }
 
@@ -96,6 +97,7 @@ namespace Assets.Scripts.Battle.Projectile
                 duration = -1,
                 range = Range,
                 towerType = towerType,
+                SoundFire= SoundFire,
             };
         }
     }
