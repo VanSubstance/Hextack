@@ -8,5 +8,9 @@ namespace Assets.Scripts.Battle.Area
         {
             return transform;
         }
+        public override int GetCountPoolForFirst()
+        {
+            return 10;
+        }
     }
 }

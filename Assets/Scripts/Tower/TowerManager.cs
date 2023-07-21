@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.UI.Achievement;
+using Assets.Scripts.UI.Manager;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,6 +14,10 @@ namespace Assets.Scripts.Tower
         public override Transform GetParent()
         {
             return transform;
+        }
+        public override int GetCountPoolForFirst()
+        {
+            return 10;
         }
 
         /// <summary>
@@ -63,26 +69,19 @@ namespace Assets.Scripts.Tower
                 qForTowers[_info.Code].Enqueue(content as TowerController);
             });
             res.Init(_info);
+            UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>
+            {
+                if (ach.ResourceType.Equals(AchievementInfo.TargetResourceType.Tower))
+                {
+                    ach.UpdateCondition();
+                }
+            });
             return res;
         }
 
-        protected new void CreatePool(int quantity = 10)
+        protected new void CreatePool()
         {
             // 풀링 생성 안함
-        }
-
-        public string TranslateTowerType(TowerType type)
-        {
-            switch (type)
-            {
-                case TowerType.Machine:
-                    return "기계";
-                case TowerType.Bio:
-                    return "생체";
-                case TowerType.Magic:
-                    return "마법";
-            }
-            return string.Empty;
         }
     }
 }

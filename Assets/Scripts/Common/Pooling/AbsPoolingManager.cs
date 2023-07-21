@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Audio;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,12 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
     private AbsPoolingContent<TContentInfo> componentPrefab;
     private Queue<AbsPoolingContent<TContentInfo>> q;
 
+    /// <summary>
+    /// 현재 라이브인 풀링 컨텐츠 리스트
+    /// </summary>
+    [HideInInspector]
+    public List<AbsPoolingContent<TContentInfo>> ListLive;
+
     protected virtual void Awake()
     {
         if (Instance == null)
@@ -22,16 +29,17 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
             Destroy(gameObject);
         }
         q = new Queue<AbsPoolingContent<TContentInfo>>();
+        ListLive = new List<AbsPoolingContent<TContentInfo>>();
         CreatePool();
     }
 
     /// <summary>
     /// 최초 풀링 객체 생성
     /// </summary>
-    protected virtual void CreatePool(int quantity = 10)
+    protected virtual void CreatePool()
     {
         // 풀링: 10개만
-        int ii = 0;
+        int ii = 0, quantity = GetCountPoolForFirst();
         AbsPoolingContent<TContentInfo> temp;
         while (ii++ < quantity)
         {
@@ -55,10 +63,12 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
         {
             res = Instantiate(componentPrefab, GetParent());
         }
+        ListLive.Add(res);
         res.Init(_info);
         res.ConnectWithParent((content) =>
         {
             q.Enqueue(content);
+            ListLive.Remove(content);
         });
         return res;
     }
@@ -68,4 +78,10 @@ public abstract class AbsPoolingManager<T, TContentInfo> : MonoBehaviour where T
     /// </summary>
     /// <returns></returns>
     public abstract Transform GetParent();
+
+    /// <summary>
+    /// 최초 풀 개수
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetCountPoolForFirst();
 }

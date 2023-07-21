@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Battle;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Battle;
 using Assets.Scripts.Battle.Area;
 using Assets.Scripts.Battle.Projectile;
 using Assets.Scripts.Dungeon;
@@ -18,6 +19,10 @@ namespace Assets.Scripts.Tower
         {
             get { return towerInfo; }
         }
+
+        /// <summary>
+        /// 타워 코드
+        /// </summary>
         public string Code
         {
             get
@@ -93,6 +98,15 @@ namespace Assets.Scripts.Tower
                         while (prj.CountPerOnce > idx)
                         {
                             ProjectileInfo tprj = prj.Clone();
+                            // 투사체 효과음
+                            if (prj.SoundFire != null)
+                            {
+                                AudioManager.Instance.GetNewContent(new AudioInfo()
+                                {
+                                    Clip = prj.SoundFire,
+                                    Pos = transform.position,
+                                });
+                            }
                             if (prj.executeType.Equals(ProjectileExecuteType.Lazer))
                             {
                                 // 레이저 = 투사체 없음
@@ -167,6 +181,7 @@ namespace Assets.Scripts.Tower
                 }, () => false, null, Mathf.Max(.2f, prj.effectInfo.Cooltime - (ServerData.Saving.GoldUpgradeLevel[_info.towerType][TowerUpgradeType.AttackSpeed] * .02f))));
             }
             TowerManager.Instance.TowerLiveList.Add(this);
+            EffectManager.Instance.ExecutNewEffect("Cloud", transform.position, Color.white, 1);
             return true;
         }
 

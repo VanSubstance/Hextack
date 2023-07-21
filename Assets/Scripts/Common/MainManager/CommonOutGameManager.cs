@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.UI.Fragment;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.Common.MainManager
 {
@@ -23,8 +22,6 @@ namespace Assets.Scripts.Common.MainManager
         private int startIdx;
         [SerializeField]
         private TextMeshProUGUI textGold, textGear, textNick;
-        [SerializeField]
-        private Image imageUser;
 
         private bool isTryingEquip;
 

@@ -39,6 +39,7 @@ namespace Assets.Scripts.Monster
         /// <summary>
         /// 최대 체력
         /// </summary>
+        [HideInInspector]
         public int MaxHp;
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Assets.Scripts.Monster
         /// <summary>
         /// 최대 속도
         /// </summary>
+        [HideInInspector]
         public float MaxSpd;
 
         /// <summary>
@@ -66,6 +68,11 @@ namespace Assets.Scripts.Monster
         /// </summary>
         [HideInInspector]
         public Transform[] Tracks;
+
+        /// <summary>
+        /// 피격 효과음
+        /// </summary>
+        public AudioClip ClipWhenHit;
 
         public MonsterInfo Clone()
         {

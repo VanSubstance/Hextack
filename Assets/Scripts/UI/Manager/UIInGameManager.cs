@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Battle;
+using Assets.Scripts.UI.Achievement;
 using Assets.Scripts.UI.Window;
 using TMPro;
 using UnityEngine;
@@ -12,14 +13,21 @@ namespace Assets.Scripts.UI.Manager
     public class UIInGameManager : SingletonObject<UIInGameManager>
     {
         [SerializeField]
-        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textProgress, textMinigLv, textSpeed;
+        private TextMeshProUGUI textLife, textRound, textCenter, textStone, textSteel, textWarning, textInfo, textProgress, textMinigLv, textSpeed;
         [SerializeField]
         private GageController gageLife, gageRound;
         [SerializeField]
         private Button btnEarlyStart;
+        [SerializeField]
+        public AchievementContainer AchievementContainer;
 
         private int currentLife, currentTimeLeft;
         private Coroutine crTimer;
+
+        /// <summary>
+        /// 인게임이 끝났는지 여부
+        /// </summary>
+        public bool IsInGameOver;
 
         /// <summary>
         /// 현재 채굴 레벨
@@ -108,19 +116,41 @@ namespace Assets.Scripts.UI.Manager
         private Coroutine timerTextWarning;
 
         /// <summary>
+        /// 정보 메세지 출력
+        /// </summary>
+        public string TextInfo
+        {
+            set
+            {
+                textInfo.text = value;
+                if (timerTextInfo != null)
+                {
+                    ServerManager.Instance.StopCoroutine(timerTextInfo);
+                }
+                timerTextInfo = ServerManager.Instance.ExecuteWithDelay(() =>
+                {
+                    textInfo.text = string.Empty;
+                }, 1f);
+            }
+        }
+        private Coroutine timerTextInfo;
+
+        /// <summary>
         /// 초기화
         /// </summary>
         public void Init(System.Action _actionWhenRoundTimeDone)
         {
+            IsInGameOver = false;
             btnEarlyStart.gameObject.SetActive(false);
             MiningLv = ServerData.InGame.MiningLevel;
             TextCenter = $"던전 시작";
+            TextInfo = string.Empty;
             currentLife = 30;
             textLife.text = $"남은 체력: {currentLife}";
             gageLife.Init(30, 30, null, () =>
             {
                 // 라이프 다 닳음 = 게임 종료
-
+                ExitGame();
             }, null, new Color(0, 1, .8f, 1));
 
             ServerData.InGame.CountMonsterLive = 0;
@@ -185,6 +215,9 @@ namespace Assets.Scripts.UI.Manager
             // 타이머 정지 및 파기
             ServerManager.Instance.StopCoroutine(crTimer);
             crTimer = null;
+
+            // 인게임 종료
+            IsInGameOver = true;
 
             // 결과창 열기
             WindowFullContainer.Instance.Open(new ResultInfo()

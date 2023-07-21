@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef063b37d971a04eba667107c9d8464, type: 3}
+  m_Name: Spider
+  m_EditorClassIdentifier: 
+  Code: Spider
+  CntMonsterSummoned: 0
+  CntMonsterMax: 30
+  Name: "\uCEE4\uB2E4\uB780 \uAC70\uBBF8"
+  Desc: "\uBB34\uC2DC\uBB34\uC2DC\uD55C \uCEE4\uB2E4\uB780 \uAC70\uBBF8\uC785\uB2C8\uB2E4."
+  Hp: 500
+  MaxHp: 100
+  Spd: 1.5
+  MaxSpd: 5
+  TowerResist: 01000000
+  TowerWeak: 02000000
+  Tracks: []
+  ClipWhenHit: {fileID: 8300000, guid: b219c8ca8ecc94fe584c131c7aead4af, type: 3}

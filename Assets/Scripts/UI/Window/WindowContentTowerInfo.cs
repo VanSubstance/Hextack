@@ -9,7 +9,7 @@ namespace Assets.Scripts.UI.Window
     public class WindowContentTowerInfo : AbsWindowContent<TowerInfo>
     {
         [SerializeField]
-        private TextMeshProUGUI textTitle, textDesc, textEffect;
+        private TextMeshProUGUI textTitle, textDesc, textEffect, textTier;
 
         [SerializeField]
         private Image image;
@@ -25,11 +25,12 @@ namespace Assets.Scripts.UI.Window
             image.sprite = GlobalDictionary.Texture.Tower.data[parameter.Code];
             textTitle.text = parameter.Name;
             textDesc.text = parameter.Desc;
+            textTier.text = $"티어 {parameter.Tier}\n\n{CommonFunction.TranslateTowerType(parameter.towerType)}";
             ProjectileInfo p = parameter.projectileInfo[0];
             string eft = $"";
 
             // 기본 효과
-            eft += $"{string.Format("{0:0.00}", p.effectInfo.Cooltime)}초마다 {p.Range * (1 + (ServerData.Saving.GoldUpgradeLevel[parameter.towerType][TowerUpgradeType.Range] * .05f))} 거리 내 ";
+            eft += $"{string.Format("{0:0.##}", p.effectInfo.Cooltime)}초마다 {p.Range * (1 + (ServerData.Saving.GoldUpgradeLevel[parameter.towerType][TowerUpgradeType.Range] * .05f))} 거리 내 ";
             if (p.effectInfo.tokens.Length > 0)
             {
                 foreach (DamageEffectInfo.Token tk in p.effectInfo.tokens)
@@ -88,7 +89,7 @@ namespace Assets.Scripts.UI.Window
                     eft += "를 부여합니다.";
                     break;
                 case AfterHitType.Area:
-                    eft += $"피격 후 {a.duration}초 유지되는 {a.range * 2} 지름의 원의 대상에게 {string.Format("{0:0.00}", a.damageEffects.Cooltime)}초마다 ";
+                    eft += $"피격 후 {a.duration}초 유지되는 {a.range * 2} 지름의 원의 대상에게 {string.Format("{0:0..##}", a.damageEffects.Cooltime)}초마다 ";
                     foreach (DamageEffectInfo.Token tk in a.damageEffects.tokens)
                     {
                         switch (tk.damageEffectType)

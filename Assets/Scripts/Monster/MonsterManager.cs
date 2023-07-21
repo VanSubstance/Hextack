@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.UI.Achievement;
+using Assets.Scripts.UI.Manager;
+using UnityEngine;
 
 namespace Assets.Scripts.Monster
 {
     public class MonsterManager : AbsPoolingManager<MonsterManager, MonsterInfo>
     {
-
         public override Transform GetParent()
         {
             return transform;
+        }
+        public override int GetCountPoolForFirst()
+        {
+            return 300;
         }
 
         public void SummonMonster(MonsterToken token)
@@ -23,6 +28,13 @@ namespace Assets.Scripts.Monster
                     clone.Tracks = Path.PathManager.Instance.PathList[token.IdxEnterance].TargetTr;
                     GetNewContent(clone);
                     ServerData.InGame.CountMonsterLive++;
+                    UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>
+                    {
+                        if (ach.ResourceType.Equals(AchievementInfo.TargetResourceType.Monster))
+                        {
+                            ach.UpdateCondition();
+                        }
+                    });
                 }, () =>
                 {
                     return info.CntMonsterMax == info.CntMonsterSummoned;

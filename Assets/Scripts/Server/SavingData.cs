@@ -9,6 +9,17 @@ namespace Assets.Scripts.Server
     public class SavingData : ScriptableObject
     {
         /// <summary>
+        /// 음소거 여부
+        /// </summary>
+        public bool IsMute;
+
+        /// <summary>
+        /// 볼륨
+        /// </summary>
+        [Range(0, 1)]
+        public float Volume;
+
+        /// <summary>
         /// 소지 골드량
         /// </summary>
         public int AmountGold;

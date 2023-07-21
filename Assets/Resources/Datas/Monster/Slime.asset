@@ -16,8 +16,12 @@ MonoBehaviour:
   CntMonsterSummoned: 0
   CntMonsterMax: 30
   Name: "\uC2AC\uB77C\uC784"
+  Desc: "\uC218\uBD84 \uD568\uB7C9 90%\uB85C \uC774\uB8E8\uC5B4\uC9C4 \uC2AC\uB77C\uC784\uC785\uB2C8\uB2E4."
   Hp: 100
+  MaxHp: 100
   Spd: 2
+  MaxSpd: 5
   TowerResist: 01000000
   TowerWeak: 02000000
   Tracks: []
+  ClipWhenHit: {fileID: 8300000, guid: 2acdb996f07514182aa43c3d94e5e399, type: 3}

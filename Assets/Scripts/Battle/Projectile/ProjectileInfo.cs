@@ -17,6 +17,11 @@ namespace Assets.Scripts.Battle.Projectile
         public ProjectileExecuteType executeType = ProjectileExecuteType.Bullet;
 
         /// <summary>
+        /// 사용 시 소리
+        /// </summary>
+        public AudioClip SoundFire;
+
+        /// <summary>
         /// 1회 당 발사하는 투사체 개수; 기본값 = 1
         /// </summary>
         public int CountPerOnce = 1;
@@ -75,6 +80,7 @@ namespace Assets.Scripts.Battle.Projectile
                 TrailType = TrailType,
                 effectInfo = effectInfo.Clone(),
                 afterHitInfo = afterHitInfo,
+                SoundFire = SoundFire,
             };
         }
 
@@ -91,6 +97,7 @@ namespace Assets.Scripts.Battle.Projectile
                 duration = -1,
                 range = Range,
                 towerType = towerType,
+                SoundFire= SoundFire,
             };
         }
     }

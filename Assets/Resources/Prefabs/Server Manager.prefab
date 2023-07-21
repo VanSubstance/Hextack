@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1343222784258283911}
   - component: {fileID: 1343222784258283910}
   - component: {fileID: 1343222784258284025}
+  - component: {fileID: 1210443829701425953}
   m_Layer: 0
   m_Name: Server Manager
   m_TagString: Untagged
@@ -45,14 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f23460e09e44d246b76e77a02398541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testDeck:
-  - Bow
-  - Bard
-  - Provoke
-  - Poison
-  - Healer
-  - Sword
-  mapInfo: {fileID: 11400000, guid: ff2b7e35e952a6840aed3b1ec26e1096, type: 2}
   isSingle: 1
 --- !u!114 &1343222784258284025
 MonoBehaviour:
@@ -64,5 +57,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82e6fc25b1a3f8641920edde64bc9dcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1210443829701425953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343222784258283908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb1b5a76cfb1c54abd4478cf5bfbc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef063b37d971a04eba667107c9d8464, type: 3}
+  m_Name: Cobalt
+  m_EditorClassIdentifier: 
+  Code: Cobalt
+  CntMonsterSummoned: 0
+  CntMonsterMax: 30
+  Name: "\uCF54\uBC1C\uD2B8"
+  Desc: "\uC131\uACA9\uC774 \uCC38 \uB354\uB7FD\uAC8C \uC0DD\uAE34 \uCF54\uBC1C\uD2B8\uC785\uB2C8\uB2E4."
+  Hp: 100
+  MaxHp: 100
+  Spd: 2
+  MaxSpd: 5
+  TowerResist: 01000000
+  TowerWeak: 02000000
+  Tracks: []
+  ClipWhenHit: {fileID: 8300000, guid: b4687018faed14139946bb99c09c6923, type: 3}

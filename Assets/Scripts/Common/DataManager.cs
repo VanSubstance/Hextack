@@ -64,6 +64,9 @@ namespace Assets.Scripts.Common
         /// </summary>
         public void LoadPrefabs()
         {
+            // 사용할 소리
+            ServerData.Sound = Resources.Load<PresetSound>($"{ServerData.rootPath}/Server/Sound");
+
             // Icon
             foreach (Transform unit in Resources.LoadAll<Transform>($"{GlobalDictionary.Prefab.Icon.rootPath}"))
             {
