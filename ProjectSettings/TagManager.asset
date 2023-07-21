@@ -51,3 +51,6 @@ TagManager:
   - name: Effect
     uniqueID: 1752868561
     locked: 0
+  - name: Super
+    uniqueID: 2408427679
+    locked: 0

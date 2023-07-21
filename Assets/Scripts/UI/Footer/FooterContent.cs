@@ -8,8 +8,6 @@ namespace Assets.Scripts.UI.Footer
     public class FooterContent : MonoBehaviour
     {
         [SerializeField]
-        private Sprite sprite;
-        [SerializeField]
         private TextMeshProUGUI ugui;
         [SerializeField]
         private Image image;
@@ -41,7 +39,6 @@ namespace Assets.Scripts.UI.Footer
 
         private void Awake()
         {
-            image.sprite = sprite;
             originFontSize = ugui.rectTransform.sizeDelta.y;
             originImageSize = (rectImage = image.rectTransform).sizeDelta.y;
         }
