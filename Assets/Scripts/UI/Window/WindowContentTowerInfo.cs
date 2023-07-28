@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI.Window
         public override AbsWindowContent<TowerInfo> Init(TowerInfo parameter)
         {
             image.sprite = GlobalDictionary.Texture.Tower.data[parameter.Code];
+            image.preserveAspect = true;
             textTitle.text = parameter.Name;
             textDesc.text = parameter.Desc;
             textTier.text = $"티어 {parameter.Tier}\n\n{CommonFunction.TranslateTowerType(parameter.towerType)}";
