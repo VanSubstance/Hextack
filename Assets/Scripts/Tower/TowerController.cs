@@ -8,6 +8,7 @@ using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Tower
 {
@@ -204,6 +205,19 @@ namespace Assets.Scripts.Tower
 
         private void OnMouseUp()
         {
+#if UNITY_ANDROID || UNITY_IOS
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#else
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#endif
             if (towerInfo.Tier != 4 && ServerData.InGame.LastTowerClicked != null && ServerData.InGame.LastTowerClicked.Equals(this))
             {
                 // 여기에 업그레이드 필요
