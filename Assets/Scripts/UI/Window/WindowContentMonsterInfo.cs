@@ -29,7 +29,7 @@ namespace Assets.Scripts.UI.Window
             string eft = $"";
 
             // 기본 효과
-            eft += $"전체 체력 : {parameter.MaxHp}\t기본 이동속도 : {parameter.MaxSpd}\n";
+            eft += $"전체 체력 : {string.Format("{0:N0}", parameter.MaxHp)}\t기본 이동속도 : {parameter.MaxSpd}\n";
             // 저항
             eft += $"{string.Join(", ", parameter.TowerResist.Select((type) => CommonFunction.TranslateTowerType(type)))} 세력의 타워에 대해 저항을 가집니다. (피해량 25% 감소)\n";
             eft += $"{string.Join(", ", parameter.TowerWeak.Select((type) => CommonFunction.TranslateTowerType(type)))} 세력의 타워에 대해 약점을 가집니다. (피해량 25% 증가)\n";

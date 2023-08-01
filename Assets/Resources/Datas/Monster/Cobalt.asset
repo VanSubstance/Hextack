@@ -17,10 +17,10 @@ MonoBehaviour:
   CntMonsterMax: 30
   Name: "\uCF54\uBC1C\uD2B8"
   Desc: "\uC131\uACA9\uC774 \uCC38 \uB354\uB7FD\uAC8C \uC0DD\uAE34 \uCF54\uBC1C\uD2B8\uC785\uB2C8\uB2E4."
-  Hp: 100
+  Hp: 50
   MaxHp: 100
   Spd: 2
-  MaxSpd: 5
+  MaxSpd: 2
   TowerResist: 01000000
   TowerWeak: 02000000
   Tracks: []

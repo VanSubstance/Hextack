@@ -18,17 +18,92 @@ MonoBehaviour:
     \uC5C6\uC2B5\uB2C8\uB2E4."
   TimeRound: 60
   monsterCodeList:
-  - Code: Golem
-    IdxEnterance: 1
   - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Golem
     IdxEnterance: 0
   - Code: Spider
     IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Golem
+    IdxEnterance: 1
   - Code: Cobalt
+    IdxEnterance: 0
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Cobalt
+    IdxEnterance: 0
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Golem
+    IdxEnterance: 0
+  - Code: Slime
     IdxEnterance: 0
   - Code: Slime
     IdxEnterance: 1
+  - Code: Slime
+    IdxEnterance: 0
+  - Code: Slime
+    IdxEnterance: 1
+  - Code: Golem
+    IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 1
+  - Code: Spider
+    IdxEnterance: 0
+  - Code: Spider
+    IdxEnterance: 0
+  - Code: Golem
+    IdxEnterance: 1
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Cobalt
+    IdxEnterance: 1
+  - Code: Golem
+    IdxEnterance: 1
   MonsterCodeList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

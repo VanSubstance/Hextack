@@ -44,7 +44,7 @@ public abstract class AbsPoolingContent<TInfo> : MonoBehaviour
             Clear();
             ActionReturnToPool?.Invoke(this);
             gameObject.SetActive(false);
-        } catch (MissingReferenceException e)
+        } catch (MissingReferenceException)
         {
 
         }

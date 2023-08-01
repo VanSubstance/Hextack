@@ -42,7 +42,7 @@ namespace Assets.Scripts.UI.Window
                             eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                             break;
                         case DamageEffectType.Speed:
-                            eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                            eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                             break;
                     }
                 }
@@ -82,7 +82,7 @@ namespace Assets.Scripts.UI.Window
                                 eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                                 break;
                             case DamageEffectType.Speed:
-                                eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                                eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                                 break;
                         }
                     }
@@ -99,7 +99,7 @@ namespace Assets.Scripts.UI.Window
                                 eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                                 break;
                             case DamageEffectType.Speed:
-                                eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                                eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                                 break;
                         }
                     }
