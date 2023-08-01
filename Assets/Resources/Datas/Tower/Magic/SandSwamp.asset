@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab850dcbe5184da4c9f378036bee2abe, type: 3}
+  m_Name: SandSwamp
+  m_EditorClassIdentifier: 
+  towerType: 2
+  Code: Cannon
+  Name: "\uBAA8\uB798\uB2AA"
+  Desc: "\uC801\uB4E4\uC758 \uC704\uCE58\uC5D0 \uBAA8\uB798\uB2AA\uC744 \uC18C\uD658\uD569\uB2C8\uB2E4."
+  Tier: 2
+  projectileInfo:
+  - executeType: 1
+    SoundFire: {fileID: 8300000, guid: b1b9c1f0ea1fcae439ed1a4d44ff05fd, type: 3}
+    CountPerOnce: 2
+    Spd: 1
+    Range: 2.5
+    effectInfo:
+      tokens: []
+      Cooltime: 0.5
+    TrailType: 1
+    afterHitInfo:
+      afterHitType: 1
+      SoundFire: {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+      color: {r: 1, g: 0.41037738, b: 0.41037738, a: 0}
+      range: 1
+      duration: 1.2
+      damageEffects:
+        tokens:
+        - damageEffectType: 0
+          Amount: 10
+        - damageEffectType: 1
+          Amount: 0.2
+        Cooltime: 0.4
+    color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 0.5019608}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
+    targetTr: {fileID: 0}
+    towerType: 0
+  Position: {x: 0, y: 0, z: 0}
+  TileInstalled: {fileID: 0}

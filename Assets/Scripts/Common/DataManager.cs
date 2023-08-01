@@ -80,7 +80,7 @@ namespace Assets.Scripts.Common
             }
 
             // 타워
-            foreach (GameObject unit in Resources.LoadAll<GameObject>($"{GlobalDictionary.Prefab.Tower.rootPath}"))
+            foreach (GameObject unit in Resources.LoadAll<GameObject>($"{GlobalDictionary.Mesh.Tower.rootPath}"))
             {
                 GlobalDictionary.Prefab.Tower.data[unit.name] = unit;
             }
