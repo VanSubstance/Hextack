@@ -95,6 +95,10 @@ namespace Assets.Scripts.Battle
             UIInGameManager.Instance.TextCenter = $"라운드 {ServerData.InGame.CurrentRound} 시작";
             MonsterManager.Instance.SummonMonster(ServerData.InGame.MonsterInfo[ServerData.InGame.CurrentRound - 1]);
             UIInGameManager.Instance.StartRound();
+            if (ServerData.InGame.CurrentRound != 1)
+            {
+                AmountStone += ServerData.InGame.DungeonInfo.RewardRound;
+            }
             ServerData.InGame.CurrentRound++;
             if (crGameOver == null)
             {

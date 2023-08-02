@@ -8,6 +8,7 @@ using Assets.Scripts.UI.Window;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Tower
 {
@@ -41,8 +42,15 @@ namespace Assets.Scripts.Tower
         private Queue<Coroutine> atkQ;
         private AreaController AreaInCase;
         private TileController tileInstalled;
+
+        /// <summary>
+        /// 종족 표기용 장판
+        /// </summary>
+        private EffectController effectForType;
+
         public override void Clear()
         {
+            effectForType.Clear();
             if (atkQ != null)
             {
                 while (atkQ.TryDequeue(out Coroutine atk))
@@ -61,12 +69,10 @@ namespace Assets.Scripts.Tower
             tileInstalled = _info.TileInstalled;
             _info.TileInstalled = null;
             towerInfo = ServerData.Tower.data[_info.Code].Clone();
-            // 메쉬 + 메테리얼 연결
-            /*GetComponent<MeshCollider>().sharedMesh = */
-            //GetComponent<MeshFilter>().mesh = GlobalDictionary.Mesh.Tower.data[towerInfo.Code];
-            //GetComponent<MeshRenderer>().materials = towerInfo.Materials.Select((code) => { return GlobalDictionary.Materials.data[code]; }).ToArray();
             transform.position = new Vector3(_info.Position.x, 0, _info.Position.z);
             gameObject.SetActive(true);
+            // 종족 표기용 바닥 장판 on
+            effectForType = EffectManager.Instance.ExecutNewEffect($"Tower Type", transform.position + (Vector3.up * .1f), TowerManager.GetColorByTowerType(_info.towerType), 1, -1, null);
             atkQ = new Queue<Coroutine>();
             AreaInCase = null;
             foreach (ProjectileInfo prj in towerInfo.projectileInfo)
@@ -204,6 +210,19 @@ namespace Assets.Scripts.Tower
 
         private void OnMouseUp()
         {
+#if UNITY_ANDROID || UNITY_IOS
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#else
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#endif
             if (towerInfo.Tier != 4 && ServerData.InGame.LastTowerClicked != null && ServerData.InGame.LastTowerClicked.Equals(this))
             {
                 // 여기에 업그레이드 필요

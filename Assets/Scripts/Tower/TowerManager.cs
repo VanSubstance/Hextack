@@ -86,5 +86,16 @@ namespace Assets.Scripts.Tower
         {
             // 풀링 생성 안함
         }
+
+        public static Color GetColorByTowerType(TowerType type)
+        {
+            return type switch
+            {
+                TowerType.Machine => new Color(.35f, .395f, .452f),
+                TowerType.Bio => new Color(1, .825f, .457f),
+                TowerType.Magic => new Color(1, .458f, .877f),
+                _ => Color.white,
+            };
+        }
     }
 }

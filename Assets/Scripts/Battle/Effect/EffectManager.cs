@@ -12,8 +12,9 @@ namespace Assets.Scripts.Battle
         /// </summary>
         /// <param name="effectName"></param>
         /// <param name="targetPos"></param>
-        public void ExecutNewEffect(string effectName, Vector3 targetPos, Color color, float scale = 1, float duration = 0, Vector3? stareDirectionInCase = null)
+        public EffectController ExecutNewEffect(string effectName, Vector3 targetPos, Color? color, float scale = 1, float duration = 0, Vector3? stareDirectionInCase = null)
         {
+            EffectController res = null;
             try
             {
                 if (!GlobalStatus.effectPool.Keys.Contains(effectName))
@@ -21,11 +22,11 @@ namespace Assets.Scripts.Battle
                     // 최초
                     GlobalStatus.effectPool[effectName] = new Queue<EffectController>();
                 }
-                if (!GlobalStatus.effectPool[effectName].TryDequeue(out EffectController res))
+                if (!GlobalStatus.effectPool[effectName].TryDequeue(out res))
                 {
                     res = Instantiate(GlobalDictionary.Prefab.Effect.data[effectName], transform);
                 }
-                res.InitEffect(targetPos, color, effectName, scale, duration);
+                res.InitEffect(targetPos, color != null ? (Color)color : Color.white, effectName, scale, duration);
                 if (stareDirectionInCase != null)
                 {
                     res.transform.LookAt((Vector3)stareDirectionInCase);
@@ -34,6 +35,7 @@ namespace Assets.Scripts.Battle
             {
                 Debug.Log($"이펙트 정의되어있지 않음 ::: {effectName}");
             }
+            return res;
         }
     }
 }

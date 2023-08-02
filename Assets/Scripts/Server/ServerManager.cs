@@ -50,7 +50,7 @@ public class ServerManager : SingletonObject<ServerManager>
     public void EnterDungeon(string dungeonCode)
     {
         ServerData.InGame.DungeonInfo = ServerData.Dungeon.data[dungeonCode];
-        GlobalStatus.NextScene = "InGame";
+        GlobalStatus.NextScene = dungeonCode;
         SceneManager.LoadScene("Loading");
     }
 

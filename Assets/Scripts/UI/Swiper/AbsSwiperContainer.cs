@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.UI.Footer;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,14 +14,13 @@ namespace Assets.Scripts.UI.Swiper
         protected Transform ContentParentTr;
 
         [HideInInspector]
-        public AbsSwiperContent<TParameterForContent>[] ContentList;
+        public List<AbsSwiperContent<TParameterForContent>> ContentList;
         private ScrollRect scrollRect;
-        private int currentIdx;
         private float normHorPos;
 
         private void Awake()
         {
-            ContentList = ContentParentTr.GetComponentsInChildren<AbsSwiperContent<TParameterForContent>>();
+            ContentList = ContentParentTr.GetComponentsInChildren<AbsSwiperContent<TParameterForContent>>().ToList();
             scrollRect = GetComponent<ScrollRect>();
             scrollRect.onValueChanged.AddListener((value) =>
             {
@@ -45,37 +46,26 @@ namespace Assets.Scripts.UI.Swiper
             }
             else
             {
-                scrollRect.horizontalNormalizedPosition = (float)targetIdx / (ContentList.Length - 1);
-                currentIdx = targetIdx;
+                scrollRect.horizontalNormalizedPosition = (float)targetIdx / (ContentList.Count - 1);
             }
             FooterContainer.Instance.Track(targetIdx);
         }
 
         private IEnumerator CrGoToContent(int targetIdx)
         {
-            float targetNorm = (float)targetIdx / (ContentList.Length - 1);
+            float targetNorm = (float)targetIdx / (ContentList.Count - 1);
             float curNorm = normHorPos;
-            while (Mathf.Abs(targetNorm - curNorm) > .1f)
+            while (Mathf.Abs(targetNorm - curNorm) > .01f)
             {
                 yield return new WaitForSeconds(Time.deltaTime);
                 scrollRect.horizontalNormalizedPosition = curNorm = ((targetNorm - curNorm) * Time.deltaTime * 10) + curNorm;
             }
             scrollRect.horizontalNormalizedPosition = targetNorm;
-            currentIdx = targetIdx;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            int tempIdx = 0;
-            while (tempIdx < ContentList.Length)
-            {
-                if ((tempIdx - .5f) / (ContentList.Length - 1) <= normHorPos && normHorPos < (tempIdx + .5f) / (ContentList.Length - 1))
-                {
-                    GoToContent(tempIdx, true);
-                    return;
-                }
-                tempIdx++;
-            }
+            GoToContent(Mathf.FloorToInt(normHorPos * ContentList.Count), true);
         }
 
         /// <summary>

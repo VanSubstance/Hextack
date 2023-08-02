@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4166596e6b9e3d543b8a639d62f95fe6
+guid: 4fc8ca96228c34944ae252b19bb4e6d5
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,18 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Body
-    second: {fileID: 2100000, guid: e205383c002cc4e4e9e751ddd6cf3767, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: d04c8d2ccff12274bafbffd4e0231dcd, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: OutLine.003
-    second: {fileID: 2100000, guid: 7389afc6eb149594b8b74aa79ce379c6, type: 2}
+      name: Material.005
+    second: {fileID: 2100000, guid: ca8bcc5467617ea4a834bf658be26b88, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

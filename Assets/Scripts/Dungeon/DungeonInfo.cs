@@ -15,6 +15,10 @@ namespace Assets.Scripts.Dungeon
         /// 라운드당 시간 (초)
         /// </summary>
         public int TimeRound;
+        /// <summary>
+        /// 라운드 당 보상
+        /// </summary>
+        public int RewardRound = 30;
 
         /// <summary>
         /// 등장 몬스터들 (길이 = 라운드 수)
