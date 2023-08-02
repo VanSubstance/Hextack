@@ -27,6 +27,11 @@ namespace Assets.Scripts.Monster
         private Coroutine CrDestinationCheck, CrSpeedLack;
 
         /// <summary>
+        /// 현재 체력
+        /// </summary>
+        public int CurHp;
+
+        /// <summary>
         /// 스크린 투영 좌표
         /// </summary>
         public Vector3 ScreenPos
@@ -101,7 +106,7 @@ namespace Assets.Scripts.Monster
                 Clip = info.ClipWhenHit,
                 Pos = transform.position,
             });
-            info.Hp -= damage;
+            CurHp = info.Hp -= damage;
             if (info.Hp <= 0)
             {
                 // 죽음
