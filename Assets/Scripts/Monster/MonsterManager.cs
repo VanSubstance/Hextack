@@ -25,7 +25,9 @@ namespace Assets.Scripts.Monster
                 {
                     info.CntMonsterSummoned++;
                     MonsterInfo clone = info.Clone();
-                    clone.Tracks = Path.PathManager.Instance.PathList[token.IdxEnterance].TargetTr;
+                    clone.Tracks = Path.PathManager.Instance.PathList[Mathf.Min(Path.PathManager.Instance.PathList.Length, token.IdxEnterance)].TargetTr;
+                    clone.Hp = (int) (clone.Hp * Mathf.Pow(1.4f, ServerData.InGame.CurrentRound - 2));
+                    clone.MaxHp = +clone.Hp;
                     GetNewContent(clone);
                     ServerData.InGame.CountMonsterLive++;
                     UIInGameManager.Instance.AchievementContainer.Achievements.ForEach((ach) =>

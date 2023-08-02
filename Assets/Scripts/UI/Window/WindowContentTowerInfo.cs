@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI.Window
         public override AbsWindowContent<TowerInfo> Init(TowerInfo parameter)
         {
             image.sprite = GlobalDictionary.Texture.Tower.data[parameter.Code];
+            image.preserveAspect = true;
             textTitle.text = parameter.Name;
             textDesc.text = parameter.Desc;
             textTier.text = $"티어 {parameter.Tier}\n\n{CommonFunction.TranslateTowerType(parameter.towerType)}";
@@ -41,7 +42,7 @@ namespace Assets.Scripts.UI.Window
                             eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                             break;
                         case DamageEffectType.Speed:
-                            eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                            eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                             break;
                     }
                 }
@@ -81,7 +82,7 @@ namespace Assets.Scripts.UI.Window
                                 eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                                 break;
                             case DamageEffectType.Speed:
-                                eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                                eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                                 break;
                         }
                     }
@@ -98,7 +99,7 @@ namespace Assets.Scripts.UI.Window
                                 eft += $"{(int)(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType])))} 데미지, ";
                                 break;
                             case DamageEffectType.Speed:
-                                eft += $"{(tk.Amount * (1 + (.5f * ServerData.InGame.LevelUpgradeTower[parameter.towerType]))) * 100}% 이동속도 감소, ";
+                                eft += $"{(tk.Amount * 100)}% 이동속도 감소, ";
                                 break;
                         }
                     }

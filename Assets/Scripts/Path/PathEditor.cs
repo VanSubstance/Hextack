@@ -12,10 +12,12 @@ namespace Assets.Scripts.Path
         {
             cont = target as PathManager;
             Transform prev;
+            float cnt = 1;
             foreach (PathManager.Path path in cont.PathList)
             {
+                cnt -= .2f;
                 prev = null;
-                Handles.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+                Handles.color = new Color(cnt, cnt, cnt, 1);
                 foreach (Transform tr in path.TargetTr)
                 {
                     if (prev != null)

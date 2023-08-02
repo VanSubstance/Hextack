@@ -26,6 +26,7 @@ namespace Assets.Scripts.UI.Swiper.List
                 ret = Instantiate(contentPrefab, ContentParentTr);
             }
             ret.Init(_info);
+            ContentList.Add(ret);
         }
 
         /// <summary>

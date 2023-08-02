@@ -19,7 +19,17 @@ namespace Assets.Scripts.Monster
         private bool IsBoss;
         private MonsterInfo info;
         private Queue<Transform> destQ;
+        /// <summary>
+        ///  현재 목적 좌표
+        /// </summary>
+        [HideInInspector]
+        public Vector3 CurrentDestPos;
         private Coroutine CrDestinationCheck, CrSpeedLack;
+
+        /// <summary>
+        /// 현재 체력
+        /// </summary>
+        public int CurHp;
 
         /// <summary>
         /// 스크린 투영 좌표
@@ -45,7 +55,7 @@ namespace Assets.Scripts.Monster
                     ServerData.InGame.AccuGear++;
                 }
             }
-            CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
+            //CommonInGameManager.Instance.AmountStone += IsBoss ? 30 : 1;
             ServerData.InGame.CountMonsterLive--;
             ServerData.InGame.CountMonsterKill++;
             if (CrDestinationCheck != null)
@@ -96,7 +106,7 @@ namespace Assets.Scripts.Monster
                 Clip = info.ClipWhenHit,
                 Pos = transform.position,
             });
-            info.Hp -= damage;
+            CurHp = info.Hp -= damage;
             if (info.Hp <= 0)
             {
                 // 죽음
@@ -151,6 +161,7 @@ namespace Assets.Scripts.Monster
             baseSpeed = agent.speed = _info.Spd;
             IsBoss = _info.CntMonsterSummoned == 1;
             transform.position = destQ.Dequeue().position;
+            agent.velocity = Vector3.zero;
             gameObject.SetActive(true);
             CrDestinationCheck = ServerManager.Instance.ExecuteCrInRepeat(() =>
             {

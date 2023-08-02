@@ -23,12 +23,18 @@ namespace Assets.Scripts.Battle
             transform.position = targetPos;
             transform.localScale = Vector3.one * scale;
             particleModule.startColor = color;
-            if (duration > 0)
+            ParticleSystem.MainModule t;
+            foreach (ParticleSystem child in children)
             {
-                ParticleSystem.MainModule t;
-                foreach (ParticleSystem child in children)
+                t = child.main;
+                t.startColor = color;
+                if (duration <= 0)
                 {
-                    t = child.main;
+                    t.loop = true;
+                    t.startLifetime = 1;
+                } else
+                {
+                    t.loop = false;
                     t.startLifetime = duration;
                 }
             }
@@ -47,6 +53,13 @@ namespace Assets.Scripts.Battle
         {
             GlobalStatus.effectPool[effectName].Enqueue(this);
             gameObject.SetActive(false);
+            ParticleSystem.MainModule t;
+            foreach (ParticleSystem child in children)
+            {
+                t = child.main;
+                t.loop = false;
+                t.startLifetime = 1;
+            }
         }
 
         private void OnParticleSystemStopped()

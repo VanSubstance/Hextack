@@ -51,6 +51,7 @@ namespace Assets.Scripts.UI.CoverWindow
         /// <param name="type"></param>
         public void Open(ContentType type)
         {
+            Close();
             // 각 타입 별 열려야 하는 컨텐츠 열어주기
             int resHeight = +heightHeader;
             switch (type)

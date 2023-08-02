@@ -4,6 +4,7 @@ using Assets.Scripts.Tower;
 using Assets.Scripts.UI.Manager;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Dungeon
 {
@@ -91,6 +92,19 @@ namespace Assets.Scripts.Dungeon
 
         private void OnMouseUp()
         {
+#if UNITY_ANDROID || UNITY_IOS
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#else
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // 마우스가 UI 위에서 발생
+                return;
+            }
+#endif
             if (towerEquipped == null)
             {
                 // 신규 설치

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsMute: 0
   Volume: 0.7
-  AmountGold: 10000
-  AmountGear: 968
-  GoldLvMachine: 030000000200000000000000
+  AmountGold: 0
+  AmountGear: 0
+  GoldLvMachine: 000000000000000000000000
   GoldLvMagic: 000000000000000000000000
   GoldLvBio: 000000000000000000000000
-  GearLv: 0500000001000000
+  GearLv: 0100000001000000

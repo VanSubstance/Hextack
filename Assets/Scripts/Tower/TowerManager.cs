@@ -61,6 +61,9 @@ namespace Assets.Scripts.Tower
                 GameObject newInst = Instantiate(GlobalDictionary.Prefab.Tower.data[_info.Code], GetParent());
                 newInst.transform.localScale = Vector3.one * .6f;
                 res = newInst.AddComponent<TowerController>();
+                Material[] ms = res.GetComponentInChildren<MeshRenderer>().materials;
+                ms[0] = GlobalDictionary.Materials.data[_info.Tier == 4 ? "Purple" : _info.Tier == 3 ? "Yellow" : _info.Tier == 2 ? "Blue" : "White"];
+                res.GetComponentInChildren<MeshRenderer>().materials = ms;
                 res.GetComponent<BoxCollider>().center = Vector3.up;
                 res.GetComponent<BoxCollider>().size = new Vector3(2, 2, 1.723f);
             }
@@ -82,6 +85,17 @@ namespace Assets.Scripts.Tower
         protected new void CreatePool()
         {
             // 풀링 생성 안함
+        }
+
+        public static Color GetColorByTowerType(TowerType type)
+        {
+            return type switch
+            {
+                TowerType.Machine => new Color(.35f, .395f, .452f),
+                TowerType.Bio => new Color(1, .825f, .457f),
+                TowerType.Magic => new Color(1, .458f, .877f),
+                _ => Color.white,
+            };
         }
     }
 }
