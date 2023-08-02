@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ed61d0df88170647b933e9cd9716be9, type: 3}
-  m_Name: Normal
+  m_Name: Twin
   m_EditorClassIdentifier: 
   Code: Normal
-  mapTitle: "\uC77C\uBC18 \uB358\u3161\uC804"
-  Desc: "\uC77C\uBC18 \uB358\uC804\uC785\uB2C8\uB2E4. \uC774\uAC8C \uC5B4\uB824\uC6B8\uB9AC
-    \uC5C6\uC2B5\uB2C8\uB2E4."
-  TimeRound: 60
+  mapTitle: "\uB370\uCE7C\uCF54\uB9C8\uB2C8"
+  Desc: "\uC88C, \uC6B0\uAC00 \uB3D9\uC77C\uD55C \uB358\uC804\uC785\uB2C8\uB2E4.
+    \uD06C\uAE30\uAC00 \uD070\uB9CC\uD07C \uC0DD\uAC01\uD560 \uAC83\uB3C4 \uB9CE\uC2B5\uB2C8\uB2E4!"
+  TimeRound: 75
+  RewardRound: 50
   monsterCodeList:
   - Code: Slime
     IdxEnterance: 0

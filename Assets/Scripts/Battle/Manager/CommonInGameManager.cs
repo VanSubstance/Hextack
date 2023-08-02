@@ -97,7 +97,7 @@ namespace Assets.Scripts.Battle
             UIInGameManager.Instance.StartRound();
             if (ServerData.InGame.CurrentRound != 1)
             {
-                AmountStone += 30;
+                AmountStone += ServerData.InGame.DungeonInfo.RewardRound;
             }
             ServerData.InGame.CurrentRound++;
             if (crGameOver == null)
